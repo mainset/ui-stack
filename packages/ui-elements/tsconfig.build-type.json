@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "@mainset/dev-stack-fe/tsconfig--type-only",
+    "@mainset/dev-stack-fe/tschunk--react"
+  ],
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./dist/types"
+  }
+}

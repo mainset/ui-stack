@@ -1,0 +1,36 @@
+{
+  "name": "ui-elements",
+  "version": "1.0.0",
+  "description": "Single line, react elements",
+  "main": "dist/index.js",
+  "repository": "git@github.com:mainset/ui-kit.git",
+  "author": "Yevhen Uzhva <yevhen.uzhva@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "ms-cli source-code --exec compile",
+    "build:package": "ms-cli node-sourcer --exec build"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "lodash": "^4.17.23",
+    "prop-type": "^0.0.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "devDependencies": {
+    "@mainset/builder-rslib": "^0.2.0",
+    "@mainset/cli": "^0.4.4",
+    "@mainset/toolkit-js": "^0.1.1",
+    "@types/lodash": "^4.17.24",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3"
+  },
+  "peerDependencies": {
+    "classnames": "^2.2.6",
+    "lodash": "^4.17.15",
+    "prop-type": "^0.0.1",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  }
+}

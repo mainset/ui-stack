@@ -1,6 +1,16 @@
+# os specific
 .DS_Store
 
-/node_modules
+# NOTE: {-lock.json} file required for {npm ci} command which is executed by Docker
+# /package-lock.json
+/npm-debug.log
 
-/package-lock.json
-/yarn.lock
+# node specific
+node_modules
+
+# architecture base structure
+dist
+
+# secrets
+.env*
+!.env.example

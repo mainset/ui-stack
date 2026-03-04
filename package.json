@@ -1,28 +1,21 @@
 {
-  "name": "react-ui-elements",
+  "name": "ui-kit",
   "version": "1.0.0",
   "description": "Set of reusable react components",
-  "scripts": {
-    "build": "babel src --out-dir lib"
-  },
-  "main": "lib/index.js",
-  "repository": "git@github.com:mainset/react-ui-elements.git",
+  "repository": "git@github.com:mainset/ui-kit.git",
   "author": "Yevhen Uzhva <yevhen.uzhva@gmail.com>",
   "license": "MIT",
   "private": false,
-  "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/preset-env": "^7.4.4",
-    "@babel/preset-react": "^7.0.0"
+  "scripts": {
+    "build:packages": "pnpm --filter \"./packages/**\" build"
   },
-  "peerDependencies": {
-    "classnames": "^2.2.6",
-    "lodash": "^4.17.15",
-    "prop-type": "^0.0.1",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0"
+  "devDependencies": {
+    "@mainset/dev-stack-fe": "^0.2.0",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.39.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.8.1",
+    "stylelint": "^16.26.1"
   }
 }
