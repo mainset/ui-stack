@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "@mainset/dev-stack-fe/tsconfig--bundler",
+    "@mainset/dev-stack-fe/tschunk--react"
+  ],
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./dist/esm"
+  }
+}
