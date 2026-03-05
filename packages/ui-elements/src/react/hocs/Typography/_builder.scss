@@ -21,7 +21,19 @@
     }
 
     &--size {
-      @each $size in ('xx-small', 'x-small', 'smaller', 'sm', 'md', 'lg', 'larger', 'x-large', 'xx-large') {
+      @each $size
+        in (
+          'xx-small',
+          'x-small',
+          'smaller',
+          'sm',
+          'md',
+          'lg',
+          'larger',
+          'x-large',
+          'xx-large'
+        )
+      {
         $configSize: map-get($config, 'size');
         @if $configSize != null and map-has-key($configSize, $size) {
           &-#{$size} {

@@ -7,7 +7,9 @@
 }
 
 .ms-text--weight {
-  @each $modifier, $value in (lighter: lighter, normal: 400, bolder: bolder, bold: 700) {
+  @each $modifier,
+    $value in (lighter: lighter, normal: 400, bolder: bolder, bold: 700)
+  {
     &-#{$modifier} {
       font-weight: $value;
     }

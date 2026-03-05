@@ -1,0 +1,75 @@
+@import '../../styles/_config.scss';
+
+@import '../../styles/variables/layout.scss';
+
+$gapSizes: (
+  wide: 24px,
+);
+
+@mixin generateContainerGap($columSpacing: 12px) {
+  padding: 0 $columSpacing;
+
+  .ms-row {
+    margin-left: -$columSpacing;
+    margin-right: -$columSpacing;
+
+    // Col
+    #{$col-selector} {
+      padding-left: $columSpacing;
+      padding-right: $columSpacing;
+
+      &#{$col-selector}--offset {
+        $numberOfOffsets: $numberOfColums;
+        @for $colOffset from 1 to $numberOfOffsets {
+          &-#{$colOffset} {
+            $size: ($colOffset * 100 / $numberOfColums) + 0%;
+            padding-left: calc(#{$size} + #{$columSpacing});
+          }
+        }
+      }
+    }
+  }
+}
+
+.ms-container {
+  margin: 0 auto;
+
+  &.ms-container {
+    &--width {
+      &-full {
+        max-width: 100%;
+      }
+
+      &-wide {
+        max-width: 1400px;
+      }
+
+      &-narrow {
+        max-width: 1000px;
+      }
+    }
+  }
+
+  // Spacing generator
+  @include generateContainerGap;
+
+  // NOTE: important for sizing support
+  *,
+  ::after,
+  ::before {
+    box-sizing: border-box;
+  }
+}
+
+// Spacing generator
+@media #{$screen-size--tablet} {
+  .ms-container {
+    &.ms-container--gap {
+      @each $cssModifier, $gapSizes in $gapSizes {
+        &-#{$cssModifier} {
+          @include generateContainerGap($gapSizes);
+        }
+      }
+    }
+  }
+}

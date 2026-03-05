@@ -3,7 +3,8 @@
 
   &--visible-on-hover {
     &:hover,
-    &:focus-within { // NOTE: does not supported by old browsers
+    &:focus-within {
+      // NOTE: does not supported by old browsers
       .ms-popover__placeholder {
         // opacity: 1; // NOTE: to have opportunity for navigation with a tab
         visibility: visible;
@@ -52,7 +53,7 @@
   &--position {
     @each $modifier, $value in (absolute: absolute, static: static) {
       &-#{$modifier} {
-        position: $value
+        position: $value;
       }
     }
   }
