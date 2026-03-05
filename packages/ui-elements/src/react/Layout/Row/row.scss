@@ -1,0 +1,25 @@
+@import '../../styles/variables/layout.scss';
+
+.ms-row {
+  display: flex;
+  flex-wrap: wrap;
+
+  &.ms-row {
+    &--no-gutters {
+      margin-right: 0;
+      margin-left: 0;
+      // width: 100%;
+
+      ~ #{$col-selector},
+      ~ [class*='#{$col-selector}'] {
+        padding-right: 0;
+        padding-left: 0;
+      }
+    }
+
+    &--with-scroll {
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+    }
+  }
+}

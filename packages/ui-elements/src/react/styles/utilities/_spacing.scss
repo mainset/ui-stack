@@ -16,14 +16,28 @@
         }
 
         // {-mt|-mr|-mb|-ml}--size || {-pt|-pr|-pb|-pl}--size
-        @each $css-position, $position-abbrev in (top: t, right: r, bottom: b, left: l) {
+        @each $css-position,
+          $position-abbrev in (top: t, right: r, bottom: b, left: l)
+        {
           &#{$position-abbrev}--#{$size-modifier} {
             #{$css-prop}-#{$css-position}: $spacing !important;
           }
         }
 
         // {-mh|-mv}--size || {-ph|-pv}--size
-        @each $line-abbrev, $line-props in (v: (top, bottom), h: (left, right)) {
+        @each $line-abbrev,
+          $line-props
+            in (
+              v: (
+                  top,
+                  bottom,
+                ),
+              h: (
+                  left,
+                  right,
+                )
+            )
+        {
           &#{$line-abbrev}--#{$size-modifier} {
             @each $line-prop in $line-props {
               #{$css-prop}-#{$line-prop}: $spacing !important;

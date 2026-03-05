@@ -1,0 +1,44 @@
+$sidebar-positions: absolute fixed static sticky;
+
+#ms-sidebar-root {
+  display: flex;
+  position: relative;
+
+  & > :first-child:not(.ms-sidebar) {
+    width: 100%;
+  }
+
+  .ms-sidebar {
+    top: 0;
+
+    &--align {
+      &-top {
+        width: 100%;
+      }
+
+      &-right {
+        height: 100%;
+        right: 0;
+      }
+
+      &-bottom {
+        bottom: 0;
+        top: unset;
+        width: 100%;
+      }
+
+      &-left {
+        height: 100%;
+        left: 0;
+      }
+    }
+
+    &--position {
+      @each $sidebar-position in $sidebar-positions {
+        &-#{$sidebar-position} {
+          position: $sidebar-position;
+        }
+      }
+    }
+  }
+}

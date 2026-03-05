@@ -8,7 +8,7 @@
   &--direction {
     @each $modifier, $value in (horizontal: row, vertical: column) {
       &-#{$modifier} {
-        flex-direction: $value
+        flex-direction: $value;
       }
     }
   }
@@ -16,7 +16,7 @@
   &--type {
     @each $modifier, $value in (unstyled: none, ordered: decimal) {
       &-#{$modifier} {
-        list-style: $value
+        list-style: $value;
       }
     }
 
@@ -28,7 +28,7 @@
   &--justify {
     @each $modifier, $value in (center: center, end: flex-end) {
       &-#{$modifier} {
-        justify-content: $value
+        justify-content: $value;
       }
     }
   }

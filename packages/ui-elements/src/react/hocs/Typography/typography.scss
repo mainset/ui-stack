@@ -6,7 +6,7 @@
     &--align {
       @each $value in (center, justify, right) {
         &-#{$value} {
-          text-align: $value
+          text-align: $value;
         }
       }
     }
@@ -14,15 +14,25 @@
     &--transform {
       @each $value in (capitalize, uppercase) {
         &-#{$value} {
-          text-transform: $value
+          text-transform: $value;
         }
       }
     }
 
     &--weight {
-      @each $modifier, $value in (lightest: 100, lighter: lighter, normal: normal, bold: bold, bolder: bolder, boldest: 900) {
+      @each $modifier,
+        $value
+          in (
+            lightest: 100,
+            lighter: lighter,
+            normal: normal,
+            bold: bold,
+            bolder: bolder,
+            boldest: 900
+          )
+      {
         &-#{$modifier} {
-          font-weight: $value
+          font-weight: $value;
         }
       }
     }
