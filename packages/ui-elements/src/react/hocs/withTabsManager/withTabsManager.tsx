@@ -6,15 +6,17 @@ interface TabElementProps {
   [key: string]: any;
 }
 
-const withTabsManager = <P extends object>(
-  WrappedComponent: React.ComponentType<P>,
-  TabsWrapper?: React.ComponentType<React.PropsWithChildren<any>>,
-  ContentWrapper?: React.ComponentType<React.PropsWithChildren<any>>
-): React.FC<P & { children?: React.ReactNode }> =>
+const withTabsManager =
+  <P extends object>(
+    WrappedComponent: React.ComponentType<P>,
+    TabsWrapper?: React.ComponentType<React.PropsWithChildren<any>>,
+    ContentWrapper?: React.ComponentType<React.PropsWithChildren<any>>,
+  ): React.FC<P & { children?: React.ReactNode }> =>
   ({ children: tabs, ...props }) => {
-
     // Safety check / array conversion
-    const tabsArray = React.Children.toArray(tabs) as React.ReactElement<TabElementProps>[];
+    const tabsArray = React.Children.toArray(
+      tabs,
+    ) as React.ReactElement<TabElementProps>[];
 
     if (tabsArray.length === 0) {
       return null; // Or some fallback
@@ -27,7 +29,7 @@ const withTabsManager = <P extends object>(
       (nextActiveTabId: string) => () => {
         setActiveTab(nextActiveTabId);
       },
-      []
+      [],
     );
 
     const tabsWithControl = tabsArray.map((child) => {
@@ -46,7 +48,7 @@ const withTabsManager = <P extends object>(
     });
 
     const activeTabChildren = tabsArray.find(
-      (tab) => tab.props.tabId === activeTabId
+      (tab) => tab.props.tabId === activeTabId,
     )?.props.children;
 
     return (
@@ -65,4 +67,4 @@ const withTabsManager = <P extends object>(
     );
   };
 
-export default withTabsManager;
+export { withTabsManager };
