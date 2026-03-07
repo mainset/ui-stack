@@ -1,1 +1,0 @@
-export { asLayout } from './Layout';

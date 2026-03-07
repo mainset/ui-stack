@@ -55,5 +55,5 @@ const asLayout = (
   return WrappedComponentAsLayout;
 };
 
-export type { WrappedComponentProps };
 export { asLayout };
+export type { WrappedComponentProps };
