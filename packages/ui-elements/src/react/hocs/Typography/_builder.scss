@@ -1,9 +1,11 @@
-@import '../../styles/_mixins.scss';
+@use 'sass:map';
+
+@use '../../styles/_mixins.scss' as *;
 
 @mixin build-typography($config, $selector: '.ms-typography') {
   #{$selector} {
     &--color {
-      $configColor: map-get($config, 'color');
+      $configColor: map.get($config, 'color');
       @each $modifier, $value in $configColor {
         &-#{$modifier} {
           color: $value;
@@ -12,7 +14,7 @@
     }
 
     &--family {
-      $configFamily: map-get($config, 'family');
+      $configFamily: map.get($config, 'family');
       @each $modifier, $value in $configFamily {
         &-#{$modifier} {
           font-family: $value;
@@ -34,10 +36,10 @@
           'xx-large'
         )
       {
-        $configSize: map-get($config, 'size');
-        @if $configSize != null and map-has-key($configSize, $size) {
+        $configSize: map.get($config, 'size');
+        @if $configSize != null and map.has-key($configSize, $size) {
           &-#{$size} {
-            @include map-to-style(map-get($configSize, $size));
+            @include map-to-style(map.get($configSize, $size));
           }
         }
       }
