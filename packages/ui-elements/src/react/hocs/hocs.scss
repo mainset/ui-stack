@@ -1,4 +1,4 @@
-@import './createListElements/list.scss';
-@import './createSVGMaker/svg-maker.scss';
-@import './Layout/layout.scss';
-@import './Typography/typography.scss';
+@forward './createListElements/list.scss';
+@forward './createSVGMaker/svg-maker.scss';
+@forward './Layout/layout.scss';
+@forward './Typography/typography.scss';

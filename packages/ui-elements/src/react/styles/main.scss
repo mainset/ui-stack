@@ -1,13 +1,13 @@
-@import '../hocs/hocs.scss';
+@forward '../hocs/hocs.scss';
 
 // ui elements
-@import '../Hr/hr.scss';
-@import '../Layout/layout.scss';
-@import '../ModalBasic/modal-basic.scss';
-@import '../Popover/popover.scss';
-@import '../SidebarBasic/sidebar-basic.scss';
-@import '../Spacing/spacing.scss';
-@import '../TextTag/text-tag.scss';
+@forward '../Hr/hr.scss';
+@forward '../Layout/layout.scss';
+@forward '../ModalBasic/modal-basic.scss';
+@forward '../Popover/popover.scss';
+@forward '../SidebarBasic/sidebar-basic.scss';
+@forward '../Spacing/spacing.scss';
+@forward '../TextTag/text-tag.scss';
 
 // styles
-@import './_normalize.scss';
+@forward './_normalize.scss';

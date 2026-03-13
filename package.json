@@ -10,7 +10,7 @@
     "build:packages": "pnpm --filter \"./packages/**\" build"
   },
   "devDependencies": {
-    "@mainset/dev-stack-fe": "^0.2.0",
+    "@mainset/dev-stack-fe": "^0.2.1",
     "cross-env": "^10.1.0",
     "eslint": "^9.39.2",
     "husky": "^9.1.7",

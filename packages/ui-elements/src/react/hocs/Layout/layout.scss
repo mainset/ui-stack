@@ -1,4 +1,4 @@
-@import '../../styles/_config.scss';
+@use '../../styles/_config.scss' as *;
 
 // NOTE: that is important that direction-column is using for vertically spaced content
 $with-content-direction-as-column: '.ms-layout--direction-column';

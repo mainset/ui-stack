@@ -1,6 +1,6 @@
-@import '../../styles/_config.scss';
+@use '../../styles/_config.scss' as *;
 
-@import '../../styles/variables/layout.scss';
+@use '../../styles/variables/layout.scss' as *;
 
 // Mixins
 @mixin create-cols() {
