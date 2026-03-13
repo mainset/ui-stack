@@ -32,9 +32,9 @@ importers:
 
   apps/docs:
     dependencies:
-      '@mainset/ui-elements':
+      '@mainset/react':
         specifier: workspace:^
-        version: link:../../packages/ui-elements
+        version: link:../../packages/react
       react:
         specifier: ^19.2.0
         version: 19.2.4
@@ -61,7 +61,7 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0
 
-  packages/ui-elements:
+  packages/react:
     dependencies:
       classnames:
         specifier: '>=2.2.6 <3.0.0'
@@ -3683,8 +3683,8 @@ packages:
   thunky@1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
 
-  tinyexec@1.0.2:
-    resolution: {integrity: sha512-W/KYk+NFhkmsYpuHq5JykngiOCnxeVL8v8dFnqxSD8qEEdRfXk1SDM6JzNqcERbcGYj9tMrDQBYV9cjgnunFIg==}
+  tinyexec@1.0.4:
+    resolution: {integrity: sha512-u9r3uZC0bdpGOXtlxUIdwf9pkmvhqJdrVCH9fapQtgy/OeTTMZ1nqH7agtvEfmGui6e1XxjcdrlxvxJvc3sMqw==}
     engines: {node: '>=18'}
 
   tinyglobby@0.2.15:
@@ -6768,7 +6768,7 @@ snapshots:
       listr2: 9.0.5
       micromatch: 4.0.8
       string-argv: 0.3.2
-      tinyexec: 1.0.2
+      tinyexec: 1.0.4
       yaml: 2.8.2
 
   listr2@9.0.5:
@@ -7810,7 +7810,7 @@ snapshots:
 
   thunky@1.1.0: {}
 
-  tinyexec@1.0.2: {}
+  tinyexec@1.0.4: {}
 
   tinyglobby@0.2.15:
     dependencies:
