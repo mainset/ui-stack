@@ -1,8 +1,8 @@
 {
   "name": "@mainset/react",
-  "version": "1.0.0",
-  "description": "Single line, react elements",
-  "repository": "git@github.com:mainset/ui-stack.git",
+  "version": "0.0.1-rc.1",
+  "description": "Set of UI React elements, components, hooks, etc for creating user interfaces, based on the mainset design system.",
+  "repository": "https://github.com/mainset/ui-stack/tree/main/packages/react",
   "author": "Yevhen Uzhva <yevhen.uzhva@gmail.com>",
   "license": "CC-BY-NC-4.0",
   "type": "module",
@@ -11,6 +11,7 @@
     "dist",
     "src/ui-elements/styles/_mixins.scss",
     "src/ui-elements/styles/_utilities.scss",
+    "src/ui-elements/styles/utilities/_spacing.scss",
     "src/ui-elements/hocs/Typography/_builder.scss"
   ],
   "exports": {
