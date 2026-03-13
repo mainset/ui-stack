@@ -32,9 +32,9 @@ importers:
 
   apps/docs:
     dependencies:
-      '@mainset/ui-elements':
+      '@mainset/react':
         specifier: workspace:^
-        version: link:../../packages/ui-elements
+        version: link:../../packages/react
       react:
         specifier: ^19.2.0
         version: 19.2.4
@@ -61,7 +61,7 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0
 
-  packages/ui-elements:
+  packages/react:
     dependencies:
       classnames:
         specifier: '>=2.2.6 <3.0.0'
@@ -82,6 +82,9 @@ importers:
       '@mainset/cli':
         specifier: ^0.5.0
         version: 0.5.0(@mainset/dev-stack-fe@0.2.1(cross-env@10.1.0)(eslint@9.39.4(jiti@2.6.1))(husky@9.1.7)(postcss@8.5.8)(prettier@3.8.1)(stylelint@16.26.1(typescript@5.9.3)))
+      '@mainset/dev-stack-fe':
+        specifier: ^0.2.1
+        version: 0.2.1(cross-env@10.1.0)(eslint@9.39.4(jiti@2.6.1))(husky@9.1.7)(postcss@8.5.8)(prettier@3.8.1)(stylelint@16.26.1(typescript@5.9.3))
       '@mainset/toolkit-js':
         specifier: ^0.1.2
         version: 0.1.2(@mainset/dev-stack-fe@0.2.1(cross-env@10.1.0)(eslint@9.39.4(jiti@2.6.1))(husky@9.1.7)(postcss@8.5.8)(prettier@3.8.1)(stylelint@16.26.1(typescript@5.9.3)))
@@ -762,8 +765,8 @@ packages:
     resolution: {integrity: sha512-4B4OijXeVNOPZlYA2oEwWOTkzyltLao+xbotHQeqN++Rv27Y6s818+n2Qkp8q+Fxhn0t/5lA5X1Mxktud8eayQ==}
     engines: {node: '>=14.17.0'}
 
-  '@dotenvx/dotenvx@1.54.1':
-    resolution: {integrity: sha512-41gU3q7v05GM92QPuPUf4CmUw+mmF8p4wLUh6MCRlxpCkJ9ByLcY9jUf6MwrMNmiKyG/rIckNxj9SCfmNCmCqw==}
+  '@dotenvx/dotenvx@1.55.0':
+    resolution: {integrity: sha512-JOHoUw2dyHPSoVJwfH5yf3j8yIBtqYDhpcaFv9QKrS30KPme025yA+uJ9q9FTphnr6QkEOMUk/B7I3nmwHkamg==}
     hasBin: true
 
   '@dual-bundle/import-meta-resolve@4.2.1':
@@ -3683,8 +3686,8 @@ packages:
   thunky@1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
 
-  tinyexec@1.0.2:
-    resolution: {integrity: sha512-W/KYk+NFhkmsYpuHq5JykngiOCnxeVL8v8dFnqxSD8qEEdRfXk1SDM6JzNqcERbcGYj9tMrDQBYV9cjgnunFIg==}
+  tinyexec@1.0.4:
+    resolution: {integrity: sha512-u9r3uZC0bdpGOXtlxUIdwf9pkmvhqJdrVCH9fapQtgy/OeTTMZ1nqH7agtvEfmGui6e1XxjcdrlxvxJvc3sMqw==}
     engines: {node: '>=18'}
 
   tinyglobby@0.2.15:
@@ -4745,7 +4748,7 @@ snapshots:
 
   '@discoveryjs/json-ext@0.6.3': {}
 
-  '@dotenvx/dotenvx@1.54.1':
+  '@dotenvx/dotenvx@1.55.0':
     dependencies:
       commander: 11.1.0
       dotenv: 17.3.1
@@ -5059,7 +5062,7 @@ snapshots:
 
   '@mainset/cli@0.5.0(@mainset/dev-stack-fe@0.2.1(cross-env@10.1.0)(eslint@9.39.4(jiti@2.6.1))(husky@9.1.7)(postcss@8.5.8)(prettier@3.8.1)(stylelint@16.26.1(typescript@5.9.3)))':
     dependencies:
-      '@dotenvx/dotenvx': 1.54.1
+      '@dotenvx/dotenvx': 1.55.0
       '@mainset/dev-stack-fe': 0.2.1(cross-env@10.1.0)(eslint@9.39.4(jiti@2.6.1))(husky@9.1.7)(postcss@8.5.8)(prettier@3.8.1)(stylelint@16.26.1(typescript@5.9.3))
       '@types/node': 24.12.0
       commander: 14.0.3
@@ -6768,7 +6771,7 @@ snapshots:
       listr2: 9.0.5
       micromatch: 4.0.8
       string-argv: 0.3.2
-      tinyexec: 1.0.2
+      tinyexec: 1.0.4
       yaml: 2.8.2
 
   listr2@9.0.5:
@@ -7810,7 +7813,7 @@ snapshots:
 
   thunky@1.1.0: {}
 
-  tinyexec@1.0.2: {}
+  tinyexec@1.0.4: {}
 
   tinyglobby@0.2.15:
     dependencies:

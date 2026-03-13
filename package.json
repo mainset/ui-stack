@@ -1,10 +1,7 @@
 {
-  "name": "ui-kit",
-  "version": "1.0.0",
-  "description": "Set of reusable react components",
-  "repository": "git@github.com:mainset/ui-kit.git",
+  "repository": "git@github.com:mainset/ui-stack.git",
   "author": "Yevhen Uzhva <yevhen.uzhva@gmail.com>",
-  "license": "MIT",
+  "license": "CC-BY-NC-4.0",
   "private": false,
   "scripts": {
     "build:packages": "pnpm --filter \"./packages/**\" build"

@@ -1,27 +1,27 @@
 {
-  "name": "@mainset/ui-elements",
+  "name": "@mainset/react",
   "version": "1.0.0",
   "description": "Single line, react elements",
-  "repository": "git@github.com:mainset/ui-kit.git",
+  "repository": "git@github.com:mainset/ui-stack.git",
   "author": "Yevhen Uzhva <yevhen.uzhva@gmail.com>",
-  "license": "MIT",
+  "license": "CC-BY-NC-4.0",
   "type": "module",
   "sideEffects": false,
   "files": [
     "dist",
-    "src/react/hocs/Typography/_builder.scss",
-    "src/react/styles/_mixins.scss",
-    "src/react/styles/_utilities.scss"
+    "src/ui-elements/styles/_mixins.scss",
+    "src/ui-elements/styles/_utilities.scss",
+    "src/ui-elements/hocs/Typography/_builder.scss"
   ],
   "exports": {
-    "./react": {
-      "types": "./dist/types/src/react/index.d.mts",
-      "import": "./dist/esm/react/index.mjs"
+    "./ui-elements": {
+      "types": "./dist/types/src/ui-elements/index.d.mts",
+      "import": "./dist/esm/ui-elements/index.mjs"
     },
-    "./react/styles/main.css": "./dist/esm/react/styles/main.css",
-    "./react/styles/typography-builder": "./src/react/hocs/Typography/_builder.scss",
-    "./scss/mixins": "./src/react/styles/_mixins.scss",
-    "./scss/utilities": "./src/react/styles/_utilities.scss"
+    "./styles/main.css": "./dist/esm/ui-elements/styles/main.css",
+    "./scss/mixins": "./src/ui-elements/styles/_mixins.scss",
+    "./scss/utilities": "./src/ui-elements/styles/_utilities.scss",
+    "./scss/typography-builder": "./src/ui-elements/hocs/Typography/_builder.scss"
   },
   "scripts": {
     "dev": "ms-cli node-sourcer --exec watch --bundless",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@mainset/builder-rslib": "^0.3.0",
     "@mainset/cli": "^0.5.0",
+    "@mainset/dev-stack-fe": "^0.2.1",
     "@mainset/toolkit-js": "^0.1.2",
     "@types/lodash": "^4.17.24",
     "@types/react": "^19.2.14",
