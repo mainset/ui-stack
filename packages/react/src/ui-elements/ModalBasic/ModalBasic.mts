@@ -1,4 +1,7 @@
-import { createOverlayBasicComponent, initOverlayByIdToggler } from '../hocs/index.mjs';
+import {
+  createOverlayBasicComponent,
+  initOverlayByIdToggler,
+} from '../hocs/index.mjs';
 
 const ModalBasic = createOverlayBasicComponent({
   BASIC_CLASS_NAME: 'ms-modal',

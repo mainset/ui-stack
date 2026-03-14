@@ -12,12 +12,10 @@ const Hr: React.FC<HrProps> = ({
   isHidden,
 
   ...props
-}) => React.createElement(
-  'hr',
-  {
+}) =>
+  React.createElement('hr', {
     className: `${className ? `${className} ` : ''}ms-break ms-break--direction-${direction}${isHidden ? ' ms-break--hidden' : ''}`,
     ...props,
-  },
-);
+  });
 
 export { Hr };

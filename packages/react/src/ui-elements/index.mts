@@ -11,25 +11,17 @@ export { TextTag } from './TextTag/index.mjs';
 // hocs
 export {
   OverlayProvider,
-
   asSVG,
   createListElements,
   createOverlayBasicComponent,
   createSVGMaker,
   createTypographyElements,
-
   extendClassName,
   // withTypography,
   initOverlayByIdToggler,
-
   withTabsManager,
 } from './hocs/index.mjs';
 
-export {
-  useCallbackDebounce,
-  useFormHandler,
-} from './hooks/index.mjs';
+export { useCallbackDebounce, useFormHandler } from './hooks/index.mjs';
 
-export {
-  msDebounce,
-} from './utils/index.mjs';
+export { msDebounce } from './utils/index.mjs';
