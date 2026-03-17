@@ -1,9 +1,9 @@
-import { Heading, Paragraph, Section } from '@mainset/react/ui-elements';
+import { Heading, Paragraph, Section } from '@mainset/react/elements';
 import React from 'react';
 
 const Hero = () => {
   return (
-    <Section secMaxWidth="md" srfBackgroundColor="transparent">
+    <Section secMaxWidth="md">
       <Heading txtWeight="bold" txtSize="xxx-large" txtAlign="center">
         Productivity tools
         <Paragraph txtColor="muted">built for the modern workflow</Paragraph>
