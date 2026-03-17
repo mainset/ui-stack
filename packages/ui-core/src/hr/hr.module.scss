@@ -1,0 +1,32 @@
+@forward './hr.tokens';
+@use './hr.variables' as hrVars;
+@use './hr.mixins' as hrMixins;
+
+#{hrVars.$class-selector} {
+  border: none;
+  margin: 0;
+
+  &#{hrVars.$class-selector} {
+    &--direction {
+      &-horizontal {
+        height: 1px;
+        // width: 100%;
+      }
+
+      &-vertical {
+        // height: 100%;
+        width: 1px;
+      }
+    }
+
+    &--hidden {
+      opacity: 0;
+    }
+  }
+}
+
+@include hrMixins.build-hr(
+  (
+    color: hrVars.$color-map,
+  )
+);

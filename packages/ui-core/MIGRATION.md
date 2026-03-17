@@ -8,7 +8,7 @@ Components:
 'Popover',
 'ModalBasic',
 + 'extendClassName', => RENAMED: `createClassNamedRC`
-'Hr',
++ 'Hr',
 'createListElements',
 'SidebarBasic',
 'createSVGMaker',

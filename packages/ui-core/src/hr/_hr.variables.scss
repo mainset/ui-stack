@@ -1,0 +1,14 @@
+$class-selector: '.ms-break';
+$color-map: (
+  primary: var(--ms-color-border-primary),
+  secondary: var(--ms-color-border-secondary),
+  tertiary: var(--ms-color-border-tertiary),
+  error: var(--ms-color-border-error),
+  info: var(--ms-color-border-info),
+  success: var(--ms-color-border-success),
+  warning: var(--ms-color-border-warning),
+  base: var(--ms-color-border-base),
+  muted: var(--ms-color-border-muted),
+  inverse: var(--ms-color-border-inverse),
+  transparent: transparent,
+);
