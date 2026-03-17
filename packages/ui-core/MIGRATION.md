@@ -7,7 +7,7 @@ Components:
 'Row',
 'Popover',
 'ModalBasic',
-'extendClassName',
++ 'extendClassName', => RENAMED: `createClassNamedRC`
 'Hr',
 'createListElements',
 'SidebarBasic',
