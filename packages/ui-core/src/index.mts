@@ -1,3 +1,5 @@
+export { HR__CLASS_NAME_CONFIG, stylesHr } from './hr/index.mjs';
+export type { HrBaseProps } from './hr/index.mjs';
 export {
   stylesTextBase,
   TEXT_BASE__CLASS_NAME_CONFIG,
