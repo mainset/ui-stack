@@ -1,3 +1,3 @@
-export { HeadingBasic } from './Heading/index.mjs';
-export { ParagraphBasic } from './Paragraph/index.mjs';
-export { TextSectionBasic } from './TextSection/index.mjs';
+export { Heading } from './Heading.mjs';
+export { Paragraph } from './Paragraph.mjs';
+export { TextSection } from './TextSection.mjs';

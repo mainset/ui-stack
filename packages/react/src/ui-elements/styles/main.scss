@@ -1,3 +1,5 @@
+@forward '@mainset/ui-core/styles/normalize.css';
+
 @forward '../hocs/hocs.scss';
 
 // ui elements
@@ -7,7 +9,3 @@
 @forward '../Popover/popover.scss';
 @forward '../SidebarBasic/sidebar-basic.scss';
 @forward '../Spacing/spacing.scss';
-@forward '../TextTag/text-tag.scss';
-
-// styles
-@forward './_normalize.scss';

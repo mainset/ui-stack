@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import { cnx } from '@mainset/ui-core';
 import React from 'react';
 
 // Container
@@ -17,7 +17,7 @@ const PopoverContainer: React.FC<PopoverContainerProps> = ({
   React.createElement(
     'div',
     {
-      className: cn(className, 'ms-popover__container', {
+      className: cnx(className, 'ms-popover__container', {
         'ms-popover__container--visible-on-hover': setVisibleOnHover,
       }),
       ...props,
@@ -49,7 +49,7 @@ const PopoverPlaceholder: React.FC<PopoverPlaceholderProps> = ({
   React.createElement(
     'div',
     {
-      className: cn(
+      className: cnx(
         className,
         'ms-popover__placeholder',
         `ms-popover__placeholder--position-${position}`,

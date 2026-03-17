@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import { cnx } from '@mainset/ui-core';
 import React from 'react';
 import { createPortal } from 'react-dom';
 
@@ -147,7 +147,7 @@ function createOverlayBasicComponent<
             ? createPortal(
                 <div
                   id={id}
-                  className={cn(
+                  className={cnx(
                     BASIC_CLASS_NAME,
                     dynamicClassName,
                     componentClassName,

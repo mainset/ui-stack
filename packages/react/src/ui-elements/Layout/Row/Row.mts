@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import { cnx } from '@mainset/ui-core';
 import React from 'react';
 
 import { asLayout } from '../../hocs/Layout/index.mjs';
@@ -20,7 +20,7 @@ const RowBasic: React.FC<RowBasicProps> = ({
   React.createElement(
     'div',
     {
-      className: cn(
+      className: cnx(
         'ms-row',
         {
           'ms-row--no-gutters': noGutters,

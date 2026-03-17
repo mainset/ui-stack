@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import { cnx } from '@mainset/ui-core';
 import React from 'react';
 
 interface SpacingProps extends React.HTMLAttributes<HTMLElement> {
@@ -37,7 +37,7 @@ const Spacing: React.FC<SpacingProps> = ({
   React.createElement(
     as,
     {
-      className: cn('ms-spcng', `ms-spcng-${type}--${size}`, className),
+      className: cnx('ms-spcng', `ms-spcng-${type}--${size}`, className),
       ...props,
     },
     children,

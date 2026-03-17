@@ -1,14 +1,1 @@
-@use 'sass:map';
-
-@mixin map-to-style($mapAsStyle: ()) {
-  @each $key, $value in $mapAsStyle {
-    #{$key}: $value;
-  }
-}
-
-@function map-deep-get($map, $keys...) {
-  @each $key in $keys {
-    $map: map.get($map, $key);
-  }
-  @return $map;
-}
+@forward "@mainset/ui-core/scss/mixins";

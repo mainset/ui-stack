@@ -1,0 +1,70 @@
+:root {
+  // ----- Color tokens -----
+  --ms-color-text-primary: rgba(144, 19, 254, 100%);
+  --ms-color-text-secondary: rgba(92, 11, 186, 100%);
+  --ms-color-text-tertiary: rgba(181, 89, 255, 100%);
+  --ms-color-text-error: rgba(215, 34, 38, 100%);
+  --ms-color-text-info: rgba(37, 99, 235, 100%);
+  --ms-color-text-success: rgba(22, 163, 74, 100%);
+  --ms-color-text-warning: rgba(234, 179, 8, 100%);
+  --ms-color-text-base: rgba(31, 41, 55, 100%);
+  --ms-color-text-muted: rgba(75, 85, 99, 100%);
+  --ms-color-text-disabled: rgba(156, 163, 175, 100%);
+  --ms-color-text-inverse: rgba(249, 250, 251, 100%);
+
+  // ----- Font family tokens -----
+  // The default UI font
+  --ms-font-family-text-sans: system-ui, -apple-system, sans-serif;
+
+  // Used for editorial content, articles, or specific brand headings
+  --ms-font-family-text-serif:
+    georgia, cambria, 'Times New Roman', times, serif;
+
+  // Used for code snippets, tabular data, numbers, or technical info.
+  --ms-font-family-text-mono:
+    ui-monospace, sfmono-regular, menlo, monaco, consolas, monospace;
+
+  // (Optional) Only add this if your headings use a drastically different font than your standard 'sans' UI font.
+  // --ms-font-family-text-heading: 'CustomHeadingFont, "Segoe UI", Helvetica, Arial, sans-serif'; // Optional separate font for headings
+
+  // ----- Font size tokens -----
+  // xx-small (Tiny labels, tertiary badges)
+  --ms-font-size-text-xxs: 0.625rem; // 10px
+  --ms-letter-spacing-text-xxs: 0.05em;
+  --ms-line-height-text-xxs: 1.2; // Tighter for small caps/labels
+
+  // x-small (Secondary captions, metadata)
+  --ms-font-size-text-xs: 0.75rem; // 12px
+  --ms-letter-spacing-text-xs: 0.02em;
+  --ms-line-height-text-xs: 1.333; // ~16px
+
+  // small (Secondary body text, hints, helper text)
+  --ms-font-size-text-sm: 0.875rem; // 14px (Changed from 0.9375rem for scale harmony)
+  --ms-letter-spacing-text-sm: 0.01em;
+  --ms-line-height-text-sm: 1.428; // ~20px
+
+  // medium (Base body text)
+  --ms-font-size-text-md: 1rem; // 16px
+  --ms-letter-spacing-text-md: 0;
+  --ms-line-height-text-md: 1.5; // 24px (optimal for readability)
+
+  // large (Intro text, small headings, button text)
+  --ms-font-size-text-lg: 1.125rem; // 18px
+  --ms-letter-spacing-text-lg: -0.01em; // Slightly tighter as size increases
+  --ms-line-height-text-lg: 1.555; // ~28px
+
+  // x-large (H3, Card Titles, Subheadings)
+  --ms-font-size-text-xl: 1.5rem; // 24px
+  --ms-letter-spacing-text-xl: -0.015em;
+  --ms-line-height-text-xl: 1.333; // ~32px (Heading LH needs to be tighter)
+
+  // xx-large (H2, Page Titles)
+  --ms-font-size-text-xxl: 2rem; // 32px
+  --ms-letter-spacing-text-xxl: -0.02em;
+  --ms-line-height-text-xxl: 1.25; // 40px
+
+  // xxx-large (H1, Hero Titles, Display Text)
+  --ms-font-size-text-xxxl: 3rem; // 48px
+  --ms-letter-spacing-text-xxxl: -0.025em;
+  --ms-line-height-text-xxxl: 1.15; // ~55px (Display sizes need very tight LH)
+}
