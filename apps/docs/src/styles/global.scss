@@ -1,0 +1,4 @@
+// NOTE: the bundler puts `global.scss` first in the entry, so the reset loads before any
+// component CSS, as required: it has 0 specificity (`:where()`) and would override components
+// if it came later. Element CSS (tokens + components) is imported by each element module.
+@use '@mainset/react/styles/main.css';
