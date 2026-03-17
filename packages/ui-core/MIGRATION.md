@@ -15,7 +15,7 @@ Components:
 'asSVG',
 'withTabsManager',
 + 'createTypographyElements', => direct import Heading / Paragraph / TextSection
-'useCallbackDebounce',
++ 'useCallbackDebounce',
 'useFormHandler',
 ```
 

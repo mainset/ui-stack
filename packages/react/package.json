@@ -15,6 +15,10 @@
     "src/ui-elements/hocs/Typography/_builder.scss"
   ],
   "exports": {
+    "./hooks": {
+      "types": "./dist/types/src/hooks/index.d.mts",
+      "import": "./dist/esm/hooks/index.mjs"
+    },
     "./ui-elements": {
       "types": "./dist/types/src/ui-elements/index.d.mts",
       "import": "./dist/esm/ui-elements/index.mjs"
