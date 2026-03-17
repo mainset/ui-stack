@@ -1,1 +1,1 @@
-import '@mainset/bundler-webpack/global-types';
+/// <reference types="@mainset/bundler-webpack/global-types" />
