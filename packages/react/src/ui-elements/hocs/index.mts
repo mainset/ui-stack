@@ -10,8 +10,4 @@ export {
 export { createSVGMaker } from './createSVGMaker/index.mjs';
 export { extendClassName } from './extendClassName/index.mjs';
 export { asLayout } from './Layout/index.mjs';
-export {
-  createTypographyElements,
-  withTypography,
-} from './Typography/index.mjs';
 export { withTabsManager } from './withTabsManager/index.mjs';

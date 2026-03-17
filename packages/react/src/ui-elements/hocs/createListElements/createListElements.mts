@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import { cnx } from '@mainset/ui-core';
 import React from 'react';
 
 const Spacer = () =>
@@ -28,7 +28,7 @@ const createListElements = ({ baseClassName }: CreateListElementsParams) => {
     React.createElement(
       'ul',
       {
-        className: cn(
+        className: cnx(
           className,
           baseClassName,
           `ms-list ms-list--direction-${direction}`,

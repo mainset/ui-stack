@@ -1,0 +1,116 @@
+$class-selector: '.ms-text';
+$alignments: (
+  // css basic
+  initial,
+  // alignments
+  center,
+  end,
+  justify
+);
+$color-map: (
+  primary: var(--ms-color-text-primary),
+  secondary: var(--ms-color-text-secondary),
+  tertiary: var(--ms-color-text-tertiary),
+  error: var(--ms-color-text-error),
+  info: var(--ms-color-text-info),
+  success: var(--ms-color-text-success),
+  warning: var(--ms-color-text-warning),
+  base: var(--ms-color-text-base),
+  muted: var(--ms-color-text-muted),
+  inverse: var(--ms-color-text-inverse),
+);
+$family-map: (
+  sans: var(--ms-font-family-text-sans),
+  serif: var(--ms-font-family-text-serif),
+  mono: var(--ms-font-family-text-mono), // heading: var(--ms-font-family-text-heading),
+);
+$size-map-as-style: (
+  // css basic
+  initial: (
+      font-size: initial,
+      letter-spacing: initial,
+      line-height: initial,
+    ),
+  inherit: (
+    font-size: inherit,
+    letter-spacing: inherit,
+    line-height: inherit,
+  ),
+  unset: (
+    font-size: unset,
+    letter-spacing: unset,
+    line-height: unset,
+  ),
+  // relative
+  smaller: (
+      font-size: smaller,
+      letter-spacing: inherit,
+      line-height: inherit,
+    ),
+  larger: (
+    font-size: larger,
+    letter-spacing: inherit,
+    line-height: inherit,
+  ),
+  // absolute
+  'xx-small': (
+      font-size: var(--ms-font-size-text-xxs),
+      letter-spacing: var(--ms-letter-spacing-text-xxs),
+      line-height: var(--ms-line-height-text-xxs),
+    ),
+  'x-small': (
+    font-size: var(--ms-font-size-text-xs),
+    letter-spacing: var(--ms-letter-spacing-text-xs),
+    line-height: var(--ms-line-height-text-xs),
+  ),
+  small: (
+    font-size: var(--ms-font-size-text-sm),
+    letter-spacing: var(--ms-letter-spacing-text-sm),
+    line-height: var(--ms-line-height-text-sm),
+  ),
+  medium: (
+    font-size: var(--ms-font-size-text-md),
+    letter-spacing: var(--ms-letter-spacing-text-md),
+    line-height: var(--ms-line-height-text-md),
+  ),
+  large: (
+    font-size: var(--ms-font-size-text-lg),
+    letter-spacing: var(--ms-letter-spacing-text-lg),
+    line-height: var(--ms-line-height-text-lg),
+  ),
+  'x-large': (
+    font-size: var(--ms-font-size-text-xl),
+    letter-spacing: var(--ms-letter-spacing-text-xl),
+    line-height: var(--ms-line-height-text-xl),
+  ),
+  'xx-large': (
+    font-size: var(--ms-font-size-text-xxl),
+    letter-spacing: var(--ms-letter-spacing-text-xxl),
+    line-height: var(--ms-line-height-text-xxl),
+  ),
+  'xxx-large': (
+    font-size: var(--ms-font-size-text-xxxl),
+    letter-spacing: var(--ms-letter-spacing-text-xxxl),
+    line-height: var(--ms-line-height-text-xxxl),
+  )
+);
+$transforms: (
+  // css basic
+  initial,
+  inherit,
+  unset,
+  // transforms
+  capitalize,
+  lowercase,
+  uppercase
+);
+$weight-map: (
+  // css basic
+  initial: initial,
+  normal: normal,
+  // relative
+  lighter: lighter,
+  bolder: bolder,
+  // absolute
+  bold: bold
+);

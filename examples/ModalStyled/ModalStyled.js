@@ -1,6 +1,5 @@
-import cn from 'classnames';
+import { cnx } from '@mainset/ui-core';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import { ModalBasic } from '../../src';
 
@@ -8,7 +7,7 @@ const ModalStyled = ({ id, modalHandlerProps, children, className }) => (
   <ModalBasic
     id={id}
     modalHandlerProps={modalHandlerProps}
-    className={cn('hrf-modal-styled', className)}
+    className={cnx('hrf-modal-styled', className)}
   >
     <button
       type="button"

@@ -1,0 +1,48 @@
+@forward './text-base.tokens';
+@use './text-base.variables' as textBaseVars;
+@use './text-base.mixins' as textBaseMixins;
+
+#{textBaseVars.$class-selector} {
+  line-height: 1;
+  margin: 0;
+
+  &#{textBaseVars.$class-selector} {
+    &--align {
+      @each $value in (textBaseVars.$alignments) {
+        &-#{$value} {
+          text-align: $value;
+        }
+      }
+    }
+
+    &--transform {
+      @each $value in (textBaseVars.$transforms) {
+        &-#{$value} {
+          text-transform: $value;
+        }
+      }
+    }
+
+    &--weight {
+      @each $modifier, $value in (textBaseVars.$weight-map) {
+        &-#{$modifier} {
+          font-weight: $value;
+        }
+      }
+    }
+  }
+
+  &--truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@include textBaseMixins.build-text-base(
+  (
+    color: textBaseVars.$color-map,
+    family: textBaseVars.$family-map,
+    size: textBaseVars.$size-map-as-style,
+  )
+);

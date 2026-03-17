@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import { cnx } from '@mainset/ui-core';
 import React from 'react';
 
 import { asLayout } from '../../hocs/Layout/index.mjs';
@@ -52,7 +52,7 @@ const ColBasic: React.FC<ColBasicProps> = ({
   React.createElement(
     'div',
     {
-      className: cn(
+      className: cnx(
         'ms-col',
         {
           [`ms-col--offset-${offset}`]: offset,

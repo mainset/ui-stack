@@ -5,7 +5,7 @@ import path from 'path';
 const reactRslibConfig = generateReactRslibConfig({
   source: {
     // entry: {
-    //   index: path.join(runtimePathById.src, 'react/**/*'),
+    //   index: path.join(runtimePathById.src, 'ui-elements/index.mts'),
     // },
     // TODO: exclude .md files from build
     assetsInclude: /\.md$/,

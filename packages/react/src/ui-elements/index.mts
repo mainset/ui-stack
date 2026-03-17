@@ -1,24 +1,21 @@
 // ui-elements
 export { Hr } from './Hr/index.mjs';
-export { Container, Row, Col } from './Layout/index.mjs';
+export { Col, Container, Row } from './Layout/index.mjs';
 export { ModalBasic } from './ModalBasic/index.mjs';
 export { Popover } from './Popover/index.mjs';
 export { SidebarBasic } from './SidebarBasic/index.mjs';
 export { Spacing } from './Spacing/index.mjs';
-export { TextTag } from './TextTag/index.mjs';
-// export { Heading, Paragraph, TextSection } from './Typography';
+export { Heading, Paragraph, TextSection } from './Typography/index.mjs';
 
 // hocs
 export {
-  OverlayProvider,
   asSVG,
   createListElements,
   createOverlayBasicComponent,
   createSVGMaker,
-  createTypographyElements,
   extendClassName,
-  // withTypography,
   initOverlayByIdToggler,
+  OverlayProvider,
   withTabsManager,
 } from './hocs/index.mjs';
 

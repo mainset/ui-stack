@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import { cnx } from '@mainset/ui-core';
 import React from 'react';
 
 interface WrappedComponentProps extends React.HTMLAttributes<HTMLElement> {
@@ -35,7 +35,7 @@ const asLayout = (
       contentAlignHorizontally || contentAlignVertically || contentSpace;
     return (
       <WrappedComponent
-        className={cn(className, {
+        className={cnx(className, {
           'ms-layout--flex': isContentShouldDisplayAsFlex,
           [`ms-layout--direction-${isContentDirectionAsColumn ? 'column' : contentDirection}`]:
             isContentShouldDisplayAsFlex,
