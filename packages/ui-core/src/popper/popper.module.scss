@@ -1,0 +1,28 @@
+@use './popper.variables' as popperVars;
+
+#{popperVars.$class-selector} {
+  $root-selector: &;
+
+  &__content {
+    // opacity: 0;
+    visibility: hidden;
+  }
+
+  &--opened {
+    #{$root-selector}__content {
+      // opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &--visible-on-hover {
+    &:hover,
+    &:focus-within {
+      // NOTE: does not supported by old browsers
+      #{$root-selector}__content {
+        // opacity: 1; // NOTE: to have opportunity for navigation with a tab
+        visibility: visible;
+      }
+    }
+  }
+}
