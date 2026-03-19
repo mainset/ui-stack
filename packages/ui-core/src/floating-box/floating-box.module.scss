@@ -1,0 +1,115 @@
+@use './floating-box.variables' as floatingBoxVars;
+
+#{floatingBoxVars.$class-selector} {
+  $root-selector: &;
+
+  // ----- Wrapper -----
+  display: flex;
+  position: relative;
+
+  // ----- Content -----
+  &__content {
+    z-index: 1;
+    // width: max-content;
+
+    &-positioner {
+      display: flex;
+    }
+  }
+
+  // ----- Positioner direction -----
+  &--direction {
+    &-top {
+      flex-direction: column-reverse;
+
+      &#{$root-selector}--placement-outside {
+        // NOTE: align content to the end of the positioner
+        > #{$root-selector}__content-positioner {
+          align-items: flex-end;
+        }
+      }
+    }
+
+    &-after {
+      flex-direction: row;
+
+      &#{$root-selector}--placement-inside {
+        // NOTE: align content to the end of the positioner
+        > #{$root-selector}__content-positioner {
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    &-bottom {
+      flex-direction: column;
+
+      &#{$root-selector}--placement-inside {
+        // NOTE: align content to the end of the positioner
+        > #{$root-selector}__content-positioner {
+          align-items: flex-end;
+        }
+      }
+    }
+
+    &-before {
+      flex-direction: row-reverse;
+
+      &#{$root-selector}--placement-outside {
+        // NOTE: align content to the end of the positioner
+        > #{$root-selector}__content-positioner {
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    // justify horizontally positioned element
+    &-before,
+    &-after {
+      &#{$root-selector}--align {
+        &-center > #{$root-selector}__content-positioner {
+          align-items: center;
+        }
+
+        &-start > #{$root-selector}__content-positioner {
+          align-items: flex-start;
+        }
+
+        &-end > #{$root-selector}__content-positioner {
+          align-items: flex-end;
+        }
+      }
+    }
+
+    // justify vertically positioned element
+    &-top,
+    &-bottom {
+      &#{$root-selector}--align {
+        &-center > #{$root-selector}__content-positioner {
+          justify-content: center;
+        }
+
+        &-start > #{$root-selector}__content-positioner {
+          justify-content: flex-start;
+        }
+
+        &-end > #{$root-selector}__content-positioner {
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+
+  // ----- Content -----
+  // Props that could be passed into content
+  // &__content {
+  //   position: absolute;
+  // }
+  &--position {
+    @each $value in (floatingBoxVars.$positions) {
+      &-#{$value} #{$root-selector}__content {
+        position: $value;
+      }
+    }
+  }
+}

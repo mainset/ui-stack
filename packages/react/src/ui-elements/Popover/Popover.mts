@@ -1,73 +1,73 @@
-import { cnx } from '@mainset/ui-core';
+import {
+  POPPER_WRAPPER__CLASS_NAME_CONFIG,
+  PopperWrapperBaseProps,
+  cnx,
+  extractClassNamesFromProps,
+  stylesPopper,
+} from '@mainset/ui-core';
 import React from 'react';
 
-// Container
-interface PopoverContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  setVisibleOnHover?: boolean;
-}
+import { FloatingBox } from '../FloatingBox/FloatingBox.mjs';
+import type { FloatingBoxWrapperProps } from '../FloatingBox/FloatingBox.mts';
 
-const PopoverContainer: React.FC<PopoverContainerProps> = ({
+// Wrapper
+interface PopoverWrapperProps
+  extends FloatingBoxWrapperProps, PopperWrapperBaseProps {}
+
+const PopoverWrapper: React.FC<PopoverWrapperProps> = ({
   children,
   className,
 
-  setVisibleOnHover,
-
   ...props
-}) =>
-  React.createElement(
-    'div',
-    {
-      className: cnx(className, 'ms-popover__container', {
-        'ms-popover__container--visible-on-hover': setVisibleOnHover,
-      }),
-      ...props,
-    },
-    children,
+}) => {
+  const [classNames, restProps] = extractClassNamesFromProps(
+    [POPPER_WRAPPER__CLASS_NAME_CONFIG],
+    props,
+    stylesPopper,
   );
 
-// Placeholder
-interface PopoverPlaceholderProps extends React.HTMLAttributes<HTMLDivElement> {
-  hAlign?: 'left' | 'center' | 'right';
-  vAlign?: 'top' | 'middle' | 'bottom';
-  isVisible?: boolean;
-  position?: 'absolute' | 'static';
-  setWidthInherit?: boolean;
-}
+  const isVisibleOnHover = React.useMemo(
+    () => typeof props.popIsOpened !== 'boolean',
+    [],
+  );
 
-const PopoverPlaceholder: React.FC<PopoverPlaceholderProps> = ({
-  children,
-  className,
-
-  hAlign,
-  vAlign,
-  isVisible,
-  position = 'absolute',
-  setWidthInherit,
-
-  ...props
-}) =>
-  React.createElement(
-    'div',
+  return React.createElement(
+    FloatingBox,
     {
       className: cnx(
-        className,
-        'ms-popover__placeholder',
-        `ms-popover__placeholder--position-${position}`,
+        classNames,
         {
-          'ms-popover__placeholder--visible': isVisible,
-          [`ms-popover__placeholder--horizontally-${hAlign}`]: hAlign,
-          [`ms-popover__placeholder--vertically-${vAlign}`]: vAlign,
-          'ms-popover__placeholder--width-inherit': setWidthInherit,
+          [stylesPopper['ms-popper--visible-on-hover']]: isVisibleOnHover,
         },
+        className,
       ),
+      ...restProps,
+    },
+    children,
+  );
+};
+
+// Content
+interface PopoverContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+const PopoverContent: React.FC<PopoverContentProps> = ({
+  children,
+  className,
+
+  ...props
+}) => {
+  return React.createElement(
+    FloatingBox.Content,
+    {
+      className: cnx(stylesPopper['ms-popper__content'], className),
       ...props,
     },
     children,
   );
-
-const Popover = {
-  Container: PopoverContainer,
-  Placeholder: PopoverPlaceholder,
 };
+
+const Popover = Object.assign(PopoverWrapper, {
+  Content: PopoverContent,
+});
 
 export { Popover };
