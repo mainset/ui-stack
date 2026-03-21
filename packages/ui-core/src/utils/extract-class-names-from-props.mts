@@ -1,14 +1,27 @@
-interface ClassNameFromPropConfig {
+type BasePropDefinition = {
+  options: readonly (string | boolean | number)[];
+  defaultValue?: string | boolean | number;
+};
+
+type ComposedConfig = {
   baseClass: string;
+  isSingleClassComposed: true;
   propDefinitionByName: Record<
     string,
-    {
-      modifier: string;
-      options: readonly (string | boolean | number)[];
-      defaultValue?: string | boolean | number;
-    }
+    BasePropDefinition & { modifier?: string }
   >;
-}
+};
+
+type MultipleClassesConfig = {
+  baseClass: string;
+  isSingleClassComposed?: false;
+  propDefinitionByName: Record<
+    string,
+    BasePropDefinition & { modifier: string }
+  >;
+};
+
+type ClassNameFromPropConfig = ComposedConfig | MultipleClassesConfig;
 
 type ExtractClassNameFromPropOptions<
   TConfig extends {
@@ -16,6 +29,93 @@ type ExtractClassNameFromPropOptions<
   },
   TPropName extends keyof TConfig['propDefinitionByName'],
 > = TConfig['propDefinitionByName'][TPropName]['options'][number];
+
+function processComposedConfig(
+  config: ClassNameFromPropConfig,
+  props: Record<string, any>,
+  styles: Record<string, string> | undefined,
+  handledPropNames: Record<string, boolean>,
+  classes: string[],
+) {
+  const { baseClass, propDefinitionByName } = config;
+  const combinedValues: (string | number)[] = [];
+
+  for (const configPropName in propDefinitionByName) {
+    if (
+      !Object.prototype.hasOwnProperty.call(
+        propDefinitionByName,
+        configPropName,
+      )
+    )
+      continue;
+
+    handledPropNames[configPropName] = true;
+    const propConfig = propDefinitionByName[configPropName];
+    const propValue =
+      props[configPropName] !== undefined
+        ? props[configPropName]
+        : propConfig.defaultValue;
+
+    if (propValue != null && propValue !== false) {
+      if (propValue === true) {
+        if (propConfig.modifier) combinedValues.push(propConfig.modifier);
+      } else {
+        combinedValues.push(propValue as string | number);
+      }
+    }
+  }
+
+  if (combinedValues.length > 0) {
+    const generatedClass = `${baseClass}--${combinedValues.join('-')}`;
+    const resolvedClass = styles ? styles[generatedClass] : undefined;
+    classes.push(resolvedClass || generatedClass);
+  }
+}
+
+function processMultipleConfig(
+  config: ClassNameFromPropConfig,
+  props: Record<string, any>,
+  styles: Record<string, string> | undefined,
+  handledPropNames: Record<string, boolean>,
+  classes: string[],
+) {
+  const { baseClass, propDefinitionByName } = config;
+
+  for (const configPropName in propDefinitionByName) {
+    if (
+      !Object.prototype.hasOwnProperty.call(
+        propDefinitionByName,
+        configPropName,
+      )
+    )
+      continue;
+
+    handledPropNames[configPropName] = true;
+    const propConfig = propDefinitionByName[configPropName];
+    const propValue =
+      props[configPropName] !== undefined
+        ? props[configPropName]
+        : propConfig.defaultValue;
+
+    if (propValue != null && propValue !== false) {
+      const { modifier } = propConfig;
+      let generatedClass = '';
+
+      if (propValue === true) {
+        generatedClass = modifier
+          ? `${baseClass}--${modifier}`
+          : `${baseClass}--${configPropName}`;
+      } else {
+        generatedClass = modifier
+          ? `${baseClass}--${modifier}-${propValue}`
+          : `${baseClass}--${propValue}`;
+      }
+
+      const resolvedClass = styles ? styles[generatedClass] : undefined;
+      classes.push(resolvedClass || generatedClass);
+    }
+  }
+}
 
 function extractClassNamesFromProps(
   configs: ClassNameFromPropConfig[],
@@ -31,43 +131,16 @@ function extractClassNamesFromProps(
   // 1 & 2. Process all configs
   for (let c = 0; c < configs.length; c++) {
     const config = configs[c];
-    const { baseClass, propDefinitionByName } = config;
+    const { baseClass, isSingleClassComposed } = config;
 
     // Add the base class for this config
     classes.push(styles ? styles[baseClass] || baseClass : baseClass);
 
-    // Process all configured props for this config
-    for (const configPropName in propDefinitionByName) {
-      if (
-        !Object.prototype.hasOwnProperty.call(
-          propDefinitionByName,
-          configPropName,
-        )
-      )
-        continue;
-
-      handledPropNames[configPropName] = true;
-      const propConfig = propDefinitionByName[configPropName];
-
-      // Use prop value if provided, otherwise fall back to defaultValue
-      const propValue =
-        props[configPropName] !== undefined
-          ? props[configPropName]
-          : propConfig.defaultValue;
-
-      // Only process if the value resolves to something truthy or `0`
-      if (propValue != null && propValue !== false) {
-        const { modifier } = propConfig;
-
-        // Concat strings directly instead of let initialization (marginally faster in V8)
-        const generatedClass =
-          propValue === true
-            ? `${baseClass}--${modifier}`
-            : `${baseClass}--${modifier}-${propValue as string}`;
-
-        const resolvedClass = styles ? styles[generatedClass] : undefined;
-        classes.push(resolvedClass || generatedClass);
-      }
+    // Branch into specific processing logic
+    if (isSingleClassComposed) {
+      processComposedConfig(config, props, styles, handledPropNames, classes);
+    } else {
+      processMultipleConfig(config, props, styles, handledPropNames, classes);
     }
   }
 

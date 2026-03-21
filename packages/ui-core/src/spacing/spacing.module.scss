@@ -1,0 +1,7 @@
+@forward './spacing.tokens';
+@use './spacing.variables' as spacingVars;
+@use './spacing.mixins' as spacingMixins;
+
+@include spacingMixins.build-spacing-modifier-excluded(
+  spacingVars.$scale-size-map
+);

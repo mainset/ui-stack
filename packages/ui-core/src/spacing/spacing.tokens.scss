@@ -1,0 +1,65 @@
+// 1. Define base steps as SCSS variables so we can do build-time math
+$step-element: 0.125rem; // 2px
+$step-component: 0.25rem; // 4px
+$step-block: 0.375rem; // 6px
+$step-section: 0.625rem; // 10px
+
+:root {
+  // Expose base steps as CSS variables if needed elsewhere
+  --ms-spacing-scale-element: #{$step-element};
+  --ms-spacing-scale-component: #{$step-component};
+  --ms-spacing-scale-block: #{$step-block};
+  --ms-spacing-scale-section: #{$step-section};
+
+  // --- ELEMENT (Step: 2px) ---
+  $el-xs: $step-element;
+  $el-sm: $el-xs + $step-element;
+  $el-base: $el-sm + $step-element;
+  $el-lg: $el-base + $step-element;
+  $el-xl: $el-lg + $step-element;
+
+  --ms-spacing-scale-element-xs: #{$el-xs};
+  --ms-spacing-scale-element-sm: #{$el-sm};
+  --ms-spacing-scale-element-base: #{$el-base};
+  --ms-spacing-scale-element-lg: #{$el-lg};
+  --ms-spacing-scale-element-xl: #{$el-xl};
+
+  // --- COMPONENT (Step: 4px) ---
+  $comp-xs: $el-xl + $step-component;
+  $comp-sm: $comp-xs + $step-component;
+  $comp-base: $comp-sm + $step-component;
+  $comp-lg: $comp-base + $step-component;
+  $comp-xl: $comp-lg + $step-component;
+
+  --ms-spacing-scale-component-xs: #{$comp-xs};
+  --ms-spacing-scale-component-sm: #{$comp-sm};
+  --ms-spacing-scale-component-base: #{$comp-base};
+  --ms-spacing-scale-component-lg: #{$comp-lg};
+  --ms-spacing-scale-component-xl: #{$comp-xl};
+
+  // --- BLOCK (Step: 6px) ---
+  $blk-xs: $comp-xl + $step-block;
+  $blk-sm: $blk-xs + $step-block;
+  $blk-base: $blk-sm + $step-block;
+  $blk-lg: $blk-base + $step-block;
+  $blk-xl: $blk-lg + $step-block;
+
+  --ms-spacing-scale-block-xs: #{$blk-xs};
+  --ms-spacing-scale-block-sm: #{$blk-sm};
+  --ms-spacing-scale-block-base: #{$blk-base};
+  --ms-spacing-scale-block-lg: #{$blk-lg};
+  --ms-spacing-scale-block-xl: #{$blk-xl};
+
+  // --- SECTION (Step: 10px) ---
+  $sec-xs: $blk-xl + $step-section;
+  $sec-sm: $sec-xs + $step-section;
+  $sec-base: $sec-sm + $step-section;
+  $sec-lg: $sec-base + $step-section;
+  $sec-xl: $sec-lg + $step-section;
+
+  --ms-spacing-scale-section-xs: #{$sec-xs};
+  --ms-spacing-scale-section-sm: #{$sec-sm};
+  --ms-spacing-scale-section-base: #{$sec-base};
+  --ms-spacing-scale-section-lg: #{$sec-lg};
+  --ms-spacing-scale-section-xl: #{$sec-xl};
+}

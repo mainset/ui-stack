@@ -1,0 +1,31 @@
+$class-selector: '.ms-spacing';
+$scale-size-map: (
+  element: (
+    xs: var(--ms-spacing-scale-element-xs),
+    sm: var(--ms-spacing-scale-element-sm),
+    base: var(--ms-spacing-scale-element-base),
+    lg: var(--ms-spacing-scale-element-lg),
+    xl: var(--ms-spacing-scale-element-xl),
+  ),
+  component: (
+    xs: var(--ms-spacing-scale-component-xs),
+    sm: var(--ms-spacing-scale-component-sm),
+    base: var(--ms-spacing-scale-component-base),
+    lg: var(--ms-spacing-scale-component-lg),
+    xl: var(--ms-spacing-scale-component-xl),
+  ),
+  block: (
+    xs: var(--ms-spacing-scale-block-xs),
+    sm: var(--ms-spacing-scale-block-sm),
+    base: var(--ms-spacing-scale-block-base),
+    lg: var(--ms-spacing-scale-block-lg),
+    xl: var(--ms-spacing-scale-block-xl),
+  ),
+  section: (
+    xs: var(--ms-spacing-scale-section-xs),
+    sm: var(--ms-spacing-scale-section-sm),
+    base: var(--ms-spacing-scale-section-base),
+    lg: var(--ms-spacing-scale-section-lg),
+    xl: var(--ms-spacing-scale-section-xl),
+  ),
+);

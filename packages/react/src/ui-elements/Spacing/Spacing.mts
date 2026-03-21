@@ -1,46 +1,37 @@
-import { cnx } from '@mainset/ui-core';
+import type { SpacingBaseProps } from '@mainset/ui-core';
+import {
+  SPACING__CLASS_NAME_CONFIG,
+  cnx,
+  extractClassNamesFromProps,
+  stylesSpacing,
+} from '@mainset/ui-core';
 import React from 'react';
 
-interface SpacingProps extends React.HTMLAttributes<HTMLElement> {
+interface SpacingProps
+  extends React.HTMLAttributes<HTMLElement>, SpacingBaseProps {
   as?: 'span' | 'div';
-
-  type:
-    | 'm' // margin
-    | 'p' // padding
-
-    // margin
-    | 'mt' // top
-    | 'mr' // right
-    | 'mb' // bottom
-    | 'ml' // left
-    | 'mv' // vertical
-    | 'mh' // horizontal
-
-    // padding
-    | 'pt' // top
-    | 'pr' // right
-    | 'pb' // bottom
-    | 'pl' // left
-    | 'pv' // vertical
-    | 'ph'; // horizontal
-  size: number;
 }
 
 const Spacing: React.FC<SpacingProps> = ({
-  as = 'span',
-  className,
+  as = 'div',
   children,
-  type,
-  size,
+  className,
+
   ...props
-}) =>
-  React.createElement(
+}) => {
+  const [classNames, restProps] = extractClassNamesFromProps(
+    [SPACING__CLASS_NAME_CONFIG],
+    props,
+    stylesSpacing,
+  );
+  return React.createElement(
     as,
     {
-      className: cnx('ms-spcng', `ms-spcng-${type}--${size}`, className),
-      ...props,
+      className: cnx(classNames, className),
+      ...restProps,
     },
     children,
   );
+};
 
 export { Spacing };
