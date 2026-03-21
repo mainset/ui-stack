@@ -1,0 +1,159 @@
+@use 'sass:map';
+@use './spacing.variables' as spacingVars;
+@use '../styles/mixins' as msMixin;
+
+@mixin build-spacing-modifier-excluded(
+  $scale-size-map,
+  $selector: spacingVars.$class-selector
+) {
+  // Map our base CSS properties to their BEM abbreviations
+  @each $css-prop, $prop-abbrev in (margin: m, padding: p) {
+    // Define the directional mapping (Physical for Y, Logical for X)
+    $positions: (
+      t: (
+          top,
+        ),
+      b: (
+          bottom,
+        ),
+      s: (
+          inline-start,
+        ),
+      e: (
+          inline-end,
+        ),
+    );
+
+    // 1. Generate Absolute Zero Utilities
+    // Generates: .ms-spacing--m-0
+    #{$selector}--#{$prop-abbrev}-0 {
+      #{$css-prop}: 0;
+    }
+
+    // Generates: .ms-spacing--mt-0, .ms-spacing--ms-0, etc
+    @each $pos-abbrev, $props in $positions {
+      #{$selector}--#{$prop-abbrev}#{$pos-abbrev}-0 {
+        @each $prop in $props {
+          #{$css-prop}-#{$prop}: 0;
+        }
+      }
+    }
+
+    // Generates: .ms-spacing--mv-0 and .ms-spacing--mh-0
+    #{$selector}--#{$prop-abbrev}v-0 {
+      #{$css-prop}: 0 0;
+    }
+    #{$selector}--#{$prop-abbrev}h-0 {
+      #{$css-prop}: 0 0;
+    }
+
+    // 2. Generate Scale and Size Utilities
+    @each $scale, $sizes in $scale-size-map {
+      @each $size-modifier, $spacing-var in $sizes {
+        $combined-modifier: #{$scale}-#{$size-modifier};
+
+        // All sides (e.g., .ms-spacing--m-element-xxxs)
+        #{$selector}--#{$prop-abbrev}-#{$combined-modifier} {
+          #{$css-prop}: #{$spacing-var};
+        }
+
+        // Specific sides (e.g., .ms-spacing--mt-element-xxxs, .ms-spacing--ps-element-lg)
+        @each $pos-abbrev, $props in $positions {
+          #{$selector}--#{$prop-abbrev}#{$pos-abbrev}-#{$combined-modifier} {
+            @each $prop in $props {
+              #{$css-prop}-#{$prop}: #{$spacing-var};
+            }
+          }
+        }
+
+        // Vertical / Horizontal Shorthand (e.g., .ms-spacing--mv-section-xxl)
+        #{$selector}--#{$prop-abbrev}v-#{$combined-modifier} {
+          #{$css-prop}: #{$spacing-var} 0;
+        }
+        #{$selector}--#{$prop-abbrev}h-#{$combined-modifier} {
+          #{$css-prop}: 0 #{$spacing-var};
+        }
+      }
+    }
+  }
+}
+
+@mixin build-spacing-modifier-included(
+  $scale-size-map,
+  $selector: spacingVars.$class-selector
+) {
+  // Map our base CSS properties to their BEM abbreviations
+  @each $css-prop, $prop-abbrev in (margin: m, padding: p) {
+    // Define the directional mapping (Physical for Y, Logical for X)
+    $positions: (
+      t: (
+          top,
+        ),
+      b: (
+          bottom,
+        ),
+      s: (
+          inline-start,
+        ),
+      e: (
+          inline-end,
+        ),
+    );
+
+    // 1. Generate Absolute Zero Utilities
+    // Generates: .ms-spacing--type-m.ms-spacing--size-0
+    #{$selector}--type-#{$prop-abbrev}#{$selector}--size-0 {
+      #{$css-prop}: 0;
+    }
+
+    // Generates: .ms-spacing--type-mt.ms-spacing--size-0, etc
+    @each $pos-abbrev, $props in $positions {
+      #{$selector}--type-#{$prop-abbrev}#{$pos-abbrev}#{$selector}--size-0 {
+        @each $prop in $props {
+          #{$css-prop}-#{$prop}: 0;
+        }
+      }
+    }
+
+    // Generates: .ms-spacing--type-mv.ms-spacing--size-0
+    #{$selector}--type-#{$prop-abbrev}v#{$selector}--size-0 {
+      #{$css-prop}: 0 0;
+    }
+    #{$selector}--type-#{$prop-abbrev}h#{$selector}--size-0 {
+      #{$css-prop}: 0 0;
+    }
+
+    // 2. Generate Scale and Size Utilities
+    @each $scale, $sizes in $scale-size-map {
+      @each $size-modifier, $spacing-var in $sizes {
+        // Base Prefix: .ms-spacing--scale-{scale}
+        $scale-class: '#{$selector}--scale-#{$scale}';
+
+        // Size Prefix: .ms-spacing--size-{size}
+        $size-class: '#{$selector}--size-#{$size-modifier}';
+
+        // All sides (e.g., .ms-spacing--scale-element.ms-spacing--type-m.ms-spacing--size-xxxs)
+        #{$scale-class}#{$selector}--type-#{$prop-abbrev}#{$size-class} {
+          #{$css-prop}: #{$spacing-var};
+        }
+
+        // Specific sides (e.g., .ms-spacing--scale-element.ms-spacing--type-mt.ms-spacing--size-xxxs)
+        @each $pos-abbrev, $props in $positions {
+          #{$scale-class}#{$selector}--type-#{$prop-abbrev}#{$pos-abbrev}#{$size-class} {
+            @each $prop in $props {
+              #{$css-prop}-#{$prop}: #{$spacing-var};
+            }
+          }
+        }
+
+        // Vertical / Horizontal Shorthand
+        #{$scale-class}#{$selector}--type-#{$prop-abbrev}v#{$size-class} {
+          #{$css-prop}: #{$spacing-var} 0;
+        }
+        #{$scale-class}#{$selector}--type-#{$prop-abbrev}h#{$size-class} {
+          #{$css-prop}: 0 #{$spacing-var};
+        }
+      }
+    }
+  }
+}

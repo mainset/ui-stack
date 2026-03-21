@@ -10,6 +10,8 @@ export {
   stylesPopper,
 } from './popper/index.mjs';
 export type { PopperWrapperBaseProps } from './popper/index.mjs';
+export { SPACING__CLASS_NAME_CONFIG, stylesSpacing } from './spacing/index.mjs';
+export type { SpacingBaseProps } from './spacing/index.mjs';
 export {
   stylesTextBase,
   TEXT_BASE__CLASS_NAME_CONFIG,

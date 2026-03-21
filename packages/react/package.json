@@ -9,10 +9,7 @@
   "sideEffects": false,
   "files": [
     "dist",
-    "src/ui-elements/styles/_mixins.scss",
-    "src/ui-elements/styles/_utilities.scss",
-    "src/ui-elements/styles/utilities/_spacing.scss",
-    "src/ui-elements/hocs/Typography/_builder.scss"
+    "src/ui-elements/styles/_mixins.scss"
   ],
   "exports": {
     "./hooks": {
@@ -24,9 +21,7 @@
       "import": "./dist/esm/ui-elements/index.mjs"
     },
     "./styles/main.css": "./dist/esm/ui-elements/styles/main.css",
-    "./scss/mixins": "./src/ui-elements/styles/_mixins.scss",
-    "./scss/utilities": "./src/ui-elements/styles/_utilities.scss",
-    "./scss/typography-builder": "./src/ui-elements/hocs/Typography/_builder.scss"
+    "./scss/mixins": "./src/ui-elements/styles/_mixins.scss"
   },
   "scripts": {
     "dev": "ms-cli node-sourcer --exec watch --bundless",
