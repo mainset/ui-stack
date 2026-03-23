@@ -24,7 +24,7 @@ const Paragraph: React.FC<ParagraphProps> = ({
   return React.createElement(
     'p',
     {
-      className: cnx(classNames, className),
+      className: cnx(className, classNames),
       ...restProps,
     },
     children,

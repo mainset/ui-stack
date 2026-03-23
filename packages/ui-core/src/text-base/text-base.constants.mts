@@ -2,7 +2,7 @@ import type { ClassNameFromPropConfig } from '../utils/index.mjs';
 
 const TEXT_BASE__CLASS_NAME_CONFIG = {
   baseClass: 'ms-text',
-  propDefinitionByName: {
+  classNameDefinitionByPropName: {
     // value-mapped
     txtAlign: {
       modifier: 'align',

@@ -10,11 +10,20 @@ export {
   stylesPopper,
 } from './popper/index.mjs';
 export type { PopperWrapperBaseProps } from './popper/index.mjs';
-export { SPACING__CLASS_NAME_CONFIG, stylesSpacing } from './spacing/index.mjs';
+export {
+  SPACING__CLASS_NAME_CONFIG,
+  SPACING__STYLE_CONFIG,
+  stylesSpacingCNBased,
+  stylesSpacingInlineStyleBased,
+} from './spacing/index.mjs';
 export type { SpacingBaseProps } from './spacing/index.mjs';
 export {
   stylesTextBase,
   TEXT_BASE__CLASS_NAME_CONFIG,
 } from './text-base/index.mjs';
 export type { TextBaseProps } from './text-base/index.mjs';
-export { cnx, extractClassNamesFromProps } from './utils/index.mjs';
+export {
+  cnx,
+  extractClassNamesFromProps,
+  extractStyleObjFromProps,
+} from './utils/index.mjs';

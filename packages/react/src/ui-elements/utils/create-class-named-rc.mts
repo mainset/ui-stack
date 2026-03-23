@@ -16,7 +16,7 @@ function createClassNamedRC<TTag extends ElementType>(
         Tag,
         {
           ref,
-          className: cnx(defaultClassName, className),
+          className: cnx(className, defaultClassName),
           ...props,
         },
         children,

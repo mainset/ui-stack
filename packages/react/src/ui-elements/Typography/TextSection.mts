@@ -25,7 +25,7 @@ const TextSection: React.FC<TextSectionProps> = ({
   return React.createElement(
     'span',
     {
-      className: cnx(classNames, className),
+      className: cnx(className, classNames),
       ...restProps,
     },
     children,

@@ -2,7 +2,7 @@ import type { ClassNameFromPropConfig } from '../utils/index.mjs';
 
 const FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG = {
   baseClass: 'ms-floating-box',
-  propDefinitionByName: {
+  classNameDefinitionByPropName: {
     // value-mapped
     flbDirection: {
       modifier: 'direction',

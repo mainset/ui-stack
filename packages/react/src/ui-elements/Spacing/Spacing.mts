@@ -1,9 +1,12 @@
 import type { SpacingBaseProps } from '@mainset/ui-core';
 import {
-  SPACING__CLASS_NAME_CONFIG,
+  // SPACING__CLASS_NAME_CONFIG,
+  SPACING__STYLE_CONFIG,
   cnx,
-  extractClassNamesFromProps,
-  stylesSpacing,
+  // extractClassNamesFromProps,
+  extractStyleObjFromProps,
+  // stylesSpacingCNBased,
+  stylesSpacingInlineStyleBased,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -14,20 +17,30 @@ interface SpacingProps
 
 const Spacing: React.FC<SpacingProps> = ({
   as = 'div',
+
   children,
   className,
+  // style,
 
   ...props
 }) => {
-  const [classNames, restProps] = extractClassNamesFromProps(
-    [SPACING__CLASS_NAME_CONFIG],
+  // 1. Maintain the exact extraction usage for standard utility classes
+  // const [classNames, restProps] = extractClassNamesFromProps(
+  //   [SPACING__CLASS_NAME_CONFIG],
+  //   props,
+  //   stylesSpacingCNBased,
+  // );
+
+  const [styleObj, restProps] = extractStyleObjFromProps(
+    [SPACING__STYLE_CONFIG],
     props,
-    stylesSpacing,
   );
+
   return React.createElement(
     as,
     {
-      className: cnx(classNames, className),
+      className: cnx(className, stylesSpacingInlineStyleBased['ms-spacing']),
+      style: styleObj,
       ...restProps,
     },
     children,
