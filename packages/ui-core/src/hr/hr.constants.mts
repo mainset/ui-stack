@@ -2,7 +2,7 @@ import type { ClassNameFromPropConfig } from '../utils/index.mjs';
 
 const HR__CLASS_NAME_CONFIG = {
   baseClass: 'ms-break',
-  propDefinitionByName: {
+  classNameDefinitionByPropName: {
     // value-mapped
     hrColor: {
       modifier: 'color',

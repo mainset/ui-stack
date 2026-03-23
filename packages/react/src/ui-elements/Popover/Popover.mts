@@ -34,13 +34,9 @@ const PopoverWrapper: React.FC<PopoverWrapperProps> = ({
   return React.createElement(
     FloatingBox,
     {
-      className: cnx(
-        classNames,
-        {
-          [stylesPopper['ms-popper--visible-on-hover']]: isVisibleOnHover,
-        },
-        className,
-      ),
+      className: cnx(className, classNames, {
+        [stylesPopper['ms-popper--visible-on-hover']]: isVisibleOnHover,
+      }),
       ...restProps,
     },
     children,
@@ -59,7 +55,7 @@ const PopoverContent: React.FC<PopoverContentProps> = ({
   return React.createElement(
     FloatingBox.Content,
     {
-      className: cnx(stylesPopper['ms-popper__content'], className),
+      className: cnx(className, stylesPopper['ms-popper__content']),
       ...props,
     },
     children,

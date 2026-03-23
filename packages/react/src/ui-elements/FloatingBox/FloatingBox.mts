@@ -25,7 +25,7 @@ const FloatingBoxWrapper: React.FC<FloatingBoxWrapperProps> = ({
   return React.createElement(
     'div',
     {
-      className: cnx(classNames, className),
+      className: cnx(className, classNames),
       ...restProps,
     },
     children,
@@ -49,8 +49,8 @@ const FloatingBoxContent: React.FC<FloatingBoxContentProps> = ({
       'div',
       {
         className: cnx(
-          stylesFloatingBox['ms-floating-box__content'],
           className,
+          stylesFloatingBox['ms-floating-box__content'],
         ),
         ...props,
       },

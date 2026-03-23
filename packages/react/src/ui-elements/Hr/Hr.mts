@@ -23,7 +23,7 @@ const Hr: React.FC<HrProps> = ({
   return React.createElement(
     'hr',
     {
-      className: cnx(classNames, className),
+      className: cnx(className, classNames),
       ...restProps,
     },
     children,

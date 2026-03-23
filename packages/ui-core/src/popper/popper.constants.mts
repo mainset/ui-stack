@@ -2,7 +2,7 @@ import type { ClassNameFromPropConfig } from '../utils/index.mjs';
 
 const POPPER_WRAPPER__CLASS_NAME_CONFIG = {
   baseClass: 'ms-popper',
-  propDefinitionByName: {
+  classNameDefinitionByPropName: {
     // value-mapped
     popIsOpened: {
       modifier: 'opened',

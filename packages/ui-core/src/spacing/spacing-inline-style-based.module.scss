@@ -1,0 +1,125 @@
+@forward './spacing.tokens';
+@use './spacing.variables' as spacingVars;
+
+#{spacingVars.$class-selector} {
+  // 1. Inputs coming from React
+  --scale-tier: var(--ms-spacing-scale, 1);
+
+  // 2. Extracted offset (e.g. Component(2) = 1 * 5 = 5 base units)
+  --tier-offset: calc((var(--scale-tier) - 1) * 5);
+
+  // 3. Shared pixel multiplier
+  --pixel-multiplier: 0.0625rem; // 1px
+
+  // 4. The mathematically perfect fallback trick!
+  // If a side is NOT defined, we fallback to `calc(0 - var(--tier-offset))`.
+  // This perfectly cancels out the tier offset so undefined margins safely evaluate to exactly 0px!
+  --fallback-zero: calc(0 - var(--tier-offset));
+
+  // 5. Apply the pure, concise inline math!
+  margin-top: calc(
+    var(--pixel-multiplier) *
+      (
+        var(--tier-offset) +
+          var(
+            --ms-spacing-size-mt,
+            var(
+              --ms-spacing-size-mv,
+              var(--ms-spacing-size-m, var(--fallback-zero))
+            )
+          )
+      )
+  );
+  margin-bottom: calc(
+    var(--pixel-multiplier) *
+      (
+        var(--tier-offset) +
+          var(
+            --ms-spacing-size-mb,
+            var(
+              --ms-spacing-size-mv,
+              var(--ms-spacing-size-m, var(--fallback-zero))
+            )
+          )
+      )
+  );
+  margin-inline-start: calc(
+    var(--pixel-multiplier) *
+      (
+        var(--tier-offset) +
+          var(
+            --ms-spacing-size-ms,
+            var(
+              --ms-spacing-size-mh,
+              var(--ms-spacing-size-m, var(--fallback-zero))
+            )
+          )
+      )
+  );
+  margin-inline-end: calc(
+    var(--pixel-multiplier) *
+      (
+        var(--tier-offset) +
+          var(
+            --ms-spacing-size-me,
+            var(
+              --ms-spacing-size-mh,
+              var(--ms-spacing-size-m, var(--fallback-zero))
+            )
+          )
+      )
+  );
+
+  padding-top: calc(
+    var(--pixel-multiplier) *
+      (
+        var(--tier-offset) +
+          var(
+            --ms-spacing-size-pt,
+            var(
+              --ms-spacing-size-pv,
+              var(--ms-spacing-size-p, var(--fallback-zero))
+            )
+          )
+      )
+  );
+  padding-bottom: calc(
+    var(--pixel-multiplier) *
+      (
+        var(--tier-offset) +
+          var(
+            --ms-spacing-size-pb,
+            var(
+              --ms-spacing-size-pv,
+              var(--ms-spacing-size-p, var(--fallback-zero))
+            )
+          )
+      )
+  );
+  padding-inline-start: calc(
+    var(--pixel-multiplier) *
+      (
+        var(--tier-offset) +
+          var(
+            --ms-spacing-size-ps,
+            var(
+              --ms-spacing-size-ph,
+              var(--ms-spacing-size-p, var(--fallback-zero))
+            )
+          )
+      )
+  );
+  padding-inline-end: calc(
+    var(--pixel-multiplier) *
+      (
+        var(--tier-offset) +
+          var(
+            --ms-spacing-size-pe,
+            var(
+              --ms-spacing-size-ph,
+              var(--ms-spacing-size-p, var(--fallback-zero))
+            )
+          )
+      )
+  );
+}

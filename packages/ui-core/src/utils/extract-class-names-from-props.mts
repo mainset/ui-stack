@@ -6,7 +6,7 @@ type BasePropDefinition = {
 type ComposedConfig = {
   baseClass: string;
   isSingleClassComposed: true;
-  propDefinitionByName: Record<
+  classNameDefinitionByPropName: Record<
     string,
     BasePropDefinition & { modifier?: string }
   >;
@@ -15,7 +15,7 @@ type ComposedConfig = {
 type MultipleClassesConfig = {
   baseClass: string;
   isSingleClassComposed?: false;
-  propDefinitionByName: Record<
+  classNameDefinitionByPropName: Record<
     string,
     BasePropDefinition & { modifier: string }
   >;
@@ -25,10 +25,10 @@ type ClassNameFromPropConfig = ComposedConfig | MultipleClassesConfig;
 
 type ExtractClassNameFromPropOptions<
   TConfig extends {
-    propDefinitionByName: Record<string, { options: readonly any[] }>;
+    classNameDefinitionByPropName: Record<string, { options: readonly any[] }>;
   },
-  TPropName extends keyof TConfig['propDefinitionByName'],
-> = TConfig['propDefinitionByName'][TPropName]['options'][number];
+  TPropName extends keyof TConfig['classNameDefinitionByPropName'],
+> = TConfig['classNameDefinitionByPropName'][TPropName]['options'][number];
 
 function processComposedConfig(
   config: ClassNameFromPropConfig,
@@ -37,20 +37,20 @@ function processComposedConfig(
   handledPropNames: Record<string, boolean>,
   classes: string[],
 ) {
-  const { baseClass, propDefinitionByName } = config;
+  const { baseClass, classNameDefinitionByPropName } = config;
   const combinedValues: (string | number)[] = [];
 
-  for (const configPropName in propDefinitionByName) {
+  for (const configPropName in classNameDefinitionByPropName) {
     if (
       !Object.prototype.hasOwnProperty.call(
-        propDefinitionByName,
+        classNameDefinitionByPropName,
         configPropName,
       )
     )
       continue;
 
     handledPropNames[configPropName] = true;
-    const propConfig = propDefinitionByName[configPropName];
+    const propConfig = classNameDefinitionByPropName[configPropName];
     const propValue =
       props[configPropName] !== undefined
         ? props[configPropName]
@@ -79,19 +79,19 @@ function processMultipleConfig(
   handledPropNames: Record<string, boolean>,
   classes: string[],
 ) {
-  const { baseClass, propDefinitionByName } = config;
+  const { baseClass, classNameDefinitionByPropName } = config;
 
-  for (const configPropName in propDefinitionByName) {
+  for (const configPropName in classNameDefinitionByPropName) {
     if (
       !Object.prototype.hasOwnProperty.call(
-        propDefinitionByName,
+        classNameDefinitionByPropName,
         configPropName,
       )
     )
       continue;
 
     handledPropNames[configPropName] = true;
-    const propConfig = propDefinitionByName[configPropName];
+    const propConfig = classNameDefinitionByPropName[configPropName];
     const propValue =
       props[configPropName] !== undefined
         ? props[configPropName]

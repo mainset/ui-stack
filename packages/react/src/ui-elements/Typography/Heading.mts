@@ -29,7 +29,7 @@ const Heading: React.FC<HeadingProps> = ({
   return React.createElement(
     `h${hSize}`,
     {
-      className: cnx(classNames, className),
+      className: cnx(className, classNames),
       ...restProps,
     },
     children,
