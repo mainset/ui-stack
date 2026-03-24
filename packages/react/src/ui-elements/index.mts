@@ -1,4 +1,5 @@
 // ui-elements
+export { Badge } from './Badge/index.mjs';
 export { FloatingBox } from './FloatingBox/index.mjs';
 export { Hr } from './Hr/index.mjs';
 export { Col, Container, Row } from './Layout/index.mjs';

@@ -1,0 +1,11 @@
+@forward './surface.tokens';
+@use './surface.variables' as surfaceVars;
+@use './surface.mixins' as surfaceMixins;
+
+// Robust generation for all classes
+@include surfaceMixins.build-surface(
+  (
+    color: surfaceVars.$color-map,
+    radius: surfaceVars.$radius-map,
+  )
+);
