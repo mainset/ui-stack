@@ -1,0 +1,24 @@
+// Color variables
+$color-primary: rgba(144, 19, 254, 100%);
+$color-secondary: rgba(92, 11, 186, 100%);
+$color-tertiary: rgba(181, 89, 255, 100%);
+$color-error: rgba(215, 34, 38, 100%);
+$color-info: rgba(37, 99, 235, 100%);
+$color-success: rgba(22, 163, 74, 100%);
+$color-warning: rgba(234, 179, 8, 100%);
+$color-base: rgba(31, 41, 55, 100%);
+$color-muted: rgba(75, 85, 99, 100%);
+$color-disabled: rgba(156, 163, 175, 100%);
+$color-inverse: rgba(249, 250, 251, 100%);
+
+// Border radius variables
+$border-radius-pill: 624.9375rem; // 9999px (Capsule shaped buttons, badges)
+$border-radius-circle: 50%; // 50% (Perfect circles for avatars)
+$border-radius-xxs: 0.125rem; // 2px (Subtle rounding for small elements)
+$border-radius-xs: 0.25rem; // 4px (Slightly more pronounced rounding)
+$border-radius-sm: 0.5rem; // 8px (Moderate rounding for small elements)
+$border-radius-md: 0.75rem; // 12px (Standard rounding for medium elements)
+$border-radius-lg: 1rem; // 16px (Larger rounding for large elements)
+$border-radius-xl: 1.25rem; // 20px (Extra large rounding for extra large elements)
+$border-radius-xxl: 1.5rem; // 24px (Even larger rounding for prominent elements)
+$border-radius-xxxl: 2rem; // 32px (Maximum rounding for very large elements or cards)

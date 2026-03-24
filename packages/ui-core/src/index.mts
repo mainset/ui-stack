@@ -17,6 +17,8 @@ export {
   stylesSpacingInlineStyleBased,
 } from './spacing/index.mjs';
 export type { SpacingBaseProps } from './spacing/index.mjs';
+export { stylesSurface, SURFACE__CLASS_NAME_CONFIG } from './surface/index.mjs';
+export type { SurfaceBaseProps } from './surface/index.mjs';
 export {
   stylesTextBase,
   TEXT_BASE__CLASS_NAME_CONFIG,

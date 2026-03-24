@@ -2,6 +2,7 @@
 @use './spacing.variables' as spacingVars;
 @use './spacing.mixins' as spacingMixins;
 
+// Robust generation for all classes
 @include spacingMixins.build-spacing-modifier-excluded(
   spacingVars.$scale-size-map
 );

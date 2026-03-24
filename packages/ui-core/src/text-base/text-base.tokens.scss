@@ -1,16 +1,18 @@
+@use '../styles/variables' as msVariable;
+
 :root {
   // ----- Color tokens -----
-  --ms-color-text-primary: rgba(144, 19, 254, 100%);
-  --ms-color-text-secondary: rgba(92, 11, 186, 100%);
-  --ms-color-text-tertiary: rgba(181, 89, 255, 100%);
-  --ms-color-text-error: rgba(215, 34, 38, 100%);
-  --ms-color-text-info: rgba(37, 99, 235, 100%);
-  --ms-color-text-success: rgba(22, 163, 74, 100%);
-  --ms-color-text-warning: rgba(234, 179, 8, 100%);
-  --ms-color-text-base: rgba(31, 41, 55, 100%);
-  --ms-color-text-muted: rgba(75, 85, 99, 100%);
-  --ms-color-text-disabled: rgba(156, 163, 175, 100%);
-  --ms-color-text-inverse: rgba(249, 250, 251, 100%);
+  --ms-color-text-primary: #{msVariable.$color-primary};
+  --ms-color-text-secondary: #{msVariable.$color-secondary};
+  --ms-color-text-tertiary: #{msVariable.$color-tertiary};
+  --ms-color-text-error: #{msVariable.$color-error};
+  --ms-color-text-info: #{msVariable.$color-info};
+  --ms-color-text-success: #{msVariable.$color-success};
+  --ms-color-text-warning: #{msVariable.$color-warning};
+  --ms-color-text-base: #{msVariable.$color-base};
+  --ms-color-text-muted: #{msVariable.$color-muted};
+  --ms-color-text-disabled: #{msVariable.$color-disabled};
+  --ms-color-text-inverse: #{msVariable.$color-inverse};
 
   // ----- Font family tokens -----
   // The default UI font
