@@ -1,0 +1,14 @@
+@use '../../styles/variables' as msVariable;
+
+$class-selector: '.ms-section';
+$max-width-map: (
+  '25': 25%,
+  '33': 33.3333%,
+  '50': 50%,
+  '75': 75%,
+  xs: var(--ms-max-width-section-xs),
+  sm: var(--ms-max-width-section-sm),
+  md: var(--ms-max-width-section-md),
+  lg: var(--ms-max-width-section-lg),
+  xl: var(--ms-max-width-section-xl),
+);

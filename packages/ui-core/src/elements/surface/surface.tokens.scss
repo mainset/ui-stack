@@ -1,0 +1,28 @@
+@use '../../styles/variables' as msVariable;
+
+:root {
+  // ----- Color tokens -----
+  --ms-color-bg-primary: #{msVariable.$color-primary};
+  --ms-color-bg-secondary: #{msVariable.$color-secondary};
+  --ms-color-bg-tertiary: #{msVariable.$color-tertiary};
+  --ms-color-bg-error: #{msVariable.$color-error};
+  --ms-color-bg-info: #{msVariable.$color-info};
+  --ms-color-bg-success: #{msVariable.$color-success};
+  --ms-color-bg-warning: #{msVariable.$color-warning};
+  --ms-color-bg-base: #{msVariable.$color-base};
+  --ms-color-bg-muted: #{msVariable.$color-muted};
+  --ms-color-bg-disabled: #{msVariable.$color-disabled};
+  --ms-color-bg-inverse: #{msVariable.$color-inverse};
+
+  // ----- Border radius tokens -----
+  --ms-border-radius-pill: #{msVariable.$border-radius-pill};
+  --ms-border-radius-circle: #{msVariable.$border-radius-circle};
+  --ms-border-radius-xxs: #{msVariable.$border-radius-xxs};
+  --ms-border-radius-xs: #{msVariable.$border-radius-xs};
+  --ms-border-radius-sm: #{msVariable.$border-radius-sm};
+  --ms-border-radius-md: #{msVariable.$border-radius-md};
+  --ms-border-radius-lg: #{msVariable.$border-radius-lg};
+  --ms-border-radius-xl: #{msVariable.$border-radius-xl};
+  --ms-border-radius-xxl: #{msVariable.$border-radius-xxl};
+  --ms-border-radius-xxxl: #{msVariable.$border-radius-xxxl};
+}

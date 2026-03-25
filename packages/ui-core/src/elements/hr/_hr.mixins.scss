@@ -1,0 +1,17 @@
+@use 'sass:map';
+@use '../../styles/mixins' as msMixin;
+@use './hr.variables' as hrVars;
+
+@mixin build-hr($config, $selector: hrVars.$class-selector) {
+  #{$selector} {
+    &--color {
+      $config-color: map.get($config, 'color');
+
+      @each $modifier, $value in $config-color {
+        &-#{$modifier} {
+          background-color: $value;
+        }
+      }
+    }
+  }
+}
