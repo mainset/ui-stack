@@ -9,19 +9,19 @@
   "sideEffects": false,
   "files": [
     "dist",
-    "src/ui-elements/styles/_mixins.scss"
+    "src/elements/styles/_mixins.scss"
   ],
   "exports": {
+    "./elements": {
+      "types": "./dist/types/src/elements/index.d.mts",
+      "import": "./dist/esm/elements/index.mjs"
+    },
     "./hooks": {
       "types": "./dist/types/src/hooks/index.d.mts",
       "import": "./dist/esm/hooks/index.mjs"
     },
-    "./ui-elements": {
-      "types": "./dist/types/src/ui-elements/index.d.mts",
-      "import": "./dist/esm/ui-elements/index.mjs"
-    },
-    "./styles/main.css": "./dist/esm/ui-elements/styles/main.css",
-    "./scss/mixins": "./src/ui-elements/styles/_mixins.scss"
+    "./styles/main.css": "./dist/esm/elements/styles/main.css",
+    "./scss/mixins": "./src/elements/styles/_mixins.scss"
   },
   "scripts": {
     "dev": "ms-cli node-sourcer --exec watch --bundless",

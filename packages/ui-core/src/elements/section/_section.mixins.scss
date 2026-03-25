@@ -1,0 +1,16 @@
+@use 'sass:map';
+@use '../../styles/mixins' as msMixin;
+@use './section.variables' as sectionVars;
+
+@mixin build-section($config, $selector: sectionVars.$class-selector) {
+  @each $css-prop, $values in $config {
+    @each $modifier, $css-value in $values {
+      #{$selector} {
+        margin: 0 auto;
+        &--#{$css-prop}-#{$modifier} {
+          #{$css-prop}: $css-value;
+        }
+      }
+    }
+  }
+}

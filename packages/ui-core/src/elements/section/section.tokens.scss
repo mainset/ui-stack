@@ -1,0 +1,11 @@
+@use 'sass:map';
+@use '../../styles/variables' as msVariable;
+
+:root {
+  // ----- Max-width tokens for layout constraints -----
+  --ms-max-width-section-xs: #{map.get(msVariable.$grid-breakpoints, xs)};
+  --ms-max-width-section-sm: #{map.get(msVariable.$grid-breakpoints, sm)};
+  --ms-max-width-section-md: #{map.get(msVariable.$grid-breakpoints, md)};
+  --ms-max-width-section-lg: #{map.get(msVariable.$grid-breakpoints, lg)};
+  --ms-max-width-section-xl: #{map.get(msVariable.$grid-breakpoints, xl)};
+}
