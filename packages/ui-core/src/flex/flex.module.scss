@@ -1,0 +1,14 @@
+@forward './flex.tokens';
+@use './flex.variables' as flexVars;
+@use './flex.mixins' as flexMixins;
+
+// Robust generation for all classes
+@include flexMixins.build-flex-container(
+  flexVars.$container-prop-map,
+  flexVars.$class-selector
+);
+
+// Flex item
+#{flexVars.$class-selector}__item {
+  flex-grow: unset;
+}
