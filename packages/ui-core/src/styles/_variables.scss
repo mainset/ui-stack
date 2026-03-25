@@ -22,3 +22,17 @@ $border-radius-lg: 1rem; // 16px (Larger rounding for large elements)
 $border-radius-xl: 1.25rem; // 20px (Extra large rounding for extra large elements)
 $border-radius-xxl: 1.5rem; // 24px (Even larger rounding for prominent elements)
 $border-radius-xxxl: 2rem; // 32px (Maximum rounding for very large elements or cards)
+
+// grid
+$grid-number-of-columns: 12;
+$grid-breakpoints: (
+  xs: 0rem,
+  // 0px
+  sm: 36rem,
+  // 576px
+  md: 48rem,
+  // 768px
+  lg: 62rem,
+  // 992px
+  xl: 75rem, // 1200px
+);

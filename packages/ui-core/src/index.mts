@@ -1,4 +1,13 @@
 export {
+  FLEX_CONTAINER__CLASS_NAME_CONFIG,
+  FLEX_ITEM__CLASS_NAME_CONFIG,
+  stylesFlex,
+} from './flex/index.mjs';
+export type {
+  FlexContainerBaseProps,
+  FlexItemBaseProps,
+} from './flex/index.mjs';
+export {
   FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG,
   stylesFloatingBox,
 } from './floating-box/index.mjs';
@@ -10,6 +19,8 @@ export {
   stylesPopper,
 } from './popper/index.mjs';
 export type { PopperWrapperBaseProps } from './popper/index.mjs';
+export { SECTION__CLASS_NAME_CONFIG, stylesSection } from './section/index.mjs';
+export type { SectionBaseProps } from './section/index.mjs';
 export {
   SPACING__CLASS_NAME_CONFIG,
   SPACING__STYLE_CONFIG,

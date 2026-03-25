@@ -1,0 +1,10 @@
+@forward './section.tokens';
+@use './section.variables' as sectionVars;
+@use './section.mixins' as sectionMixins;
+
+// Robust generation for all classes
+@include sectionMixins.build-section(
+  (
+    max-width: sectionVars.$max-width-map,
+  )
+);

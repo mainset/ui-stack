@@ -1,0 +1,22 @@
+$class-selector: '.ms-flex';
+$container-prop-map: (
+  display: (
+    flex,
+    inline-flex,
+  ),
+  flex-direction: (
+    row-reverse,
+    column,
+    column-reverse,
+  ),
+  // horizontal alignment
+  justify-content: (
+      space-between,
+      flex-end,
+    ),
+  // vertical alignment
+  align-items: (
+      center,
+      flex-end,
+    ),
+);
