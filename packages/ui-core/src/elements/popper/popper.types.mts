@@ -3,9 +3,9 @@ import { POPPER_WRAPPER__CLASS_NAME_CONFIG } from './popper.constants.mjs';
 
 interface PopperWrapperBaseProps {
   // boolean
-  popIsOpened?: ExtractClassNameFromPropOptions<
+  popIsOpen?: ExtractClassNameFromPropOptions<
     typeof POPPER_WRAPPER__CLASS_NAME_CONFIG,
-    'popIsOpened'
+    'popIsOpen'
   > | null;
 }
 

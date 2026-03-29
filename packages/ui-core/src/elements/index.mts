@@ -1,4 +1,9 @@
 export {
+  BACKDROP__CLASS_NAME_CONFIG,
+  stylesBackdrop,
+} from './backdrop/index.mjs';
+export type { BackdropBaseProps } from './backdrop/index.mjs';
+export {
   FLEX_CONTAINER__CLASS_NAME_CONFIG,
   FLEX_ITEM__CLASS_NAME_CONFIG,
   stylesFlex,

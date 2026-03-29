@@ -6,7 +6,9 @@
   "author": "Yevhen Uzhva <yevhen.uzhva@gmail.com>",
   "license": "CC-BY-NC-4.0",
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "dist/**/*.css"
+  ],
   "files": [
     "dist",
     "src/elements/styles/_mixins.scss"
@@ -15,6 +17,14 @@
     "./elements": {
       "types": "./dist/types/src/elements/index.d.mts",
       "import": "./dist/esm/elements/index.mjs"
+    },
+    "./components": {
+      "types": "./dist/types/src/components/index.d.mts",
+      "import": "./dist/esm/components/index.mjs"
+    },
+    "./containers": {
+      "types": "./dist/types/src/containers/index.d.mts",
+      "import": "./dist/esm/containers/index.mjs"
     },
     "./hooks": {
       "types": "./dist/types/src/hooks/index.d.mts",

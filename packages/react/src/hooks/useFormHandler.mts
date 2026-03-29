@@ -1,10 +1,10 @@
 import _set from 'lodash/set.js';
-import { useCallback, useState } from 'react';
+import React from 'react';
 
 function useFormHandler(initialState: Record<string, any>) {
-  const [formHandlerValues, setFormHandlerState] = useState(initialState);
+  const [formHandlerValues, setFormHandlerState] = React.useState(initialState);
 
-  const handleInputChange = useCallback(
+  const handleInputChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newFormHandlerValues = { ...formHandlerValues };
       const {

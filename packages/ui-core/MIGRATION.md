@@ -5,10 +5,6 @@ Components:
 'Row',
 'Col',
 
-'OverlayProvider',
-'ModalBasic',
-'SidebarBasic',
-
 'createSVGMaker',
 'asSVG',
 'createListElements',

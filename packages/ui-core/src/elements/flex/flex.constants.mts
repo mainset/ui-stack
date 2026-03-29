@@ -15,7 +15,7 @@ const FLEX_CONTAINER__CLASS_NAME_CONFIG = {
     },
     flxJustify: {
       modifier: 'justify-content',
-      options: ['space-between', 'flex-end'],
+      options: ['space-between', 'center', 'flex-end'],
     },
     flxAlign: {
       modifier: 'align-items',

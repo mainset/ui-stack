@@ -1,4 +1,5 @@
 export {
+  BACKDROP__CLASS_NAME_CONFIG,
   FLEX_CONTAINER__CLASS_NAME_CONFIG,
   FLEX_ITEM__CLASS_NAME_CONFIG,
   FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG,
@@ -7,6 +8,7 @@ export {
   SECTION__CLASS_NAME_CONFIG,
   SPACING__CLASS_NAME_CONFIG,
   SPACING__STYLE_CONFIG,
+  stylesBackdrop,
   stylesFlex,
   stylesFloatingBox,
   stylesHr,
@@ -20,6 +22,7 @@ export {
   TEXT_BASE__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
+  BackdropBaseProps,
   FlexContainerBaseProps,
   FlexItemBaseProps,
   FloatingBoxWrapperBaseProps,
