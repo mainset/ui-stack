@@ -1,0 +1,19 @@
+@forward './backdrop.tokens';
+@use './backdrop.variables' as backdropVars;
+
+#{backdropVars.$class-selector} {
+  position: fixed;
+  inset: 0; // shorthand for top: 0, right: 0, bottom: 0, left: 0
+
+  // Animation: default to invisible and non-interactive
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+
+  // NOTE: required to prevent clicks from passing through to the page behind the backdrop when it's not visible
+  pointer-events: none;
+
+  &--visible {
+    opacity: var(--ms-opacity-backdrop);
+    pointer-events: auto;
+  }
+}

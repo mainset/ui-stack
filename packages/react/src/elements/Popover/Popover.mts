@@ -27,7 +27,7 @@ const PopoverWrapper: React.FC<PopoverWrapperProps> = ({
   );
 
   const isVisibleOnHover = React.useMemo(
-    () => typeof props.popIsOpened !== 'boolean',
+    () => typeof props.popIsOpen !== 'boolean',
     [],
   );
 

@@ -11,7 +11,10 @@ import {
 import React from 'react';
 
 interface FlexContainerProps
-  extends React.HTMLAttributes<HTMLDivElement>, FlexContainerBaseProps {}
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
+    React.ComponentPropsWithRef<React.ElementType>,
+    FlexContainerBaseProps {}
 
 const FlexContainer: React.FC<FlexContainerProps> = ({
   children,

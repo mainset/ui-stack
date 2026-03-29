@@ -4,8 +4,8 @@ const POPPER_WRAPPER__CLASS_NAME_CONFIG = {
   baseClass: 'ms-popper',
   classNameDefinitionByPropName: {
     // value-mapped
-    popIsOpened: {
-      modifier: 'opened',
+    popIsOpen: {
+      modifier: 'open',
       options: [true, false],
       defaultValue: false,
     },
