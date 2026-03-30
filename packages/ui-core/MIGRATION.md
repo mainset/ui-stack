@@ -5,8 +5,6 @@ Components:
 'Row',
 'Col',
 
-'createSVGMaker',
-'asSVG',
 'createListElements',
 'withTabsManager',
 ```

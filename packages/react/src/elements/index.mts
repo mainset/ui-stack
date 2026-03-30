@@ -10,11 +10,6 @@ export { Section } from './Section/index.mjs';
 export { Spacing } from './Spacing/index.mjs';
 export { Heading, Paragraph, TextSection } from './Typography/index.mjs';
 // hocs
-export {
-  asSVG,
-  createListElements,
-  createSVGMaker,
-  withTabsManager,
-} from './hocs/index.mjs';
+export { createListElements, withTabsManager } from './hocs/index.mjs';
 // utils
 export { createClassNamedRC } from './utils/index.mjs';
