@@ -1,4 +1,4 @@
-type BasePropDefinition = {
+type CNBasedPropDefinition = {
   options: readonly (string | boolean | number)[];
   defaultValue?: string | boolean | number;
 };
@@ -8,7 +8,7 @@ type ComposedConfig = {
   isSingleClassComposed: true;
   classNameDefinitionByPropName: Record<
     string,
-    BasePropDefinition & { modifier?: string }
+    CNBasedPropDefinition & { modifier?: string }
   >;
 };
 
@@ -17,7 +17,7 @@ type MultipleClassesConfig = {
   isSingleClassComposed?: false;
   classNameDefinitionByPropName: Record<
     string,
-    BasePropDefinition & { modifier: string }
+    CNBasedPropDefinition & { modifier: string }
   >;
 };
 

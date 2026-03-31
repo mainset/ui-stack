@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface PresenceBaseProps extends React.PropsWithChildren {
+interface PresenceStyleProps extends React.PropsWithChildren {
   /**
    * Determines if the component should be visually present and mounted in the DOM.
    */
@@ -22,7 +22,7 @@ const Presence = ({
   prsIsMounted,
   prsUnmountDelay = 300,
   children,
-}: PresenceBaseProps) => {
+}: PresenceStyleProps) => {
   const [isMounted, setIsMounted] = React.useState(prsIsMounted);
 
   React.useEffect(() => {

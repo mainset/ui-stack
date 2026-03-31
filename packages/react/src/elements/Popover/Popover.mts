@@ -1,6 +1,6 @@
 import {
   POPPER_WRAPPER__CLASS_NAME_CONFIG,
-  PopperWrapperBaseProps,
+  PopperWrapperStyleProps,
   cnx,
   extractClassNamesFromProps,
   stylesPopper,
@@ -12,7 +12,7 @@ import type { FloatingBoxWrapperProps } from '../FloatingBox/FloatingBox.mts';
 
 // Wrapper
 interface PopoverWrapperProps
-  extends FloatingBoxWrapperProps, PopperWrapperBaseProps {}
+  extends FloatingBoxWrapperProps, PopperWrapperStyleProps {}
 
 const PopoverWrapper: React.FC<PopoverWrapperProps> = ({
   children,

@@ -1,8 +1,8 @@
-type BaseStyleDefinition = {
+type StyleBasedPropDefinition = {
   defaultValue?: string | boolean | number;
 };
 
-type ValueMappedStyleDefinition = BaseStyleDefinition & {
+type ValueMappedStyleDefinition = StyleBasedPropDefinition & {
   cssVariableName: string;
   cssVariableNameModifierFromProp?: string;
   valueMappedFromProp?: string;
@@ -10,7 +10,7 @@ type ValueMappedStyleDefinition = BaseStyleDefinition & {
   modifiers?: never;
 };
 
-type PropExtractedStyleDefinition = BaseStyleDefinition & {
+type PropExtractedStyleDefinition = StyleBasedPropDefinition & {
   modifiers: readonly string[];
   cssVariableName?: never;
   cssVariableNameModifierFromProp?: never;

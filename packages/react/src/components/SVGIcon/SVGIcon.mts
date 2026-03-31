@@ -1,4 +1,4 @@
-import type { TextBaseProps } from '@mainset/ui-core';
+import type { TextStyleProps } from '@mainset/ui-core';
 import {
   TEXT_BASE__CLASS_NAME_CONFIG,
   cnx,
@@ -12,7 +12,7 @@ import { injectToSprite } from './svg-sprite-manager.mjs';
 interface SVGIconProps
   extends
     React.SVGProps<SVGSVGElement>,
-    Pick<TextBaseProps, 'txtColor' | 'txtSize'> {
+    Pick<TextStyleProps, 'txtColor' | 'txtSize'> {
   /**
    * The raw SVG string (e.g., imported via '?raw' or defined as a string).
    * The viewBox and deterministic ID will be automatically extracted/generated.

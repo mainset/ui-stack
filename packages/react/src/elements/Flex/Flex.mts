@@ -1,6 +1,6 @@
 import type {
-  FlexContainerBaseProps,
-  FlexItemBaseProps,
+  FlexContainerStyleProps,
+  FlexItemStyleProps,
 } from '@mainset/ui-core';
 import {
   FLEX_CONTAINER__CLASS_NAME_CONFIG,
@@ -14,7 +14,7 @@ interface FlexContainerProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
     React.ComponentPropsWithRef<React.ElementType>,
-    FlexContainerBaseProps {}
+    FlexContainerStyleProps {}
 
 const FlexContainer: React.FC<FlexContainerProps> = ({
   children,
@@ -39,7 +39,7 @@ const FlexContainer: React.FC<FlexContainerProps> = ({
 };
 
 interface FlexItemProps
-  extends React.HTMLAttributes<HTMLDivElement>, FlexItemBaseProps {}
+  extends React.HTMLAttributes<HTMLDivElement>, FlexItemStyleProps {}
 
 const FlexItem: React.FC<FlexItemProps> = ({
   children,

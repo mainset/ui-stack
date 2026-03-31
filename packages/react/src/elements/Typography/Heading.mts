@@ -1,4 +1,4 @@
-import type { TextBaseProps } from '@mainset/ui-core';
+import type { TextStyleProps } from '@mainset/ui-core';
 import {
   TEXT_BASE__CLASS_NAME_CONFIG,
   cnx,
@@ -8,7 +8,7 @@ import {
 import React from 'react';
 
 interface HeadingProps
-  extends React.HTMLAttributes<HTMLHeadingElement>, TextBaseProps {
+  extends React.HTMLAttributes<HTMLHeadingElement>, TextStyleProps {
   hSize?: 1 | 2 | 3 | 4 | 5 | 6;
 }
 
