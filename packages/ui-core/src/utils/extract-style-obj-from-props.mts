@@ -4,7 +4,8 @@ type BaseStyleDefinition = {
 
 type ValueMappedStyleDefinition = BaseStyleDefinition & {
   cssVariableName: string;
-  cssVariableNameModifierProp?: string;
+  cssVariableNameModifierFromProp?: string;
+  valueMappedFromProp?: string;
   valueByModifier: Record<string, string | number>;
   modifiers?: never;
 };
@@ -12,7 +13,7 @@ type ValueMappedStyleDefinition = BaseStyleDefinition & {
 type PropExtractedStyleDefinition = BaseStyleDefinition & {
   modifiers: readonly string[];
   cssVariableName?: never;
-  cssVariableNameModifierProp?: never;
+  cssVariableNameModifierFromProp?: never;
   valueByModifier?: never;
 };
 
@@ -67,8 +68,13 @@ function extractStyleObjFromProps(
       }
 
       const valueDef = def as ValueMappedStyleDefinition;
+
+      // If we are mapping this config entry from another prop's value (aliasing)
+      const targetPropName = valueDef.valueMappedFromProp || propName;
       const propValue =
-        props[propName] !== undefined ? props[propName] : valueDef.defaultValue;
+        props[targetPropName] !== undefined
+          ? props[targetPropName]
+          : valueDef.defaultValue;
 
       if (
         propValue !== undefined &&
@@ -76,8 +82,8 @@ function extractStyleObjFromProps(
       ) {
         const mappedValue = valueDef.valueByModifier[propValue as string];
 
-        if (valueDef.cssVariableNameModifierProp) {
-          const modifierPropName = valueDef.cssVariableNameModifierProp;
+        if (valueDef.cssVariableNameModifierFromProp) {
+          const modifierPropName = valueDef.cssVariableNameModifierFromProp;
           handledPropNames[modifierPropName] = true;
           const modifierPropValue = props[modifierPropName];
 
