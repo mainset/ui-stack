@@ -78,16 +78,15 @@ const SPACING__STYLE_CONFIG = {
     spcScale: {
       cssVariableName: '--ms-spacing-scale',
       valueByModifier: {
-        element: 1,
-        component: 2,
-        block: 4,
-        section: 6,
+        element: 2,
+        component: 4,
+        block: 6,
+        section: 10,
       },
-      defaultValue: 'element', // Will also be cleanly typed
     },
     spcSize: {
       cssVariableName: '--ms-spacing-size',
-      cssVariableNameModifierProp: 'spcType',
+      cssVariableNameModifierFromProp: 'spcType',
       valueByModifier: {
         xs: 1,
         sm: 2,
@@ -95,7 +94,17 @@ const SPACING__STYLE_CONFIG = {
         lg: 4,
         xl: 5,
       },
-      defaultValue: 'base',
+    },
+    // NOTE: interval prop used for calculating the CSS variable value based on the scale and size props
+    spcOffset: {
+      cssVariableName: '--ms-spacing-offset',
+      valueMappedFromProp: 'spcScale',
+      valueByModifier: {
+        element: 0,
+        component: 10,
+        block: 30,
+        section: 60,
+      },
     },
   },
 } as const satisfies StyleObjFromPropConfig;

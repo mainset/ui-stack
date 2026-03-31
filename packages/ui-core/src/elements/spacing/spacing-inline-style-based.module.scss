@@ -1,125 +1,98 @@
+@use 'sass:math';
+@use 'sass:map';
 @forward './spacing.tokens';
 @use './spacing.variables' as spacingVars;
 
+$px-rem: 0.0625rem;
+$el-step: math.div(map.get(spacingVars.$step-map, element), $px-rem);
+
 #{spacingVars.$class-selector} {
+  // 0. Reset all size variables to `initial` to stop CSS property inheritance from parent <Spacing> wrappers.
+  // Using `initial` ensures the `var(..., fallback)` correctly falls back instead of evaluating to `0`
+  --ms-spacing-size-m: initial;
+  --ms-spacing-size-mt: initial;
+  --ms-spacing-size-mb: initial;
+  --ms-spacing-size-ms: initial;
+  --ms-spacing-size-me: initial;
+  --ms-spacing-size-mh: initial;
+  --ms-spacing-size-mv: initial;
+
+  --ms-spacing-size-p: initial;
+  --ms-spacing-size-pt: initial;
+  --ms-spacing-size-pb: initial;
+  --ms-spacing-size-ps: initial;
+  --ms-spacing-size-pe: initial;
+  --ms-spacing-size-ph: initial;
+  --ms-spacing-size-pv: initial;
+
   // 1. Inputs coming from React
-  --scale-tier: var(--ms-spacing-scale, 1);
+  --ms-scale: var(--ms-spacing-scale, #{$el-step});
 
-  // 2. Extracted offset (e.g. Component(2) = 1 * 5 = 5 base units)
-  --tier-offset: calc((var(--scale-tier) - 1) * 5);
+  // 2. Shared pixel multiplier
+  --pixel-multiplier: #{$px-rem};
 
-  // 3. Shared pixel multiplier
-  --pixel-multiplier: 0.0625rem; // 1px
+  // 3. Mathematical fallback tricks for undefined sides (cancels out the offset!)
+  --ms-zero-size: calc((0 - var(--ms-spacing-offset, 0)) / var(--ms-scale));
 
-  // 4. The mathematically perfect fallback trick!
-  // If a side is NOT defined, we fallback to `calc(0 - var(--tier-offset))`.
-  // This perfectly cancels out the tier offset so undefined margins safely evaluate to exactly 0px!
-  --fallback-zero: calc(0 - var(--tier-offset));
-
-  // 5. Apply the pure, concise inline math!
-  margin-top: calc(
-    var(--pixel-multiplier) *
-      (
-        var(--tier-offset) +
-          var(
-            --ms-spacing-size-mt,
-            var(
-              --ms-spacing-size-mv,
-              var(--ms-spacing-size-m, var(--fallback-zero))
-            )
-          )
-      )
+  // 4. Resolve exact size properties with cascading fallbacks
+  --ms-val-mt: var(
+    --ms-spacing-size-mt,
+    var(--ms-spacing-size-mv, var(--ms-spacing-size-m, var(--ms-zero-size)))
   );
+  --ms-val-mb: var(
+    --ms-spacing-size-mb,
+    var(--ms-spacing-size-mv, var(--ms-spacing-size-m, var(--ms-zero-size)))
+  );
+  --ms-val-ms: var(
+    --ms-spacing-size-ms,
+    var(--ms-spacing-size-mh, var(--ms-spacing-size-m, var(--ms-zero-size)))
+  );
+  --ms-val-me: var(
+    --ms-spacing-size-me,
+    var(--ms-spacing-size-mh, var(--ms-spacing-size-m, var(--ms-zero-size)))
+  );
+
+  --ms-val-pt: var(
+    --ms-spacing-size-pt,
+    var(--ms-spacing-size-pv, var(--ms-spacing-size-p, var(--ms-zero-size)))
+  );
+  --ms-val-pb: var(
+    --ms-spacing-size-pb,
+    var(--ms-spacing-size-pv, var(--ms-spacing-size-p, var(--ms-zero-size)))
+  );
+  --ms-val-ps: var(
+    --ms-spacing-size-ps,
+    var(--ms-spacing-size-ph, var(--ms-spacing-size-p, var(--ms-zero-size)))
+  );
+  --ms-val-pe: var(
+    --ms-spacing-size-pe,
+    var(--ms-spacing-size-ph, var(--ms-spacing-size-p, var(--ms-zero-size)))
+  );
+
+  // 5. Pre-multiply base units into rems for final calculation
+  --ms-base-px: calc(var(--ms-spacing-offset, 0) * var(--pixel-multiplier));
+  --ms-scale-px: calc(var(--ms-scale) * var(--pixel-multiplier));
+
+  // 6. Apply pure, concise inline math individually!
+  margin-top: calc(var(--ms-base-px) + var(--ms-scale-px) * var(--ms-val-mt));
   margin-bottom: calc(
-    var(--pixel-multiplier) *
-      (
-        var(--tier-offset) +
-          var(
-            --ms-spacing-size-mb,
-            var(
-              --ms-spacing-size-mv,
-              var(--ms-spacing-size-m, var(--fallback-zero))
-            )
-          )
-      )
+    var(--ms-base-px) + var(--ms-scale-px) * var(--ms-val-mb)
   );
   margin-inline-start: calc(
-    var(--pixel-multiplier) *
-      (
-        var(--tier-offset) +
-          var(
-            --ms-spacing-size-ms,
-            var(
-              --ms-spacing-size-mh,
-              var(--ms-spacing-size-m, var(--fallback-zero))
-            )
-          )
-      )
+    var(--ms-base-px) + var(--ms-scale-px) * var(--ms-val-ms)
   );
   margin-inline-end: calc(
-    var(--pixel-multiplier) *
-      (
-        var(--tier-offset) +
-          var(
-            --ms-spacing-size-me,
-            var(
-              --ms-spacing-size-mh,
-              var(--ms-spacing-size-m, var(--fallback-zero))
-            )
-          )
-      )
+    var(--ms-base-px) + var(--ms-scale-px) * var(--ms-val-me)
   );
 
-  padding-top: calc(
-    var(--pixel-multiplier) *
-      (
-        var(--tier-offset) +
-          var(
-            --ms-spacing-size-pt,
-            var(
-              --ms-spacing-size-pv,
-              var(--ms-spacing-size-p, var(--fallback-zero))
-            )
-          )
-      )
-  );
+  padding-top: calc(var(--ms-base-px) + var(--ms-scale-px) * var(--ms-val-pt));
   padding-bottom: calc(
-    var(--pixel-multiplier) *
-      (
-        var(--tier-offset) +
-          var(
-            --ms-spacing-size-pb,
-            var(
-              --ms-spacing-size-pv,
-              var(--ms-spacing-size-p, var(--fallback-zero))
-            )
-          )
-      )
+    var(--ms-base-px) + var(--ms-scale-px) * var(--ms-val-pb)
   );
   padding-inline-start: calc(
-    var(--pixel-multiplier) *
-      (
-        var(--tier-offset) +
-          var(
-            --ms-spacing-size-ps,
-            var(
-              --ms-spacing-size-ph,
-              var(--ms-spacing-size-p, var(--fallback-zero))
-            )
-          )
-      )
+    var(--ms-base-px) + var(--ms-scale-px) * var(--ms-val-ps)
   );
   padding-inline-end: calc(
-    var(--pixel-multiplier) *
-      (
-        var(--tier-offset) +
-          var(
-            --ms-spacing-size-pe,
-            var(
-              --ms-spacing-size-ph,
-              var(--ms-spacing-size-p, var(--fallback-zero))
-            )
-          )
-      )
+    var(--ms-base-px) + var(--ms-scale-px) * var(--ms-val-pe)
   );
 }

@@ -26,8 +26,8 @@ const Badge: React.FC<BadgeProps> = ({
   );
   const [styleObj] = extractStyleObjFromProps([SPACING__STYLE_CONFIG], {
     spcType: 'p',
-    spcScale: 'component',
-    spcSize: 'xs',
+    spcScale: 'element',
+    spcSize: 'base',
   });
 
   return React.createElement(

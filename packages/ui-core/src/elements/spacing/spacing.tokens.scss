@@ -1,8 +1,11 @@
+@use 'sass:map';
+@use './spacing.variables' as spacingVars;
+
 // 1. Define base steps as SCSS variables so we can do build-time math
-$step-element: 0.125rem; // 2px
-$step-component: 0.25rem; // 4px
-$step-block: 0.375rem; // 6px
-$step-section: 0.625rem; // 10px
+$step-element: map.get(spacingVars.$step-map, element); // 2px
+$step-component: map.get(spacingVars.$step-map, component); // 4px
+$step-block: map.get(spacingVars.$step-map, block); // 6px
+$step-section: map.get(spacingVars.$step-map, section); // 10px
 
 :root {
   // Expose base steps as CSS variables if needed elsewhere
@@ -11,7 +14,7 @@ $step-section: 0.625rem; // 10px
   --ms-spacing-scale-block: #{$step-block};
   --ms-spacing-scale-section: #{$step-section};
 
-  // --- ELEMENT (Step: 2px) ---
+  // --- ELEMENT (Step: 2px, Starts at 2px) ---
   $el-xs: $step-element;
   $el-sm: $el-xs + $step-element;
   $el-base: $el-sm + $step-element;
@@ -24,7 +27,7 @@ $step-section: 0.625rem; // 10px
   --ms-spacing-scale-element-lg: #{$el-lg};
   --ms-spacing-scale-element-xl: #{$el-xl};
 
-  // --- COMPONENT (Step: 4px) ---
+  // --- COMPONENT (Step: 4px, Starts at 10px) ---
   $comp-xs: $el-xl + $step-component;
   $comp-sm: $comp-xs + $step-component;
   $comp-base: $comp-sm + $step-component;
@@ -37,7 +40,7 @@ $step-section: 0.625rem; // 10px
   --ms-spacing-scale-component-lg: #{$comp-lg};
   --ms-spacing-scale-component-xl: #{$comp-xl};
 
-  // --- BLOCK (Step: 6px) ---
+  // --- BLOCK (Step: 6px, Starts at 30px) ---
   $blk-xs: $comp-xl + $step-block;
   $blk-sm: $blk-xs + $step-block;
   $blk-base: $blk-sm + $step-block;
@@ -50,7 +53,7 @@ $step-section: 0.625rem; // 10px
   --ms-spacing-scale-block-lg: #{$blk-lg};
   --ms-spacing-scale-block-xl: #{$blk-xl};
 
-  // --- SECTION (Step: 10px) ---
+  // --- SECTION (Step: 10px, Starts at 60px) ---
   $sec-xs: $blk-xl + $step-section;
   $sec-sm: $sec-xs + $step-section;
   $sec-base: $sec-sm + $step-section;
