@@ -1,7 +1,7 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
 import { TEXT_BASE__CLASS_NAME_CONFIG } from './text-base.constants.mjs';
 
-interface TextBaseProps {
+interface TextStyleProps {
   // value-mapped
   txtAlign?: ExtractClassNameFromPropOptions<
     typeof TEXT_BASE__CLASS_NAME_CONFIG,
@@ -34,4 +34,4 @@ interface TextBaseProps {
   > | null;
 }
 
-export type { TextBaseProps };
+export type { TextStyleProps };

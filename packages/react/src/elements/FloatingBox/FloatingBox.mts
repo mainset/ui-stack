@@ -1,4 +1,4 @@
-import type { FloatingBoxWrapperBaseProps } from '@mainset/ui-core';
+import type { FloatingBoxWrapperStyleProps } from '@mainset/ui-core';
 import {
   FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG,
   cnx,
@@ -8,7 +8,7 @@ import {
 import React from 'react';
 
 interface FloatingBoxWrapperProps
-  extends React.HTMLAttributes<HTMLDivElement>, FloatingBoxWrapperBaseProps {}
+  extends React.HTMLAttributes<HTMLDivElement>, FloatingBoxWrapperStyleProps {}
 
 const FloatingBoxWrapper: React.FC<FloatingBoxWrapperProps> = ({
   children,

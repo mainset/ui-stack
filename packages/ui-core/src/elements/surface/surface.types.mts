@@ -1,7 +1,7 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
 import { SURFACE__CLASS_NAME_CONFIG } from './surface.constants.mjs';
 
-interface SurfaceBaseProps {
+interface SurfaceStyleProps {
   // value-mapped
   srfBackgroundColor?: ExtractClassNameFromPropOptions<
     typeof SURFACE__CLASS_NAME_CONFIG,
@@ -13,4 +13,4 @@ interface SurfaceBaseProps {
   > | null;
 }
 
-export type { SurfaceBaseProps };
+export type { SurfaceStyleProps };

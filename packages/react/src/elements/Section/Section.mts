@@ -1,8 +1,8 @@
-import type { SurfaceBaseProps } from '@mainset/ui-core';
+import type { SurfaceStyleProps } from '@mainset/ui-core';
 import {
   SECTION__CLASS_NAME_CONFIG,
   SURFACE__CLASS_NAME_CONFIG,
-  SectionBaseProps,
+  SectionStyleProps,
   cnx,
   extractClassNamesFromProps,
   stylesSection,
@@ -13,8 +13,8 @@ import React from 'react';
 interface SectionProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
-    SectionBaseProps,
-    SurfaceBaseProps {}
+    SectionStyleProps,
+    SurfaceStyleProps {}
 
 const Section: React.FC<SectionProps> = ({
   children,

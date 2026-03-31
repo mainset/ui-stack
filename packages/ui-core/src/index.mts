@@ -22,16 +22,16 @@ export {
   TEXT_BASE__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
-  BackdropBaseProps,
-  FlexContainerBaseProps,
-  FlexItemBaseProps,
-  FloatingBoxWrapperBaseProps,
-  HrBaseProps,
-  PopperWrapperBaseProps,
-  SectionBaseProps,
-  SpacingBaseProps,
-  SurfaceBaseProps,
-  TextBaseProps,
+  BackdropStyleProps,
+  FlexContainerStyleProps,
+  FlexItemStyleProps,
+  FloatingBoxWrapperStyleProps,
+  HrStyleProps,
+  PopperWrapperStyleProps,
+  SectionStyleProps,
+  SpacingStyleProps,
+  SurfaceStyleProps,
+  TextStyleProps,
 } from './elements/index.mjs';
 export {
   cnx,

@@ -1,4 +1,4 @@
-import type { TextBaseProps } from '@mainset/ui-core';
+import type { TextStyleProps } from '@mainset/ui-core';
 import {
   TEXT_BASE__CLASS_NAME_CONFIG,
   cnx,
@@ -8,7 +8,7 @@ import {
 import React from 'react';
 
 interface ParagraphProps
-  extends React.HTMLAttributes<HTMLParagraphElement>, TextBaseProps {}
+  extends React.HTMLAttributes<HTMLParagraphElement>, TextStyleProps {}
 
 const Paragraph: React.FC<ParagraphProps> = ({
   children,

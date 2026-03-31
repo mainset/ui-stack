@@ -1,7 +1,7 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
 import { HR__CLASS_NAME_CONFIG } from './hr.constants.mjs';
 
-interface HrBaseProps {
+interface HrStyleProps {
   // value-mapped
   hrColor?: ExtractClassNameFromPropOptions<
     typeof HR__CLASS_NAME_CONFIG,
@@ -18,4 +18,4 @@ interface HrBaseProps {
   > | null;
 }
 
-export type { HrBaseProps };
+export type { HrStyleProps };

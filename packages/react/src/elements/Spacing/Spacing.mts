@@ -1,4 +1,4 @@
-import type { SpacingBaseProps } from '@mainset/ui-core';
+import type { SpacingStyleProps } from '@mainset/ui-core';
 import {
   // SPACING__CLASS_NAME_CONFIG,
   SPACING__STYLE_CONFIG,
@@ -11,7 +11,7 @@ import {
 import React from 'react';
 
 interface SpacingProps
-  extends React.HTMLAttributes<HTMLElement>, SpacingBaseProps {
+  extends React.HTMLAttributes<HTMLElement>, SpacingStyleProps {
   as?: 'span' | 'div';
 }
 

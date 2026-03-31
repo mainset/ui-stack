@@ -1,7 +1,7 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
 import { POPPER_WRAPPER__CLASS_NAME_CONFIG } from './popper.constants.mjs';
 
-interface PopperWrapperBaseProps {
+interface PopperWrapperStyleProps {
   // boolean
   popIsOpen?: ExtractClassNameFromPropOptions<
     typeof POPPER_WRAPPER__CLASS_NAME_CONFIG,
@@ -9,4 +9,4 @@ interface PopperWrapperBaseProps {
   > | null;
 }
 
-export type { PopperWrapperBaseProps };
+export type { PopperWrapperStyleProps };

@@ -1,4 +1,4 @@
-import type { SurfaceBaseProps } from '@mainset/ui-core';
+import type { SurfaceStyleProps } from '@mainset/ui-core';
 import {
   SPACING__STYLE_CONFIG,
   SURFACE__CLASS_NAME_CONFIG,
@@ -11,7 +11,7 @@ import {
 import React from 'react';
 
 interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement>, SurfaceBaseProps {}
+  extends React.HTMLAttributes<HTMLDivElement>, SurfaceStyleProps {}
 
 const Badge: React.FC<BadgeProps> = ({
   children,

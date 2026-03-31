@@ -1,7 +1,7 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
 import { FLEX_CONTAINER__CLASS_NAME_CONFIG } from './flex.constants.mjs';
 
-interface FlexContainerBaseProps {
+interface FlexContainerStyleProps {
   // value-mapped
   flxDisplay?: ExtractClassNameFromPropOptions<
     typeof FLEX_CONTAINER__CLASS_NAME_CONFIG,
@@ -21,11 +21,11 @@ interface FlexContainerBaseProps {
   > | null;
 }
 
-interface FlexItemBaseProps {
+interface FlexItemStyleProps {
   // value-mapped
   // TODO:
   // boolean
   // TODO:
 }
 
-export type { FlexContainerBaseProps, FlexItemBaseProps };
+export type { FlexContainerStyleProps, FlexItemStyleProps };

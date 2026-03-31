@@ -1,7 +1,7 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
 import { SPACING__CLASS_NAME_CONFIG } from './spacing.constants.mjs';
 
-interface SpacingBaseProps {
+interface SpacingStyleProps {
   // value-mapped
   spcScale: ExtractClassNameFromPropOptions<
     typeof SPACING__CLASS_NAME_CONFIG,
@@ -17,4 +17,4 @@ interface SpacingBaseProps {
   > | null;
 }
 
-export type { SpacingBaseProps };
+export type { SpacingStyleProps };

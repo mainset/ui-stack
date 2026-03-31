@@ -1,7 +1,7 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
 import { FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG } from './floating-box.constants.mjs';
 
-interface FloatingBoxWrapperBaseProps {
+interface FloatingBoxWrapperStyleProps {
   // value-mapped
   flbDirection?: ExtractClassNameFromPropOptions<
     typeof FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG,
@@ -21,4 +21,4 @@ interface FloatingBoxWrapperBaseProps {
   > | null;
 }
 
-export type { FloatingBoxWrapperBaseProps };
+export type { FloatingBoxWrapperStyleProps };

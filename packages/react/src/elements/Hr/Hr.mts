@@ -1,4 +1,4 @@
-import type { HrBaseProps } from '@mainset/ui-core';
+import type { HrStyleProps } from '@mainset/ui-core';
 import {
   HR__CLASS_NAME_CONFIG,
   cnx,
@@ -7,7 +7,7 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
-interface HrProps extends React.HTMLAttributes<HTMLHRElement>, HrBaseProps {}
+interface HrProps extends React.HTMLAttributes<HTMLHRElement>, HrStyleProps {}
 
 const Hr: React.FC<HrProps> = ({
   children,

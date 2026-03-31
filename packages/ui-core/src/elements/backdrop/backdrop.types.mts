@@ -1,7 +1,7 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
 import { BACKDROP__CLASS_NAME_CONFIG } from './backdrop.constants.mjs';
 
-interface BackdropBaseProps {
+interface BackdropStyleProps {
   // boolean
   bckIsVisible?: ExtractClassNameFromPropOptions<
     typeof BACKDROP__CLASS_NAME_CONFIG,
@@ -9,4 +9,4 @@ interface BackdropBaseProps {
   > | null;
 }
 
-export type { BackdropBaseProps };
+export type { BackdropStyleProps };

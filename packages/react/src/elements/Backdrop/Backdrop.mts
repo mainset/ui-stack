@@ -1,4 +1,4 @@
-import type { BackdropBaseProps, SurfaceBaseProps } from '@mainset/ui-core';
+import type { BackdropStyleProps, SurfaceStyleProps } from '@mainset/ui-core';
 import {
   BACKDROP__CLASS_NAME_CONFIG,
   SURFACE__CLASS_NAME_CONFIG,
@@ -12,8 +12,8 @@ import React from 'react';
 interface BackdropProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
-    BackdropBaseProps,
-    SurfaceBaseProps {
+    BackdropStyleProps,
+    SurfaceStyleProps {
   /**
    * Determines z-index dynamically based on stack position if needed
    */
