@@ -10,10 +10,10 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
-interface SpacingProps
-  extends React.HTMLAttributes<HTMLElement>, SpacingStyleProps {
-  as?: 'span' | 'div';
-}
+type SpacingProps = React.HTMLAttributes<HTMLElement> &
+  SpacingStyleProps & {
+    as?: 'span' | 'div';
+  };
 
 const Spacing: React.FC<SpacingProps> = ({
   as = 'div',

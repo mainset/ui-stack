@@ -1,13 +1,17 @@
-import type { HrStyleProps } from '@mainset/ui-core';
+import type { HrStyleProps, SpacingStyleProps } from '@mainset/ui-core';
 import {
   HR__CLASS_NAME_CONFIG,
+  SPACING__STYLE_CONFIG,
   cnx,
   extractClassNamesFromProps,
+  extractStyleObjFromProps,
   stylesHr,
 } from '@mainset/ui-core';
 import React from 'react';
 
-interface HrProps extends React.HTMLAttributes<HTMLHRElement>, HrStyleProps {}
+type HrProps = React.HTMLAttributes<HTMLHRElement> &
+  HrStyleProps &
+  SpacingStyleProps;
 
 const Hr: React.FC<HrProps> = ({
   children,
@@ -15,16 +19,22 @@ const Hr: React.FC<HrProps> = ({
 
   ...props
 }) => {
-  const [classNames, restProps] = extractClassNamesFromProps(
+  const [classNames, extractedCNProps] = extractClassNamesFromProps(
     [HR__CLASS_NAME_CONFIG],
     props,
     stylesHr,
   );
+  const [styleObj, extractedStyleProps] = extractStyleObjFromProps(
+    [SPACING__STYLE_CONFIG],
+    extractedCNProps,
+  );
+
   return React.createElement(
     'hr',
     {
       className: cnx(className, classNames),
-      ...restProps,
+      style: styleObj,
+      ...extractedStyleProps,
     },
     children,
   );
