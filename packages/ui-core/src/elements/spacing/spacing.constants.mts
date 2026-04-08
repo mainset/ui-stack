@@ -106,6 +106,17 @@ const SPACING__STYLE_CONFIG = {
         section: 60,
       },
     },
+    spcSizes: {
+      cssVariableName: '--ms-spacing-size',
+      cssVariableNameModifierFromProp: 'spcType',
+      valueByModifier: {
+        xs: 1,
+        sm: 2,
+        base: 3,
+        lg: 4,
+        xl: 5,
+      },
+    },
   },
 } as const satisfies StyleObjFromPropConfig;
 
