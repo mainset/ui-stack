@@ -1,0 +1,30 @@
+@use 'sass:map';
+@use '../../styles/mixins' as msMixin;
+@use './layout.variables' as layoutVars;
+
+@mixin build-layout($config, $selector: layoutVars.$class-selector) {
+  #{$selector} {
+    $gap-map: map.get($config, 'gap');
+    $layout-prop-map: map.get($config, 'layout-prop');
+
+    @each $gap-name, $gap-sizes in $gap-map {
+      $column: map.get($gap-sizes, 'column');
+      $row: map.get($gap-sizes, 'row');
+
+      &--gap-size-#{$gap-name} {
+        // CSS specification uses: gap: <row-gap> <column-gap> (or just $columns $rows if intended in reverse)
+        gap: $row $column;
+      }
+    }
+
+    @if $layout-prop-map {
+      @each $css-prop, $values in $layout-prop-map {
+        @each $value in $values {
+          &--#{$css-prop}-#{$value} {
+            #{$css-prop}: $value;
+          }
+        }
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ import React from 'react';
 function createClassNamedRC<TTag extends React.ElementType>(
   Tag: TTag,
   defaultClassName: string,
+  extraProps?: Partial<React.ComponentPropsWithRef<TTag>>,
 ) {
   const ExtendedComponent = ({
     className,
@@ -14,6 +15,7 @@ function createClassNamedRC<TTag extends React.ElementType>(
       Tag,
       {
         className: cnx(className, defaultClassName),
+        ...extraProps,
         ...props,
       },
       children,

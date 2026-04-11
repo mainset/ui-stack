@@ -1,6 +1,12 @@
 @use 'sass:map';
 
-@use './variables/layout.scss' as *;
+$layout-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+);
 
 $screen-size--mobile: 'only screen and (max-width: #{map.get($layout-breakpoints, sm)})';
 $screen-size--tablet: 'only screen and (min-width: #{map.get($layout-breakpoints, md)})';

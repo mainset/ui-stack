@@ -1,0 +1,15 @@
+@forward './grid.tokens';
+@use './grid.variables' as gridVars;
+@use './grid.mixins' as gridMixins;
+
+// Robust generation for all classes
+@include gridMixins.build-grid-container(
+  (
+    container-prop-map: gridVars.$container-prop-map,
+  )
+);
+
+// Grid item
+#{gridVars.$class-selector}__item {
+  // empty for now, or you can add base grid item styles here
+}

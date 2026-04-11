@@ -1,0 +1,8 @@
+@use 'sass:map';
+@use './layout.variables' as layoutVars;
+
+:root {
+  // 24px
+  --ms-space-layout-column-base: 1.5rem;
+  --ms-space-layout-row-base: 1.5rem;
+}

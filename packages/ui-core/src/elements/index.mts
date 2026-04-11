@@ -17,8 +17,19 @@ export {
   stylesFloatingBox,
 } from './floating-box/index.mjs';
 export type { FloatingBoxWrapperStyleProps } from './floating-box/index.mjs';
+export {
+  GRID_CONTAINER__CLASS_NAME_CONFIG,
+  GRID_ITEM__CLASS_NAME_CONFIG,
+  stylesGrid,
+} from './grid/index.mjs';
+export type {
+  GridContainerStyleProps,
+  GridItemStyleProps,
+} from './grid/index.mjs';
 export { HR__CLASS_NAME_CONFIG, stylesHr } from './hr/index.mjs';
 export type { HrStyleProps } from './hr/index.mjs';
+export { LAYOUT__CLASS_NAME_CONFIG, stylesLayout } from './layout/index.mjs';
+export type { LayoutStyleProps } from './layout/index.mjs';
 export {
   POPPER_WRAPPER__CLASS_NAME_CONFIG,
   stylesPopper,

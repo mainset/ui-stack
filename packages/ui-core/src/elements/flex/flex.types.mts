@@ -1,8 +1,11 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
-import { FLEX_CONTAINER__CLASS_NAME_CONFIG } from './flex.constants.mjs';
+import {
+  FLEX_CONTAINER__CLASS_NAME_CONFIG,
+  FLEX_ITEM__CLASS_NAME_CONFIG,
+} from './flex.constants.mjs';
 
 interface FlexContainerStyleProps {
-  // value-mapped
+  // css-based
   flxDisplay?: ExtractClassNameFromPropOptions<
     typeof FLEX_CONTAINER__CLASS_NAME_CONFIG,
     'flxDisplay'
@@ -11,21 +14,14 @@ interface FlexContainerStyleProps {
     typeof FLEX_CONTAINER__CLASS_NAME_CONFIG,
     'flxDirection'
   > | null;
-  flxJustify?: ExtractClassNameFromPropOptions<
-    typeof FLEX_CONTAINER__CLASS_NAME_CONFIG,
-    'flxJustify'
-  > | null;
-  flxAlign?: ExtractClassNameFromPropOptions<
-    typeof FLEX_CONTAINER__CLASS_NAME_CONFIG,
-    'flxAlign'
-  > | null;
 }
 
 interface FlexItemStyleProps {
   // value-mapped
-  // TODO:
-  // boolean
-  // TODO:
+  flxGrow?: ExtractClassNameFromPropOptions<
+    typeof FLEX_ITEM__CLASS_NAME_CONFIG,
+    'flxGrow'
+  > | null;
 }
 
 export type { FlexContainerStyleProps, FlexItemStyleProps };
