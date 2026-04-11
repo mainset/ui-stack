@@ -3,12 +3,13 @@
 @use './flex.mixins' as flexMixins;
 
 // Robust generation for all classes
-@include flexMixins.build-flex-container(
+@include flexMixins.build-flex-classes(
   flexVars.$container-prop-map,
   flexVars.$class-selector
 );
 
 // Flex item
-#{flexVars.$class-selector}__item {
-  flex-grow: unset;
-}
+@include flexMixins.build-flex-classes(
+  flexVars.$item-prop-map,
+  '#{flexVars.$class-selector}__item'
+);

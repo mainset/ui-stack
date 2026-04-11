@@ -1,0 +1,13 @@
+$class-selector: '.ms-layout';
+$layout-prop-map: (
+  // horizontal alignment
+  justify-content: (space-between, center, flex-end),
+  // vertical alignment
+  align-items: (center, flex-end)
+);
+$gap-map: (
+  base: (
+    column: var(--ms-space-layout-column-base),
+    row: var(--ms-space-layout-row-base),
+  ),
+);

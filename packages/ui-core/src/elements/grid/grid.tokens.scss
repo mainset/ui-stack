@@ -1,0 +1,6 @@
+@use 'sass:map';
+@use './grid.variables' as gridVars;
+
+:root {
+  --ms-grid-columns-number: 12;
+}

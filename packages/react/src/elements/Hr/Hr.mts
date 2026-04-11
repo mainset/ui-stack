@@ -6,12 +6,15 @@ import {
   extractClassNamesFromProps,
   extractStyleObjFromProps,
   stylesHr,
+  stylesSpacingInlineStyleBased,
 } from '@mainset/ui-core';
 import React from 'react';
 
+import { Spacing } from '../Spacing/Spacing.mjs';
+
 type HrProps = React.HTMLAttributes<HTMLHRElement> &
   HrStyleProps &
-  SpacingStyleProps;
+  Partial<SpacingStyleProps>;
 
 const Hr: React.FC<HrProps> = ({
   children,
@@ -32,7 +35,11 @@ const Hr: React.FC<HrProps> = ({
   return React.createElement(
     'hr',
     {
-      className: cnx(className, classNames),
+      className: cnx(
+        className,
+        classNames,
+        stylesSpacingInlineStyleBased['ms-spacing'],
+      ),
       style: styleObj,
       ...extractedStyleProps,
     },

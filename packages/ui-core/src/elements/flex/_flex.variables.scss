@@ -9,15 +9,10 @@ $container-prop-map: (
     column,
     column-reverse,
   ),
-  // horizontal alignment
-  justify-content: (
-      space-between,
-      center,
-      flex-end,
-    ),
-  // vertical alignment
-  align-items: (
-      center,
-      flex-end,
-    ),
+);
+$item-prop-map: (
+  flex-grow: (
+    initial,
+    1,
+  ),
 );

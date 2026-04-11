@@ -1,0 +1,11 @@
+@forward './layout.tokens';
+@use './layout.variables' as layoutVars;
+@use './layout.mixins' as layoutMixins;
+
+// Robust generation for all classes
+@include layoutMixins.build-layout(
+  (
+    gap: layoutVars.$gap-map,
+    layout-prop: layoutVars.$layout-prop-map,
+  )
+);

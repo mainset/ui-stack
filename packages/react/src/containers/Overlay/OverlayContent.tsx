@@ -17,9 +17,9 @@ interface OverlayContentProps extends React.PropsWithChildren {
 }
 
 const FLEX_PROPS__BY_OVERLAY_PLACEMENT = {
-  middle: { flxAlign: 'center', flxJustify: 'center' },
+  middle: { layAlign: 'center', layJustify: 'center' },
   start: {},
-  end: { flxJustify: 'flex-end' },
+  end: { layJustify: 'flex-end' },
 } as const;
 
 const OverlayContent = ({

@@ -2,7 +2,7 @@
 @use '../../styles/mixins' as msMixin;
 @use './flex.variables' as flexVars;
 
-@mixin build-flex-container($config, $selector: flexVars.$class-selector) {
+@mixin build-flex-classes($config, $selector) {
   @each $css-prop, $values in $config {
     @each $value in $values {
       #{$selector}--#{$css-prop}-#{$value} {

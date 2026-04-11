@@ -1,0 +1,14 @@
+$class-selector: '.ms-grid';
+$columns-number: 12;
+$container-prop-map: (
+  display: (
+    grid,
+    inline-grid,
+  ),
+  grid-auto-flow: (
+    row,
+    column,
+    // row-dense, // can't use space due to {.ms-grid--grid-auto-flow-row dense {}}
+     // column-dense, // can't use space due to {.ms-grid--grid-auto-flow-column dense {}}
+  ),
+);

@@ -1,0 +1,41 @@
+@use 'sass:map';
+@use '../../styles/mixins' as msMixin;
+@use './grid.variables' as gridVars;
+
+@mixin build-grid-container($config, $selector: gridVars.$class-selector) {
+  $container-prop-map: map.get($config, 'container-prop-map');
+
+  #{$selector} {
+    // TODO: grid should accept layout spacing sizes aka base / etc
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(
+        calc(
+          100% /
+            var(--ms-grid-columns-number) - var(--ms-space-layout-column-base)
+        ),
+        1fr
+      )
+    );
+
+    @if $container-prop-map {
+      @each $css-prop, $values in $container-prop-map {
+        @each $value in $values {
+          &--#{$css-prop}-#{$value} {
+            /*
+            @if $value == 'row-dense' {
+              #{$css-prop}: row dense;
+            } @else if $value == 'column-dense' {
+              #{$css-prop}: column dense;
+            } @else {
+              #{$css-prop}: $value;
+            }
+            */
+
+            #{$css-prop}: $value;
+          }
+        }
+      }
+    }
+  }
+}

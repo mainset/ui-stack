@@ -126,7 +126,7 @@ The foundational type of the design token.
 
 - `color`: Hex, RGB, or HSL values.
 - `font`: Typography properties (often split into `font-size`, `font-weight`, `font-family`, `line-height`).
-- `space`: Padding, margins, gap.
+- `space`: Padding, margins, layout.
 - `radius`: Border-radius.
 - `elevation`: Box-shadows or z-index.
 - `opacity`: Alpha transparency.

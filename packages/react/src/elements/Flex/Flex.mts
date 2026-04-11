@@ -1,12 +1,16 @@
 import type {
   FlexContainerStyleProps,
   FlexItemStyleProps,
+  LayoutStyleProps,
 } from '@mainset/ui-core';
 import {
   FLEX_CONTAINER__CLASS_NAME_CONFIG,
+  FLEX_ITEM__CLASS_NAME_CONFIG,
+  LAYOUT__CLASS_NAME_CONFIG,
   cnx,
   extractClassNamesFromProps,
   stylesFlex,
+  stylesLayout,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -14,7 +18,8 @@ interface FlexContainerProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
     React.ComponentPropsWithRef<React.ElementType>,
-    FlexContainerStyleProps {}
+    FlexContainerStyleProps,
+    LayoutStyleProps {}
 
 const FlexContainer: React.FC<FlexContainerProps> = ({
   children,
@@ -23,9 +28,9 @@ const FlexContainer: React.FC<FlexContainerProps> = ({
   ...props
 }) => {
   const [classNames, restProps] = extractClassNamesFromProps(
-    [FLEX_CONTAINER__CLASS_NAME_CONFIG],
+    [FLEX_CONTAINER__CLASS_NAME_CONFIG, LAYOUT__CLASS_NAME_CONFIG],
     props,
-    stylesFlex,
+    Object.assign({}, stylesFlex, stylesLayout),
   );
 
   return React.createElement(
@@ -47,11 +52,17 @@ const FlexItem: React.FC<FlexItemProps> = ({
 
   ...props
 }) => {
+  const [classNames, restProps] = extractClassNamesFromProps(
+    [FLEX_ITEM__CLASS_NAME_CONFIG],
+    props,
+    stylesFlex,
+  );
+
   return React.createElement(
     'div',
     {
-      className: cnx(className, stylesFlex['ms-flex__item']),
-      ...props,
+      className: cnx(className, classNames),
+      ...restProps,
     },
     children,
   );
