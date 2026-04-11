@@ -1,0 +1,15 @@
+$class-selector: '.ms-list';
+$list-modifier-map: (
+  flex-direction: (
+    horizontal: row,
+    vertical: column,
+  ),
+  list-style: (
+    unstyled: none,
+    ordered: decimal,
+  ),
+  justify-content: (
+    center: center,
+    end: flex-end,
+  ),
+);
