@@ -30,6 +30,8 @@ export { HR__CLASS_NAME_CONFIG, stylesHr } from './hr/index.mjs';
 export type { HrStyleProps } from './hr/index.mjs';
 export { LAYOUT__CLASS_NAME_CONFIG, stylesLayout } from './layout/index.mjs';
 export type { LayoutStyleProps } from './layout/index.mjs';
+export { LIST__CLASS_NAME_CONFIG, stylesList } from './list/index.mjs';
+export type { ListStyleProps } from './list/index.mjs';
 export {
   POPPER_WRAPPER__CLASS_NAME_CONFIG,
   stylesPopper,

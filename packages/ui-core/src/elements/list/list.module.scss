@@ -1,0 +1,21 @@
+@forward './list.tokens';
+@use './list.variables' as listVars;
+@use './list.mixins' as listMixins;
+
+#{listVars.$class-selector} {
+  display: flex;
+  margin: 0;
+  padding: 0;
+
+  // Elements
+  &__space-between {
+    margin: auto;
+  }
+}
+
+// Robust generation for all classes
+@include listMixins.build-list(
+  (
+    modifiers: listVars.$list-modifier-map,
+  )
+);

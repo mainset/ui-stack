@@ -1,0 +1,19 @@
+@use 'sass:map';
+@use '../../styles/mixins' as msMixin;
+@use './list.variables' as listVars;
+
+@mixin build-list($config, $selector: listVars.$class-selector) {
+  #{$selector} {
+    $modifiers: map.get($config, 'modifiers');
+
+    @if $modifiers {
+      @each $css-prop, $values in $modifiers {
+        @each $modifier, $value in $values {
+          &--#{$css-prop}-#{$modifier} {
+            #{$css-prop}: $value;
+          }
+        }
+      }
+    }
+  }
+}
