@@ -1,4 +1,4 @@
-import _set from 'lodash/set.js';
+import { set } from '@mainset/toolkit-js';
 import React from 'react';
 
 function useFormHandler(initialState: Record<string, any>) {
@@ -11,7 +11,7 @@ function useFormHandler(initialState: Record<string, any>) {
         currentTarget: { name, value },
       } = e;
 
-      _set(newFormHandlerValues, name, value);
+      set(newFormHandlerValues, name, value);
       setFormHandlerState(newFormHandlerValues);
     },
     [],
