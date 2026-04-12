@@ -1,6 +1,6 @@
 {
   "name": "@mainset/ui-core",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Basic SCSS, TypeScript and JS configurations for mainset UI",
   "keywords": [],
   "author": "Yevhen Uzhva <yevhen.uzhva@gmail.com>",
