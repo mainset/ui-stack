@@ -9,6 +9,7 @@ on:
         required: true
         type: choice
         options:
+          - '@mainset/ui-core'
           - '@mainset/react'
 
 run-name: Publish ${{ github.event.inputs.package }}
