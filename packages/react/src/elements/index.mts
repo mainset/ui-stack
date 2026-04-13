@@ -1,6 +1,7 @@
 // elements
 export { Backdrop } from './Backdrop/index.mjs';
 export { Badge } from './Badge/index.mjs';
+export { ButtonBasic } from './ButtonBasic/index.mjs';
 export { Flex } from './Flex/index.mjs';
 export { FloatingBox } from './FloatingBox/index.mjs';
 export { Grid } from './Grid/index.mjs';
