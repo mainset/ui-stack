@@ -32,6 +32,9 @@ importers:
 
   packages/react:
     dependencies:
+      '@mainset/ui-core':
+        specifier: workspace:^
+        version: link:../ui-core
       react:
         specifier: '>=19.2.0 <20.0.0'
         version: 19.2.5
@@ -51,9 +54,6 @@ importers:
       '@mainset/toolkit-js':
         specifier: ^0.2.0
         version: 0.2.0(@mainset/dev-stack-fe@0.2.1(cross-env@10.1.0)(eslint@9.39.4)(husky@9.1.7)(postcss@8.5.9)(prettier@3.8.2)(stylelint@16.26.1(typescript@5.9.3)))
-      '@mainset/ui-core':
-        specifier: workspace:^
-        version: link:../ui-core
       '@types/react':
         specifier: ^19.2.14
         version: 19.2.14
