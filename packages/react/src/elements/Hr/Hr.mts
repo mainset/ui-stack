@@ -10,8 +10,6 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
-import { Spacing } from '../Spacing/Spacing.mjs';
-
 type HrProps = React.HTMLAttributes<HTMLHRElement> &
   HrStyleProps &
   Partial<SpacingStyleProps>;

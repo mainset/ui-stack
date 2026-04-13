@@ -1,18 +1,19 @@
+@use 'sass:map';
 @use '../../styles/variables' as msVariable;
 
 :root {
   // ----- Color tokens -----
-  --ms-color-text-primary: #{msVariable.$color-primary};
-  --ms-color-text-secondary: #{msVariable.$color-secondary};
-  --ms-color-text-tertiary: #{msVariable.$color-tertiary};
-  --ms-color-text-error: #{msVariable.$color-error};
-  --ms-color-text-info: #{msVariable.$color-info};
-  --ms-color-text-success: #{msVariable.$color-success};
-  --ms-color-text-warning: #{msVariable.$color-warning};
-  --ms-color-text-base: #{msVariable.$color-base};
-  --ms-color-text-muted: #{msVariable.$color-muted};
-  --ms-color-text-disabled: #{msVariable.$color-disabled};
-  --ms-color-text-inverse: #{msVariable.$color-inverse};
+  --ms-color-text-primary: #{map.get(msVariable.$color-map, primary)};
+  --ms-color-text-secondary: #{map.get(msVariable.$color-map, secondary)};
+  --ms-color-text-tertiary: #{map.get(msVariable.$color-map, tertiary)};
+  --ms-color-text-error: #{map.get(msVariable.$color-map, error)};
+  --ms-color-text-info: #{map.get(msVariable.$color-map, info)};
+  --ms-color-text-success: #{map.get(msVariable.$color-map, success)};
+  --ms-color-text-warning: #{map.get(msVariable.$color-map, warning)};
+  --ms-color-text-base: #{map.get(msVariable.$color-map, base)};
+  --ms-color-text-muted: #{map.get(msVariable.$color-map, muted)};
+  --ms-color-text-disabled: #{map.get(msVariable.$color-map, disabled)};
+  --ms-color-text-inverse: #{map.get(msVariable.$color-map, inverse)};
 
   // ----- Font family tokens -----
   // The default UI font
