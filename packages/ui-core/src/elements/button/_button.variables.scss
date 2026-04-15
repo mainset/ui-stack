@@ -1,17 +1,4 @@
 $class-selector: '.ms-button';
-$color-map: (
-  primary: var(--ms-color-button-primary),
-  secondary: var(--ms-color-button-secondary),
-  tertiary: var(--ms-color-button-tertiary),
-  error: var(--ms-color-button-error),
-  info: var(--ms-color-button-info),
-  success: var(--ms-color-button-success),
-  warning: var(--ms-color-button-warning),
-  base: var(--ms-color-button-base),
-  muted: var(--ms-color-button-muted),
-  inverse: var(--ms-color-button-inverse),
-  transparent: transparent,
-);
 $border-map: (
   radius: var(--ms-border-radius-button),
   width: var(--ms-border-width-button),

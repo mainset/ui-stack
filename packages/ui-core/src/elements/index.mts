@@ -3,6 +3,13 @@ export {
   stylesBackdrop,
 } from './backdrop/index.mjs';
 export type { BackdropStyleProps } from './backdrop/index.mjs';
+export {
+  BACKGROUND__CLASS_NAME_CONFIG,
+  stylesBackground,
+} from './background/index.mjs';
+export type { BackgroundStyleProps } from './background/index.mjs';
+export { BORDER__CLASS_NAME_CONFIG, stylesBorder } from './border/index.mjs';
+export type { BorderStyleProps } from './border/index.mjs';
 export { BUTTON__CLASS_NAME_CONFIG, stylesButton } from './button/index.mjs';
 export type { ButtonStyleProps } from './button/index.mjs';
 export {

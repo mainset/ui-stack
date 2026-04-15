@@ -13,6 +13,16 @@ $color-map: (
   inverse: rgba(249, 250, 251, 100%),
 );
 
+// Border width variables
+$border-width-map: (
+  // ~0.5px (Hairline border for retina displays)
+  sm: 0.031rem,
+  // 1px (Standard border)
+  base: 0.063rem,
+  // 2px (Thick border)
+  lg: 0.125rem
+);
+
 // Border radius variables
 $border-radius-map: (
   // 9999px (Capsule shaped buttons, badges)

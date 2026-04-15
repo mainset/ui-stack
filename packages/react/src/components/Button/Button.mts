@@ -11,19 +11,19 @@ import {
 import React from 'react';
 
 import type { ButtonBasicProps } from '../../elements/ButtonBasic/index.mjs';
-import { ButtonBasic } from '../../elements/ButtonBasic/index.mjs';
+import type { SurfaceProps } from '../../elements/Surface/index.mjs';
+import { ButtonBasic } from '../../elements/index.mjs';
 
 type AllowedAs = 'button' | 'div' | 'a';
 type ButtonElementType = AllowedAs | React.JSXElementConstructor<any>;
 
-type ButtonProps<C extends ButtonElementType = 'button'> =
+type ButtonProps<C extends ButtonElementType = 'button'> = SurfaceProps &
   // NOTE: the {btnIsDisabled} is supported in lower level of {ButtonBasic}
   Omit<ButtonStyleProps, 'btnIsDisabled'> &
-    // NOTE: the {btnTheme} is supported in  lowest level of {ui-core}
-    Omit<ButtonBasicProps<C>, 'btnTheme'> & {
-      btnIsPending?: boolean;
-      btnSize?: 'xs' | 'sm' | 'base' | 'lg' | 'xl';
-    };
+  ButtonBasicProps<C> & {
+    btnIsPending?: boolean;
+    btnSize?: 'xs' | 'sm' | 'base' | 'lg' | 'xl';
+  };
 
 // TODO: introduce {--ms-padding-button-xs} CSS variable
 const PROPS__BY_BUTTON_SIZE = {
@@ -87,15 +87,19 @@ const Button = <C extends ButtonElementType = 'button'>({
   return React.createElement(
     ButtonBasic,
     {
+      // styling
       className: cnx(
         className,
         classNames,
         stylesSpacingInlineStyleBased['ms-spacing'],
       ),
+      style: styleObj,
 
+      // btn specific
+      srfHover: 'all',
       btnIsDisabled: isDisabled,
 
-      style: styleObj,
+      // rest
       ...props,
     },
     children,

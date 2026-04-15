@@ -4,43 +4,13 @@ const SURFACE__CLASS_NAME_CONFIG = {
   baseClass: 'ms-surface',
   classNameDefinitionByPropName: {
     // value-mapped
-    srfBackgroundColor: {
-      modifier: 'bg-color',
-      options: [
-        // css basic
-        'transparent',
-        // semantic
-        'primary',
-        'secondary',
-        'tertiary',
-        // contextual
-        'error',
-        'info',
-        'success',
-        'warning',
-        // neutral
-        'base',
-        'muted',
-        'inverse',
-      ],
-      // defaultValue: 'transparent',
+    srfHover: {
+      modifier: 'hover',
+      options: ['bg', 'border', 'all'],
     },
-    srfBorderRadius: {
-      modifier: 'radius',
-      options: [
-        // static
-        'pill',
-        'circle',
-        // dynamic
-        'xxs',
-        'xs',
-        'sm',
-        'md',
-        'lg',
-        'xl',
-        'xxl',
-        'xxxl',
-      ],
+    srfVariant: {
+      modifier: 'variant',
+      options: ['solid', 'outlined', 'ghost'],
     },
   },
 } as const satisfies ClassNameFromPropConfig;

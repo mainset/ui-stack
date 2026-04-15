@@ -7,6 +7,8 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
+import { Surface } from '../Surface/index.mjs';
+
 type AllowedAs = 'button' | 'div' | 'a';
 type ButtonElementType = AllowedAs | React.JSXElementConstructor<any>;
 
@@ -16,8 +18,6 @@ type ButtonBasicOwnProps<C extends ButtonElementType> = Pick<
   'btnIsDisabled'
 > & {
   as?: C;
-
-  btnTheme: Extract<ButtonStyleProps['btnTheme'], 'transparent'>;
 };
 
 // 2. Omit our own keys from the inherited props to prevent collision
@@ -71,8 +71,9 @@ const ButtonBasic = <C extends ButtonElementType = 'button'>({
   }, [Component, btnIsDisabled, restProps.type]);
 
   return React.createElement(
-    Component,
+    Surface,
     {
+      as: Component,
       className: cnx(className, classNames, stylesButton['ms-button']),
       ...elementProps,
       ...restProps,
