@@ -1,0 +1,34 @@
+@use 'sass:map';
+@use '../../styles/variables' as msVariable;
+
+:root {
+  // ----- Color tokens -----
+  --ms-border-color-primary: #{map.get(msVariable.$color-map, primary)};
+  --ms-border-color-secondary: #{map.get(msVariable.$color-map, secondary)};
+  --ms-border-color-tertiary: #{map.get(msVariable.$color-map, tertiary)};
+  --ms-border-color-error: #{map.get(msVariable.$color-map, error)};
+  --ms-border-color-info: #{map.get(msVariable.$color-map, info)};
+  --ms-border-color-success: #{map.get(msVariable.$color-map, success)};
+  --ms-border-color-warning: #{map.get(msVariable.$color-map, warning)};
+  --ms-border-color-base: #{map.get(msVariable.$color-map, base)};
+  --ms-border-color-muted: #{map.get(msVariable.$color-map, muted)};
+  --ms-border-color-disabled: #{map.get(msVariable.$color-map, disabled)};
+  --ms-border-color-inverse: #{map.get(msVariable.$color-map, inverse)};
+
+  // ----- Border radius tokens -----
+  --ms-border-radius-pill: #{map.get(msVariable.$border-radius-map, pill)};
+  --ms-border-radius-circle: #{map.get(msVariable.$border-radius-map, circle)};
+  --ms-border-radius-xxs: #{map.get(msVariable.$border-radius-map, xxs)};
+  --ms-border-radius-xs: #{map.get(msVariable.$border-radius-map, xs)};
+  --ms-border-radius-sm: #{map.get(msVariable.$border-radius-map, sm)};
+  --ms-border-radius-md: #{map.get(msVariable.$border-radius-map, md)};
+  --ms-border-radius-lg: #{map.get(msVariable.$border-radius-map, lg)};
+  --ms-border-radius-xl: #{map.get(msVariable.$border-radius-map, xl)};
+  --ms-border-radius-xxl: #{map.get(msVariable.$border-radius-map, xxl)};
+  --ms-border-radius-xxxl: #{map.get(msVariable.$border-radius-map, xxxl)};
+
+  // ----- Border width tokens -----
+  --ms-border-width-sm: #{map.get(msVariable.$border-width-map, sm)};
+  --ms-border-width-base: #{map.get(msVariable.$border-width-map, base)};
+  --ms-border-width-lg: #{map.get(msVariable.$border-width-map, lg)};
+}

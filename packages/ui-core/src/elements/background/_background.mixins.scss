@@ -1,0 +1,18 @@
+@use 'sass:map';
+@use '../../styles/mixins' as msMixin;
+@use './background.variables' as backgroundVars;
+
+@mixin build-background($config, $selector: backgroundVars.$class-selector) {
+  #{$selector} {
+    &--color {
+      $config-color: map.get($config, 'color');
+
+      @each $modifier, $value in $config-color {
+        &-#{$modifier} {
+          --ms-bg-color: #{$value};
+          background-color: var(--ms-bg-color);
+        }
+      }
+    }
+  }
+}

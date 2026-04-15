@@ -8,6 +8,8 @@
 
 export {
   BACKDROP__CLASS_NAME_CONFIG,
+  BACKGROUND__CLASS_NAME_CONFIG,
+  BORDER__CLASS_NAME_CONFIG,
   BUTTON__CLASS_NAME_CONFIG,
   FLEX_CONTAINER__CLASS_NAME_CONFIG,
   FLEX_ITEM__CLASS_NAME_CONFIG,
@@ -22,6 +24,8 @@ export {
   SPACING__CLASS_NAME_CONFIG,
   SPACING__STYLE_CONFIG,
   stylesBackdrop,
+  stylesBackground,
+  stylesBorder,
   stylesButton,
   stylesFlex,
   stylesFloatingBox,
@@ -40,6 +44,8 @@ export {
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
+  BackgroundStyleProps,
+  BorderStyleProps,
   ButtonStyleProps,
   FlexContainerStyleProps,
   FlexItemStyleProps,

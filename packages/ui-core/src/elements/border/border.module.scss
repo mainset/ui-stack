@@ -1,0 +1,14 @@
+@use 'sass:map';
+@forward './border.tokens';
+@use './border.variables' as borderVars;
+@use './border.mixins' as borderMixins;
+
+// Robust generation for all classes
+@include borderMixins.build-border(
+  (
+    color: map.get(borderVars.$border-modifier-map, 'color'),
+    radius: map.get(borderVars.$border-modifier-map, 'radius'),
+    style: map.get(borderVars.$border-modifier-map, 'style'),
+    width: map.get(borderVars.$border-modifier-map, 'width'),
+  )
+);

@@ -1,0 +1,14 @@
+$class-selector: '.ms-background';
+$color-map: (
+  primary: var(--ms-bg-color-primary),
+  secondary: var(--ms-bg-color-secondary),
+  tertiary: var(--ms-bg-color-tertiary),
+  error: var(--ms-bg-color-error),
+  info: var(--ms-bg-color-info),
+  success: var(--ms-bg-color-success),
+  warning: var(--ms-bg-color-warning),
+  base: var(--ms-bg-color-base),
+  muted: var(--ms-bg-color-muted),
+  inverse: var(--ms-bg-color-inverse),
+  transparent: transparent,
+);

@@ -5,8 +5,6 @@
 #{buttonVars.$class-selector} {
   $root-selector: &;
 
-  border: none;
-
   // states
   &:hover:not(#{$root-selector}--disabled) {
     cursor: pointer;
@@ -33,7 +31,6 @@
 
 @include buttonMixins.build-button(
   (
-    color: buttonVars.$color-map,
     border: buttonVars.$border-map,
   )
 );

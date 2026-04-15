@@ -2,20 +2,7 @@
 @use '../../styles/variables' as msVariable;
 
 :root {
-  // ----- Color tokens -----
-  --ms-color-button-primary: #{map.get(msVariable.$color-map, primary)};
-  --ms-color-button-secondary: #{map.get(msVariable.$color-map, secondary)};
-  --ms-color-button-tertiary: #{map.get(msVariable.$color-map, tertiary)};
-  --ms-color-button-error: #{map.get(msVariable.$color-map, error)};
-  --ms-color-button-info: #{map.get(msVariable.$color-map, info)};
-  --ms-color-button-success: #{map.get(msVariable.$color-map, success)};
-  --ms-color-button-warning: #{map.get(msVariable.$color-map, warning)};
-  --ms-color-button-base: #{map.get(msVariable.$color-map, base)};
-  --ms-color-button-muted: #{map.get(msVariable.$color-map, muted)};
-  --ms-color-button-disabled: #{map.get(msVariable.$color-map, disabled)};
-  --ms-color-button-inverse: #{map.get(msVariable.$color-map, inverse)};
-
   // ----- Structural tokens -----
-  --ms-border-width-button: 0.063rem; // Equivalent to 1px
+  --ms-border-width-button: 0.063rem; // 1px
   --ms-border-radius-button: #{map.get(msVariable.$border-radius-map, xs)}; // Equivalent to 4px
 }
