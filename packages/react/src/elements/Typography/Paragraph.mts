@@ -1,4 +1,4 @@
-import type { TextStyleProps } from '@mainset/ui-core';
+import type { SpacingStyleProps, TextStyleProps } from '@mainset/ui-core';
 import {
   SPACING__STYLE_CONFIG,
   TEXT_BASE__CLASS_NAME_CONFIG,
@@ -10,8 +10,9 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
-interface ParagraphProps
-  extends React.HTMLAttributes<HTMLParagraphElement>, TextStyleProps {}
+type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement> &
+  TextStyleProps &
+  Partial<SpacingStyleProps>;
 
 const Paragraph: React.FC<ParagraphProps> = ({
   children,

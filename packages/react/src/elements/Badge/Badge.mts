@@ -1,45 +1,46 @@
-import type { SurfaceStyleProps } from '@mainset/ui-core';
 import {
   SPACING__STYLE_CONFIG,
-  SURFACE__CLASS_NAME_CONFIG,
   cnx,
-  extractClassNamesFromProps,
   extractStyleObjFromProps,
   stylesSpacingInlineStyleBased,
-  stylesSurface,
 } from '@mainset/ui-core';
 import React from 'react';
 
+import type { SurfaceProps } from '../Surface/index.mjs';
+import { Surface } from '../Surface/index.mjs';
+
 interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement>, SurfaceStyleProps {}
+  extends React.HTMLAttributes<HTMLDivElement>, SurfaceProps {
+  bdgSize?: 'base';
+}
+
+const PROPS__BY_BADGE_SIZE = {
+  base: {
+    spcType: 'p',
+    spcScale: 'element',
+    spcSize: 'base',
+  },
+};
 
 const Badge: React.FC<BadgeProps> = ({
+  bdgSize = 'base',
+
   children,
   className,
 
   ...props
 }) => {
-  const [classNames, restProps] = extractClassNamesFromProps(
-    [SURFACE__CLASS_NAME_CONFIG],
-    props,
-    stylesSurface,
+  const [styleObj] = extractStyleObjFromProps(
+    [SPACING__STYLE_CONFIG],
+    PROPS__BY_BADGE_SIZE[bdgSize],
   );
-  const [styleObj] = extractStyleObjFromProps([SPACING__STYLE_CONFIG], {
-    spcType: 'p',
-    spcScale: 'element',
-    spcSize: 'base',
-  });
 
   return React.createElement(
-    'div',
+    Surface,
     {
-      className: cnx(
-        className,
-        stylesSpacingInlineStyleBased['ms-spacing'],
-        classNames,
-      ),
+      className: cnx(className, stylesSpacingInlineStyleBased['ms-spacing']),
       style: styleObj,
-      ...restProps,
+      ...props,
     },
     children,
   );

@@ -1,0 +1,49 @@
+@use 'sass:map';
+@use '../../styles/mixins' as msMixin;
+@use './border.variables' as borderVars;
+
+@mixin build-border($config, $selector: borderVars.$class-selector) {
+  #{$selector} {
+    &--color {
+      $color-map: map.get($config, 'color');
+
+      @each $modifier, $value in $color-map {
+        &-#{$modifier} {
+          --ms-brd-color: #{$value};
+
+          border-color: var(--ms-brd-color);
+        }
+      }
+    }
+
+    &--radius {
+      $radius-map: map.get($config, 'radius');
+
+      @each $modifier, $value in $radius-map {
+        &-#{$modifier} {
+          border-radius: $value;
+        }
+      }
+    }
+
+    &--style {
+      $style-map: map.get($config, 'style');
+
+      @each $modifier, $value in $style-map {
+        &-#{$modifier} {
+          border-style: $value;
+        }
+      }
+    }
+
+    &--width {
+      $width-map: map.get($config, 'width');
+
+      @each $modifier, $value in $width-map {
+        &-#{$modifier} {
+          border-width: $value;
+        }
+      }
+    }
+  }
+}
