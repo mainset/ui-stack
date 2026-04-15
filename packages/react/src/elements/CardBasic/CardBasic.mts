@@ -9,22 +9,18 @@ import React from 'react';
 import type { SurfaceProps } from '../Surface/index.mjs';
 import { Surface } from '../Surface/index.mjs';
 
-interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement>, SurfaceProps {
-  bdgSize?: 'base';
-}
+interface CardBasicProps
+  extends React.HTMLAttributes<HTMLDivElement>, SurfaceProps {}
 
-const PROPS__BY_BADGE_SIZE = {
+const PROPS__BY_CARD_SIZE = {
   base: {
     spcType: 'p',
-    spcScale: 'element',
-    spcSize: 'base',
+    spcScale: 'component',
+    spcSize: 'xl',
   },
 };
 
-const Badge: React.FC<BadgeProps> = ({
-  bdgSize = 'base',
-
+const CardBasic: React.FC<CardBasicProps> = ({
   children,
   className,
 
@@ -32,7 +28,7 @@ const Badge: React.FC<BadgeProps> = ({
 }) => {
   const [styleObj] = extractStyleObjFromProps(
     [SPACING__STYLE_CONFIG],
-    PROPS__BY_BADGE_SIZE[bdgSize],
+    PROPS__BY_CARD_SIZE['base'],
   );
 
   return React.createElement(
@@ -46,4 +42,4 @@ const Badge: React.FC<BadgeProps> = ({
   );
 };
 
-export { Badge };
+export { CardBasic };

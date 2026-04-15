@@ -4,24 +4,6 @@
 
 @mixin build-surface($config, $selector: surfaceVars.$class-selector) {
   #{$selector} {
-    &--bg-color {
-      $config-color: map.get($config, 'color');
-
-      @each $modifier, $value in $config-color {
-        &-#{$modifier} {
-          background-color: $value;
-        }
-      }
-    }
-
-    &--radius {
-      $config-radius: map.get($config, 'radius');
-
-      @each $modifier, $value in $config-radius {
-        &-#{$modifier} {
-          border-radius: $value;
-        }
-      }
-    }
+    // TODO:
   }
 }

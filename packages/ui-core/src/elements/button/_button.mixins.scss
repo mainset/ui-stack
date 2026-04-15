@@ -3,84 +3,13 @@
 @use './button.variables' as buttonVars;
 
 @mixin build-button($config, $selector: buttonVars.$class-selector) {
-  $border-map: map.get($config, 'border');
-
   #{$selector} {
-    // Base styles wired to internal CSS variables
-    background-color: var(--btn-bg, transparent);
-    color: var(--btn-color, inherit);
-    box-shadow: 0 0 0 map.get($border-map, 'width')
-      var(--btn-border, transparent) inset;
-    border-radius: map.get($border-map, 'radius');
-
     // animation
-    transition:
-      background-color 0.2s ease-in-out,
-      color 0.2s ease-in-out,
-      box-shadow 0.2s ease-in-out,
-      opacity 0.2s ease-in-out;
+    transition: opacity 0.2s ease-in-out;
 
     // interactions
     &:active {
       opacity: 0.8;
-    }
-
-    // 1. Generate Variants (which map the --theme-color to background/text/border)
-    &--variant {
-      &-solid {
-        --btn-bg: var(--theme-color);
-        --btn-border: var(--theme-color);
-
-        // Assumes solid buttons need inverse text
-        --btn-color: var(--ms-color-button-inverse);
-
-        // interactions
-        &:hover {
-          --btn-bg: color-mix(in srgb, var(--theme-color) 80%, transparent);
-        }
-
-        &#{$selector}--theme-inverse {
-          --btn-color: var(--ms-color-button-base);
-
-          // interactions
-          &:hover {
-            --btn-bg: color-mix(in srgb, var(--theme-color) 10%, transparent);
-          }
-        }
-      }
-
-      &-outlined {
-        --btn-bg: transparent;
-        --btn-border: var(--theme-color);
-        --btn-color: var(--theme-color);
-      }
-
-      &-ghost {
-        --btn-bg: transparent;
-        --btn-border: transparent;
-        --btn-color: var(--theme-color);
-      }
-
-      // interactions
-      &-outlined,
-      &-ghost {
-        &:hover {
-          --btn-bg: color-mix(in srgb, var(--theme-color) 10%, transparent);
-        }
-      }
-    }
-
-    // 2. Generate Themes (which populate the underlying --theme-color variable)
-    $color-map: map.get($config, 'color');
-
-    &--theme {
-      @if $color-map {
-        @each $name, $value in $color-map {
-          &-#{$name} {
-            --theme-color: #{$value};
-          }
-        }
-      }
     }
   }
 }

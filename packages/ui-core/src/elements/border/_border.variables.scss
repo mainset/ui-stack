@@ -1,0 +1,39 @@
+$class-selector: '.ms-border';
+$border-modifier-map: (
+  color: (
+    primary: var(--ms-border-color-primary),
+    secondary: var(--ms-border-color-secondary),
+    tertiary: var(--ms-border-color-tertiary),
+    error: var(--ms-border-color-error),
+    info: var(--ms-border-color-info),
+    success: var(--ms-border-color-success),
+    warning: var(--ms-border-color-warning),
+    base: var(--ms-border-color-base),
+    muted: var(--ms-border-color-muted),
+    inverse: var(--ms-border-color-inverse),
+    transparent: transparent,
+  ),
+  radius: (
+    pill: var(--ms-border-radius-pill),
+    circle: var(--ms-border-radius-circle),
+    xxs: var(--ms-border-radius-xxs),
+    xs: var(--ms-border-radius-xs),
+    sm: var(--ms-border-radius-sm),
+    md: var(--ms-border-radius-md),
+    lg: var(--ms-border-radius-lg),
+    xl: var(--ms-border-radius-xl),
+    xxl: var(--ms-border-radius-xxl),
+    xxxl: var(--ms-border-radius-xxxl),
+  ),
+  style: (
+    solid: solid,
+    dashed: dashed,
+    dotted: dotted,
+    double: double,
+  ),
+  width: (
+    sm: var(--ms-border-width-sm),
+    base: var(--ms-border-width-base),
+    lg: var(--ms-border-width-lg),
+  ),
+);

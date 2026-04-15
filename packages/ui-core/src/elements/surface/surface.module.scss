@@ -1,11 +1,43 @@
-@forward './surface.tokens';
+@use '../background/background.variables' as bgVars;
 @use './surface.variables' as surfaceVars;
-@use './surface.mixins' as surfaceMixins;
 
-// Robust generation for all classes
-@include surfaceMixins.build-surface(
-  (
-    color: surfaceVars.$color-map,
-    radius: surfaceVars.$radius-map,
-  )
-);
+#{surfaceVars.$class-selector} {
+  &--variant {
+    &-solid[class*='ms-background--color-'] {
+      // By default, solid colored surfaces need inverse (light) text for contrast
+      color: var(--ms-color-text-inverse);
+
+      // Explicitly override text color for themes that have a light background
+      @each $theme in (inverse, transparent) {
+        &#{bgVars.$class-selector}--color-#{$theme} {
+          color: var(--ms-color-text-base);
+        }
+      }
+    }
+
+    &-outlined[class*='ms-border--color-'] {
+      // Outlined variants should have text matching their border color
+      color: var(--ms-brd-color);
+    }
+
+    &-ghost[class*='ms-background--color-'] {
+      // Ghost variants should have text matching their background theme color
+      color: var(--ms-bg-color);
+
+      // Override the solid background set by the background utility class
+      background-color: transparent;
+      transition:
+        background-color 0.2s ease-in-out,
+        color 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out;
+
+      &:hover {
+        background-color: color-mix(
+          in srgb,
+          var(--ms-bg-color) 10%,
+          transparent
+        );
+      }
+    }
+  }
+}

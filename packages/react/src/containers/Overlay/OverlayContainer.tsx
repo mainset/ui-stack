@@ -36,7 +36,7 @@ const OverlayContainer = () => {
       : ReactDOMClient.createPortal(
           <div id={OVERLAY_CONTAINER_ID}>
             <Backdrop
-              srfBackgroundColor="base"
+              bgColor="base"
               bckIsVisible={isAnyOverlayOpen}
               bckOnClick={handleBackdropClick}
             />

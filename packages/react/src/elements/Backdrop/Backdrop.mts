@@ -1,11 +1,14 @@
-import type { BackdropStyleProps, SurfaceStyleProps } from '@mainset/ui-core';
+import type {
+  BackdropStyleProps,
+  BackgroundStyleProps,
+} from '@mainset/ui-core';
 import {
   BACKDROP__CLASS_NAME_CONFIG,
-  SURFACE__CLASS_NAME_CONFIG,
+  BACKGROUND__CLASS_NAME_CONFIG,
   cnx,
   extractClassNamesFromProps,
   stylesBackdrop,
-  stylesSurface,
+  stylesBackground,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -13,7 +16,7 @@ interface BackdropProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
     BackdropStyleProps,
-    SurfaceStyleProps {
+    BackgroundStyleProps {
   /**
    * Determines z-index dynamically based on stack position if needed
    */
@@ -34,9 +37,9 @@ const Backdrop: React.FC<BackdropProps> = ({
   ...props
 }) => {
   const [classNames, restProps] = extractClassNamesFromProps(
-    [BACKDROP__CLASS_NAME_CONFIG, SURFACE__CLASS_NAME_CONFIG],
+    [BACKDROP__CLASS_NAME_CONFIG, BACKGROUND__CLASS_NAME_CONFIG],
     props,
-    Object.assign({}, stylesBackdrop, stylesSurface),
+    Object.assign({}, stylesBackdrop, stylesBackground),
   );
 
   return React.createElement(
