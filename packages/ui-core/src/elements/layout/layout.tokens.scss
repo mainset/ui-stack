@@ -2,7 +2,23 @@
 @use './layout.variables' as layoutVars;
 
 :root {
+  // 8px
+  --ms-space-layout-column-xs: 0.5rem;
+  --ms-space-layout-row-xs: 0.5rem;
+
+  // 16px
+  --ms-space-layout-column-sm: 1rem;
+  --ms-space-layout-row-sm: 1rem;
+
   // 24px
   --ms-space-layout-column-base: 1.5rem;
   --ms-space-layout-row-base: 1.5rem;
+
+  // 32px
+  --ms-space-layout-column-lg: 2rem;
+  --ms-space-layout-row-lg: 2rem;
+
+  // 48px
+  --ms-space-layout-column-xl: 3rem;
+  --ms-space-layout-row-xl: 3rem;
 }

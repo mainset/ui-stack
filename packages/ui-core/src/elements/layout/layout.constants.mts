@@ -14,13 +14,7 @@ const LAYOUT__CLASS_NAME_CONFIG = {
     },
     layGapSize: {
       modifier: 'gap-size',
-      options: [
-        // 'xs',
-        // 'sm',
-        'base',
-        // 'lg',
-        // 'xl',
-      ],
+      options: ['xs', 'sm', 'base', 'lg', 'xl'],
     },
   },
 } as const satisfies ClassNameFromPropConfig;
