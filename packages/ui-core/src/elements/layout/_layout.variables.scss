@@ -6,8 +6,24 @@ $layout-prop-map: (
   align-items: (center, flex-end)
 );
 $gap-map: (
+  xs: (
+    column: var(--ms-space-layout-column-xs),
+    row: var(--ms-space-layout-row-xs),
+  ),
+  sm: (
+    column: var(--ms-space-layout-column-sm),
+    row: var(--ms-space-layout-row-sm),
+  ),
   base: (
     column: var(--ms-space-layout-column-base),
     row: var(--ms-space-layout-row-base),
+  ),
+  lg: (
+    column: var(--ms-space-layout-column-lg),
+    row: var(--ms-space-layout-row-lg),
+  ),
+  xl: (
+    column: var(--ms-space-layout-column-xl),
+    row: var(--ms-space-layout-row-xl),
   ),
 );
