@@ -1,4 +1,14 @@
 body,
+// text
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+// extra
 hr {
   margin: 0;
 }
@@ -10,4 +20,9 @@ body {
 
 a {
   text-decoration: none;
+}
+
+button {
+  border: none;
+  background-color: initial;
 }

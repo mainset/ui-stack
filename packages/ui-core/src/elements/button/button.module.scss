@@ -1,0 +1,36 @@
+@forward './button.tokens';
+@use './button.variables' as buttonVars;
+@use './button.mixins' as buttonMixins;
+
+#{buttonVars.$class-selector} {
+  $root-selector: &;
+
+  // states
+  &:hover:not(#{$root-selector}--disabled) {
+    cursor: pointer;
+  }
+
+  // button basic, single out of the box, theme
+  &--theme-transparent {
+    background-color: transparent;
+    padding: unset;
+  }
+
+  // modifiers
+  &--full-width {
+    width: 100%;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+}
+
+@include buttonMixins.build-button(
+  (
+    border: buttonVars.$border-map,
+  )
+);

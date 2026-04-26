@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": ">=24.13.0"
+  },
   "repository": "git@github.com:mainset/ui-stack.git",
   "author": "Yevhen Uzhva <yevhen.uzhva@gmail.com>",
   "license": "CC-BY-NC-4.0",

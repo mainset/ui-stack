@@ -1,0 +1,15 @@
+@use 'sass:map';
+@use '../../styles/mixins' as msMixin;
+@use './button.variables' as buttonVars;
+
+@mixin build-button($config, $selector: buttonVars.$class-selector) {
+  #{$selector} {
+    // animation
+    transition: opacity 0.2s ease-in-out;
+
+    // interactions
+    &:active {
+      opacity: 0.8;
+    }
+  }
+}

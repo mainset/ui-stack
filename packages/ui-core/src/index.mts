@@ -1,5 +1,16 @@
+/*!
+ * @license @mainset/ui-core
+ * Copyright (c) 2019-present Yevhen Uzhva (mainset).
+ *
+ * This source code is licensed under the CC-BY-NC-4.0 license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 export {
   BACKDROP__CLASS_NAME_CONFIG,
+  BACKGROUND__CLASS_NAME_CONFIG,
+  BORDER__CLASS_NAME_CONFIG,
+  BUTTON__CLASS_NAME_CONFIG,
   FLEX_CONTAINER__CLASS_NAME_CONFIG,
   FLEX_ITEM__CLASS_NAME_CONFIG,
   FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG,
@@ -13,6 +24,9 @@ export {
   SPACING__CLASS_NAME_CONFIG,
   SPACING__STYLE_CONFIG,
   stylesBackdrop,
+  stylesBackground,
+  stylesBorder,
+  stylesButton,
   stylesFlex,
   stylesFloatingBox,
   stylesGrid,
@@ -30,6 +44,9 @@ export {
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
+  BackgroundStyleProps,
+  BorderStyleProps,
+  ButtonStyleProps,
   FlexContainerStyleProps,
   FlexItemStyleProps,
   FloatingBoxWrapperStyleProps,

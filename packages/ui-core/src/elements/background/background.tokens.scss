@@ -1,0 +1,17 @@
+@use 'sass:map';
+@use '../../styles/variables' as msVariable;
+
+:root {
+  // ----- Color tokens -----
+  --ms-bg-color-primary: #{map.get(msVariable.$color-map, primary)};
+  --ms-bg-color-secondary: #{map.get(msVariable.$color-map, secondary)};
+  --ms-bg-color-tertiary: #{map.get(msVariable.$color-map, tertiary)};
+  --ms-bg-color-error: #{map.get(msVariable.$color-map, error)};
+  --ms-bg-color-info: #{map.get(msVariable.$color-map, info)};
+  --ms-bg-color-success: #{map.get(msVariable.$color-map, success)};
+  --ms-bg-color-warning: #{map.get(msVariable.$color-map, warning)};
+  --ms-bg-color-base: #{map.get(msVariable.$color-map, base)};
+  --ms-bg-color-muted: #{map.get(msVariable.$color-map, muted)};
+  --ms-bg-color-disabled: #{map.get(msVariable.$color-map, disabled)};
+  --ms-bg-color-inverse: #{map.get(msVariable.$color-map, inverse)};
+}

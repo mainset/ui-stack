@@ -1,0 +1,8 @@
+@use 'sass:map';
+@use '../../styles/variables' as msVariable;
+
+:root {
+  // ----- Structural tokens -----
+  --ms-border-width-button: 0.063rem; // 1px
+  --ms-border-radius-button: #{map.get(msVariable.$border-radius-map, xs)}; // Equivalent to 4px
+}
