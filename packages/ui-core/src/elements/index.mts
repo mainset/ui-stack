@@ -12,6 +12,7 @@ export { BORDER__CLASS_NAME_CONFIG, stylesBorder } from './border/index.mjs';
 export type { BorderStyleProps } from './border/index.mjs';
 export { BUTTON__CLASS_NAME_CONFIG, stylesButton } from './button/index.mjs';
 export type { ButtonStyleProps } from './button/index.mjs';
+export type { ElementPlainSize } from './elements.types.mjs';
 export {
   FLEX_CONTAINER__CLASS_NAME_CONFIG,
   FLEX_ITEM__CLASS_NAME_CONFIG,

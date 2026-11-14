@@ -1,4 +1,9 @@
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
+import {
+  COLOR__ELEMENT_OPTIONS,
+  SIZE_EXTENDED__ELEMENT_OPTIONS,
+  SIZE_PLAIN__ELEMENT_OPTIONS,
+} from '../elements.constants.mjs';
 
 const BORDER__CLASS_NAME_CONFIG = {
   baseClass: 'ms-border',
@@ -6,23 +11,7 @@ const BORDER__CLASS_NAME_CONFIG = {
     // value-mapped
     brdColor: {
       modifier: 'color',
-      options: [
-        // css basic
-        'transparent',
-        // semantic
-        'primary',
-        'secondary',
-        'tertiary',
-        // contextual
-        'error',
-        'info',
-        'success',
-        'warning',
-        // neutral
-        'base',
-        'muted',
-        'inverse',
-      ],
+      options: COLOR__ELEMENT_OPTIONS,
       // defaultValue: 'transparent',
     },
     brdRadius: {
@@ -32,14 +21,7 @@ const BORDER__CLASS_NAME_CONFIG = {
         'pill',
         'circle',
         // dynamic
-        'xxs',
-        'xs',
-        'sm',
-        'md',
-        'lg',
-        'xl',
-        'xxl',
-        'xxxl',
+        ...SIZE_EXTENDED__ELEMENT_OPTIONS,
       ],
     },
     brdStyle: {
@@ -49,7 +31,7 @@ const BORDER__CLASS_NAME_CONFIG = {
     },
     brdWidth: {
       modifier: 'width',
-      options: ['sm', 'base', 'lg'],
+      options: SIZE_PLAIN__ELEMENT_OPTIONS,
       // defaultValue: 'base',
     },
   },

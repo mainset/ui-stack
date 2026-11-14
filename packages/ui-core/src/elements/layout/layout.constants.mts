@@ -1,4 +1,5 @@
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
+import { SIZE_PLAIN__ELEMENT_OPTIONS } from '../elements.constants.mjs';
 
 const LAYOUT__CLASS_NAME_CONFIG = {
   baseClass: 'ms-layout',
@@ -14,7 +15,7 @@ const LAYOUT__CLASS_NAME_CONFIG = {
     },
     layGapSize: {
       modifier: 'gap-size',
-      options: ['xs', 'sm', 'base', 'lg', 'xl'],
+      options: SIZE_PLAIN__ELEMENT_OPTIONS,
     },
   },
 } as const satisfies ClassNameFromPropConfig;

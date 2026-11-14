@@ -1,12 +1,8 @@
-import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
-import { BACKGROUND__CLASS_NAME_CONFIG } from './background.constants.mjs';
+import type { ElementColor } from '../elements.types.mjs';
 
 interface BackgroundStyleProps {
   // value-mapped
-  bgColor?: ExtractClassNameFromPropOptions<
-    typeof BACKGROUND__CLASS_NAME_CONFIG,
-    'bgColor'
-  > | null;
+  bgColor?: ElementColor | null;
 }
 
 export type { BackgroundStyleProps };

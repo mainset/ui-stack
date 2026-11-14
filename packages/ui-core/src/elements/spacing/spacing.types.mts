@@ -1,10 +1,6 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
+import type { ElementPlainSize } from '../elements.types.mjs';
 import { SPACING__CLASS_NAME_CONFIG } from './spacing.constants.mjs';
-
-type Size = ExtractClassNameFromPropOptions<
-  typeof SPACING__CLASS_NAME_CONFIG,
-  'spcSize'
->;
 
 type SpacingStyleProps = {
   spcScale: ExtractClassNameFromPropOptions<
@@ -14,10 +10,10 @@ type SpacingStyleProps = {
 } & (
   | {
       spcType: 'm' | 'p';
-      spcSize?: Size | null;
+      spcSize?: ElementPlainSize | null;
       spcSizes?: {
-        v?: Size;
-        h?: Size;
+        v?: ElementPlainSize;
+        h?: ElementPlainSize;
       } | null;
     }
   | {
@@ -34,7 +30,7 @@ type SpacingStyleProps = {
         | 'pe'
         | 'pv'
         | 'ph';
-      spcSize?: Size | null;
+      spcSize?: ElementPlainSize | null;
       spcSizes?: never;
     }
 );

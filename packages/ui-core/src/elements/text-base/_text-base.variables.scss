@@ -53,45 +53,40 @@ $size-map-as-style: (
     line-height: inherit,
   ),
   // absolute
-  'xx-small': (
+  xxs: (
       font-size: var(--ms-font-size-text-xxs),
       letter-spacing: var(--ms-letter-spacing-text-xxs),
       line-height: var(--ms-line-height-text-xxs),
     ),
-  'x-small': (
+  xs: (
     font-size: var(--ms-font-size-text-xs),
     letter-spacing: var(--ms-letter-spacing-text-xs),
     line-height: var(--ms-line-height-text-xs),
   ),
-  small: (
+  sm: (
     font-size: var(--ms-font-size-text-sm),
     letter-spacing: var(--ms-letter-spacing-text-sm),
     line-height: var(--ms-line-height-text-sm),
   ),
-  medium: (
-    font-size: var(--ms-font-size-text-md),
-    letter-spacing: var(--ms-letter-spacing-text-md),
-    line-height: var(--ms-line-height-text-md),
+  base: (
+    font-size: var(--ms-font-size-text-base),
+    letter-spacing: var(--ms-letter-spacing-text-base),
+    line-height: var(--ms-line-height-text-base),
   ),
-  large: (
+  lg: (
     font-size: var(--ms-font-size-text-lg),
     letter-spacing: var(--ms-letter-spacing-text-lg),
     line-height: var(--ms-line-height-text-lg),
   ),
-  'x-large': (
+  xl: (
     font-size: var(--ms-font-size-text-xl),
     letter-spacing: var(--ms-letter-spacing-text-xl),
     line-height: var(--ms-line-height-text-xl),
   ),
-  'xx-large': (
+  xxl: (
     font-size: var(--ms-font-size-text-xxl),
     letter-spacing: var(--ms-letter-spacing-text-xxl),
     line-height: var(--ms-line-height-text-xxl),
-  ),
-  'xxx-large': (
-    font-size: var(--ms-font-size-text-xxxl),
-    letter-spacing: var(--ms-letter-spacing-text-xxxl),
-    line-height: var(--ms-line-height-text-xxxl),
   )
 );
 $transforms: (
