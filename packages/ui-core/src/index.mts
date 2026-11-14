@@ -47,6 +47,7 @@ export type {
   BackgroundStyleProps,
   BorderStyleProps,
   ButtonStyleProps,
+  ElementPlainSize,
   FlexContainerStyleProps,
   FlexItemStyleProps,
   FloatingBoxWrapperStyleProps,

@@ -15,12 +15,16 @@ $color-map: (
 
 // Border width variables
 $border-width-map: (
+  // ~0.25px (Ultra-hairline border for high-DPR/retina displays)
+  xs: 0.015rem,
   // ~0.5px (Hairline border for retina displays)
   sm: 0.031rem,
   // 1px (Standard border)
   base: 0.063rem,
   // 2px (Thick border)
-  lg: 0.125rem
+  lg: 0.125rem,
+  // 4px (Extra thick border)
+  xl: 0.25rem
 );
 
 // Border radius variables
@@ -36,15 +40,13 @@ $border-radius-map: (
   // 8px (Moderate rounding for small elements)
   sm: 0.5rem,
   // 12px (Standard rounding for medium elements)
-  md: 0.75rem,
+  base: 0.75rem,
   // 16px (Larger rounding for large elements)
   lg: 1rem,
   // 20px (Extra large rounding for extra large elements)
   xl: 1.25rem,
   // 24px (Even larger rounding for prominent elements)
-  xxl: 1.5rem,
-  // 32px (Maximum rounding for very large elements or cards)
-  xxxl: 2rem
+  xxl: 1.5rem
 );
 
 // grid
@@ -54,7 +56,7 @@ $grid-breakpoint-map: (
   // 0px
   sm: 36rem,
   // 576px
-  md: 48rem,
+  base: 48rem,
   // 768px
   lg: 62rem,
   // 992px

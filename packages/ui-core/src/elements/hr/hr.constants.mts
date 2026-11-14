@@ -1,4 +1,5 @@
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
+import { COLOR__ELEMENT_OPTIONS } from '../elements.constants.mjs';
 
 const HR__CLASS_NAME_CONFIG = {
   baseClass: 'ms-break',
@@ -6,23 +7,7 @@ const HR__CLASS_NAME_CONFIG = {
     // value-mapped
     hrColor: {
       modifier: 'color',
-      options: [
-        // css basic
-        'transparent',
-        // semantic
-        'primary',
-        'secondary',
-        'tertiary',
-        // contextual
-        'error',
-        'info',
-        'success',
-        'warning',
-        // neutral
-        'base',
-        'muted',
-        'inverse',
-      ],
+      options: COLOR__ELEMENT_OPTIONS,
       defaultValue: 'base',
     },
     hrDirection: {

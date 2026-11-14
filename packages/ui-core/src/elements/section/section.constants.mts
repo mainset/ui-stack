@@ -1,4 +1,5 @@
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
+import { SIZE_PLAIN__ELEMENT_OPTIONS } from '../elements.constants.mjs';
 
 const SECTION__CLASS_NAME_CONFIG = {
   baseClass: 'ms-section',
@@ -13,11 +14,7 @@ const SECTION__CLASS_NAME_CONFIG = {
         '50',
         '75',
         // responsive breakpoints
-        'xs',
-        'sm',
-        'md',
-        'lg',
-        'xl',
+        ...SIZE_PLAIN__ELEMENT_OPTIONS,
       ],
     },
   },

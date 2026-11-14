@@ -1,4 +1,4 @@
-import type { ButtonStyleProps } from '@mainset/ui-core';
+import type { ButtonStyleProps, ElementPlainSize } from '@mainset/ui-core';
 import {
   SPACING__STYLE_CONFIG,
   TEXT_BASE__CLASS_NAME_CONFIG,
@@ -22,37 +22,37 @@ type ButtonProps<C extends ButtonElementType = 'button'> = SurfaceProps &
   Omit<ButtonStyleProps, 'btnIsDisabled'> &
   ButtonBasicProps<C> & {
     btnIsPending?: boolean;
-    btnSize?: 'xs' | 'sm' | 'base' | 'lg' | 'xl';
+    btnSize?: ElementPlainSize;
   };
 
 // TODO: introduce {--ms-padding-button-xs} CSS variable
 const PROPS__BY_BUTTON_SIZE = {
   xs: {
-    txtSize: 'x-small',
+    txtSize: 'xs',
     spcType: 'ph',
     spcScale: 'element',
     spcSize: 'sm',
   },
   sm: {
-    txtSize: 'small',
+    txtSize: 'sm',
     spcType: 'ph',
     spcScale: 'element',
     spcSize: 'base',
   },
   base: {
-    txtSize: 'small',
+    txtSize: 'sm',
     spcType: 'p',
     spcScale: 'element',
     spcSizes: { v: 'sm', h: 'xl' },
   },
   lg: {
-    txtSize: 'large',
+    txtSize: 'lg',
     spcType: 'p',
     spcScale: 'element',
     spcSizes: { v: 'sm', h: 'xl' },
   },
   xl: {
-    txtSize: 'x-large',
+    txtSize: 'xl',
     spcType: 'p',
     spcScale: 'component',
     spcSizes: { v: 'xs', h: 'base' },

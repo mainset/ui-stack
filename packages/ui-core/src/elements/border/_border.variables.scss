@@ -14,16 +14,17 @@ $border-modifier-map: (
     transparent: transparent,
   ),
   radius: (
+    // static
     pill: var(--ms-border-radius-pill),
     circle: var(--ms-border-radius-circle),
+    // dynamic
     xxs: var(--ms-border-radius-xxs),
     xs: var(--ms-border-radius-xs),
     sm: var(--ms-border-radius-sm),
-    md: var(--ms-border-radius-md),
+    base: var(--ms-border-radius-base),
     lg: var(--ms-border-radius-lg),
     xl: var(--ms-border-radius-xl),
     xxl: var(--ms-border-radius-xxl),
-    xxxl: var(--ms-border-radius-xxxl),
   ),
   style: (
     solid: solid,

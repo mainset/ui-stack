@@ -23,7 +23,7 @@ type AllowedAs =
   | 'section'
   // | 'aside'
   // | 'header'
-  // | 'footer'
+  | 'footer'
   // | 'li'
   // | 'ul'
   // | 'ol'

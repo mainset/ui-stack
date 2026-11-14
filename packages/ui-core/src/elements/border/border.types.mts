@@ -1,12 +1,10 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
+import type { ElementColor, ElementPlainSize } from '../elements.types.mjs';
 import { BORDER__CLASS_NAME_CONFIG } from './border.constants.mjs';
 
 interface BorderStyleProps {
   // value-mapped
-  brdColor?: ExtractClassNameFromPropOptions<
-    typeof BORDER__CLASS_NAME_CONFIG,
-    'brdColor'
-  > | null;
+  brdColor?: ElementColor | null;
   brdRadius?: ExtractClassNameFromPropOptions<
     typeof BORDER__CLASS_NAME_CONFIG,
     'brdRadius'
@@ -15,10 +13,7 @@ interface BorderStyleProps {
     typeof BORDER__CLASS_NAME_CONFIG,
     'brdStyle'
   > | null;
-  brdWidth?: ExtractClassNameFromPropOptions<
-    typeof BORDER__CLASS_NAME_CONFIG,
-    'brdWidth'
-  > | null;
+  brdWidth?: ElementPlainSize | null;
 }
 
 export type { BorderStyleProps };

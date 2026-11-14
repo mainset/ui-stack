@@ -31,43 +31,38 @@
   // --ms-font-family-text-heading: 'CustomHeadingFont, "Segoe UI", Helvetica, Arial, sans-serif'; // Optional separate font for headings
 
   // ----- Font size tokens -----
-  // xx-small (Tiny labels, tertiary badges)
+  // xxs (Tiny labels, tertiary badges)
   --ms-font-size-text-xxs: 0.625rem; // 10px
   --ms-letter-spacing-text-xxs: 0.05em;
   --ms-line-height-text-xxs: 1.2; // Tighter for small caps/labels
 
-  // x-small (Secondary captions, metadata)
+  // xs (Secondary captions, meta data)
   --ms-font-size-text-xs: 0.75rem; // 12px
   --ms-letter-spacing-text-xs: 0.02em;
   --ms-line-height-text-xs: 1.333; // ~16px
 
-  // small (Secondary body text, hints, helper text)
-  --ms-font-size-text-sm: 0.875rem; // 14px (Changed from 0.9375rem for scale harmony)
+  // sm (Secondary body text, hints, helper text)
+  --ms-font-size-text-sm: 0.875rem; // 14px
   --ms-letter-spacing-text-sm: 0.01em;
   --ms-line-height-text-sm: 1.428; // ~20px
 
-  // medium (Base body text)
-  --ms-font-size-text-md: 1rem; // 16px
-  --ms-letter-spacing-text-md: 0;
-  --ms-line-height-text-md: 1.5; // 24px (optimal for readability)
+  // base (Core body text - formerly 'md')
+  --ms-font-size-text-base: 1rem; // 16px
+  --ms-letter-spacing-text-base: 0;
+  --ms-line-height-text-base: 1.5; // 24px (optimal for readability)
 
-  // large (Intro text, small headings, button text)
-  --ms-font-size-text-lg: 1.125rem; // 18px
-  --ms-letter-spacing-text-lg: -0.01em; // Slightly tighter as size increases
-  --ms-line-height-text-lg: 1.555; // ~28px
+  // lg (Intro text, small headings, large buttons)
+  --ms-font-size-text-lg: 1.25rem; // 20px (Stepped up from 18px for better hierarchy)
+  --ms-letter-spacing-text-lg: -0.01em;
+  --ms-line-height-text-lg: 1.4; // 28px
 
-  // x-large (H3, Card Titles, Subheadings)
+  // xl (H3, Card Titles, Section Subheadings)
   --ms-font-size-text-xl: 1.5rem; // 24px
   --ms-letter-spacing-text-xl: -0.015em;
-  --ms-line-height-text-xl: 1.333; // ~32px (Heading LH needs to be tighter)
+  --ms-line-height-text-xl: 1.333; // 32px
 
-  // xx-large (H2, Page Titles)
-  --ms-font-size-text-xxl: 2rem; // 32px
+  // xxl (H2/H1, Main Page Titles, Hero Text)
+  --ms-font-size-text-xxl: 2.25rem; // 36px (Boosted to serve as the new default max heading)
   --ms-letter-spacing-text-xxl: -0.02em;
-  --ms-line-height-text-xxl: 1.25; // 40px
-
-  // xxx-large (H1, Hero Titles, Display Text)
-  --ms-font-size-text-xxxl: 3rem; // 48px
-  --ms-letter-spacing-text-xxxl: -0.025em;
-  --ms-line-height-text-xxxl: 1.15; // ~55px (Display sizes need very tight LH)
+  --ms-line-height-text-xxl: 1.25; // 45px
 }

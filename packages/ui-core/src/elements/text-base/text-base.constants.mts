@@ -1,4 +1,8 @@
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
+import {
+  COLOR__ELEMENT_OPTIONS,
+  SIZE_EXTENDED__ELEMENT_OPTIONS,
+} from '../elements.constants.mjs';
 
 const TEXT_BASE__CLASS_NAME_CONFIG = {
   baseClass: 'ms-text',
@@ -17,24 +21,12 @@ const TEXT_BASE__CLASS_NAME_CONFIG = {
     },
     txtColor: {
       modifier: 'color',
-      options: [
-        // // css basic
-        // 'transparent',
-        // semantic
-        'primary',
-        'secondary',
-        'tertiary',
-        // contextual
-        'error',
-        'info',
-        'success',
-        'warning',
-        // neutral
-        'base',
-        'muted',
-        'inverse',
-      ],
+      options: COLOR__ELEMENT_OPTIONS,
       defaultValue: 'base',
+    },
+    txtColorHover: {
+      modifier: 'color-hover',
+      options: COLOR__ELEMENT_OPTIONS,
     },
     txtFamily: {
       modifier: 'family',
@@ -57,14 +49,7 @@ const TEXT_BASE__CLASS_NAME_CONFIG = {
         'smaller',
         'larger',
         // absolute
-        'xx-small',
-        'x-small',
-        'small',
-        'medium',
-        'large',
-        'x-large',
-        'xx-large',
-        'xxx-large',
+        ...SIZE_EXTENDED__ELEMENT_OPTIONS,
       ],
     },
     txtTransform: {

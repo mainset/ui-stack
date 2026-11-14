@@ -1,4 +1,5 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
+import type { ElementColor } from '../elements.types.mjs';
 import { TEXT_BASE__CLASS_NAME_CONFIG } from './text-base.constants.mjs';
 
 interface TextStyleProps {
@@ -7,10 +8,8 @@ interface TextStyleProps {
     typeof TEXT_BASE__CLASS_NAME_CONFIG,
     'txtAlign'
   > | null;
-  txtColor?: ExtractClassNameFromPropOptions<
-    typeof TEXT_BASE__CLASS_NAME_CONFIG,
-    'txtColor'
-  > | null;
+  txtColor?: ElementColor | null;
+  txtColorHover?: ElementColor | null;
   txtFamily?: ExtractClassNameFromPropOptions<
     typeof TEXT_BASE__CLASS_NAME_CONFIG,
     'txtFamily'

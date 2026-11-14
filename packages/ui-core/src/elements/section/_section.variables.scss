@@ -2,13 +2,15 @@
 
 $class-selector: '.ms-section';
 $max-width-map: (
+  // percentage
   '25': 25%,
   '33': 33.3333%,
   '50': 50%,
   '75': 75%,
+  // responsive breakpoints
   xs: var(--ms-max-width-section-xs),
   sm: var(--ms-max-width-section-sm),
-  md: var(--ms-max-width-section-md),
+  base: var(--ms-max-width-section-base),
   lg: var(--ms-max-width-section-lg),
-  xl: var(--ms-max-width-section-xl),
+  xl: var(--ms-max-width-section-xl)
 );

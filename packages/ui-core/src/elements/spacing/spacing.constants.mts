@@ -2,6 +2,7 @@ import type {
   ClassNameFromPropConfig,
   StyleObjFromPropConfig,
 } from '../../utils/index.mjs';
+import { SIZE_PLAIN__ELEMENT_OPTIONS } from '../elements.constants.mjs';
 
 const SPACING__CLASS_NAME_CONFIG = {
   baseClass: 'ms-spacing',
@@ -34,17 +35,7 @@ const SPACING__CLASS_NAME_CONFIG = {
       options: ['element', 'component', 'block', 'section'],
     },
     spcSize: {
-      options: [
-        // 'xxxs',
-        // 'xxs',
-        'xs',
-        'sm',
-        'base',
-        'lg',
-        'xl',
-        // 'xxl',
-        // 'xxxl',
-      ],
+      options: SIZE_PLAIN__ELEMENT_OPTIONS,
       defaultValue: 'base',
     },
   },
