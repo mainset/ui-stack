@@ -27,10 +27,10 @@
     "./scss/mixins": "./src/styles/_mixins.scss"
   },
   "devDependencies": {
-    "@mainset/builder-rslib": "^0.3.1",
-    "@mainset/cli": "^0.5.0",
-    "@mainset/dev-stack-fe": "^0.2.1",
-    "@mainset/toolkit-js": "^0.2.0"
+    "@mainset/builder-rslib": "^0.3.3",
+    "@mainset/cli": "^0.7.6",
+    "@mainset/dev-stack-fe": "^0.2.4",
+    "@mainset/toolkit-js": "^0.2.1"
   },
   "scripts": {
     "codegen": "node --import ./scripts/ts-hooks.register.mjs ./scripts/codegen.mts",

@@ -42,12 +42,12 @@
     "@mainset/ui-core": "workspace:^"
   },
   "devDependencies": {
-    "@mainset/builder-rslib": "^0.3.1",
-    "@mainset/cli": "^0.5.0",
-    "@mainset/dev-stack-fe": "^0.2.1",
-    "@mainset/toolkit-js": "^0.2.0",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3"
+    "@mainset/builder-rslib": "^0.3.3",
+    "@mainset/cli": "^0.7.6",
+    "@mainset/dev-stack-fe": "^0.2.4",
+    "@mainset/toolkit-js": "^0.2.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0"
   },
   "peerDependencies": {
     "react": ">=19.2.0 <20.0.0",
