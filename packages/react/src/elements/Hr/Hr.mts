@@ -17,6 +17,7 @@ type HrProps = React.HTMLAttributes<HTMLHRElement> &
 const Hr: React.FC<HrProps> = ({
   children,
   className,
+  style,
 
   ...props
 }) => {
@@ -38,7 +39,8 @@ const Hr: React.FC<HrProps> = ({
         classNames,
         stylesSpacingInlineStyleBased['ms-spacing'],
       ),
-      style: styleObj,
+      // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
+      style: { ...styleObj, ...style },
       ...extractedStyleProps,
     },
     children,

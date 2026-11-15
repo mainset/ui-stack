@@ -1,3 +1,5 @@
+'use client';
+
 import type { TextStyleProps } from '@mainset/ui-core';
 import {
   TEXT_BASE__CLASS_NAME_CONFIG,

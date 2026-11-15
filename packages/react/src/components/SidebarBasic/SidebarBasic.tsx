@@ -1,7 +1,10 @@
 import { OverlayContent } from '@mainset/react/containers';
 import React from 'react';
 
-interface SidebarBasicProps {
+interface SidebarBasicProps extends Pick<
+  React.AriaAttributes,
+  'aria-label' | 'aria-labelledby' | 'aria-describedby'
+> {
   sbrId: string;
   sbrIsOpen: boolean;
 }
@@ -11,11 +14,17 @@ const SidebarBasic = ({
   sbrIsOpen,
 
   children,
+  ...ariaProps
 }: React.PropsWithChildren<SidebarBasicProps>) => {
   const ovrId = React.useMemo(() => `sidebar--${sbrId}`, [sbrId]);
 
   return (
-    <OverlayContent ovrId={ovrId} ovrIsOpen={sbrIsOpen} ovrPlacement="end">
+    <OverlayContent
+      {...ariaProps}
+      ovrId={ovrId}
+      ovrIsOpen={sbrIsOpen}
+      ovrPlacement="end"
+    >
       {children}
     </OverlayContent>
   );

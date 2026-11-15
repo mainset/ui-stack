@@ -8,10 +8,7 @@ import {
 import React from 'react';
 
 interface ListWrapperProps
-  extends
-    React.HTMLAttributes<HTMLDivElement>,
-    React.ComponentPropsWithRef<React.ElementType>,
-    ListStyleProps {}
+  extends React.ComponentPropsWithRef<'ul'>, ListStyleProps {}
 
 const ListWrapper: React.FC<ListWrapperProps> = ({
   children,
@@ -25,10 +22,8 @@ const ListWrapper: React.FC<ListWrapperProps> = ({
     stylesList,
   );
 
-  const ListTag = React.useMemo(
-    () => (props.ordered ? 'ol' : 'ul'),
-    [props.ordered],
-  );
+  // NOTE: the semantic tag follows {lstStyle}, so `ordered` lists are real <ol> for assistive tech
+  const ListTag = props.lstStyle === 'ordered' ? 'ol' : 'ul';
 
   return React.createElement(
     ListTag,
@@ -40,7 +35,7 @@ const ListWrapper: React.FC<ListWrapperProps> = ({
   );
 };
 
-interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface ListItemProps extends React.ComponentPropsWithRef<'li'> {}
 
 const ListSpaceBetween: React.FC<ListItemProps> = ({
   children,

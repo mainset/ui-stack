@@ -17,6 +17,7 @@ type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement> &
 const Paragraph: React.FC<ParagraphProps> = ({
   children,
   className,
+  style,
 
   ...props
 }) => {
@@ -38,7 +39,8 @@ const Paragraph: React.FC<ParagraphProps> = ({
         classNames,
         stylesSpacingInlineStyleBased['ms-spacing'],
       ),
-      style: styleObj,
+      // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
+      style: { ...styleObj, ...style },
       ...extractedStyleProps,
     },
     children,

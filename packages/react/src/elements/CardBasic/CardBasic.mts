@@ -23,6 +23,7 @@ const PROPS__BY_CARD_SIZE = {
 const CardBasic: React.FC<CardBasicProps> = ({
   children,
   className,
+  style,
 
   ...props
 }) => {
@@ -35,7 +36,8 @@ const CardBasic: React.FC<CardBasicProps> = ({
     Surface,
     {
       className: cnx(className, stylesSpacingInlineStyleBased['ms-spacing']),
-      style: styleObj,
+      // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
+      style: { ...styleObj, ...style },
       ...props,
     },
     children,

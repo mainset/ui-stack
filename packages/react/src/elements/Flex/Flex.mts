@@ -16,8 +16,7 @@ import React from 'react';
 
 interface FlexContainerProps
   extends
-    React.HTMLAttributes<HTMLDivElement>,
-    React.ComponentPropsWithRef<React.ElementType>,
+    React.ComponentPropsWithRef<'div'>,
     FlexContainerStyleProps,
     LayoutStyleProps {}
 
@@ -44,7 +43,7 @@ const FlexContainer: React.FC<FlexContainerProps> = ({
 };
 
 interface FlexItemProps
-  extends React.HTMLAttributes<HTMLDivElement>, FlexItemStyleProps {}
+  extends React.ComponentPropsWithRef<'div'>, FlexItemStyleProps {}
 
 const FlexItem: React.FC<FlexItemProps> = ({
   children,

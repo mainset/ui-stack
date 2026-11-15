@@ -15,8 +15,7 @@ import React from 'react';
 
 interface GridContainerProps
   extends
-    React.HTMLAttributes<HTMLDivElement>,
-    React.ComponentPropsWithRef<React.ElementType>,
+    React.ComponentPropsWithRef<'div'>,
     GridContainerStyleProps,
     LayoutStyleProps {
   as?: 'main' | 'section' | 'div';
@@ -47,7 +46,7 @@ const GridContainer: React.FC<GridContainerProps> = ({
 };
 
 interface GridItemProps
-  extends React.HTMLAttributes<HTMLDivElement>, GridItemStyleProps {
+  extends React.ComponentPropsWithRef<'div'>, GridItemStyleProps {
   as?: 'section' | 'div';
 }
 

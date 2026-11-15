@@ -1,9 +1,18 @@
+'use client';
+
 import React from 'react';
 
 interface TabsContextValue {
   tbsId: string;
   tbsOnBtnTabChangeClick: (id: string) => void;
+  /** Unique per <Tabs> instance, used to link triggers and panels via ARIA */
+  tbsBaseId: string;
 }
+
+const getTabsTriggerId = (baseId: string, tbsId: string) =>
+  `${baseId}-trigger-${tbsId}`;
+const getTabsContentId = (baseId: string, tbsId: string) =>
+  `${baseId}-content-${tbsId}`;
 
 const TabsContext = React.createContext<TabsContextValue | undefined>(
   undefined,
@@ -19,5 +28,5 @@ const useTabsContext = () => {
 
 const TabsProvider = TabsContext.Provider;
 
-export { TabsProvider, useTabsContext };
+export { getTabsContentId, getTabsTriggerId, TabsProvider, useTabsContext };
 export type { TabsContextValue };

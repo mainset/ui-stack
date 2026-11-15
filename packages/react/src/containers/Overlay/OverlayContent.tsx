@@ -1,3 +1,5 @@
+'use client';
+
 import { Presence } from '@mainset/react/components';
 import { Flex } from '@mainset/react/elements';
 import { cnx } from '@mainset/ui-core';
@@ -10,10 +12,22 @@ import { OVERLAY_CONTAINER_ID } from './OverlayContainer.js';
 import { useFocusTrap } from './overlay-hooks/index.mjs';
 import * as styles from './overlay.module.scss';
 
-interface OverlayContentProps extends React.PropsWithChildren {
+interface OverlayContentProps
+  extends
+    React.PropsWithChildren,
+    Pick<
+      React.AriaAttributes,
+      'aria-label' | 'aria-labelledby' | 'aria-describedby'
+    > {
   ovrId: string; // Add id to know if it's the top-most modal
   ovrIsOpen: boolean;
   ovrPlacement?: 'middle' | 'start' | 'end';
+  /**
+   * WAI-ARIA role of the overlay; modal overlays must expose `dialog` (or `alertdialog`)
+   * together with an accessible name ({aria-label} or {aria-labelledby})
+   * @default 'dialog'
+   */
+  ovrRole?: 'dialog' | 'alertdialog';
 }
 
 const FLEX_PROPS__BY_OVERLAY_PLACEMENT = {
@@ -26,7 +40,9 @@ const OverlayContent = ({
   ovrId,
   ovrIsOpen,
   ovrPlacement = 'middle',
+  ovrRole = 'dialog',
   children,
+  ...ariaProps
 }: OverlayContentProps) => {
   const { overlayStackIds } = useMainSet();
 
@@ -47,6 +63,11 @@ const OverlayContent = ({
       <Flex
         ref={contentRef}
         className={cnx(styles['ms-overlay__content-positioner'])}
+        role={ovrRole}
+        aria-modal="true"
+        // NOTE: lets the focus trap fall back to the container when content has no focusable nodes
+        tabIndex={-1}
+        {...ariaProps}
         {...FLEX_PROPS__BY_OVERLAY_PLACEMENT[ovrPlacement]}
       >
         {children}
@@ -54,7 +75,14 @@ const OverlayContent = ({
     );
 
     return ReactDOMClient.createPortal(wrappedChildren, overlayRoot);
-  }, [children, ovrPlacement]);
+  }, [
+    children,
+    ovrPlacement,
+    ovrRole,
+    ariaProps['aria-label'],
+    ariaProps['aria-labelledby'],
+    ariaProps['aria-describedby'],
+  ]);
 
   return <Presence prsIsMounted={ovrIsOpen}>{portalNode}</Presence>;
 };

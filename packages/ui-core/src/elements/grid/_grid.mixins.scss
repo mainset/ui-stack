@@ -20,18 +20,8 @@
 
     @if $container-prop-map {
       @each $css-prop, $values in $container-prop-map {
-        @each $value in $values {
-          &--#{$css-prop}-#{$value} {
-            /*
-            @if $value == 'row-dense' {
-              #{$css-prop}: row dense;
-            } @else if $value == 'column-dense' {
-              #{$css-prop}: column dense;
-            } @else {
-              #{$css-prop}: $value;
-            }
-            */
-
+        @each $modifier, $value in $values {
+          &--#{$css-prop}-#{$modifier} {
             #{$css-prop}: $value;
           }
         }

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 // NOTE: avoid loop dependency as MainSetProvider uses OverlayContainer

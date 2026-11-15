@@ -20,7 +20,7 @@ const Spacing: React.FC<SpacingProps> = ({
 
   children,
   className,
-  // style,
+  style,
 
   ...props
 }) => {
@@ -40,7 +40,8 @@ const Spacing: React.FC<SpacingProps> = ({
     as,
     {
       className: cnx(className, stylesSpacingInlineStyleBased['ms-spacing']),
-      style: styleObj,
+      // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
+      style: { ...styleObj, ...style },
       ...restProps,
     },
     children,

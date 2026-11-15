@@ -16,6 +16,7 @@ type TextSectionProps = React.HTMLAttributes<HTMLSpanElement> &
 
 const TextSection: React.FC<TextSectionProps> = ({
   className,
+  style,
   children,
 
   ...props
@@ -38,7 +39,8 @@ const TextSection: React.FC<TextSectionProps> = ({
         classNames,
         stylesSpacingInlineStyleBased['ms-spacing'],
       ),
-      style: styleObj,
+      // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
+      style: { ...styleObj, ...style },
       ...extractedStyleProps,
     },
     children,
