@@ -1,6 +1,5 @@
-import { cnx } from './cnx.mjs';
 import type { ClassNameFromPropConfig } from './extract-class-names-from-props.mjs';
-import { extractClassNamesFromProps } from './extract-class-names-from-props.mjs';
+import { composeClassNameString } from './extract-class-names-from-props.mjs';
 import type { ResponsiveStyle } from './responsive.mjs';
 import { warnDroppedResponsiveStyle } from './responsive.mjs';
 
@@ -15,10 +14,10 @@ function composeClassNames(
   configs: ClassNameFromPropConfig[],
   props: Record<string, any>,
 ): string {
-  const [classNames, , style] = extractClassNamesFromProps(configs, props);
+  const [className, style] = composeClassNameString(configs, props);
   warnDroppedResponsiveStyle('composeClassNames', style);
 
-  return cnx(classNames);
+  return className;
 }
 
 /**
@@ -32,9 +31,9 @@ function composeStyleProps(
   configs: ClassNameFromPropConfig[],
   props: Record<string, any>,
 ): { className: string; style: ResponsiveStyle } {
-  const [classNames, , style] = extractClassNamesFromProps(configs, props);
+  const [className, style] = composeClassNameString(configs, props);
 
-  return { className: cnx(classNames), style };
+  return { className, style };
 }
 
 export { composeClassNames, composeStyleProps };

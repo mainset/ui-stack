@@ -31,7 +31,7 @@ utility base classes):
 ```ts
 buttonRecipe({ srfVariant: 'outlined', srfTheme: 'error', ctlSize: 'sm' });
 // → "ms-background ms-border ms-surface ms-surface--hover-all ms-surface--variant-outlined
-//    ms-tone-error ms-control ms-control--size-sm ms-button"
+//    ms-control ms-control--size-sm ms-button ms-tone-error"
 ```
 
 | Entry                                    | Contents                                          |

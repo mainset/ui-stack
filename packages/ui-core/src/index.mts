@@ -59,6 +59,7 @@ export type {
   TextStyleProps,
 } from './elements/index.mjs';
 export {
+  BUTTON__RECIPE_CONFIGS,
   buttonRecipe,
   controlRecipe,
   SURFACE__RECIPE_CONFIGS,
