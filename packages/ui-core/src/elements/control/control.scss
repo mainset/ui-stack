@@ -1,0 +1,46 @@
+@use '../../styles/layers';
+@forward './control.tokens';
+@use './control.variables' as controlVars;
+
+// Control = sizing + states shared by every interactive control.
+// The size class only re-points the local `--_*` variables; one rule consumes them.
+@layer ms.components {
+  #{controlVars.$class-selector} {
+    --_height: var(--ms-control-height-base);
+    --_padding-inline: var(--ms-control-padding-inline-base);
+    --_font-size: var(--ms-control-font-size-base);
+    --_line-height: var(--ms-control-line-height-base);
+    --_letter-spacing: var(--ms-control-letter-spacing-base);
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ms-control-gap);
+    min-block-size: var(--_height);
+    padding-block: 0;
+    padding-inline: var(--_padding-inline);
+    border-radius: var(--ms-control-radius);
+    font-size: var(--_font-size);
+    letter-spacing: var(--_letter-spacing);
+    line-height: var(--_line-height);
+    white-space: nowrap;
+
+    @each $size in controlVars.$sizes {
+      &--size-#{$size} {
+        --_height: var(--ms-control-height-#{$size});
+        --_padding-inline: var(--ms-control-padding-inline-#{$size});
+        --_font-size: var(--ms-control-font-size-#{$size});
+        --_line-height: var(--ms-control-line-height-#{$size});
+        --_letter-spacing: var(--ms-control-letter-spacing-#{$size});
+      }
+    }
+
+    // Validation state (inputs will use it; harmless for buttons)
+    &[aria-invalid='true'],
+    &:user-invalid {
+      --ms-tone-border: var(--ms-color-error-border);
+
+      border-color: var(--ms-color-error-border);
+    }
+  }
+}

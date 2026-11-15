@@ -1,11 +1,5 @@
 import type { ButtonStyleProps, ElementPlainSize } from '@mainset/ui-core';
-import {
-  SPACING__STYLE_CONFIG,
-  TEXT_BASE__CLASS_NAME_CONFIG,
-  cnx,
-  extractClassNamesFromProps,
-  extractStyleObjFromProps,
-} from '@mainset/ui-core';
+import { cnx, controlRecipe } from '@mainset/ui-core';
 import React from 'react';
 
 import type { ButtonBasicProps } from '../../elements/ButtonBasic/index.mjs';
@@ -23,76 +17,32 @@ type ButtonProps<C extends ButtonElementType = 'button'> = SurfaceProps &
     btnSize?: ElementPlainSize;
   };
 
-// TODO: introduce {--ms-padding-button-xs} CSS variable
-const PROPS__BY_BUTTON_SIZE = {
-  xs: {
-    txtSize: 'xs',
-    spcType: 'ph',
-    spcScale: 'element',
-    spcSize: 'sm',
-  },
-  sm: {
-    txtSize: 'sm',
-    spcType: 'ph',
-    spcScale: 'element',
-    spcSize: 'base',
-  },
-  base: {
-    txtSize: 'sm',
-    spcType: 'p',
-    spcScale: 'element',
-    spcSizes: { v: 'sm', h: 'xl' },
-  },
-  lg: {
-    txtSize: 'lg',
-    spcType: 'p',
-    spcScale: 'element',
-    spcSizes: { v: 'sm', h: 'xl' },
-  },
-  xl: {
-    txtSize: 'xl',
-    spcType: 'p',
-    spcScale: 'component',
-    spcSizes: { v: 'xs', h: 'base' },
-    // spcSizes: { v: 'sm', h: 'xl' },
-  },
-};
-
+/**
+ * Button = ButtonBasic (behaviour) + Surface (tone × variant) + Control (size).
+ * Sizes are pure CSS (`--ms-control-*` tokens), so the same button can be
+ * rendered without React via `buttonRecipe()` from `@mainset/ui-core`.
+ */
 const Button = <C extends ButtonElementType = 'button'>({
   btnSize = 'base',
   btnIsPending,
   btnIsDisabled,
 
   className,
-  style,
   children,
   ...props
 }: ButtonProps<C>) => {
-  const [classNames] = extractClassNamesFromProps(
-    [TEXT_BASE__CLASS_NAME_CONFIG],
-    PROPS__BY_BUTTON_SIZE[btnSize],
-  );
-  const [styleObj] = extractStyleObjFromProps(
-    [SPACING__STYLE_CONFIG],
-    PROPS__BY_BUTTON_SIZE[btnSize],
-  );
-
-  const isDisabled = React.useMemo(
-    () => btnIsPending || btnIsDisabled,
-    [btnIsPending, btnIsDisabled],
-  );
+  const isDisabled = btnIsPending || btnIsDisabled;
 
   return React.createElement(
     ButtonBasic,
     {
       // styling
-      className: cnx(className, classNames, 'ms-spacing'),
-      // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
-      style: { ...styleObj, ...style },
+      className: cnx(className, controlRecipe({ ctlSize: btnSize })),
 
       // btn specific
       srfHover: 'all',
       btnIsDisabled: isDisabled,
+      'aria-busy': btnIsPending || undefined,
 
       // rest
       ...props,

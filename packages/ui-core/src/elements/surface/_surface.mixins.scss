@@ -1,9 +1,0 @@
-@use 'sass:map';
-@use '../../styles/mixins' as msMixin;
-@use './surface.variables' as surfaceVars;
-
-@mixin build-surface($config, $selector: surfaceVars.$class-selector) {
-  #{$selector} {
-    // TODO:
-  }
-}

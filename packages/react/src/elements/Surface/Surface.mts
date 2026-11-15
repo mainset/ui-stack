@@ -4,11 +4,10 @@ import type {
   SurfaceStyleProps,
 } from '@mainset/ui-core';
 import {
-  BACKGROUND__CLASS_NAME_CONFIG,
-  BORDER__CLASS_NAME_CONFIG,
-  SURFACE__CLASS_NAME_CONFIG,
+  SURFACE__RECIPE_CONFIGS,
   cnx,
   extractClassNamesFromProps,
+  toneRecipe,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -40,11 +39,15 @@ type SurfaceOwnProps<C extends SurfaceElementType> = SurfaceStyleProps &
 type SurfaceProps<C extends SurfaceElementType = 'div'> = SurfaceOwnProps<C> &
   Omit<React.ComponentPropsWithoutRef<C>, keyof SurfaceOwnProps<C>>;
 
+/**
+ * Tone × variant container. All the visual logic lives in ui-core CSS:
+ * `srfTheme` sets the tone (`.ms-tone-*`), `srfVariant` picks how the tone is painted.
+ * `bg*` / `brd*` props are utilities and always win over the variant.
+ */
 const Surface = <C extends SurfaceElementType = 'div'>({
   as,
 
   srfTheme,
-  srfVariant,
 
   children,
   className,
@@ -53,46 +56,15 @@ const Surface = <C extends SurfaceElementType = 'div'>({
 }: SurfaceProps<C>) => {
   const Component = as || 'div';
 
-  const classNameProps = React.useMemo(() => {
-    const baseProps: BackgroundStyleProps & BorderStyleProps = Object.assign({
-      brdRadius: 'sm',
-    });
-
-    if (srfVariant === 'solid') {
-      baseProps['bgColor'] = srfTheme;
-      baseProps['brdColor'] = srfTheme; // Solid surfaces often need a matching border to prevent layout shifts!
-    }
-
-    if (srfVariant === 'outlined') {
-      baseProps['bgColor'] = srfTheme;
-      baseProps['brdColor'] = srfTheme;
-      baseProps['brdStyle'] = 'solid';
-      baseProps['brdWidth'] = 'base';
-    }
-
-    if (srfVariant === 'ghost') {
-      baseProps['bgColor'] = srfTheme;
-      baseProps['brdColor'] = 'transparent';
-    }
-
-    return baseProps;
-  }, [srfTheme, srfVariant]);
-
   const [classNames, restProps] = extractClassNamesFromProps(
-    [
-      BACKGROUND__CLASS_NAME_CONFIG,
-      BORDER__CLASS_NAME_CONFIG,
-      SURFACE__CLASS_NAME_CONFIG,
-    ],
-    // The latter arguments override the former:
-    // This allows a user to pass `brdRadius="pill"` to override the `sm` default!
-    Object.assign({ srfVariant }, classNameProps, props),
+    SURFACE__RECIPE_CONFIGS,
+    props,
   );
 
   return React.createElement(
     Component,
     {
-      className: cnx(className, classNames),
+      className: cnx(className, classNames, toneRecipe(srfTheme)),
       ...restProps,
     },
     children,
