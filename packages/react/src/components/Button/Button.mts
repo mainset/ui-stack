@@ -22,7 +22,7 @@ type ButtonProps<C extends ButtonElementType = 'button'> = SurfaceProps &
  * Sizes are pure CSS (`--ms-control-*` tokens), so the same button can be
  * rendered without React via `buttonRecipe()` from `@mainset/ui-core`.
  */
-const Button = <C extends ButtonElementType = 'button'>({
+function Button<C extends ButtonElementType = 'button'>({
   btnSize = 'base',
   btnIsPending,
   btnIsDisabled,
@@ -30,7 +30,7 @@ const Button = <C extends ButtonElementType = 'button'>({
   className,
   children,
   ...props
-}: ButtonProps<C>) => {
+}: ButtonProps<C>) {
   const isDisabled = btnIsPending || btnIsDisabled;
 
   return React.createElement(
@@ -49,7 +49,7 @@ const Button = <C extends ButtonElementType = 'button'>({
     },
     children,
   );
-};
+}
 
 export { Button };
 export type { ButtonProps };

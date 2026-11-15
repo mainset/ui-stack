@@ -24,14 +24,14 @@ type ButtonBasicProps<C extends ButtonElementType = 'button'> =
   ButtonBasicOwnProps<C> &
     Omit<React.ComponentPropsWithoutRef<C>, keyof ButtonBasicOwnProps<C>>;
 
-const ButtonBasic = <C extends ButtonElementType = 'button'>({
+function ButtonBasic<C extends ButtonElementType = 'button'>({
   as,
 
   children,
   className,
 
   ...props
-}: ButtonBasicProps<C>) => {
+}: ButtonBasicProps<C>) {
   const Component = as || 'button';
   const { btnIsDisabled } = props;
 
@@ -78,7 +78,7 @@ const ButtonBasic = <C extends ButtonElementType = 'button'>({
     },
     children,
   );
-};
+}
 
 export { ButtonBasic };
 export type { ButtonBasicProps };
