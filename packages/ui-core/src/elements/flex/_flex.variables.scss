@@ -1,4 +1,5 @@
 $class-selector: '.ms-flex';
+
 // NOTE: includes the CSS initial values (`row`, `nowrap`), so responsive props can switch back
 $container-prop-map: (
   display: (

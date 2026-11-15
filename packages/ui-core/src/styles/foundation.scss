@@ -1,12 +1,10 @@
 // mainset foundation: cascade layer order + every global design token.
-//
 // Tier 1 (palette)   --ms-palette-*            literal colors, never used by elements directly
 // Tier 2 (semantic)  --ms-color-*              intent per color scheme (light / dark)
 //                    --ms-color-{tone}-*       tone contract: solid | solid-hover | on-solid |
 //                                              subtle | subtle-hover | border | text
 //                    --ms-tone-*               the *current* tone, inherited; `.ms-tone-{tone}` re-points it
 // Tier 3 (component) --ms-{component}-*        declared next to each element (e.g. `_button.tokens.scss`)
-//
 // Theming: set `data-theme="light" | "dark" | "system"` on any element (nesting is supported),
 // or override tokens from unlayered CSS, e.g. `:root { --ms-palette-violet-600: #7c3aed; }`.
 @use 'sass:map';

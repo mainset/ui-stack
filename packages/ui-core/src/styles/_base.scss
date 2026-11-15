@@ -22,7 +22,9 @@
 
 @mixin utilities-layer {
   @layer ms.utilities {
-    // Hidden visually, still announced by assistive tech
+    // Hidden visually, still announced by assistive tech.
+    // `!important` is intentional: it must win over any component style on the same element.
+    /* stylelint-disable declaration-no-important */
     .ms-visually-hidden,
     .ms-visually-hidden-focusable:not(:focus, :focus-within) {
       position: absolute !important;
@@ -35,5 +37,6 @@
       border: 0 !important;
       white-space: nowrap !important;
     }
+    /* stylelint-enable declaration-no-important */
   }
 }

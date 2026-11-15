@@ -1,5 +1,6 @@
 $class-selector: '.ms-grid';
 $columns-number: 12;
+
 // NOTE: modifier -> CSS value map, so multi-word values (e.g. `row dense`) get a valid class name
 $container-prop-map: (
   display: (
