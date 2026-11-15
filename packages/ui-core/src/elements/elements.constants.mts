@@ -27,7 +27,12 @@ const SIZE_EXTENDED__ELEMENT_OPTIONS = [
   'xxl',
 ] as const;
 
+// Mobile-first breakpoints, mirrors `$breakpoint-map` (styles/_variables.scss).
+// `xs` starts at 0, so it's the default value of a responsive prop.
+const BREAKPOINT__ELEMENT_OPTIONS = ['xs', 'sm', 'base', 'lg', 'xl'] as const;
+
 export {
+  BREAKPOINT__ELEMENT_OPTIONS,
   COLOR__ELEMENT_OPTIONS,
   SIZE_EXTENDED__ELEMENT_OPTIONS,
   SIZE_PLAIN__ELEMENT_OPTIONS,

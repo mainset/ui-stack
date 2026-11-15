@@ -12,15 +12,25 @@ const LAYOUT__CLASS_NAME_CONFIG = {
     // value-mapped
     layJustify: {
       modifier: 'justify-content',
-      options: ['space-between', 'center', 'flex-end'],
+      options: [
+        'flex-start',
+        'center',
+        'flex-end',
+        'space-between',
+        'space-around',
+        'space-evenly',
+      ],
+      isResponsive: true,
     },
     layAlign: {
       modifier: 'align-items',
-      options: ['center', 'flex-end'],
+      options: ['flex-start', 'center', 'flex-end', 'stretch', 'baseline'],
+      isResponsive: true,
     },
     layGapSize: {
       modifier: 'gap-size',
       options: SIZE_PLAIN__ELEMENT_OPTIONS,
+      isResponsive: true,
     },
   },
 } as const satisfies ClassNameFromPropConfig;

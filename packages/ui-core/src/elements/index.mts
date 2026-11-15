@@ -8,10 +8,18 @@ export { BUTTON__CLASS_NAME_CONFIG } from './button/index.mjs';
 export type { ButtonStyleProps } from './button/index.mjs';
 export { CONTROL__CLASS_NAME_CONFIG } from './control/index.mjs';
 export type { ControlStyleProps } from './control/index.mjs';
+export {
+  BREAKPOINT__ELEMENT_OPTIONS,
+  COLOR__ELEMENT_OPTIONS,
+  SIZE_EXTENDED__ELEMENT_OPTIONS,
+  SIZE_PLAIN__ELEMENT_OPTIONS,
+} from './elements.constants.mjs';
 export type {
+  ElementBreakpoint,
   ElementColor,
   ElementExtendedSize,
   ElementPlainSize,
+  ResponsiveValue,
 } from './elements.types.mjs';
 export {
   FLEX_CONTAINER__CLASS_NAME_CONFIG,
@@ -42,8 +50,9 @@ export type { PopperWrapperStyleProps } from './popper/index.mjs';
 export { SECTION__CLASS_NAME_CONFIG } from './section/index.mjs';
 export type { SectionStyleProps } from './section/index.mjs';
 export {
+  extractSpacingClassNamesFromProps,
   SPACING__CLASS_NAME_CONFIG,
-  SPACING__STYLE_CONFIG,
+  spacingRecipe,
 } from './spacing/index.mjs';
 export type { SpacingStyleProps } from './spacing/index.mjs';
 export { SURFACE__CLASS_NAME_CONFIG } from './surface/index.mjs';

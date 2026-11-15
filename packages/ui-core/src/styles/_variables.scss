@@ -251,16 +251,20 @@ $layout-gap-map: (
 
 // grid
 $grid-number-of-columns: 12;
-$grid-breakpoint-map: (
+
+// Breakpoints (mobile-first, `min-width`). The single source for media queries,
+// responsive props (`{ xs: 'column', base: 'row' }`) and section max-widths.
+// NOTE: `xs` starts at 0, so it's the default (no media query).
+$breakpoint-map: (
   xs: 0rem,
-  // 0px
-  sm: 36rem,
   // 576px
-  base: 48rem,
+  sm: 36rem,
   // 768px
-  lg: 62rem,
+  base: 48rem,
   // 992px
-  xl: 75rem, // 1200px
+  lg: 62rem,
+  // 1200px
+  xl: 75rem,
 );
 
 // Stacking order of floating layers

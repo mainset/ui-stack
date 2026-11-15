@@ -1,10 +1,9 @@
 import type { SpacingStyleProps, TextStyleProps } from '@mainset/ui-core';
 import {
-  SPACING__STYLE_CONFIG,
   TEXT_BASE__CLASS_NAME_CONFIG,
   cnx,
   extractClassNamesFromProps,
-  extractStyleObjFromProps,
+  extractSpacingClassNamesFromProps,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -13,9 +12,8 @@ type TextSectionProps = React.HTMLAttributes<HTMLSpanElement> &
   Partial<SpacingStyleProps>;
 
 const TextSection: React.FC<TextSectionProps> = ({
-  className,
-  style,
   children,
+  className,
 
   ...props
 }) => {
@@ -23,18 +21,14 @@ const TextSection: React.FC<TextSectionProps> = ({
     [TEXT_BASE__CLASS_NAME_CONFIG],
     props,
   );
-  const [styleObj, extractedStyleProps] = extractStyleObjFromProps(
-    [SPACING__STYLE_CONFIG],
-    extractedCNProps,
-  );
+  const [spacingClassNames, restProps] =
+    extractSpacingClassNamesFromProps(extractedCNProps);
 
   return React.createElement(
     'span',
     {
-      className: cnx(className, classNames, 'ms-spacing'),
-      // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
-      style: { ...styleObj, ...style },
-      ...extractedStyleProps,
+      className: cnx(className, classNames, spacingClassNames),
+      ...restProps,
     },
     children,
   );

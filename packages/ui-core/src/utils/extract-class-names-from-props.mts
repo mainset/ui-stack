@@ -1,7 +1,19 @@
 type CNBasedPropDefinition = {
   options: readonly (string | boolean | number)[];
   defaultValue?: string | boolean | number;
+  /**
+   * Accepts a per-breakpoint object, e.g. `{ xs: 'column', base: 'row' }`.
+   * Each entry generates the class with an `@{breakpoint}` suffix (none for `xs`),
+   * matching the CSS emitted by the `responsive-variants` Sass mixin.
+   */
+  isResponsive?: boolean;
 };
+
+// The mobile-first default breakpoint: its classes carry no `@{breakpoint}` suffix
+const RESPONSIVE_BASE_BREAKPOINT = 'xs';
+
+const isResponsiveObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
 
 type ComposedConfig = {
   baseClass: string;
@@ -72,6 +84,25 @@ function processComposedConfig(
   }
 }
 
+function buildMultipleConfigClass(
+  baseClass: string,
+  configPropName: string,
+  modifier: string | undefined,
+  propValue: unknown,
+): string | null {
+  if (propValue == null || propValue === false) return null;
+
+  if (propValue === true) {
+    return modifier
+      ? `${baseClass}--${modifier}`
+      : `${baseClass}--${configPropName}`;
+  }
+
+  return modifier
+    ? `${baseClass}--${modifier}-${propValue}`
+    : `${baseClass}--${propValue}`;
+}
+
 function processMultipleConfig(
   config: ClassNameFromPropConfig,
   props: Record<string, any>,
@@ -80,6 +111,13 @@ function processMultipleConfig(
   classes: string[],
 ) {
   const { baseClass, classNameDefinitionByPropName } = config;
+
+  const pushClass = (generatedClass: string | null) => {
+    if (!generatedClass) return;
+
+    const resolvedClass = styles ? styles[generatedClass] : undefined;
+    classes.push(resolvedClass || generatedClass);
+  };
 
   for (const configPropName in classNameDefinitionByPropName) {
     if (
@@ -96,24 +134,30 @@ function processMultipleConfig(
       props[configPropName] !== undefined
         ? props[configPropName]
         : propConfig.defaultValue;
+    const { modifier } = propConfig;
 
-    if (propValue != null && propValue !== false) {
-      const { modifier } = propConfig;
-      let generatedClass = '';
+    if (propConfig.isResponsive && isResponsiveObject(propValue)) {
+      for (const breakpoint in propValue) {
+        const generatedClass = buildMultipleConfigClass(
+          baseClass,
+          configPropName,
+          modifier,
+          propValue[breakpoint],
+        );
+        if (!generatedClass) continue;
 
-      if (propValue === true) {
-        generatedClass = modifier
-          ? `${baseClass}--${modifier}`
-          : `${baseClass}--${configPropName}`;
-      } else {
-        generatedClass = modifier
-          ? `${baseClass}--${modifier}-${propValue}`
-          : `${baseClass}--${propValue}`;
+        pushClass(
+          breakpoint === RESPONSIVE_BASE_BREAKPOINT
+            ? generatedClass
+            : `${generatedClass}@${breakpoint}`,
+        );
       }
-
-      const resolvedClass = styles ? styles[generatedClass] : undefined;
-      classes.push(resolvedClass || generatedClass);
+      continue;
     }
+
+    pushClass(
+      buildMultipleConfigClass(baseClass, configPropName, modifier, propValue),
+    );
   }
 }
 

@@ -1,9 +1,17 @@
 $class-selector: '.ms-layout';
+// NOTE: includes the CSS initial-ish values (`flex-start`, `stretch`), so responsive props can switch back
 $layout-prop-map: (
-  // horizontal alignment
-  justify-content: (space-between, center, flex-end),
-  // vertical alignment
-  align-items: (center, flex-end)
+  // main axis
+  justify-content: (
+      flex-start,
+      center,
+      flex-end,
+      space-between,
+      space-around,
+      space-evenly
+    ),
+  // cross axis
+  align-items: (flex-start, center, flex-end, stretch, baseline)
 );
 $gap-map: (
   xs: (

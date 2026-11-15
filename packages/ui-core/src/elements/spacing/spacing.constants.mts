@@ -2,13 +2,9 @@
 // so bundlers keep it when tree-shaking re-exports through the side-effect-free `index.mjs`.
 // Foundation (layer order + tokens) goes first; bundlers dedupe it across elements.
 import '../../styles/foundation.scss';
-import type {
-  ClassNameFromPropConfig,
-  StyleObjFromPropConfig,
-} from '../../utils/index.mjs';
+import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
 import { SIZE_PLAIN__ELEMENT_OPTIONS } from '../elements.constants.mjs';
-import './spacing-cn-based.scss';
-import './spacing-inline-style-based.scss';
+import './spacing.scss';
 
 const SPACING__CLASS_NAME_CONFIG = {
   baseClass: 'ms-spacing',
@@ -47,74 +43,4 @@ const SPACING__CLASS_NAME_CONFIG = {
   },
 } as const satisfies ClassNameFromPropConfig;
 
-const SPACING__STYLE_CONFIG = {
-  styleDefinitionByPropName: {
-    // value-mapped
-    spcType: {
-      modifiers: [
-        'm', // margin
-        'p', // padding
-
-        // margin
-        'mt', // top
-        'me', // end (right in LTR, left in RTL)
-        'mb', // bottom
-        'ms', // start (left in LTR, right in RTL)
-        'mv', // vertical
-        'mh', // horizontal
-
-        // padding
-        'pt', // top
-        'pe', // end (right in LTR, left in RTL)
-        'pb', // bottom
-        'ps', // start (left in LTR, right in RTL)
-        'pv', // vertical
-        'ph', // horizontal
-      ],
-    },
-    spcScale: {
-      cssVariableName: '--ms-spacing-scale',
-      valueByModifier: {
-        element: 2,
-        component: 4,
-        block: 6,
-        section: 10,
-      },
-    },
-    spcSize: {
-      cssVariableName: '--ms-spacing-size',
-      cssVariableNameModifierFromProp: 'spcType',
-      valueByModifier: {
-        xs: 1,
-        sm: 2,
-        base: 3,
-        lg: 4,
-        xl: 5,
-      },
-    },
-    // NOTE: interval prop used for calculating the CSS variable value based on the scale and size props
-    spcOffset: {
-      cssVariableName: '--ms-spacing-offset',
-      valueMappedFromProp: 'spcScale',
-      valueByModifier: {
-        element: 0,
-        component: 10,
-        block: 30,
-        section: 60,
-      },
-    },
-    spcSizes: {
-      cssVariableName: '--ms-spacing-size',
-      cssVariableNameModifierFromProp: 'spcType',
-      valueByModifier: {
-        xs: 1,
-        sm: 2,
-        base: 3,
-        lg: 4,
-        xl: 5,
-      },
-    },
-  },
-} as const satisfies StyleObjFromPropConfig;
-
-export { SPACING__CLASS_NAME_CONFIG, SPACING__STYLE_CONFIG };
+export { SPACING__CLASS_NAME_CONFIG };
