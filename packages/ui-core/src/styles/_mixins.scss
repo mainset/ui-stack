@@ -16,7 +16,7 @@
 }
 
 // Mobile-first media query from the shared breakpoint map
-// @example @include media-up(base) { ... } // ≥ 768px
+// @example @include media-up(md) { ... } // ≥ 768px
 @mixin media-up($breakpoint) {
   $min-width: map.get(msVariable.$breakpoint-map, $breakpoint);
 
@@ -34,8 +34,8 @@
 }
 
 // Emits the content once as-is, then once per breakpoint with a `@{breakpoint}` class suffix,
-// e.g. `.ms-flex--flex-direction-row` + `.ms-flex--flex-direction-row\@base` inside `min-width: 48rem`.
-// Matches the class names produced by responsive props: `flxDirection={{ xs: 'column', base: 'row' }}`.
+// e.g. `.ms-flex--flex-direction-row` + `.ms-flex--flex-direction-row\@md` inside `min-width: 48rem`.
+// Matches the class names produced by responsive props: `flxDirection={{ base: 'column', md: 'row' }}`.
 @mixin responsive-variants {
   @content ('');
 

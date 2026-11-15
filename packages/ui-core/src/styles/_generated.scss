@@ -233,9 +233,9 @@ $layout-gap-map: (
 );
 
 $breakpoint-map: (
-  'xs': 0rem,
+  'base': 0rem,
   'sm': 36rem,
-  'base': 48rem,
+  'md': 48rem,
   'lg': 62rem,
   'xl': 75rem,
 );
