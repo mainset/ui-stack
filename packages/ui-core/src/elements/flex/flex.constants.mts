@@ -13,10 +13,17 @@ const FLEX_CONTAINER__CLASS_NAME_CONFIG = {
       modifier: 'display',
       options: ['flex', 'inline-flex'],
       defaultValue: 'flex',
+      isResponsive: true,
     },
     flxDirection: {
       modifier: 'flex-direction',
-      options: ['row-reverse', 'column', 'column-reverse'],
+      options: ['row', 'row-reverse', 'column', 'column-reverse'],
+      isResponsive: true,
+    },
+    flxWrap: {
+      modifier: 'flex-wrap',
+      options: ['nowrap', 'wrap', 'wrap-reverse'],
+      isResponsive: true,
     },
   },
 } as const satisfies ClassNameFromPropConfig;

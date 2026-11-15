@@ -17,11 +17,13 @@
         1fr
       )
     );
+  }
 
-    @if $container-prop-map {
+  @if $container-prop-map {
+    @include msMixin.responsive-variants using ($suffix) {
       @each $css-prop, $values in $container-prop-map {
         @each $modifier, $value in $values {
-          &--#{$css-prop}-#{$modifier} {
+          #{$selector}--#{$css-prop}-#{$modifier}#{$suffix} {
             #{$css-prop}: $value;
           }
         }

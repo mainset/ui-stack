@@ -1,15 +1,20 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
+import type { ResponsiveValue } from '../elements.types.mjs';
 import { GRID_CONTAINER__CLASS_NAME_CONFIG } from './grid.constants.mjs';
 
 interface GridContainerStyleProps {
-  // value-mapped
-  grdDisplay?: ExtractClassNameFromPropOptions<
-    typeof GRID_CONTAINER__CLASS_NAME_CONFIG,
-    'grdDisplay'
+  // value-mapped (responsive)
+  grdDisplay?: ResponsiveValue<
+    ExtractClassNameFromPropOptions<
+      typeof GRID_CONTAINER__CLASS_NAME_CONFIG,
+      'grdDisplay'
+    >
   > | null;
-  grdAutoFlow?: ExtractClassNameFromPropOptions<
-    typeof GRID_CONTAINER__CLASS_NAME_CONFIG,
-    'grdAutoFlow'
+  grdAutoFlow?: ResponsiveValue<
+    ExtractClassNameFromPropOptions<
+      typeof GRID_CONTAINER__CLASS_NAME_CONFIG,
+      'grdAutoFlow'
+    >
   > | null;
 }
 

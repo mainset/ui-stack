@@ -1,11 +1,19 @@
-@use 'sass:map';
 @use '../../styles/mixins' as msMixin;
-@use './flex.variables' as flexVars;
 
-@mixin build-flex-classes($config, $selector) {
+@mixin build-flex-classes($config, $selector, $is-responsive: false) {
+  @if $is-responsive {
+    @include msMixin.responsive-variants using ($suffix) {
+      @include -flex-classes($config, $selector, $suffix);
+    }
+  } @else {
+    @include -flex-classes($config, $selector, '');
+  }
+}
+
+@mixin -flex-classes($config, $selector, $suffix) {
   @each $css-prop, $values in $config {
     @each $value in $values {
-      #{$selector}--#{$css-prop}-#{$value} {
+      #{$selector}--#{$css-prop}-#{$value}#{$suffix} {
         #{$css-prop}: $value;
       }
     }

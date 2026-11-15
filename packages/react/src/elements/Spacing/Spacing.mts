@@ -1,11 +1,5 @@
 import type { SpacingStyleProps } from '@mainset/ui-core';
-import {
-  // SPACING__CLASS_NAME_CONFIG,
-  SPACING__STYLE_CONFIG,
-  cnx,
-  // extractClassNamesFromProps,
-  extractStyleObjFromProps,
-} from '@mainset/ui-core';
+import { cnx, extractSpacingClassNamesFromProps } from '@mainset/ui-core';
 import React from 'react';
 
 type SpacingProps = React.HTMLAttributes<HTMLElement> &
@@ -18,27 +12,16 @@ const Spacing: React.FC<SpacingProps> = ({
 
   children,
   className,
-  style,
 
   ...props
 }) => {
-  // 1. Maintain the exact extraction usage for standard utility classes
-  // const [classNames, restProps] = extractClassNamesFromProps(
-  //   [SPACING__CLASS_NAME_CONFIG],
-  //   props,
-  // );
-
-  const [styleObj, restProps] = extractStyleObjFromProps(
-    [SPACING__STYLE_CONFIG],
-    props,
-  );
+  const [spacingClassNames, restProps] =
+    extractSpacingClassNamesFromProps(props);
 
   return React.createElement(
     as,
     {
-      className: cnx(className, 'ms-spacing'),
-      // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
-      style: { ...styleObj, ...style },
+      className: cnx(className, spacingClassNames),
       ...restProps,
     },
     children,

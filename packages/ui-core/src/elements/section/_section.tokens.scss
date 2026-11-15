@@ -4,13 +4,10 @@
 @layer ms.tokens {
   :root {
     // ----- Max-width tokens for layout constraints -----
-    --ms-max-width-section-xs: #{map.get(msVariable.$grid-breakpoint-map, xs)};
-    --ms-max-width-section-sm: #{map.get(msVariable.$grid-breakpoint-map, sm)};
-    --ms-max-width-section-base: #{map.get(
-        msVariable.$grid-breakpoint-map,
-        base
-      )};
-    --ms-max-width-section-lg: #{map.get(msVariable.$grid-breakpoint-map, lg)};
-    --ms-max-width-section-xl: #{map.get(msVariable.$grid-breakpoint-map, xl)};
+    --ms-max-width-section-xs: #{map.get(msVariable.$breakpoint-map, xs)};
+    --ms-max-width-section-sm: #{map.get(msVariable.$breakpoint-map, sm)};
+    --ms-max-width-section-base: #{map.get(msVariable.$breakpoint-map, base)};
+    --ms-max-width-section-lg: #{map.get(msVariable.$breakpoint-map, lg)};
+    --ms-max-width-section-xl: #{map.get(msVariable.$breakpoint-map, xl)};
   }
 }

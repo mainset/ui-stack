@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use './variables' as msVariable;
 
 @mixin map-to-style($mapAsStyle: ()) {
   @each $key, $value in $mapAsStyle {
@@ -12,4 +13,37 @@
   }
 
   @return $map;
+}
+
+// Mobile-first media query from the shared breakpoint map
+// @example @include media-up(base) { ... } // ≥ 768px
+@mixin media-up($breakpoint) {
+  $min-width: map.get(msVariable.$breakpoint-map, $breakpoint);
+
+  @if not $min-width {
+    @error 'Unknown breakpoint `#{$breakpoint}`. Expected one of: #{map.keys(msVariable.$breakpoint-map)}';
+  }
+
+  @if not($min-width > 0) {
+    @content;
+  } @else {
+    @media (min-width: $min-width) {
+      @content;
+    }
+  }
+}
+
+// Emits the content once as-is, then once per breakpoint with a `@{breakpoint}` class suffix,
+// e.g. `.ms-flex--flex-direction-row` + `.ms-flex--flex-direction-row\@base` inside `min-width: 48rem`.
+// Matches the class names produced by responsive props: `flxDirection={{ xs: 'column', base: 'row' }}`.
+@mixin responsive-variants {
+  @content ('');
+
+  @each $breakpoint, $min-width in msVariable.$breakpoint-map {
+    @if $min-width > 0 {
+      @media (min-width: $min-width) {
+        @content ('\\@#{$breakpoint}');
+      }
+    }
+  }
 }

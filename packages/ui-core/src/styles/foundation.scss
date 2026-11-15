@@ -109,6 +109,11 @@ $-size-steps: (xs, sm, base, lg, xl);
       --ms-space-layout-row-#{$name}: #{$value};
     }
 
+    // ----- Breakpoint tokens (for JS; CSS media queries can't read custom properties) -----
+    @each $name, $value in msVariable.$breakpoint-map {
+      --ms-breakpoint-#{$name}: #{$value};
+    }
+
     // ----- Z-index tokens -----
     @each $name, $value in msVariable.$z-index-map {
       --ms-z-index-#{$name}: #{$value};

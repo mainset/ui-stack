@@ -1,8 +1,4 @@
-import {
-  SPACING__STYLE_CONFIG,
-  cnx,
-  extractStyleObjFromProps,
-} from '@mainset/ui-core';
+import { cnx, spacingRecipe } from '@mainset/ui-core';
 import React from 'react';
 
 import type { SurfaceProps } from '../Surface/index.mjs';
@@ -17,26 +13,18 @@ const PROPS__BY_CARD_SIZE = {
     spcScale: 'component',
     spcSize: 'xl',
   },
-};
+} as const;
 
 const CardBasic: React.FC<CardBasicProps> = ({
   children,
   className,
-  style,
 
   ...props
 }) => {
-  const [styleObj] = extractStyleObjFromProps(
-    [SPACING__STYLE_CONFIG],
-    PROPS__BY_CARD_SIZE['base'],
-  );
-
   return React.createElement(
     Surface,
     {
-      className: cnx(className, 'ms-spacing'),
-      // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
-      style: { ...styleObj, ...style },
+      className: cnx(className, spacingRecipe(PROPS__BY_CARD_SIZE['base'])),
       ...props,
     },
     children,
