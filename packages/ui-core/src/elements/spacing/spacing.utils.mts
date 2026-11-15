@@ -5,10 +5,13 @@ import { cnx } from '../../utils/index.mjs';
 import type { ResponsiveStyle } from '../../utils/responsive.mjs';
 import {
   RESPONSIVE_BASE_BREAKPOINT,
+  isDeclaredOption,
   isResponsiveObject,
   responsiveVarClassName,
   responsiveVarName,
+  warnDroppedResponsiveStyle,
 } from '../../utils/responsive.mjs';
+import { SPACING__CLASS_NAME_CONFIG } from './spacing.constants.mjs';
 import './spacing.scss';
 import type { SpacingSize, SpacingStyleProps } from './spacing.types.mjs';
 
@@ -16,6 +19,8 @@ type SpacingPropName = 'spcType' | 'spcScale' | 'spcSize' | 'spcSizes';
 type SpacingPropsInput = Partial<SpacingStyleProps> & Record<string, any>;
 
 const BASE_CLASS = 'ms-spacing';
+const { spcScale: SCALE_DEFINITION, spcSize: SIZE_DEFINITION } =
+  SPACING__CLASS_NAME_CONFIG.classNameDefinitionByPropName;
 
 // One spacing type (`ph`, `mt`, …): a plain size is a class; in a per-breakpoint map the `base`
 // size is that class too, every other breakpoint adds `ms-spacing--ph@md` + its CSS variable
@@ -42,6 +47,13 @@ function pushSpacingSize(
     if (breakpoint === RESPONSIVE_BASE_BREAKPOINT) {
       classNames.push(`${BASE_CLASS}--${type}-${scale}-${breakpointSize}`);
     } else {
+      // NOTE: only declared options reach the inline style (no arbitrary CSS through a prop)
+      if (
+        !isDeclaredOption(SCALE_DEFINITION.options, scale) ||
+        !isDeclaredOption(SIZE_DEFINITION.options, breakpointSize)
+      )
+        continue;
+
       classNames.push(responsiveVarClassName(BASE_CLASS, type, breakpoint));
       style[responsiveVarName(BASE_CLASS, type, breakpoint)] =
         `var(--ms-spacing-scale-${scale}-${breakpointSize})`;
@@ -83,13 +95,25 @@ function extractSpacingClassNamesFromProps<TProps extends SpacingPropsInput>(
 }
 
 /**
- * @example spacingRecipe({ spcType: 'mt', spcScale: 'block', spcSize: 'lg' })
- * // → { className: 'ms-spacing--mt-block-lg', style: {} }
- * spacingRecipe({ spcType: 'pv', spcScale: 'section', spcSize: { base: 'xs', md: 'lg' } })
+ * Spacing props → class string, like every other `*Recipe()`.
+ * For per-breakpoint sizes use {spacingStyleProps}, which also returns the inline style.
+ * @example spacingRecipe({ spcType: 'mt', spcScale: 'block', spcSize: 'lg' }) // → "ms-spacing--mt-block-lg"
+ */
+function spacingRecipe(props: SpacingPropsInput = {}): string {
+  const [classNames, , style] = extractSpacingClassNamesFromProps(props);
+  warnDroppedResponsiveStyle('spacingRecipe', style);
+
+  return cnx(classNames);
+}
+
+/**
+ * Like {spacingRecipe}, plus the inline CSS variables of per-breakpoint sizes.
+ * @example
+ * spacingStyleProps({ spcType: 'pv', spcScale: 'section', spcSize: { base: 'xs', md: 'lg' } })
  * // → { className: 'ms-spacing--pv-section-xs ms-spacing--pv@md',
  * //     style: { '--ms-spacing-pv-at-md': 'var(--ms-spacing-scale-section-lg)' } }
  */
-function spacingRecipe(props: SpacingPropsInput = {}): {
+function spacingStyleProps(props: SpacingPropsInput = {}): {
   className: string;
   style: ResponsiveStyle;
 } {
@@ -98,4 +122,4 @@ function spacingRecipe(props: SpacingPropsInput = {}): {
   return { className: cnx(classNames), style };
 }
 
-export { extractSpacingClassNamesFromProps, spacingRecipe };
+export { extractSpacingClassNamesFromProps, spacingRecipe, spacingStyleProps };

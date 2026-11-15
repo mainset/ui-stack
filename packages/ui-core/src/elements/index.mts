@@ -53,6 +53,7 @@ export {
   extractSpacingClassNamesFromProps,
   SPACING__CLASS_NAME_CONFIG,
   spacingRecipe,
+  spacingStyleProps,
 } from './spacing/index.mjs';
 export type { SpacingStyleProps } from './spacing/index.mjs';
 export { SURFACE__CLASS_NAME_CONFIG } from './surface/index.mjs';

@@ -135,13 +135,16 @@
 // Mobile-first CSS-variable variants (`css-var` responsive props): per breakpoint above `base`,
 // one class `.{base-class}--{modifier}@{breakpoint}` reading `--{base-class}-{modifier}-at-{breakpoint}`,
 // which the TS extractors set inline (`utils/responsive.mts` builds the same names).
-// The content block receives `($value)`: the `var()` to apply.
-@mixin responsive-var-variants($base-class, $modifier, $tier: component) {
+// `$modifiers` is one modifier or a list: all of them share one `@media` block per breakpoint.
+// The content block receives `($modifier, $value)`: the `var()` to apply.
+@mixin responsive-var-variants($base-class, $modifiers, $tier: component) {
   @each $breakpoint, $min-width in msVariable.$breakpoint-map {
     @if $min-width > 0 {
       @media (min-width: $min-width) {
-        #{-tier-selector('.#{$base-class}--#{$modifier}\\@#{$breakpoint}', $tier)} {
-          @content (var(--#{$base-class}-#{$modifier}-at-#{$breakpoint}));
+        @each $modifier in $modifiers {
+          #{-tier-selector('.#{$base-class}--#{$modifier}\\@#{$breakpoint}', $tier)} {
+            @content ($modifier, var(--#{$base-class}-#{$modifier}-at-#{$breakpoint}));
+          }
         }
       }
     }
@@ -194,7 +197,7 @@
       }
 
       @include responsive-var-variants($base-class, $modifier, $tier) using
-        ($value) {
+        ($_, $value) {
         @content (null, $value);
       }
     }

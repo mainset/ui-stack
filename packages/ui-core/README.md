@@ -15,7 +15,7 @@ contains only the CSS of the elements in use.
 ```html
 <!-- the reset is optional; when used, load it first -->
 <link rel="stylesheet" href="@mainset/ui-core/styles/reset.css" />
-<link rel="stylesheet" href="@mainset/ui-core/styles/index.css" />
+<link rel="stylesheet" href="@mainset/ui-core/styles/index.min.css" />
 
 <button
   class="ms-surface ms-surface--variant-outlined ms-surface--hover-all ms-tone-error
@@ -38,6 +38,7 @@ buttonRecipe({ srfVariant: 'outlined', srfTheme: 'error', ctlSize: 'sm' });
 | ---------------------------------------- | ------------------------------------------------- |
 | `@mainset/ui-core`                       | class-name configs, recipes, types, utils         |
 | `@mainset/ui-core/styles/index.css`      | foundation + every element                        |
+| `@mainset/ui-core/styles/index.min.css`  | the same, minified (for use without a bundler)    |
 | `@mainset/ui-core/styles/foundation.css` | all design tokens + base styles + tone classes    |
 | `@mainset/ui-core/styles/reset.css`      | opt-in modern reset (`normalize.css` is an alias) |
 | `@mainset/ui-core/scss/mixins`           | `media-up()`, `responsive-variants`, helpers      |
@@ -245,11 +246,13 @@ const { className, style } = composeStyleProps(
     layGapSize: { base: 'xs', md: 'xl' },
   },
 );
-// spacing: spacingRecipe({ ... }) → { className, style }
+// spacing: spacingStyleProps({ ... }) → { className, style }
 ```
 
-`composeClassNames()` returns the class string only; with an object value of a `css-var` prop
-the breakpoint class then has no value, so use `composeStyleProps()` there.
+`composeClassNames()` / `spacingRecipe()` return the class string only, like every `*Recipe()`;
+with an object value of a `css-var` prop the breakpoint class then has no value (a dev-only
+console warning says so), so use `composeStyleProps()` / `spacingStyleProps()` there.
+Only declared options become inline variables; unknown values are skipped.
 
 > **CSP:** the variables are inline `style` attributes. React sets them through the DOM API
 > (allowed by a strict `style-src`), but server-rendered HTML carries them as attributes, which
