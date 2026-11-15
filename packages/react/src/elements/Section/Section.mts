@@ -5,8 +5,6 @@ import {
   SectionStyleProps,
   cnx,
   extractClassNamesFromProps,
-  stylesBackground,
-  stylesSection,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -25,7 +23,6 @@ const Section: React.FC<SectionProps> = ({
   const [classNames, restProps] = extractClassNamesFromProps(
     [SECTION__CLASS_NAME_CONFIG, BACKGROUND__CLASS_NAME_CONFIG],
     props,
-    Object.assign({}, stylesSection, stylesBackground),
   );
 
   return React.createElement(

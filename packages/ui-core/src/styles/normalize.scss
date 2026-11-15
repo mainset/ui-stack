@@ -1,28 +1,32 @@
-body,
-// text
-p,
-span,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-// extra
-hr {
-  margin: 0;
-}
+@use './layers';
 
-html,
-body {
-  height: 100%;
-}
+@layer ms.reset {
+  body,
+  // text
+  p,
+  span,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  // extra
+  hr {
+    margin: 0;
+  }
 
-a {
-  text-decoration: none;
-}
+  html,
+  body {
+    height: 100%;
+  }
 
-button {
-  border: none;
-  background-color: initial;
+  a {
+    text-decoration: none;
+  }
+
+  button {
+    border: none;
+    background-color: initial;
+  }
 }

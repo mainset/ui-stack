@@ -5,8 +5,6 @@ import {
   cnx,
   extractClassNamesFromProps,
   extractStyleObjFromProps,
-  stylesSpacingInlineStyleBased,
-  stylesTextBase,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -73,7 +71,6 @@ const Button = <C extends ButtonElementType = 'button'>({
   const [classNames] = extractClassNamesFromProps(
     [TEXT_BASE__CLASS_NAME_CONFIG],
     PROPS__BY_BUTTON_SIZE[btnSize],
-    stylesTextBase,
   );
   const [styleObj] = extractStyleObjFromProps(
     [SPACING__STYLE_CONFIG],
@@ -89,11 +86,7 @@ const Button = <C extends ButtonElementType = 'button'>({
     ButtonBasic,
     {
       // styling
-      className: cnx(
-        className,
-        classNames,
-        stylesSpacingInlineStyleBased['ms-spacing'],
-      ),
+      className: cnx(className, classNames, 'ms-spacing'),
       // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
       style: { ...styleObj, ...style },
 

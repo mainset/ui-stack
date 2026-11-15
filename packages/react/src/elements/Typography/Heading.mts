@@ -3,7 +3,6 @@ import {
   TEXT_BASE__CLASS_NAME_CONFIG,
   cnx,
   extractClassNamesFromProps,
-  stylesTextBase,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -23,7 +22,6 @@ const Heading: React.FC<HeadingProps> = ({
   const [classNames, restProps] = extractClassNamesFromProps(
     [TEXT_BASE__CLASS_NAME_CONFIG],
     props,
-    stylesTextBase,
   );
 
   return React.createElement(

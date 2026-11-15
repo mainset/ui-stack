@@ -1,10 +1,14 @@
+@use '../../styles/layers';
 @forward './background.tokens';
 @use './background.variables' as backgroundVars;
 @use './background.mixins' as backgroundMixins;
 
 // Robust generation for all classes
-@include backgroundMixins.build-background(
-  (
-    color: backgroundVars.$color-map,
-  )
-);
+
+@layer ms.utilities {
+  @include backgroundMixins.build-background(
+    (
+      color: backgroundVars.$color-map,
+    )
+  );
+}

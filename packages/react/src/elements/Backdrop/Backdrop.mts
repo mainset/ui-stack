@@ -7,8 +7,6 @@ import {
   BACKGROUND__CLASS_NAME_CONFIG,
   cnx,
   extractClassNamesFromProps,
-  stylesBackdrop,
-  stylesBackground,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -39,7 +37,6 @@ const Backdrop: React.FC<BackdropProps> = ({
   const [classNames, restProps] = extractClassNamesFromProps(
     [BACKDROP__CLASS_NAME_CONFIG, BACKGROUND__CLASS_NAME_CONFIG],
     props,
-    Object.assign({}, stylesBackdrop, stylesBackground),
   );
 
   return React.createElement(

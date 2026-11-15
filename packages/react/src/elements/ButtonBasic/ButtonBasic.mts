@@ -3,7 +3,6 @@ import {
   BUTTON__CLASS_NAME_CONFIG,
   cnx,
   extractClassNamesFromProps,
-  stylesButton,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -39,7 +38,6 @@ const ButtonBasic = <C extends ButtonElementType = 'button'>({
   const [classNames, restProps] = extractClassNamesFromProps(
     [BUTTON__CLASS_NAME_CONFIG],
     props,
-    stylesButton,
   );
 
   // 4. Combine tag-specific defaults and disabled states safely
@@ -74,7 +72,7 @@ const ButtonBasic = <C extends ButtonElementType = 'button'>({
     Surface,
     {
       as: Component,
-      className: cnx(className, classNames, stylesButton['ms-button']),
+      className: cnx(className, classNames),
       ...elementProps,
       ...restProps,
     },

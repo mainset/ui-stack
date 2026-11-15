@@ -1,0 +1,8 @@
+@use 'sass:map';
+@use './grid.variables' as gridVars;
+
+@layer ms.tokens {
+  :root {
+    --ms-grid-columns-number: 12;
+  }
+}

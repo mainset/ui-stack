@@ -9,8 +9,6 @@ import {
   LAYOUT__CLASS_NAME_CONFIG,
   cnx,
   extractClassNamesFromProps,
-  stylesFlex,
-  stylesLayout,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -29,7 +27,6 @@ const FlexContainer: React.FC<FlexContainerProps> = ({
   const [classNames, restProps] = extractClassNamesFromProps(
     [FLEX_CONTAINER__CLASS_NAME_CONFIG, LAYOUT__CLASS_NAME_CONFIG],
     props,
-    Object.assign({}, stylesFlex, stylesLayout),
   );
 
   return React.createElement(
@@ -54,7 +51,6 @@ const FlexItem: React.FC<FlexItemProps> = ({
   const [classNames, restProps] = extractClassNamesFromProps(
     [FLEX_ITEM__CLASS_NAME_CONFIG],
     props,
-    stylesFlex,
   );
 
   return React.createElement(

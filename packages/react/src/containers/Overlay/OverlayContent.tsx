@@ -2,7 +2,6 @@
 
 import { Presence } from '@mainset/react/components';
 import { Flex } from '@mainset/react/elements';
-import { cnx } from '@mainset/ui-core';
 import React from 'react';
 import ReactDOMClient from 'react-dom';
 
@@ -10,7 +9,7 @@ import ReactDOMClient from 'react-dom';
 import { useMainSet } from '../MainSetContext/MainSetContext.mjs';
 import { OVERLAY_CONTAINER_ID } from './OverlayContainer.js';
 import { useFocusTrap } from './overlay-hooks/index.mjs';
-import * as styles from './overlay.module.scss';
+import './overlay.scss';
 
 interface OverlayContentProps
   extends
@@ -62,7 +61,7 @@ const OverlayContent = ({
     const wrappedChildren = (
       <Flex
         ref={contentRef}
-        className={cnx(styles['ms-overlay__content-positioner'])}
+        className="ms-overlay__content-positioner"
         role={ovrRole}
         aria-modal="true"
         // NOTE: lets the focus trap fall back to the container when content has no focusable nodes
