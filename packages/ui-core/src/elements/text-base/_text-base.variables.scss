@@ -1,3 +1,6 @@
+@use 'sass:map';
+@use '../../styles/theme';
+
 $class-selector: '.ms-text';
 $alignments: (
   // css basic
@@ -7,17 +10,12 @@ $alignments: (
   end,
   justify
 );
-$color-map: (
-  primary: var(--ms-color-text-primary),
-  secondary: var(--ms-color-text-secondary),
-  tertiary: var(--ms-color-text-tertiary),
-  error: var(--ms-color-text-error),
-  info: var(--ms-color-text-info),
-  success: var(--ms-color-text-success),
-  warning: var(--ms-color-text-warning),
-  base: var(--ms-color-text-base),
-  muted: var(--ms-color-text-muted),
-  inverse: var(--ms-color-text-inverse),
+// Generated from the tone list, so every tone is available without hand-written duplicates
+$color-map: map.merge(
+  theme.tone-token-map('text'),
+  (
+    transparent: transparent,
+  )
 );
 $family-map: (
   sans: var(--ms-font-family-text-sans),

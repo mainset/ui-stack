@@ -1,5 +1,4 @@
 @use '../../styles/layers';
-@forward './background.tokens';
 @use './background.variables' as backgroundVars;
 @use './background.mixins' as backgroundMixins;
 

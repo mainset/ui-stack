@@ -1,0 +1,147 @@
+@use 'sass:map';
+@use './variables' as msVariable;
+
+$tone-contract: (
+  solid,
+  solid-hover,
+  on-solid,
+  subtle,
+  subtle-hover,
+  border,
+  text
+);
+
+// How derived tone tokens are mixed, per color scheme
+$derive-map: (
+  light: (
+    hover-target: black,
+    hover-amount: 85%,
+    subtle-amount: 12%,
+    subtle-hover-amount: 20%,
+    // `null` keeps text / border equal to `solid`
+    text-amount: null,
+    border-amount: null,
+    shadow-color: rgb(3 7 18 / 10%),
+  ),
+  dark: (
+    hover-target: white,
+    hover-amount: 85%,
+    subtle-amount: 18%,
+    subtle-hover-amount: 28%,
+    // lighten toward white, so tinted text / borders keep contrast on dark surfaces
+    text-amount: 70%,
+    border-amount: 80%,
+    shadow-color: rgb(0 0 0 / 50%),
+  ),
+);
+
+@function palette($name) {
+  @return var(--ms-palette-#{$name});
+}
+
+@function -mix-or-solid($solid-var, $amount, $target) {
+  @if $amount {
+    @return color-mix(in oklab, #{$solid-var} #{$amount}, #{$target});
+  }
+
+  @return $solid-var;
+}
+
+// Points the inheritable `--ms-tone-*` contract at a tone.
+// Elements only ever read `--ms-tone-*`, so any subtree can be re-toned by one class.
+@mixin tone-vars($tone) {
+  @each $key in $tone-contract {
+    --ms-tone-#{$key}: var(--ms-color-#{$tone}-#{$key});
+  }
+}
+
+// Every semantic token of a color scheme.
+// NOTE: declared in full on each theme selector (not only on `:root`), because derived
+// custom properties resolve where they are declared — that's what makes nested themes work.
+@mixin scheme-tokens($scheme) {
+  $derive: map.get($derive-map, $scheme);
+
+  color-scheme: $scheme;
+
+  // ----- Neutral semantic tokens -----
+  @each $name, $ref in map.get(msVariable.$scheme-map, $scheme) {
+    --ms-color-#{$name}: #{palette($ref)};
+  }
+
+  // ----- Tone tokens -----
+  @each $tone, $schemes in msVariable.$tone-map {
+    $def: map.get($schemes, $scheme);
+    $solid: var(--ms-color-#{$tone}-solid);
+
+    --ms-color-#{$tone}-solid: #{palette(map.get($def, solid))};
+    --ms-color-#{$tone}-solid-hover: #{color-mix(
+        in oklab,
+        $solid map.get($derive, hover-amount),
+        map.get($derive, hover-target)
+      )};
+    --ms-color-#{$tone}-on-solid: #{palette(map.get($def, on-solid))};
+    --ms-color-#{$tone}-subtle: #{color-mix(
+        in oklab,
+        $solid map.get($derive, subtle-amount),
+        var(--ms-color-bg-canvas)
+      )};
+    --ms-color-#{$tone}-subtle-hover: #{color-mix(
+        in oklab,
+        $solid map.get($derive, subtle-hover-amount),
+        var(--ms-color-bg-canvas)
+      )};
+
+    @if map.has-key($def, border) {
+      --ms-color-#{$tone}-border: #{palette(map.get($def, border))};
+    } @else {
+      --ms-color-#{$tone}-border: #{-mix-or-solid(
+          $solid,
+          map.get($derive, border-amount),
+          white
+        )};
+    }
+
+    @if map.has-key($def, text) {
+      --ms-color-#{$tone}-text: #{palette(map.get($def, text))};
+    } @else {
+      --ms-color-#{$tone}-text: #{-mix-or-solid(
+          $solid,
+          map.get($derive, text-amount),
+          white
+        )};
+    }
+  }
+
+  // ----- Default tone (inherited by the whole tree until a `.ms-tone-*` re-points it) -----
+  @include tone-vars(primary);
+
+  // ----- Elevation (shadow strength depends on the scheme) -----
+  --ms-shadow-color: #{map.get($derive, shadow-color)};
+  --ms-shadow-xs: 0 1px 2px 0 var(--ms-shadow-color);
+  --ms-shadow-sm:
+    0 1px 3px 0 var(--ms-shadow-color), 0 1px 2px -1px var(--ms-shadow-color);
+  --ms-shadow-base:
+    0 4px 6px -1px var(--ms-shadow-color), 0 2px 4px -2px var(--ms-shadow-color);
+  --ms-shadow-lg:
+    0 10px 15px -3px var(--ms-shadow-color),
+    0 4px 6px -4px var(--ms-shadow-color);
+  --ms-shadow-xl:
+    0 20px 25px -5px var(--ms-shadow-color),
+    0 8px 10px -6px var(--ms-shadow-color);
+}
+
+// `(tone: var(--ms-color-{tone}-{token}))` for every tone — used to generate utility classes
+@function tone-token-map($token) {
+  $result: ();
+
+  @each $tone in map.keys(msVariable.$tone-map) {
+    $result: map.merge(
+      $result,
+      (
+        $tone: var(--ms-color-#{$tone}-#{$token}),
+      )
+    );
+  }
+
+  @return $result;
+}

@@ -1,5 +1,4 @@
 @use '../../styles/layers';
-@forward './backdrop.tokens';
 @use './backdrop.variables' as backdropVars;
 
 @layer ms.components {

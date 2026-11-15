@@ -5,6 +5,7 @@
 //   <link rel="stylesheet" href="@mainset/ui-core/styles/index.css" />
 // The reset is opt-in and shipped separately: `@mainset/ui-core/styles/normalize.css`.
 @use './layers';
+@use './foundation';
 @use '../elements/backdrop/backdrop';
 @use '../elements/background/background';
 @use '../elements/border/border';

@@ -1,14 +1,7 @@
+@use '../../styles/variables' as msVariable;
+
 $class-selector: '.ms-spacing';
-$step-map: (
-  // 2px
-  element: 0.125rem,
-  // 4px
-  component: 0.25rem,
-  // 6px
-  block: 0.375rem,
-  // 10px
-  section: 0.625rem
-);
+$step-map: msVariable.$spacing-step-map;
 $scale-size-map: (
   element: (
     xs: var(--ms-spacing-scale-element-xs),

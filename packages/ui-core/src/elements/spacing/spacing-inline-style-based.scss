@@ -1,7 +1,6 @@
 @use '../../styles/layers';
 @use 'sass:math';
 @use 'sass:map';
-@forward './spacing.tokens';
 @use './spacing.variables' as spacingVars;
 
 @layer ms.utilities {
