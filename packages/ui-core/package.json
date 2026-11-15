@@ -20,7 +20,9 @@
       "import": "./dist/esm/index.mjs"
     },
     "./styles/index.css": "./dist/esm/styles/index.css",
-    "./styles/normalize.css": "./dist/esm/styles/normalize.css",
+    "./styles/foundation.css": "./dist/esm/styles/foundation.css",
+    "./styles/reset.css": "./dist/esm/styles/reset.css",
+    "./styles/normalize.css": "./dist/esm/styles/reset.css",
     "./scss/mixins": "./src/styles/_mixins.scss",
     "./scss/layers": "./src/styles/_layers.scss"
   },

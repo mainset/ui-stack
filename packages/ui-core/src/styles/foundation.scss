@@ -13,6 +13,7 @@
 @use './layers';
 @use './variables' as msVariable;
 @use './theme';
+@use './base';
 
 $-size-steps: (xs, sm, base, lg, xl);
 
@@ -131,6 +132,15 @@ $-size-steps: (xs, sm, base, lg, xl);
     --ms-opacity-backdrop: 0.6;
   }
 
+  // Respect the OS motion preference for every mainset transition / animation
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --ms-duration-fast: 0ms;
+      --ms-duration-base: 0ms;
+      --ms-duration-slow: 0ms;
+    }
+  }
+
   // ----- Semantic tokens (Tier 2), per color scheme -----
   :root,
   [data-theme='light'] {
@@ -152,6 +162,9 @@ $-size-steps: (xs, sm, base, lg, xl);
     }
   }
 }
+
+@include base.base-layer;
+@include base.utilities-layer;
 
 // Tone modifiers: re-point the inherited `--ms-tone-*` contract for a subtree.
 // NOTE: in `ms.utilities`, so a tone class always wins over component defaults.
