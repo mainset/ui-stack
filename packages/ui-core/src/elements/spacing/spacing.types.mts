@@ -1,6 +1,12 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
-import type { ElementPlainSize } from '../elements.types.mjs';
+import type { ElementPlainSize, ResponsiveValue } from '../elements.types.mjs';
 import { SPACING__CLASS_NAME_CONFIG } from './spacing.constants.mjs';
+
+/**
+ * A size, or a mobile-first map of sizes per breakpoint (the scale stays the same).
+ * @example spcSize={{ base: 'xs', md: 'lg' }}
+ */
+type SpacingSize = ResponsiveValue<ElementPlainSize>;
 
 type SpacingStyleProps = {
   spcScale: ExtractClassNameFromPropOptions<
@@ -10,10 +16,10 @@ type SpacingStyleProps = {
 } & (
   | {
       spcType: 'm' | 'p';
-      spcSize?: ElementPlainSize | null;
+      spcSize?: SpacingSize | null;
       spcSizes?: {
-        v?: ElementPlainSize;
-        h?: ElementPlainSize;
+        v?: SpacingSize;
+        h?: SpacingSize;
       } | null;
     }
   | {
@@ -30,9 +36,9 @@ type SpacingStyleProps = {
         | 'pe'
         | 'pv'
         | 'ph';
-      spcSize?: ElementPlainSize | null;
+      spcSize?: SpacingSize | null;
       spcSizes?: never;
     }
 );
 
-export type { SpacingStyleProps };
+export type { SpacingSize, SpacingStyleProps };

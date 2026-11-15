@@ -7,6 +7,8 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
+import { mergeResponsiveStyle } from '../utils/index.mjs';
+
 type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement> &
   TextStyleProps &
   Partial<SpacingStyleProps>;
@@ -14,6 +16,7 @@ type ParagraphProps = React.HTMLAttributes<HTMLParagraphElement> &
 const Paragraph: React.FC<ParagraphProps> = ({
   children,
   className,
+  style,
 
   ...props
 }) => {
@@ -21,13 +24,14 @@ const Paragraph: React.FC<ParagraphProps> = ({
     [TEXT_BASE__CLASS_NAME_CONFIG],
     props,
   );
-  const [spacingClassNames, restProps] =
+  const [spacingClassNames, restProps, spacingStyle] =
     extractSpacingClassNamesFromProps(extractedCNProps);
 
   return React.createElement(
     'p',
     {
       className: cnx(className, classNames, spacingClassNames),
+      style: mergeResponsiveStyle(spacingStyle, style),
       ...restProps,
     },
     children,
