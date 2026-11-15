@@ -6,6 +6,12 @@
 // Control = sizing + states shared by every interactive control.
 // The size class only re-points the current `--ms-control-*` values (no size suffix) to the
 // sized tokens (`--ms-control-*-{size}`); one rule consumes them.
+@mixin -invalid-state {
+  --ms-tone-border: var(--ms-color-error-border);
+
+  border-color: var(--ms-color-error-border);
+}
+
 @layer ms.components {
   #{controlVars.$class-selector} {
     --ms-control-height: var(--ms-control-height-base);
@@ -28,11 +34,13 @@
     white-space: nowrap;
 
     // Validation state (inputs will use it; harmless for buttons)
-    &[aria-invalid='true'],
-    &:user-invalid {
-      --ms-tone-border: var(--ms-color-error-border);
+    // NOTE: separate rules, a browser without `:user-invalid` would drop a shared selector list
+    &[aria-invalid='true'] {
+      @include -invalid-state;
+    }
 
-      border-color: var(--ms-color-error-border);
+    &:user-invalid {
+      @include -invalid-state;
     }
   }
 

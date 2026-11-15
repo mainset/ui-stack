@@ -138,12 +138,41 @@ Surface variants: `solid | soft | outlined | ghost`.
 </html>
 ```
 
+### Overriding tokens
+
+App CSS written outside a layer always wins, so overrides are plain custom properties:
+
 ```css
-/* re-brand from app CSS (unlayered, so it wins) */
+/* 1. re-brand: change a palette value, everything built on it follows */
 :root {
   --ms-palette-violet-600: #7c3aed;
 }
+
+/* 2. re-color one tone everywhere: hover / soft / border / text are derived from `solid` */
+:root {
+  --ms-color-warning-solid: #f59e0b;
+}
+
+/* 3. one tone of one component: target the element that carries the tone class */
+.ms-button.ms-tone-warning {
+  --ms-tone-solid: #f59e0b;
+  --ms-tone-solid-hover: #d97706;
+}
 ```
+
+Where an override takes effect, and where it doesn't (custom properties resolve on the
+element that declares them):
+
+| Override                                                                     | Effect                                                         |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `--ms-palette-*` / `--ms-color-*` on `:root`                                 | ✅ everywhere, derived tokens included                         |
+| `--ms-color-{tone}-*` on an element that has `.ms-tone-{tone}` itself        | ✅ that element (only the overridden role, nothing re-derived) |
+| `--ms-color-{tone}-*` on an element that **inherits** its tone from a parent | ❌ ignored — the tone was resolved on the parent               |
+| `--ms-tone-*` on a component class, e.g. `.ms-button { … }`                  | ⚠️ applies to **every** tone of it — scope with `.ms-tone-*`   |
+| `:root` overrides inside a nested `[data-theme]`                             | ❌ re-declared by that theme — also target `[data-theme]`      |
+
+Per-component tokens (e.g. `--ms-button-radius`) are deliberately not exposed yet, in favour
+of strict consistency between components; they can be added later without breaking changes.
 
 ## Responsive props
 

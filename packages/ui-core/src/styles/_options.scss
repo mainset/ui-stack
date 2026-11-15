@@ -81,6 +81,16 @@
   @return $value;
 }
 
+// The CSS value of an option: from `$value-map` when given, otherwise the option itself.
+// NOTE: `@if` rather than the Sass `if()` function, which Dart Sass deprecates (`if-function`)
+@function -option-value($option, $value-map) {
+  @if $value-map {
+    @return -css-value(map.get($value-map, $option));
+  }
+
+  @return -css-value($option);
+}
+
 // One rule per TS option; `responsive` props also get `@{breakpoint}` variants.
 // `$value-map` maps option → CSS value; without it the option itself is the value.
 // The content block receives `($option, $value)`.
@@ -95,9 +105,7 @@
   @if map.get($definition, 'responsive') {
     @include msMixin.responsive-variants using ($suffix) {
       @each $option in $options {
-        $value: -css-value(
-          if($value-map, map.get($value-map, $option), $option)
-        );
+        $value: -option-value($option, $value-map);
 
         #{class-selector($base-class, $prop-name, $option)}#{$suffix} {
           @content ($option, $value);
@@ -106,7 +114,7 @@
     }
   } @else {
     @each $option in $options {
-      $value: -css-value(if($value-map, map.get($value-map, $option), $option));
+      $value: -option-value($option, $value-map);
 
       #{class-selector($base-class, $prop-name, $option)} {
         @content ($option, $value);
