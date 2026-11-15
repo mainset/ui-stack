@@ -114,7 +114,7 @@ Separate concepts, separate vocabularies:
 
 Tones: `primary secondary tertiary error info success warning base muted inverse transparent`.
 Each tone exposes the same contract: `solid | solid-hover | on-solid | subtle | subtle-hover | border | text`
-(only `solid` / `on-solid` are declared — the rest is derived with `color-mix()`, so re-branding a tone is one value).
+(only `solid` / `on-solid` are declared in TS — the rest is derived by Sass at build time, in `oklab`, as plain colors).
 
 Components never read a specific tone; they read the **inherited** `--ms-tone-*` contract.
 `.ms-tone-{tone}` re-points it for an element and its whole subtree (default: `primary`):
@@ -140,17 +140,20 @@ Surface variants: `solid | soft | outlined | ghost`.
 
 ### Overriding tokens
 
-App CSS written outside a layer always wins, so overrides are plain custom properties:
+Overrides are plain custom properties in app CSS:
 
 ```css
-/* 1. re-brand: change a palette value, everything built on it follows */
+/* 1. re-brand: change a palette value */
 :root {
   --ms-palette-violet-600: #7c3aed;
 }
 
-/* 2. re-color one tone everywhere: hover / soft / border / text are derived from `solid` */
+/* 2. re-color one tone everywhere */
 :root {
   --ms-color-warning-solid: #f59e0b;
+  --ms-color-warning-solid-hover: #d97706;
+  --ms-color-warning-subtle: #fef3c7;
+  --ms-color-warning-subtle-hover: #fde68a;
 }
 
 /* 3. one tone of one component: target the element that carries the tone class */
@@ -160,16 +163,21 @@ App CSS written outside a layer always wins, so overrides are plain custom prope
 }
 ```
 
+Derived roles (`solid-hover`, `subtle`, `subtle-hover`, and the tinted dark-scheme `border` / `text`)
+are **precomputed at build time** as plain colors — no runtime `color-mix()`, so they work in every
+supported browser. Overriding `solid` at runtime therefore doesn't re-derive them: override those
+roles too (as above), or change the token in `src/tokens/color.tokens.mts` and rebuild.
+
 Where an override takes effect, and where it doesn't (custom properties resolve on the
 element that declares them):
 
-| Override                                                                     | Effect                                                         |
-| ---------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| `--ms-palette-*` / `--ms-color-*` on `:root`                                 | ✅ everywhere, derived tokens included                         |
-| `--ms-color-{tone}-*` on an element that has `.ms-tone-{tone}` itself        | ✅ that element (only the overridden role, nothing re-derived) |
-| `--ms-color-{tone}-*` on an element that **inherits** its tone from a parent | ❌ ignored — the tone was resolved on the parent               |
-| `--ms-tone-*` on a component class, e.g. `.ms-button { … }`                  | ⚠️ applies to **every** tone of it — scope with `.ms-tone-*`   |
-| `:root` overrides inside a nested `[data-theme]`                             | ❌ re-declared by that theme — also target `[data-theme]`      |
+| Override                                                                     | Effect                                                        |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `--ms-palette-*` / `--ms-color-*` on `:root`                                 | ✅ everywhere (derived roles only when overridden themselves) |
+| `--ms-color-{tone}-*` on an element that has `.ms-tone-{tone}` itself        | ✅ that element                                               |
+| `--ms-color-{tone}-*` on an element that **inherits** its tone from a parent | ❌ ignored — the tone was resolved on the parent              |
+| `--ms-tone-*` on a component class, e.g. `.ms-button { … }`                  | ⚠️ applies to **every** tone of it — scope with `.ms-tone-*`  |
+| `:root` overrides inside a nested `[data-theme]`                             | ❌ re-declared by that theme — also target `[data-theme]`     |
 
 Per-component tokens (e.g. `--ms-button-radius`) are deliberately not exposed yet, in favour
 of strict consistency between components; they can be added later without breaking changes.

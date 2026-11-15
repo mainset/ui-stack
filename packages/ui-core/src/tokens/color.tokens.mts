@@ -54,8 +54,8 @@ const TONE__OPTIONS = [
 type Tone = (typeof TONE__OPTIONS)[number];
 
 /**
- * Only `solid` + `on-solid` are required; `subtle`, `hover`, `border`, `text` are derived with
- * `color-mix()` (styles/_theme.scss) unless declared explicitly (e.g. neutrals keep text = solid).
+ * Only `solid` + `on-solid` are required; `subtle`, `hover`, `border`, `text` are derived at build time
+ * by Sass in `oklab` (styles/_theme.scss) unless declared explicitly (e.g. neutrals keep text = solid).
  */
 type ToneDefinition = {
   solid: PaletteColor;

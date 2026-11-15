@@ -1,4 +1,6 @@
+@use 'sass:color';
 @use 'sass:map';
+@use 'sass:math';
 @use './variables' as msVariable;
 
 $tone-contract: (
@@ -21,6 +23,8 @@ $derive-map: (
     // `null` keeps text / border equal to `solid`
     text-amount: null,
     border-amount: null,
+    // `transparent` tone: a hint of the text color on hover
+    transparent-hover-alpha: 0.1,
     shadow-color: rgb(3 7 18 / 10%),
   ),
   dark: (
@@ -31,6 +35,7 @@ $derive-map: (
     // lighten toward white, so tinted text / borders keep contrast on dark surfaces
     text-amount: 55%,
     border-amount: 70%,
+    transparent-hover-alpha: 0.1,
     shadow-color: rgb(0 0 0 / 50%),
   ),
 );
@@ -39,12 +44,29 @@ $derive-map: (
   @return var(--ms-palette-#{$name});
 }
 
-@function -mix-or-solid($solid-var, $amount, $target) {
-  @if $amount {
-    @return color-mix(in oklab, #{$solid-var} #{$amount}, #{$target});
+@function -palette-color($name) {
+  @return map.get(msVariable.$palette-map, $name);
+}
+
+// Rounds a color into plain sRGB `rgb()` / `rgba()`, understood by every browser
+@function -legacy-rgb($color) {
+  $color: color.to-gamut(color.to-space($color, rgb), $method: local-minde);
+  $red: math.round(color.channel($color, 'red', $space: rgb));
+  $green: math.round(color.channel($color, 'green', $space: rgb));
+  $blue: math.round(color.channel($color, 'blue', $space: rgb));
+  $alpha: color.alpha($color);
+
+  @if $alpha < 1 {
+    @return rgba($red, $green, $blue, $alpha);
   }
 
-  @return $solid-var;
+  @return rgb($red, $green, $blue);
+}
+
+// Mixes at build time, in the same `oklab` space the browser's `color-mix()` would use,
+// so derived tokens are plain colors: no runtime `color-mix()` (Safari < 16.2 / Chrome < 111)
+@function -mix($color, $amount, $target) {
+  @return -legacy-rgb(color.mix($color, $target, $amount, $method: oklab));
 }
 
 // Points the inheritable `--ms-tone-*` contract at a tone.
@@ -55,11 +77,19 @@ $derive-map: (
   }
 }
 
-// Every semantic token of a color scheme.
-// NOTE: declared in full on each theme selector (not only on `:root`), because derived
-// custom properties resolve where they are declared — that's what makes nested themes work.
+// Every color *value* of a color scheme. Nothing here references another semantic token,
+// so a theme block is values only, and nested themes work without re-declaring anything else
+// (the scheme-independent pointers live in `scheme-shared-tokens`).
+// NOTE: derived roles (hover / subtle / tinted border & text) are precomputed literals: a runtime
+// override of `--ms-color-{tone}-solid` doesn't re-derive them, override those roles as well.
 @mixin scheme-tokens($scheme) {
   $derive: map.get($derive-map, $scheme);
+  $canvas: -palette-color(
+    map.get(msVariable.$scheme-map, $scheme, 'bg-canvas')
+  );
+  $text-base: -palette-color(
+    map.get(msVariable.$scheme-map, $scheme, 'text-base')
+  );
 
   color-scheme: $scheme;
 
@@ -71,52 +101,60 @@ $derive-map: (
   // ----- Tone tokens -----
   @each $tone, $schemes in msVariable.$tone-map {
     $def: map.get($schemes, $scheme);
-    $solid: var(--ms-color-#{$tone}-solid);
+    $solid: -palette-color(map.get($def, solid));
 
     --ms-color-#{$tone}-solid: #{palette(map.get($def, solid))};
-    --ms-color-#{$tone}-solid-hover: #{color-mix(
-        in oklab,
-        $solid map.get($derive, hover-amount),
+    --ms-color-#{$tone}-solid-hover: #{-mix(
+        $solid,
+        map.get($derive, hover-amount),
         map.get($derive, hover-target)
       )};
     --ms-color-#{$tone}-on-solid: #{palette(map.get($def, on-solid))};
-    --ms-color-#{$tone}-subtle: #{color-mix(
-        in oklab,
-        $solid map.get($derive, subtle-amount),
-        var(--ms-color-bg-canvas)
+    --ms-color-#{$tone}-subtle: #{-mix(
+        $solid,
+        map.get($derive, subtle-amount),
+        $canvas
       )};
-    --ms-color-#{$tone}-subtle-hover: #{color-mix(
-        in oklab,
-        $solid map.get($derive, subtle-hover-amount),
-        var(--ms-color-bg-canvas)
+    --ms-color-#{$tone}-subtle-hover: #{-mix(
+        $solid,
+        map.get($derive, subtle-hover-amount),
+        $canvas
       )};
 
-    @if map.has-key($def, border) {
-      --ms-color-#{$tone}-border: #{palette(map.get($def, border))};
-    } @else {
-      --ms-color-#{$tone}-border: #{-mix-or-solid(
-          $solid,
-          map.get($derive, border-amount),
-          white
-        )};
-    }
-
-    @if map.has-key($def, text) {
-      --ms-color-#{$tone}-text: #{palette(map.get($def, text))};
-    } @else {
-      --ms-color-#{$tone}-text: #{-mix-or-solid(
-          $solid,
-          map.get($derive, text-amount),
-          white
-        )};
+    @each $role in (border, text) {
+      @if map.has-key($def, $role) {
+        --ms-color-#{$tone}-#{$role}: #{palette(map.get($def, $role))};
+      } @else if map.get($derive, '#{$role}-amount') {
+        --ms-color-#{$tone}-#{$role}: #{-mix(
+            $solid,
+            map.get($derive, '#{$role}-amount'),
+            white
+          )};
+      } @else {
+        --ms-color-#{$tone}-#{$role}: #{palette(map.get($def, solid))};
+      }
     }
   }
 
-  // ----- Default tone (inherited by the whole tree until a `.ms-tone-*` re-points it) -----
-  @include tone-vars(primary);
+  // ----- `transparent` tone hover: the text color, barely visible -----
+  --ms-color-transparent-solid-hover: #{-legacy-rgb(
+      color.change(
+        $text-base,
+        $alpha: map.get($derive, transparent-hover-alpha)
+      )
+    )};
 
   // ----- Elevation (shadow strength depends on the scheme) -----
   --ms-shadow-color: #{map.get($derive, shadow-color)};
+}
+
+// Scheme-independent tokens that point at scheme values. Declared once for every theme root,
+// because a `var()` inside a custom property resolves on the element that declares it.
+@mixin scheme-shared-tokens {
+  // ----- Default tone (inherited by the whole tree until a `.ms-tone-*` re-points it) -----
+  @include tone-vars(primary);
+
+  // ----- Elevation -----
   --ms-shadow-xs: 0 1px 2px 0 var(--ms-shadow-color);
   --ms-shadow-sm:
     0 1px 3px 0 var(--ms-shadow-color), 0 1px 2px -1px var(--ms-shadow-color);
