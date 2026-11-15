@@ -7,6 +7,8 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
+import { mergeResponsiveStyle } from '../utils/index.mjs';
+
 type TextSectionProps = React.HTMLAttributes<HTMLSpanElement> &
   TextStyleProps &
   Partial<SpacingStyleProps>;
@@ -14,6 +16,7 @@ type TextSectionProps = React.HTMLAttributes<HTMLSpanElement> &
 const TextSection: React.FC<TextSectionProps> = ({
   children,
   className,
+  style,
 
   ...props
 }) => {
@@ -21,13 +24,14 @@ const TextSection: React.FC<TextSectionProps> = ({
     [TEXT_BASE__CLASS_NAME_CONFIG],
     props,
   );
-  const [spacingClassNames, restProps] =
+  const [spacingClassNames, restProps, spacingStyle] =
     extractSpacingClassNamesFromProps(extractedCNProps);
 
   return React.createElement(
     'span',
     {
       className: cnx(className, classNames, spacingClassNames),
+      style: mergeResponsiveStyle(spacingStyle, style),
       ...restProps,
     },
     children,

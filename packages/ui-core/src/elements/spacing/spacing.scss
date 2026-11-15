@@ -31,3 +31,16 @@
     }
   }
 }
+
+// Responsive sizes (`spcSize={{ base: 'xs', md: 'lg' }}`): the `base` size is a class above;
+// every other breakpoint is one class per type reading the size from a CSS variable set inline,
+// e.g. `.ms-spacing--pv\@md { padding-block: var(--ms-spacing-pv-at-md) }`.
+// Per type × breakpoint (14 × 4 rules), not per type × scale × size × breakpoint.
+@each $type in options.options(vars.$base-class, 'spcType') {
+  @include options.responsive-var-variants(vars.$base-class, $type, utility)
+    using ($value) {
+    @each $css-prop in map.get(vars.$type-map, $type) {
+      #{$css-prop}: $value;
+    }
+  }
+}

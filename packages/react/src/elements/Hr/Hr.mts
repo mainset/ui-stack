@@ -7,6 +7,8 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
+import { mergeResponsiveStyle } from '../utils/index.mjs';
+
 type HrProps = React.HTMLAttributes<HTMLHRElement> &
   HrStyleProps &
   Partial<SpacingStyleProps>;
@@ -14,6 +16,7 @@ type HrProps = React.HTMLAttributes<HTMLHRElement> &
 const Hr: React.FC<HrProps> = ({
   children,
   className,
+  style,
 
   ...props
 }) => {
@@ -21,13 +24,14 @@ const Hr: React.FC<HrProps> = ({
     [HR__CLASS_NAME_CONFIG],
     props,
   );
-  const [spacingClassNames, restProps] =
+  const [spacingClassNames, restProps, spacingStyle] =
     extractSpacingClassNamesFromProps(extractedCNProps);
 
   return React.createElement(
     'hr',
     {
       className: cnx(className, classNames, spacingClassNames),
+      style: mergeResponsiveStyle(spacingStyle, style),
       ...restProps,
     },
     children,
