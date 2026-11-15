@@ -27,6 +27,7 @@ const Badge: React.FC<BadgeProps> = ({
 
   children,
   className,
+  style,
 
   ...props
 }) => {
@@ -39,7 +40,8 @@ const Badge: React.FC<BadgeProps> = ({
     Surface,
     {
       className: cnx(className, stylesSpacingInlineStyleBased['ms-spacing']),
-      style: styleObj,
+      // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
+      style: { ...styleObj, ...style },
       ...props,
     },
     children,

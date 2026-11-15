@@ -66,6 +66,7 @@ const Button = <C extends ButtonElementType = 'button'>({
   btnIsDisabled,
 
   className,
+  style,
   children,
   ...props
 }: ButtonProps<C>) => {
@@ -93,7 +94,8 @@ const Button = <C extends ButtonElementType = 'button'>({
         classNames,
         stylesSpacingInlineStyleBased['ms-spacing'],
       ),
-      style: styleObj,
+      // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
+      style: { ...styleObj, ...style },
 
       // btn specific
       srfHover: 'all',

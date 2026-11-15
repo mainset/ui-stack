@@ -26,10 +26,8 @@ const PopoverWrapper: React.FC<PopoverWrapperProps> = ({
     stylesPopper,
   );
 
-  const isVisibleOnHover = React.useMemo(
-    () => typeof props.popIsOpen !== 'boolean',
-    [],
-  );
+  // NOTE: derived on every render, so switching between controlled/uncontrolled isn't frozen at mount
+  const isVisibleOnHover = typeof props.popIsOpen !== 'boolean';
 
   return React.createElement(
     FloatingBox,

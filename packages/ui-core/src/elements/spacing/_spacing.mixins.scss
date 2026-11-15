@@ -41,10 +41,10 @@
 
     // Generates: .ms-spacing--mv-0 and .ms-spacing--mh-0
     #{$selector}--#{$prop-abbrev}v-0 {
-      #{$css-prop}: 0 0;
+      #{$css-prop}-block: 0;
     }
     #{$selector}--#{$prop-abbrev}h-0 {
-      #{$css-prop}: 0 0;
+      #{$css-prop}-inline: 0;
     }
 
     // 2. Generate Scale and Size Utilities
@@ -68,10 +68,10 @@
 
         // Vertical / Horizontal Shorthand (e.g., .ms-spacing--mv-section-xxl)
         #{$selector}--#{$prop-abbrev}v-#{$combined-modifier} {
-          #{$css-prop}: #{$spacing-var} 0;
+          #{$css-prop}-block: #{$spacing-var};
         }
         #{$selector}--#{$prop-abbrev}h-#{$combined-modifier} {
-          #{$css-prop}: 0 #{$spacing-var};
+          #{$css-prop}-inline: #{$spacing-var};
         }
       }
     }
@@ -117,10 +117,10 @@
 
     // Generates: .ms-spacing--type-mv.ms-spacing--size-0
     #{$selector}--type-#{$prop-abbrev}v#{$selector}--size-0 {
-      #{$css-prop}: 0 0;
+      #{$css-prop}-block: 0;
     }
     #{$selector}--type-#{$prop-abbrev}h#{$selector}--size-0 {
-      #{$css-prop}: 0 0;
+      #{$css-prop}-inline: 0;
     }
 
     // 2. Generate Scale and Size Utilities
@@ -148,10 +148,10 @@
 
         // Vertical / Horizontal Shorthand
         #{$scale-class}#{$selector}--type-#{$prop-abbrev}v#{$size-class} {
-          #{$css-prop}: #{$spacing-var} 0;
+          #{$css-prop}-block: #{$spacing-var};
         }
         #{$scale-class}#{$selector}--type-#{$prop-abbrev}h#{$size-class} {
-          #{$css-prop}: 0 #{$spacing-var};
+          #{$css-prop}-inline: #{$spacing-var};
         }
       }
     }

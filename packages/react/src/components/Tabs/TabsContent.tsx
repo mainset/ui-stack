@@ -1,6 +1,12 @@
+'use client';
+
 import React from 'react';
 
-import { useTabsContext } from './TabsContext.mjs';
+import {
+  getTabsContentId,
+  getTabsTriggerId,
+  useTabsContext,
+} from './TabsContext.mjs';
 
 interface TabsContentProps extends React.HTMLAttributes<HTMLDivElement> {
   tbsId: string;
@@ -12,7 +18,14 @@ function TabsContent({ tbsId, children, ...props }: TabsContentProps) {
   if (context.tbsId !== tbsId) return null;
 
   return (
-    <div role="tabpanel" data-state="active" {...props}>
+    <div
+      role="tabpanel"
+      id={getTabsContentId(context.tbsBaseId, tbsId)}
+      aria-labelledby={getTabsTriggerId(context.tbsBaseId, tbsId)}
+      tabIndex={0}
+      data-state="active"
+      {...props}
+    >
       {children}
     </div>
   );

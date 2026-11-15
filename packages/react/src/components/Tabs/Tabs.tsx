@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import { TabsContent } from './TabsContent.js';
@@ -30,11 +32,14 @@ function TabsComponent({
     tbsOnBtnTabChangeClick?.(newId);
   };
 
+  const tbsBaseId = React.useId();
+
   return (
     <TabsProvider
       value={{
         tbsId: resolvedTbsId,
         tbsOnBtnTabChangeClick: handleIdChange,
+        tbsBaseId,
       }}
     >
       {children}

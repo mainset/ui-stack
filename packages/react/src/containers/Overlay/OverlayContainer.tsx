@@ -1,3 +1,5 @@
+'use client';
+
 import { Backdrop } from '@mainset/react/elements';
 import React from 'react';
 import ReactDOMClient from 'react-dom';
