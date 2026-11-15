@@ -1,6 +1,6 @@
 // NOTE: CSS is attached to the module that defines the class-name config (always consumed),
 // so bundlers keep it when tree-shaking re-exports through the side-effect-free `index.mjs`.
-// Foundation (layer order + tokens) goes first; bundlers dedupe it across elements.
+// Foundation (tokens + base styles) goes first; bundlers dedupe it across elements.
 import '../../styles/foundation.scss';
 import { SPACING_SCALE__OPTIONS } from '../../tokens/index.mjs';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
