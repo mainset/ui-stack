@@ -35,7 +35,8 @@
   },
   "scripts": {
     "dev": "ms-cli node-sourcer --exec watch --bundless",
-    "build": "ms-cli node-sourcer --exec build --bundless"
+    "build": "ms-cli node-sourcer --exec build --bundless && pnpm run check:browser-support",
+    "check:browser-support": "node ../../scripts/check-browser-support.mjs dist"
   },
   "dependencies": {
     "@mainset/ui-core": "workspace:^"

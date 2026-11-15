@@ -59,10 +59,15 @@ Requires Node ≥ 22.18 (native TS type stripping, no extra tooling).
 ## Browser support
 
 Chrome / Edge ≥ 88, Firefox ≥ 78, Safari ≥ 14.1 (2021) — the oldest browsers with flex `gap`.
+The targets live in the root `.browserslistrc`; both packages build against them
+(syntax lowering + CSS prefixes), and `pnpm build` fails when the output still uses a newer
+feature (`scripts/check-browser-support.mjs`).
+
 Within that baseline the CSS avoids newer features on purpose: no `@layer` (2022), no
-`color-mix()` (2023, derived colors are precomputed), no `:has()`, no container queries.
-Newer features may only be used as progressive enhancements that fail on their own
-(e.g. `:user-invalid`, `:focus-visible`, `text-wrap` sit in their own rules or declarations).
+`color-mix()` (2023, derived colors are precomputed), no media range syntax, no `:has()`,
+no container queries. Newer features may only be used as progressive enhancements that fail
+on their own (e.g. `:user-invalid`, `:focus-visible`, `text-wrap` sit in their own rules or
+declarations).
 
 ## Specificity (instead of cascade layers)
 

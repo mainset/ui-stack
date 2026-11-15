@@ -36,7 +36,8 @@
     "codegen": "node --import ./scripts/ts-hooks.register.mjs ./scripts/codegen.mts",
     "codegen:check": "pnpm run codegen --check",
     "dev": "pnpm run codegen && ms-cli node-sourcer --exec watch -t web --bundless",
-    "build": "pnpm run codegen && ms-cli node-sourcer --exec build -t web --bundless"
+    "build": "pnpm run codegen && ms-cli node-sourcer --exec build -t web --bundless && pnpm run check:browser-support",
+    "check:browser-support": "node ../../scripts/check-browser-support.mjs dist"
   },
   "packageManager": "pnpm@10.33.0"
 }

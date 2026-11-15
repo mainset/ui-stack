@@ -5,6 +5,7 @@ LICENSE
 
 # configuration files
 .dockerignore
+.browserslistrc
 Dockerfile
 
 # package manager

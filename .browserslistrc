@@ -1,0 +1,8 @@
+# Oldest browsers mainset UI supports (2021: the first releases with flex `gap`).
+# Read by the package builds (`scripts/browserslist.mjs` → rslib `overrideBrowserslist`)
+# and by `scripts/check-browser-support.mjs`.
+chrome >= 88
+edge >= 88
+firefox >= 78
+safari >= 14.1
+ios_saf >= 14.5
