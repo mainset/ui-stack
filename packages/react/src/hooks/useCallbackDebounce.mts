@@ -1,11 +1,11 @@
 import { debounce } from '@mainset/toolkit-js';
 import React from 'react';
 
-const useCallbackDebounce = <Deps extends any[], Args extends any[]>(
+function useCallbackDebounce<Deps extends any[], Args extends any[]>(
   dFunc: (dependenciesRef: React.RefObject<Deps>, ...args: Args) => void,
   dependencies: Deps,
   delay: number,
-) => {
+) {
   const debounceRef = React.useRef<Deps>(dependencies);
 
   React.useEffect(() => {
@@ -25,6 +25,6 @@ const useCallbackDebounce = <Deps extends any[], Args extends any[]>(
   );
 
   return callbackDebounce;
-};
+}
 
 export { useCallbackDebounce };

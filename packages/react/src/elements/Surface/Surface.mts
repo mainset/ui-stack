@@ -44,7 +44,7 @@ type SurfaceProps<C extends SurfaceElementType = 'div'> = SurfaceOwnProps<C> &
  * `srfTheme` sets the tone (`.ms-tone-*`), `srfVariant` picks how the tone is painted.
  * `bg*` / `brd*` props are utilities and always win over the variant.
  */
-const Surface = <C extends SurfaceElementType = 'div'>({
+function Surface<C extends SurfaceElementType = 'div'>({
   as,
 
   srfTheme,
@@ -53,7 +53,7 @@ const Surface = <C extends SurfaceElementType = 'div'>({
   className,
 
   ...props
-}: SurfaceProps<C>) => {
+}: SurfaceProps<C>) {
   const Component = as || 'div';
 
   const [classNames, restProps] = extractClassNamesFromProps(
@@ -69,7 +69,7 @@ const Surface = <C extends SurfaceElementType = 'div'>({
     },
     children,
   );
-};
+}
 
 export { Surface };
 export type { SurfaceProps };
