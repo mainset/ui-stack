@@ -12,13 +12,14 @@
   align-items: $value;
 }
 
-// Gap sizes are the layout gap tokens (aliases of the spacing primitives)
+// Gap sizes are the layout gap tokens (aliases of the spacing primitives); the value is the
+// TS `cssValue`, and the gap map only asserts every size has a token.
+// Responsive via CSS variables (`css-var`): `@{breakpoint}` classes read the inline value.
 @include options.each-class(
     vars.$base-class,
     'layGapSize',
     msVariable.$layout-gap-map
   )
   using ($option, $value) {
-  gap: var(--ms-space-layout-row-#{$option})
-    var(--ms-space-layout-column-#{$option});
+  gap: $value;
 }

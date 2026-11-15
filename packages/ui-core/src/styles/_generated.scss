@@ -420,7 +420,7 @@ $class-name-config-map: (
           'flex',
           'inline-flex',
         ),
-        'responsive': true,
+        'responsive': 'class',
       ),
       'flxDirection': (
         'modifier': 'flex-direction',
@@ -430,7 +430,7 @@ $class-name-config-map: (
           'column',
           'column-reverse',
         ),
-        'responsive': true,
+        'responsive': 'class',
       ),
       'flxWrap': (
         'modifier': 'flex-wrap',
@@ -439,7 +439,7 @@ $class-name-config-map: (
           'wrap',
           'wrap-reverse',
         ),
-        'responsive': true,
+        'responsive': 'class',
       ),
     ),
   ),
@@ -506,7 +506,7 @@ $class-name-config-map: (
           'grid',
           'inline-grid',
         ),
-        'responsive': true,
+        'responsive': 'class',
       ),
       'grdAutoFlow': (
         'modifier': 'grid-auto-flow',
@@ -516,7 +516,7 @@ $class-name-config-map: (
           'row-dense',
           'column-dense',
         ),
-        'responsive': true,
+        'responsive': 'class',
       ),
     ),
   ),
@@ -575,7 +575,7 @@ $class-name-config-map: (
           'space-around',
           'space-evenly',
         ),
-        'responsive': true,
+        'responsive': 'class',
       ),
       'layAlign': (
         'modifier': 'align-items',
@@ -586,7 +586,7 @@ $class-name-config-map: (
           'stretch',
           'baseline',
         ),
-        'responsive': true,
+        'responsive': 'class',
       ),
       'layGapSize': (
         'modifier': 'gap-size',
@@ -597,7 +597,9 @@ $class-name-config-map: (
           'lg',
           'xl',
         ),
-        'responsive': true,
+        'responsive': 'css-var',
+        'css-value':
+          'var(--ms-space-layout-row-{option}) var(--ms-space-layout-column-{option})',
       ),
     ),
   ),

@@ -13,6 +13,7 @@
 @use 'sass:string';
 @use './generated' as generated;
 @use './mixins' as msMixin;
+@use './variables' as msVariable;
 
 @function -prop-definition($base-class, $prop-name) {
   $config: map.get(generated.$class-name-config-map, $base-class);
@@ -90,9 +91,32 @@
   @return $value;
 }
 
-// The CSS value of an option: from `$value-map` when given, otherwise the option itself.
+// `$template` with every `{option}` replaced by `$option`
+@function -resolve-template($template, $option) {
+  $placeholder: '{option}';
+  $result: '';
+  $rest: $template;
+  $index: string.index($rest, $placeholder);
+
+  @while $index {
+    $result: $result + string.slice($rest, 1, $index - 1) + '#{$option}';
+    $rest: string.slice($rest, $index + string.length($placeholder));
+    $index: string.index($rest, $placeholder);
+  }
+
+  @return $result + $rest;
+}
+
+// The CSS value of an option: the TS `cssValue` template when declared, otherwise from
+// `$value-map` when given, otherwise the option itself.
 // NOTE: `@if` rather than the Sass `if()` function, which Dart Sass deprecates (`if-function`)
-@function -option-value($option, $value-map) {
+@function -option-value($option, $value-map, $definition: ()) {
+  $template: map.get($definition, 'css-value');
+
+  @if $template {
+    @return -css-value(-resolve-template($template, $option));
+  }
+
   @if $value-map {
     @return -css-value(map.get($value-map, $option));
   }
@@ -108,9 +132,27 @@
   @return $selector;
 }
 
-// One rule per TS option; `responsive` props also get `@{breakpoint}` variants.
-// `$value-map` maps option → CSS value; without it the option itself is the value.
-// The content block receives `($option, $value)`.
+// Mobile-first CSS-variable variants (`css-var` responsive props): per breakpoint above `base`,
+// one class `.{base-class}--{modifier}@{breakpoint}` reading `--{base-class}-{modifier}-at-{breakpoint}`,
+// which the TS extractors set inline (`utils/responsive.mts` builds the same names).
+// The content block receives `($value)`: the `var()` to apply.
+@mixin responsive-var-variants($base-class, $modifier, $tier: component) {
+  @each $breakpoint, $min-width in msVariable.$breakpoint-map {
+    @if $min-width > 0 {
+      @media (min-width: $min-width) {
+        #{-tier-selector('.#{$base-class}--#{$modifier}\\@#{$breakpoint}', $tier)} {
+          @content (var(--#{$base-class}-#{$modifier}-at-#{$breakpoint}));
+        }
+      }
+    }
+  }
+}
+
+// One rule per TS option. Responsive props (see `responsive` in the TS config) also get:
+//   `class`    one `@{breakpoint}` variant per option per breakpoint (few options)
+//   `css-var`  one `@{breakpoint}` class per breakpoint reading a CSS variable (many options)
+// `$value-map` maps option → CSS value; without it the TS `cssValue` template, or the option itself.
+// The content block receives `($option, $value)` (`$option` is `null` for `css-var` variants).
 // `$tier`: `component` (default) wraps the selector in `:where()`, `utility` keeps a plain class.
 @mixin each-class($base-class, $prop-name, $value-map: null, $tier: component) {
   @if $tier != component and $tier != utility {
@@ -119,15 +161,16 @@
 
   $definition: -prop-definition($base-class, $prop-name);
   $options: options($base-class, $prop-name);
+  $responsive: map.get($definition, 'responsive');
 
   @if $value-map {
     @include assert-options($base-class, $prop-name, map.keys($value-map));
   }
 
-  @if map.get($definition, 'responsive') {
+  @if $responsive == 'class' {
     @include msMixin.responsive-variants using ($suffix) {
       @each $option in $options {
-        $value: -option-value($option, $value-map);
+        $value: -option-value($option, $value-map, $definition);
 
         #{-tier-selector(class-selector($base-class, $prop-name, $option) + $suffix, $tier)} {
           @content ($option, $value);
@@ -136,10 +179,23 @@
     }
   } @else {
     @each $option in $options {
-      $value: -option-value($option, $value-map);
+      $value: -option-value($option, $value-map, $definition);
 
       #{-tier-selector(class-selector($base-class, $prop-name, $option), $tier)} {
         @content ($option, $value);
+      }
+    }
+
+    @if $responsive == 'css-var' {
+      $modifier: map.get($definition, 'modifier');
+
+      @if $modifier == '' {
+        @error '`#{$base-class}` / `#{$prop-name}`: a `css-var` responsive prop needs a `modifier`';
+      }
+
+      @include responsive-var-variants($base-class, $modifier, $tier) using
+        ($value) {
+        @content (null, $value);
       }
     }
   }

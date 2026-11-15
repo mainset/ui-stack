@@ -11,6 +11,8 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
+import { mergeResponsiveStyle } from '../utils/index.mjs';
+
 interface GridContainerProps
   extends
     React.ComponentPropsWithRef<'div'>,
@@ -24,10 +26,11 @@ const GridContainer: React.FC<GridContainerProps> = ({
 
   children,
   className,
+  style,
 
   ...props
 }) => {
-  const [classNames, restProps] = extractClassNamesFromProps(
+  const [classNames, restProps, responsiveStyle] = extractClassNamesFromProps(
     [GRID_CONTAINER__CLASS_NAME_CONFIG, LAYOUT__CLASS_NAME_CONFIG],
     props,
   );
@@ -36,6 +39,7 @@ const GridContainer: React.FC<GridContainerProps> = ({
     as,
     {
       className: cnx(className, classNames),
+      style: mergeResponsiveStyle(responsiveStyle, style),
       ...restProps,
     },
     children,

@@ -13,12 +13,12 @@ const GRID_CONTAINER__CLASS_NAME_CONFIG = {
       modifier: 'display',
       options: ['grid', 'inline-grid'],
       defaultValue: 'grid',
-      isResponsive: true,
+      responsive: 'class',
     },
     grdAutoFlow: {
       modifier: 'grid-auto-flow',
       options: ['row', 'column', 'row-dense', 'column-dense'],
-      isResponsive: true,
+      responsive: 'class',
     },
   },
 } as const satisfies ClassNameFromPropConfig;
