@@ -1,33 +1,30 @@
-@use '../../styles/layers';
 @use '../../styles/options';
 @use './hr.variables' as vars;
 
-@layer ms.components {
-  #{vars.$class-selector} {
-    border: none;
+#{options.where(vars.$class-selector)} {
+  border: none;
+}
 
-    &--hidden {
-      opacity: 0;
-    }
-  }
+#{options.where('#{vars.$class-selector}--hidden')} {
+  opacity: 0;
+}
 
-  // Hand-written per direction; the assertion keeps them in sync with `hrDirection` TS options
-  @include options.assert-options(
-    vars.$base-class,
-    'hrDirection',
-    (horizontal, vertical)
-  );
+// Hand-written per direction; the assertion keeps them in sync with `hrDirection` TS options
+@include options.assert-options(
+  vars.$base-class,
+  'hrDirection',
+  (horizontal, vertical)
+);
 
-  #{vars.$class-selector}--direction-horizontal {
-    height: 1px;
-  }
+#{options.where('#{vars.$class-selector}--direction-horizontal')} {
+  height: 1px;
+}
 
-  #{vars.$class-selector}--direction-vertical {
-    width: 1px;
-  }
+#{options.where('#{vars.$class-selector}--direction-vertical')} {
+  width: 1px;
+}
 
-  @include options.each-class(vars.$base-class, 'hrColor', vars.$color-map)
-    using ($option, $value) {
-    background-color: $value;
-  }
+@include options.each-class(vars.$base-class, 'hrColor', vars.$color-map) using
+  ($option, $value) {
+  background-color: $value;
 }

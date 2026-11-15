@@ -1,6 +1,0 @@
-// Cascade layer order of the mainset design system (lowest -> highest priority).
-// Emitted at the top of every compiled stylesheet: repeating the same statement is harmless,
-// and it guarantees the order regardless of which element CSS a bundler loads first.
-// Any consumer CSS written outside of a layer always wins over all `ms.*` layers,
-// so overrides never need `!important` or specificity hacks.
-@layer ms.reset, ms.tokens, ms.base, ms.components, ms.utilities;

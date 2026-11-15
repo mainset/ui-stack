@@ -1,34 +1,29 @@
-@use '../../styles/layers';
 @forward './grid.tokens';
 @use '../../styles/options';
 @use './grid.variables' as vars;
 
-@layer ms.components {
-  #{vars.$class-selector} {
-    // TODO: grid should accept layout spacing sizes aka base / etc
-    --ms-grid-column-min-width: calc(
-      (100% / var(--ms-grid-columns-number)) - var(
-          --ms-space-layout-column-base
-        )
-    );
+#{options.where(vars.$class-selector)} {
+  // TODO: grid should accept layout spacing sizes aka base / etc
+  --ms-grid-column-min-width: calc(
+    (100% / var(--ms-grid-columns-number)) - var(--ms-space-layout-column-base)
+  );
 
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(var(--ms-grid-column-min-width), 1fr)
-    );
-  }
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(var(--ms-grid-column-min-width), 1fr)
+  );
+}
 
-  @include options.each-class(vars.$base-class, 'grdDisplay') using
-    ($option, $value) {
-    display: $value;
-  }
+@include options.each-class(vars.$base-class, 'grdDisplay') using
+  ($option, $value) {
+  display: $value;
+}
 
-  @include options.each-class(
-      vars.$base-class,
-      'grdAutoFlow',
-      vars.$auto-flow-map
-    )
-    using ($option, $value) {
-    grid-auto-flow: $value;
-  }
+@include options.each-class(
+    vars.$base-class,
+    'grdAutoFlow',
+    vars.$auto-flow-map
+  )
+  using ($option, $value) {
+  grid-auto-flow: $value;
 }

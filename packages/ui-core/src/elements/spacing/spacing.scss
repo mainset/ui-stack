@@ -1,5 +1,4 @@
 @use 'sass:map';
-@use '../../styles/layers';
 @use '../../styles/options';
 @use './spacing.variables' as vars;
 
@@ -12,23 +11,21 @@
   map.keys(vars.$type-map)
 );
 
-@layer ms.utilities {
-  @each $type in options.options(vars.$base-class, 'spcType') {
-    $css-props: map.get(vars.$type-map, $type);
+@each $type in options.options(vars.$base-class, 'spcType') {
+  $css-props: map.get(vars.$type-map, $type);
 
-    #{vars.$class-selector}--#{$type}-0 {
-      @each $css-prop in $css-props {
-        #{$css-prop}: 0;
-      }
+  #{vars.$class-selector}--#{$type}-0 {
+    @each $css-prop in $css-props {
+      #{$css-prop}: 0;
     }
+  }
 
-    @each $scale in options.options(vars.$base-class, 'spcScale') {
-      @each $size in options.options(vars.$base-class, 'spcSize') {
-        #{vars.$class-selector}--#{$type}-#{$scale}-#{$size} {
-          // stylelint-disable-next-line max-nesting-depth -- loops, not selector nesting
-          @each $css-prop in $css-props {
-            #{$css-prop}: var(--ms-spacing-scale-#{$scale}-#{$size});
-          }
+  @each $scale in options.options(vars.$base-class, 'spcScale') {
+    @each $size in options.options(vars.$base-class, 'spcSize') {
+      #{vars.$class-selector}--#{$type}-#{$scale}-#{$size} {
+        // stylelint-disable-next-line max-nesting-depth -- loops, not selector nesting
+        @each $css-prop in $css-props {
+          #{$css-prop}: var(--ms-spacing-scale-#{$scale}-#{$size});
         }
       }
     }

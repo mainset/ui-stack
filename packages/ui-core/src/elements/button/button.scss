@@ -1,45 +1,37 @@
-@use '../../styles/layers';
+@use '../../styles/options';
 @use './button.variables' as buttonVars;
 
 // Button behaviour styles only. Size comes from `.ms-control`,
-// color / variant from `.ms-surface` + tone — see `buttonRecipe()`.
-@layer ms.components {
-  #{buttonVars.$class-selector} {
-    $root-selector: &;
+// color / variant / transitions from `.ms-surface` + tone — see `buttonRecipe()`.
+$button: buttonVars.$class-selector;
 
-    cursor: pointer;
-    text-decoration: none;
-    user-select: none;
-    transition-duration: var(--ms-duration-base);
-    transition-property:
-      background-color, border-color, color, box-shadow, opacity;
-    transition-timing-function: var(--ms-easing-standard);
+#{options.where($button)} {
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+}
 
-    &:active {
-      opacity: var(--ms-opacity-pressed);
-    }
+#{options.where('#{$button}:active')} {
+  opacity: var(--ms-opacity-pressed);
+}
 
-    // button basic, single out of the box, theme
-    &--theme-transparent {
-      padding: unset;
-      background-color: transparent;
-    }
+// button basic, single out of the box, theme
+#{options.where('#{$button}--theme-transparent')} {
+  padding: unset;
+  background-color: transparent;
+}
 
-    // modifiers
-    &--full-width {
-      width: 100%;
-    }
+// modifiers
+#{options.where('#{$button}--full-width')} {
+  width: 100%;
+}
 
-    &:disabled,
-    &[aria-disabled='true'],
-    &#{$root-selector}--disabled {
-      opacity: var(--ms-opacity-disabled);
-      cursor: not-allowed;
-      pointer-events: none;
-    }
+#{options.where('#{$button}:disabled, #{$button}[aria-disabled="true"], #{$button}--disabled')} {
+  opacity: var(--ms-opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
 
-    &[aria-busy='true'] {
-      cursor: progress;
-    }
-  }
+#{options.where('#{$button}[aria-busy="true"]')} {
+  cursor: progress;
 }

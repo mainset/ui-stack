@@ -1,7 +1,5 @@
 @use '../../styles/variables' as msVariable;
 
-@layer ms.tokens {
-  :root {
-    --ms-grid-columns-number: #{msVariable.$grid-number-of-columns};
-  }
+:where(:root) {
+  --ms-grid-columns-number: #{msVariable.$grid-number-of-columns};
 }

@@ -1,4 +1,4 @@
-// mainset foundation: cascade layer order + every global design token.
+// mainset foundation: every global design token, the base styles and the tone classes.
 // Token values live in `src/tokens/*.mts` (single source of truth, see `scripts/codegen.mts`).
 // Tier 1 (palette)   --ms-palette-*            literal colors, never used by elements directly
 //                    --ms-space-*              4px-grid spacing primitives
@@ -8,189 +8,183 @@
 //                    --ms-tone-*               the *current* tone, inherited; `.ms-tone-{tone}` re-points it
 // Tier 3 (component) --ms-{component}-*        declared next to each element (e.g. `_control.tokens.scss`)
 // Theming: set `data-theme="light" | "dark" | "system"` on any element (nesting is supported),
-// or override tokens from unlayered CSS, e.g. `:root { --ms-palette-violet-600: #7c3aed; }`.
+// or override tokens from app CSS, e.g. `:root { --ms-palette-violet-600: #7c3aed; }`.
+// Every token rule is `:where()` (0 specificity), so such an override always wins, in any order.
 @use 'sass:map';
-@use './layers';
 @use './variables' as msVariable;
 @use './theme';
 @use './base';
 
-@layer ms.tokens {
-  :root {
-    // ----- Palette (Tier 1) -----
-    @each $name, $color in msVariable.$palette-map {
-      --ms-palette-#{$name}: #{$color};
-    }
-
-    // ----- Font family tokens -----
-    // The default UI font
-    --ms-font-family-text-sans: system-ui, -apple-system, sans-serif;
-
-    // Used for editorial content, articles, or specific brand headings
-    --ms-font-family-text-serif:
-      georgia, cambria, 'Times New Roman', times, serif;
-
-    // Used for code snippets, tabular data, numbers, or technical info.
-    --ms-font-family-text-mono:
-      ui-monospace, sfmono-regular, menlo, monaco, consolas, monospace;
-
-    // ----- Font weight tokens -----
-    --ms-font-weight-regular: 400;
-    --ms-font-weight-medium: 500;
-    --ms-font-weight-semibold: 600;
-    --ms-font-weight-bold: 700;
-
-    // ----- Font size tokens -----
-    // xxs (Tiny labels, tertiary badges)
-    --ms-font-size-text-xxs: 0.625rem; // 10px
-    --ms-letter-spacing-text-xxs: 0.05em;
-    --ms-line-height-text-xxs: 1.2; // Tighter for small caps/labels
-
-    // xs (Secondary captions, meta data)
-    --ms-font-size-text-xs: 0.75rem; // 12px
-    --ms-letter-spacing-text-xs: 0.02em;
-    --ms-line-height-text-xs: 1.333; // ~16px
-
-    // sm (Secondary body text, hints, helper text)
-    --ms-font-size-text-sm: 0.875rem; // 14px
-    --ms-letter-spacing-text-sm: 0.01em;
-    --ms-line-height-text-sm: 1.428; // ~20px
-
-    // base (Core body text)
-    --ms-font-size-text-base: 1rem; // 16px
-    --ms-letter-spacing-text-base: 0;
-    --ms-line-height-text-base: 1.5; // 24px (optimal for readability)
-
-    // lg (Intro text, small headings, large buttons)
-    --ms-font-size-text-lg: 1.25rem; // 20px
-    --ms-letter-spacing-text-lg: -0.01em;
-    --ms-line-height-text-lg: 1.4; // 28px
-
-    // xl (H3, Card Titles, Section Subheadings)
-    --ms-font-size-text-xl: 1.5rem; // 24px
-    --ms-letter-spacing-text-xl: -0.015em;
-    --ms-line-height-text-xl: 1.333; // 32px
-
-    // xxl (H2/H1, Main Page Titles, Hero Text)
-    --ms-font-size-text-xxl: 2.25rem; // 36px
-    --ms-letter-spacing-text-xxl: -0.02em;
-    --ms-line-height-text-xxl: 1.25; // 45px
-
-    // ----- Border radius tokens -----
-    @each $name, $value in msVariable.$border-radius-map {
-      --ms-border-radius-#{$name}: #{$value};
-    }
-
-    // ----- Border width tokens -----
-    @each $name, $value in msVariable.$border-width-map {
-      --ms-border-width-#{$name}: #{$value};
-    }
-
-    // ----- Spacing primitives (Tier 1): 4px grid, key × 4px (`--ms-space-4` → 16px) -----
-    @each $key, $value in msVariable.$space-map {
-      --ms-space-#{$key}: #{$value};
-    }
-
-    // ----- Spacing scales (Tier 2): semantic aliases into the primitives -----
-    // element 2→10px | component 12→28px | block 32→64px | section 72→128px
-    @each $scale, $sizes in msVariable.$spacing-scale-map {
-      @each $size, $key in $sizes {
-        --ms-spacing-scale-#{$scale}-#{$size}: var(--ms-space-#{$key});
-      }
-    }
-
-    // ----- Layout gap tokens (Tier 2): 8 / 16 / 24 / 32 / 48px -----
-    @each $name, $key in msVariable.$layout-gap-map {
-      --ms-space-layout-column-#{$name}: var(--ms-space-#{$key});
-      --ms-space-layout-row-#{$name}: var(--ms-space-#{$key});
-    }
-
-    // ----- Container tokens: max content widths (separate from breakpoints) -----
-    @each $name, $value in msVariable.$container-map {
-      --ms-container-#{$name}: #{$value};
-    }
-
-    // ----- Breakpoint tokens (for JS; CSS media queries can't read custom properties) -----
-    @each $name, $value in msVariable.$breakpoint-map {
-      --ms-breakpoint-#{$name}: #{$value};
-    }
-
-    // ----- Z-index tokens -----
-    @each $name, $value in msVariable.$z-index-map {
-      --ms-z-index-#{$name}: #{$value};
-    }
-
-    // ----- Motion tokens -----
-    --ms-duration-fast: 120ms;
-    --ms-duration-base: 200ms;
-    --ms-duration-slow: 300ms;
-    --ms-easing-standard: cubic-bezier(0.2, 0, 0, 1);
-    --ms-easing-enter: cubic-bezier(0, 0, 0.2, 1);
-    --ms-easing-exit: cubic-bezier(0.4, 0, 1, 1);
-
-    // ----- Focus ring tokens (color is semantic: `--ms-color-focus-ring`) -----
-    --ms-focus-ring-width: 0.125rem; // 2px
-    --ms-focus-ring-offset: 0.125rem; // 2px
-
-    // ----- Opacity tokens -----
-    --ms-opacity-disabled: 0.7;
-    --ms-opacity-pressed: 0.8;
-    --ms-opacity-backdrop: 0.6;
+:where(:root) {
+  // ----- Palette (Tier 1) -----
+  @each $name, $color in msVariable.$palette-map {
+    --ms-palette-#{$name}: #{$color};
   }
 
-  // Respect the OS motion preference for every mainset transition / animation
-  @media (prefers-reduced-motion: reduce) {
-    :root {
-      --ms-duration-fast: 0ms;
-      --ms-duration-base: 0ms;
-      --ms-duration-slow: 0ms;
+  // ----- Font family tokens -----
+  // The default UI font
+  --ms-font-family-text-sans: system-ui, -apple-system, sans-serif;
+
+  // Used for editorial content, articles, or specific brand headings
+  --ms-font-family-text-serif:
+    georgia, cambria, 'Times New Roman', times, serif;
+
+  // Used for code snippets, tabular data, numbers, or technical info.
+  --ms-font-family-text-mono:
+    ui-monospace, sfmono-regular, menlo, monaco, consolas, monospace;
+
+  // ----- Font weight tokens -----
+  --ms-font-weight-regular: 400;
+  --ms-font-weight-medium: 500;
+  --ms-font-weight-semibold: 600;
+  --ms-font-weight-bold: 700;
+
+  // ----- Font size tokens -----
+  // xxs (Tiny labels, tertiary badges)
+  --ms-font-size-text-xxs: 0.625rem; // 10px
+  --ms-letter-spacing-text-xxs: 0.05em;
+  --ms-line-height-text-xxs: 1.2; // Tighter for small caps/labels
+
+  // xs (Secondary captions, meta data)
+  --ms-font-size-text-xs: 0.75rem; // 12px
+  --ms-letter-spacing-text-xs: 0.02em;
+  --ms-line-height-text-xs: 1.333; // ~16px
+
+  // sm (Secondary body text, hints, helper text)
+  --ms-font-size-text-sm: 0.875rem; // 14px
+  --ms-letter-spacing-text-sm: 0.01em;
+  --ms-line-height-text-sm: 1.428; // ~20px
+
+  // base (Core body text)
+  --ms-font-size-text-base: 1rem; // 16px
+  --ms-letter-spacing-text-base: 0;
+  --ms-line-height-text-base: 1.5; // 24px (optimal for readability)
+
+  // lg (Intro text, small headings, large buttons)
+  --ms-font-size-text-lg: 1.25rem; // 20px
+  --ms-letter-spacing-text-lg: -0.01em;
+  --ms-line-height-text-lg: 1.4; // 28px
+
+  // xl (H3, Card Titles, Section Subheadings)
+  --ms-font-size-text-xl: 1.5rem; // 24px
+  --ms-letter-spacing-text-xl: -0.015em;
+  --ms-line-height-text-xl: 1.333; // 32px
+
+  // xxl (H2/H1, Main Page Titles, Hero Text)
+  --ms-font-size-text-xxl: 2.25rem; // 36px
+  --ms-letter-spacing-text-xxl: -0.02em;
+  --ms-line-height-text-xxl: 1.25; // 45px
+
+  // ----- Border radius tokens -----
+  @each $name, $value in msVariable.$border-radius-map {
+    --ms-border-radius-#{$name}: #{$value};
+  }
+
+  // ----- Border width tokens -----
+  @each $name, $value in msVariable.$border-width-map {
+    --ms-border-width-#{$name}: #{$value};
+  }
+
+  // ----- Spacing primitives (Tier 1): 4px grid, key × 4px (`--ms-space-4` → 16px) -----
+  @each $key, $value in msVariable.$space-map {
+    --ms-space-#{$key}: #{$value};
+  }
+
+  // ----- Spacing scales (Tier 2): semantic aliases into the primitives -----
+  // element 2→10px | component 12→28px | block 32→64px | section 72→128px
+  @each $scale, $sizes in msVariable.$spacing-scale-map {
+    @each $size, $key in $sizes {
+      --ms-spacing-scale-#{$scale}-#{$size}: var(--ms-space-#{$key});
     }
   }
 
-  // ----- Semantic tokens (Tier 2) -----
-  // Pointers shared by every theme root (default tone, shadows), declared once
-  :root,
-  [data-theme] {
-    @include theme.scheme-shared-tokens;
+  // ----- Layout gap tokens (Tier 2): 8 / 16 / 24 / 32 / 48px -----
+  @each $name, $key in msVariable.$layout-gap-map {
+    --ms-space-layout-column-#{$name}: var(--ms-space-#{$key});
+    --ms-space-layout-row-#{$name}: var(--ms-space-#{$key});
   }
 
-  // Values per color scheme; `system` is light by default and dark when the OS prefers it
-  :root,
-  [data-theme='light'],
-  [data-theme='system'] {
-    @include theme.scheme-tokens(light);
+  // ----- Container tokens: max content widths (separate from breakpoints) -----
+  @each $name, $value in msVariable.$container-map {
+    --ms-container-#{$name}: #{$value};
   }
 
-  [data-theme='dark'] {
-    @include theme.scheme-tokens(dark);
+  // ----- Breakpoint tokens (for JS; CSS media queries can't read custom properties) -----
+  @each $name, $value in msVariable.$breakpoint-map {
+    --ms-breakpoint-#{$name}: #{$value};
   }
 
-  @media (prefers-color-scheme: dark) {
-    [data-theme='system'] {
-      @include theme.scheme-tokens(dark);
-    }
+  // ----- Z-index tokens -----
+  @each $name, $value in msVariable.$z-index-map {
+    --ms-z-index-#{$name}: #{$value};
+  }
+
+  // ----- Motion tokens -----
+  --ms-duration-fast: 120ms;
+  --ms-duration-base: 200ms;
+  --ms-duration-slow: 300ms;
+  --ms-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ms-easing-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ms-easing-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  // ----- Focus ring tokens (color is semantic: `--ms-color-focus-ring`) -----
+  --ms-focus-ring-width: 0.125rem; // 2px
+  --ms-focus-ring-offset: 0.125rem; // 2px
+
+  // ----- Opacity tokens -----
+  --ms-opacity-disabled: 0.7;
+  --ms-opacity-pressed: 0.8;
+  --ms-opacity-backdrop: 0.6;
+}
+
+// Respect the OS motion preference for every mainset transition / animation
+@media (prefers-reduced-motion: reduce) {
+  :where(:root) {
+    --ms-duration-fast: 0ms;
+    --ms-duration-base: 0ms;
+    --ms-duration-slow: 0ms;
   }
 }
 
-@include base.base-layer;
-@include base.utilities-layer;
+// ----- Semantic tokens (Tier 2) -----
+// Pointers shared by every theme root (default tone, shadows), declared once
+:where(:root, [data-theme]) {
+  @include theme.scheme-shared-tokens;
+}
+
+// Values per color scheme; `system` is light by default and dark when the OS prefers it.
+// Light is declared in full, dark only where it differs (the rest is inherited, see `scheme-tokens`).
+:where(:root, [data-theme='light'], [data-theme='system']) {
+  @include theme.scheme-tokens(light);
+}
+
+:where([data-theme='dark']) {
+  @include theme.scheme-tokens(dark, $base-scheme: light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :where([data-theme='system']) {
+    @include theme.scheme-tokens(dark, $base-scheme: light);
+  }
+}
+
+@include base.base-styles;
+@include base.utility-styles;
 
 // Tone modifiers: re-point the inherited `--ms-tone-*` contract for a subtree.
-// NOTE: in `ms.utilities`, so a tone class always wins over component defaults.
-@layer ms.utilities {
-  @each $tone in map.keys(msVariable.$tone-map) {
-    .ms-tone-#{$tone} {
-      @include theme.tone-vars($tone);
-    }
+// NOTE: plain classes (0,1,0), so a tone class always wins over the 0-specificity defaults.
+@each $tone in map.keys(msVariable.$tone-map) {
+  .ms-tone-#{$tone} {
+    @include theme.tone-vars($tone);
   }
+}
 
-  .ms-tone-transparent {
-    --ms-tone-solid: transparent;
-    --ms-tone-solid-hover: var(--ms-color-transparent-solid-hover);
-    --ms-tone-on-solid: var(--ms-color-text-base);
-    --ms-tone-subtle: transparent;
-    --ms-tone-subtle-hover: var(--ms-tone-solid-hover);
-    --ms-tone-border: transparent;
-    --ms-tone-text: var(--ms-color-text-base);
-  }
+.ms-tone-transparent {
+  --ms-tone-solid: transparent;
+  --ms-tone-solid-hover: var(--ms-color-transparent-solid-hover);
+  --ms-tone-on-solid: var(--ms-color-text-base);
+  --ms-tone-subtle: transparent;
+  --ms-tone-subtle-hover: var(--ms-tone-solid-hover);
+  --ms-tone-border: transparent;
+  --ms-tone-text: var(--ms-color-text-base);
 }

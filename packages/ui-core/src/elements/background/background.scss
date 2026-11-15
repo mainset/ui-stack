@@ -1,11 +1,13 @@
-@use '../../styles/layers';
 @use '../../styles/options';
 @use './background.variables' as vars;
 
-// Generated from `BACKGROUND__CLASS_NAME_CONFIG`: one class per tone (`solid`) + `transparent`
-@layer ms.utilities {
-  @include options.each-class(vars.$base-class, 'bgColor', vars.$color-map)
-    using ($option, $value) {
-    background-color: $value;
-  }
+// Utility: one class per tone (`solid`) + `transparent`, from `BACKGROUND__CLASS_NAME_CONFIG`
+@include options.each-class(
+    vars.$base-class,
+    'bgColor',
+    vars.$color-map,
+    $tier: utility
+  )
+  using ($option, $value) {
+  background-color: $value;
 }
