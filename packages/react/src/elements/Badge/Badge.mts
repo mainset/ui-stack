@@ -2,7 +2,6 @@ import {
   SPACING__STYLE_CONFIG,
   cnx,
   extractStyleObjFromProps,
-  stylesSpacingInlineStyleBased,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -39,7 +38,7 @@ const Badge: React.FC<BadgeProps> = ({
   return React.createElement(
     Surface,
     {
-      className: cnx(className, stylesSpacingInlineStyleBased['ms-spacing']),
+      className: cnx(className, 'ms-spacing'),
       // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
       style: { ...styleObj, ...style },
       ...props,

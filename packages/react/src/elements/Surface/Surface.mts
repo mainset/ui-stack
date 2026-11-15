@@ -9,9 +9,6 @@ import {
   SURFACE__CLASS_NAME_CONFIG,
   cnx,
   extractClassNamesFromProps,
-  stylesBackground,
-  stylesBorder,
-  stylesSurface,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -90,13 +87,12 @@ const Surface = <C extends SurfaceElementType = 'div'>({
     // The latter arguments override the former:
     // This allows a user to pass `brdRadius="pill"` to override the `sm` default!
     Object.assign({ srfVariant }, classNameProps, props),
-    Object.assign({}, stylesBackground, stylesBorder, stylesSurface),
   );
 
   return React.createElement(
     Component,
     {
-      className: cnx(className, classNames, stylesSurface['ms-surface']),
+      className: cnx(className, classNames),
       ...restProps,
     },
     children,

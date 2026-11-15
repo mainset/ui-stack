@@ -3,7 +3,6 @@ import {
   FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG,
   cnx,
   extractClassNamesFromProps,
-  stylesFloatingBox,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -19,7 +18,6 @@ const FloatingBoxWrapper: React.FC<FloatingBoxWrapperProps> = ({
   const [classNames, restProps] = extractClassNamesFromProps(
     [FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG],
     props,
-    stylesFloatingBox,
   );
 
   return React.createElement(
@@ -43,15 +41,12 @@ const FloatingBoxContent: React.FC<FloatingBoxContentProps> = ({
   return React.createElement(
     'div',
     {
-      className: stylesFloatingBox['ms-floating-box__content-positioner'],
+      className: 'ms-floating-box__content-positioner',
     },
     React.createElement(
       'div',
       {
-        className: cnx(
-          className,
-          stylesFloatingBox['ms-floating-box__content'],
-        ),
+        className: cnx(className, 'ms-floating-box__content'),
         ...props,
       },
       children,

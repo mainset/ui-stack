@@ -8,8 +8,6 @@ import {
   LAYOUT__CLASS_NAME_CONFIG,
   cnx,
   extractClassNamesFromProps,
-  stylesGrid,
-  stylesLayout,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -32,7 +30,6 @@ const GridContainer: React.FC<GridContainerProps> = ({
   const [classNames, restProps] = extractClassNamesFromProps(
     [GRID_CONTAINER__CLASS_NAME_CONFIG, LAYOUT__CLASS_NAME_CONFIG],
     props,
-    Object.assign({}, stylesGrid, stylesLayout),
   );
 
   return React.createElement(
@@ -63,7 +60,7 @@ const GridItem: React.FC<GridItemProps> = ({
     {
       className: cnx(
         className,
-        // stylesGrid['ms-grid__item']
+        // 'ms-grid__item'
       ),
       ...props,
     },

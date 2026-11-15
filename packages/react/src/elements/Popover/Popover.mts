@@ -3,7 +3,6 @@ import {
   PopperWrapperStyleProps,
   cnx,
   extractClassNamesFromProps,
-  stylesPopper,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -23,7 +22,6 @@ const PopoverWrapper: React.FC<PopoverWrapperProps> = ({
   const [classNames, restProps] = extractClassNamesFromProps(
     [POPPER_WRAPPER__CLASS_NAME_CONFIG],
     props,
-    stylesPopper,
   );
 
   // NOTE: derived on every render, so switching between controlled/uncontrolled isn't frozen at mount
@@ -33,7 +31,7 @@ const PopoverWrapper: React.FC<PopoverWrapperProps> = ({
     FloatingBox,
     {
       className: cnx(className, classNames, {
-        [stylesPopper['ms-popper--visible-on-hover']]: isVisibleOnHover,
+        'ms-popper--visible-on-hover': isVisibleOnHover,
       }),
       ...restProps,
     },
@@ -53,7 +51,7 @@ const PopoverContent: React.FC<PopoverContentProps> = ({
   return React.createElement(
     FloatingBox.Content,
     {
-      className: cnx(className, stylesPopper['ms-popper__content']),
+      className: cnx(className, 'ms-popper__content'),
       ...props,
     },
     children,

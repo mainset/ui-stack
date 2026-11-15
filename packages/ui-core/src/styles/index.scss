@@ -1,0 +1,23 @@
+// Framework-agnostic bundle of every mainset ui-core stylesheet.
+//
+// Use it when there is no JS bundler resolving per-element CSS imports
+// (plain HTML, server templates, Vue/Svelte/etc.), e.g.:
+//   <link rel="stylesheet" href="@mainset/ui-core/styles/index.css" />
+// The reset is opt-in and shipped separately: `@mainset/ui-core/styles/normalize.css`.
+@use './layers';
+@use '../elements/backdrop/backdrop';
+@use '../elements/background/background';
+@use '../elements/border/border';
+@use '../elements/button/button';
+@use '../elements/flex/flex';
+@use '../elements/floating-box/floating-box';
+@use '../elements/grid/grid';
+@use '../elements/hr/hr';
+@use '../elements/layout/layout';
+@use '../elements/list/list';
+@use '../elements/popper/popper';
+@use '../elements/section/section';
+@use '../elements/spacing/spacing-cn-based';
+@use '../elements/spacing/spacing-inline-style-based';
+@use '../elements/surface/surface';
+@use '../elements/text-base/text-base';

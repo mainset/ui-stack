@@ -5,8 +5,6 @@ import {
   cnx,
   // extractClassNamesFromProps,
   extractStyleObjFromProps,
-  // stylesSpacingCNBased,
-  stylesSpacingInlineStyleBased,
 } from '@mainset/ui-core';
 import React from 'react';
 
@@ -28,7 +26,6 @@ const Spacing: React.FC<SpacingProps> = ({
   // const [classNames, restProps] = extractClassNamesFromProps(
   //   [SPACING__CLASS_NAME_CONFIG],
   //   props,
-  //   stylesSpacingCNBased,
   // );
 
   const [styleObj, restProps] = extractStyleObjFromProps(
@@ -39,7 +36,7 @@ const Spacing: React.FC<SpacingProps> = ({
   return React.createElement(
     as,
     {
-      className: cnx(className, stylesSpacingInlineStyleBased['ms-spacing']),
+      className: cnx(className, 'ms-spacing'),
       // NOTE: merge, so a consumer `style` extends (not replaces) the spacing variables
       style: { ...styleObj, ...style },
       ...restProps,
