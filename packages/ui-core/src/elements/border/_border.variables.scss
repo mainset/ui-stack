@@ -1,18 +1,14 @@
+@use 'sass:map';
+@use '../../styles/theme';
+
 $class-selector: '.ms-border';
 $border-modifier-map: (
-  color: (
-    primary: var(--ms-border-color-primary),
-    secondary: var(--ms-border-color-secondary),
-    tertiary: var(--ms-border-color-tertiary),
-    error: var(--ms-border-color-error),
-    info: var(--ms-border-color-info),
-    success: var(--ms-border-color-success),
-    warning: var(--ms-border-color-warning),
-    base: var(--ms-border-color-base),
-    muted: var(--ms-border-color-muted),
-    inverse: var(--ms-border-color-inverse),
-    transparent: transparent,
-  ),
+  color: map.merge(
+      theme.tone-token-map('border'),
+      (
+        transparent: transparent,
+      )
+    ),
   radius: (
     // static
     pill: var(--ms-border-radius-pill),

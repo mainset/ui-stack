@@ -1,6 +1,5 @@
 @use '../../styles/layers';
 @use 'sass:map';
-@forward './border.tokens';
 @use './border.variables' as borderVars;
 @use './border.mixins' as borderMixins;
 
