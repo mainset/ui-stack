@@ -73,7 +73,6 @@ export {
   composeClassNames,
   composeStyleProps,
   extractClassNamesFromProps,
-  extractStyleObjFromProps,
 } from './utils/index.mjs';
 export type { ResponsiveStyle } from './utils/index.mjs';
 export * from './tokens/index.mjs';
