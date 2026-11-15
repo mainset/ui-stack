@@ -19,7 +19,7 @@ const SIZE_EXTENDED__ELEMENT_OPTIONS = [
 ] as const;
 
 // Mobile-first breakpoints from `tokens/layout.tokens.mts`.
-// `xs` starts at 0, so it's the default value of a responsive prop.
+// `base` starts at 0, so it's the default value of a responsive prop.
 const BREAKPOINT__ELEMENT_OPTIONS = BREAKPOINT__OPTIONS;
 
 export {

@@ -104,7 +104,11 @@ Semantic tokens only alias into it, never own raw values:
 
 Breakpoints (`--ms-breakpoint-*`, media queries, responsive props) say **where** the layout
 changes; containers (`--ms-container-*`, e.g. `secMaxWidth`) say **how wide** content may grow.
-They start aligned (`sm`…`xl`) but are separate tokens; `xs` container is 20rem (320px).
+Separate concepts, separate vocabularies:
+
+| Breakpoint (`min-width`)  | `base` 0   | `sm` 576px | `md` 768px   | `lg` 992px | `xl` 1200px |
+| ------------------------- | ---------- | ---------- | ------------ | ---------- | ----------- |
+| **Container** (max-width) | `xs` 320px | `sm` 576px | `base` 768px | `lg` 992px | `xl` 1200px |
 
 ### Tones × variants
 
@@ -144,11 +148,12 @@ Surface variants: `solid | soft | outlined | ghost`.
 ## Responsive props
 
 Layout props (`flx*`, `lay*`, `grd*`) accept a mobile-first object keyed by breakpoint
-(`xs` 0 · `sm` 36rem · `base` 48rem · `lg` 62rem · `xl` 75rem):
+(industry vocabulary, as in Chakra / Panda / Tailwind: `base` 0 = default · `sm` 36rem ·
+`md` 48rem · `lg` 62rem · `xl` 75rem):
 
 ```ts
-flxDirection={{ xs: 'column', base: 'row' }}
-// → "ms-flex--flex-direction-column ms-flex--flex-direction-row@base"
+flxDirection={{ base: 'column', md: 'row' }}
+// → "ms-flex--flex-direction-column ms-flex--flex-direction-row@md"
 ```
 
 ## Background: token strategy

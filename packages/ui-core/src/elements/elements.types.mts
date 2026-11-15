@@ -13,7 +13,7 @@ type ElementBreakpoint = (typeof BREAKPOINT__ELEMENT_OPTIONS)[number];
 
 /**
  * A value, or a mobile-first map of values per breakpoint.
- * @example flxDirection={{ xs: 'column', base: 'row' }} // column, row from 768px
+ * @example flxDirection={{ base: 'column', md: 'row' }} // column, row from 768px
  */
 type ResponsiveValue<T> = T | Partial<Record<ElementBreakpoint, T>>;
 

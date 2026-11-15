@@ -2,28 +2,37 @@
  * Layout tokens.
  *
  * Breakpoints say *where* the layout changes; containers say *how wide* content may grow.
- * They start aligned (sm → xl), but are separate concepts and can diverge.
+ * Separate concepts with separate vocabularies: breakpoints `base sm md lg xl`, containers `xs sm base lg xl`.
  */
 
-// Mobile-first `min-width` breakpoints. `xs` starts at 0, so it's the default (no media query).
+// Mobile-first `min-width` breakpoints, industry vocabulary (Chakra / Panda / Tailwind):
+// `base` starts at 0, so it's the default of a responsive prop (no media query).
 const BREAKPOINT__TOKENS = {
-  xs: '0rem',
+  base: '0rem',
   sm: '36rem', // 576px
-  base: '48rem', // 768px
+  md: '48rem', // 768px
   lg: '62rem', // 992px
   xl: '75rem', // 1200px
 } as const;
 type Breakpoint = keyof typeof BREAKPOINT__TOKENS;
 const BREAKPOINT__OPTIONS = Object.keys(BREAKPOINT__TOKENS) as Breakpoint[];
 
-// Max content widths
+// The breakpoint whose classes carry no `@{breakpoint}` suffix (min-width 0)
+const BREAKPOINT__DEFAULT = BREAKPOINT__OPTIONS.find(
+  (breakpoint) => parseFloat(BREAKPOINT__TOKENS[breakpoint]) === 0,
+) as Breakpoint;
+
+// Max content widths — size names (not breakpoint names): a container is a size, not a position
+const CONTAINER__SIZE__OPTIONS = ['xs', 'sm', 'base', 'lg', 'xl'] as const;
+type ContainerSize = (typeof CONTAINER__SIZE__OPTIONS)[number];
+
 const CONTAINER__TOKENS = {
   xs: '20rem', // 320px
   sm: '36rem', // 576px
   base: '48rem', // 768px
   lg: '62rem', // 992px
   xl: '75rem', // 1200px
-} as const satisfies Record<Breakpoint, string>;
+} as const satisfies Record<ContainerSize, string>;
 
 // Stacking order of floating layers
 const Z_INDEX__TOKENS = {
@@ -39,9 +48,11 @@ const Z_INDEX__TOKENS = {
 } as const;
 
 export {
+  BREAKPOINT__DEFAULT,
   BREAKPOINT__OPTIONS,
   BREAKPOINT__TOKENS,
+  CONTAINER__SIZE__OPTIONS,
   CONTAINER__TOKENS,
   Z_INDEX__TOKENS,
 };
-export type { Breakpoint };
+export type { Breakpoint, ContainerSize };

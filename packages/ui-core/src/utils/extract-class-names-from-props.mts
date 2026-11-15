@@ -1,16 +1,18 @@
+import { BREAKPOINT__DEFAULT } from '../tokens/index.mjs';
+
 type CNBasedPropDefinition = {
   options: readonly (string | boolean | number)[];
   defaultValue?: string | boolean | number;
   /**
-   * Accepts a per-breakpoint object, e.g. `{ xs: 'column', base: 'row' }`.
-   * Each entry generates the class with an `@{breakpoint}` suffix (none for `xs`),
+   * Accepts a per-breakpoint object, e.g. `{ base: 'column', md: 'row' }`.
+   * Each entry generates the class with an `@{breakpoint}` suffix (none for `base`),
    * matching the CSS emitted by the `responsive-variants` Sass mixin.
    */
   isResponsive?: boolean;
 };
 
-// The mobile-first default breakpoint: its classes carry no `@{breakpoint}` suffix
-const RESPONSIVE_BASE_BREAKPOINT = 'xs';
+// The mobile-first default breakpoint (min-width 0): its classes carry no `@{breakpoint}` suffix
+const RESPONSIVE_BASE_BREAKPOINT = BREAKPOINT__DEFAULT;
 
 const isResponsiveObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value);
