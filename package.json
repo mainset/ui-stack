@@ -12,13 +12,14 @@
     "check:browser-support": "pnpm --filter \"./packages/**\" --if-present check:browser-support"
   },
   "devDependencies": {
-    "@mainset/dev-stack-fe": "^0.2.1",
+    "@commitlint/cli": "^21.2.4",
+    "@mainset/dev-stack-fe": "^0.2.3",
     "cross-env": "^10.1.0",
-    "eslint": "^9.39.2",
+    "eslint": "^10.8.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
-    "prettier": "^3.8.1",
-    "stylelint": "^16.26.1"
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.6",
+    "stylelint": "^17.14.1"
   },
   "packageManager": "pnpm@10.33.0"
 }
