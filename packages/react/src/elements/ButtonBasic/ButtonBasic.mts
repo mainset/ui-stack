@@ -1,12 +1,11 @@
 import type { ButtonStyleProps } from '@mainset/ui-core';
 import {
   BUTTON__CLASS_NAME_CONFIG,
-  cnx,
-  extractClassNamesFromProps,
+  SURFACE__RECIPE_CONFIGS,
 } from '@mainset/ui-core';
-import React from 'react';
+import type React from 'react';
 
-import { Surface } from '../Surface/index.mjs';
+import { renderButton } from './render-button.mjs';
 
 type AllowedAs = 'button' | 'div' | 'a';
 type ButtonElementType = AllowedAs | React.JSXElementConstructor<any>;
@@ -24,60 +23,20 @@ type ButtonBasicProps<C extends ButtonElementType = 'button'> =
   ButtonBasicOwnProps<C> &
     Omit<React.ComponentPropsWithoutRef<C>, keyof ButtonBasicOwnProps<C>>;
 
-function ButtonBasic<C extends ButtonElementType = 'button'>({
-  as,
+// Surface (tone × variant) + button behaviour, without the control sizing
+const BUTTON_BASIC__CONFIGS = [
+  ...SURFACE__RECIPE_CONFIGS,
+  BUTTON__CLASS_NAME_CONFIG,
+];
 
-  children,
-  className,
-
-  ...props
-}: ButtonBasicProps<C>) {
-  const Component = as || 'button';
-  const { btnIsDisabled } = props;
-
-  const [classNames, restProps] = extractClassNamesFromProps(
-    [BUTTON__CLASS_NAME_CONFIG],
-    props,
-  );
-
-  // 4. Combine tag-specific defaults and disabled states safely
-  const elementProps = React.useMemo(() => {
-    const simulatedDisabledProps = btnIsDisabled
-      ? { 'aria-disabled': true, tabIndex: -1 }
-      : {};
-
-    switch (Component) {
-      case 'button':
-        return {
-          type: restProps.type || 'button',
-          disabled: btnIsDisabled,
-        } satisfies React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-      case 'div':
-        return {
-          role: 'button',
-          ...simulatedDisabledProps,
-        } satisfies React.HTMLAttributes<HTMLDivElement>;
-
-      case 'a':
-        return simulatedDisabledProps satisfies React.AnchorHTMLAttributes<HTMLAnchorElement>;
-
-      default:
-        // Covers any custom React Components (like NavLink)
-        return simulatedDisabledProps;
-    }
-  }, [Component, btnIsDisabled, restProps.type]);
-
-  return React.createElement(
-    Surface,
-    {
-      as: Component,
-      className: cnx(className, classNames),
-      ...elementProps,
-      ...restProps,
-    },
-    children,
-  );
+/**
+ * Unsized button: surface styling + button behaviour (native `disabled` / `type` on a `button`,
+ * ARIA-simulated on other tags). Renders the element directly, no wrapper components.
+ */
+function ButtonBasic<C extends ButtonElementType = 'button'>(
+  props: ButtonBasicProps<C>,
+) {
+  return renderButton(BUTTON_BASIC__CONFIGS, props);
 }
 
 export { ButtonBasic };
