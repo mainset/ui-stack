@@ -9,7 +9,8 @@ import { ButtonBasic } from '../../elements/index.mjs';
 type AllowedAs = 'button' | 'div' | 'a';
 type ButtonElementType = AllowedAs | React.JSXElementConstructor<any>;
 
-type ButtonProps<C extends ButtonElementType = 'button'> = SurfaceProps &
+// NOTE: {SurfaceProps} takes the same {C}: the bare default (`'div'`) would intersect `as` into `never`
+type ButtonProps<C extends ButtonElementType = 'button'> = SurfaceProps<C> &
   // NOTE: the {btnIsDisabled} is supported in lower level of {ButtonBasic}
   Omit<ButtonStyleProps, 'btnIsDisabled'> &
   ButtonBasicProps<C> & {
