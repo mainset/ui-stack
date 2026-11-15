@@ -1,12 +1,12 @@
 @use 'sass:map';
 @use '../../styles/theme';
 
-$class-selector: '.ms-background';
+$base-class: 'ms-background';
 
 // Generated from the tone list, so every tone is available without hand-written duplicates
 $color-map: map.merge(
   theme.tone-token-map('solid'),
   (
-    transparent: transparent,
+    'transparent': transparent,
   )
 );

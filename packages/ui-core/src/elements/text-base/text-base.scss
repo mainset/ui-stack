@@ -1,36 +1,12 @@
 @use '../../styles/layers';
-@use './text-base.variables' as textBaseVars;
-@use './text-base.mixins' as textBaseMixins;
+@use '../../styles/mixins' as msMixin;
+@use '../../styles/options';
+@use './text-base.variables' as vars;
 
+// Every `txt*` class is generated from `TEXT_BASE__CLASS_NAME_CONFIG` options.
 @layer ms.utilities {
-  #{textBaseVars.$class-selector} {
+  #{vars.$class-selector} {
     line-height: 1;
-
-    &#{textBaseVars.$class-selector} {
-      &--align {
-        @each $value in (textBaseVars.$alignments) {
-          &-#{$value} {
-            text-align: $value;
-          }
-        }
-      }
-
-      &--transform {
-        @each $value in (textBaseVars.$transforms) {
-          &-#{$value} {
-            text-transform: $value;
-          }
-        }
-      }
-
-      &--weight {
-        @each $modifier, $value in (textBaseVars.$weight-map) {
-          &-#{$modifier} {
-            font-weight: $value;
-          }
-        }
-      }
-    }
 
     &--truncate {
       overflow: hidden;
@@ -39,11 +15,51 @@
     }
   }
 
-  @include textBaseMixins.build-text-base(
-    (
-      color: textBaseVars.$color-map,
-      family: textBaseVars.$family-map,
-      size: textBaseVars.$size-map-as-style,
+  @include options.each-class(vars.$base-class, 'txtAlign') using
+    ($option, $value) {
+    text-align: $value;
+  }
+
+  @include options.each-class(vars.$base-class, 'txtTransform') using
+    ($option, $value) {
+    text-transform: $value;
+  }
+
+  @include options.each-class(vars.$base-class, 'txtWeight', vars.$weight-map)
+    using ($option, $value) {
+    font-weight: $value;
+  }
+
+  @include options.each-class(vars.$base-class, 'txtFamily', vars.$family-map)
+    using ($option, $value) {
+    font-family: $value;
+  }
+
+  @include options.each-class(
+      vars.$base-class,
+      'txtSize',
+      vars.$size-map-as-style
     )
-  );
+    using ($option, $value) {
+    @include msMixin.map-to-style($value);
+  }
+
+  @include options.each-class(vars.$base-class, 'txtColor', vars.$color-map)
+    using ($option, $value) {
+    color: $value;
+  }
+
+  @include options.each-class(
+      vars.$base-class,
+      'txtColorHover',
+      vars.$color-map
+    )
+    using ($option, $value) {
+    @media (hover: hover) {
+      // stylelint-disable-next-line nesting-selector-no-missing-scoping-root -- scoped by the generated class
+      &:hover {
+        color: $value;
+      }
+    }
+  }
 }

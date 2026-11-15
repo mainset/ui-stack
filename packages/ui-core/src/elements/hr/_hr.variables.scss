@@ -1,12 +1,13 @@
 @use 'sass:map';
 @use '../../styles/theme';
 
-$class-selector: '.ms-break';
+$base-class: 'ms-break';
+$class-selector: '.#{$base-class}';
 
 // Generated from the tone list, so every tone is available without hand-written duplicates
 $color-map: map.merge(
   theme.tone-token-map('border'),
   (
-    transparent: transparent,
+    'transparent': transparent,
   )
 );

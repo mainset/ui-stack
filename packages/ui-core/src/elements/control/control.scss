@@ -1,5 +1,6 @@
 @use '../../styles/layers';
 @forward './control.tokens';
+@use '../../styles/options';
 @use './control.variables' as controlVars;
 
 // Control = sizing + states shared by every interactive control.
@@ -26,16 +27,6 @@
     line-height: var(--ms-control-line-height);
     white-space: nowrap;
 
-    @each $size in controlVars.$sizes {
-      &--size-#{$size} {
-        --ms-control-height: var(--ms-control-height-#{$size});
-        --ms-control-padding-inline: var(--ms-control-padding-inline-#{$size});
-        --ms-control-font-size: var(--ms-control-font-size-#{$size});
-        --ms-control-line-height: var(--ms-control-line-height-#{$size});
-        --ms-control-letter-spacing: var(--ms-control-letter-spacing-#{$size});
-      }
-    }
-
     // Validation state (inputs will use it; harmless for buttons)
     &[aria-invalid='true'],
     &:user-invalid {
@@ -43,5 +34,14 @@
 
       border-color: var(--ms-color-error-border);
     }
+  }
+
+  @include options.each-class(controlVars.$base-class, 'ctlSize') using
+    ($size, $value) {
+    --ms-control-height: var(--ms-control-height-#{$size});
+    --ms-control-padding-inline: var(--ms-control-padding-inline-#{$size});
+    --ms-control-font-size: var(--ms-control-font-size-#{$size});
+    --ms-control-line-height: var(--ms-control-line-height-#{$size});
+    --ms-control-letter-spacing: var(--ms-control-letter-spacing-#{$size});
   }
 }

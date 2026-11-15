@@ -1,0 +1,116 @@
+// Generates element classes from the TS class-name configs (via `_generated.scss`),
+// so Sass never re-declares which options exist — TS stays the single source of truth.
+// @example
+//   @include options.each-class('ms-text', 'txtAlign') using ($option, $value) {
+//     text-align: $value;
+//   }
+//   // → .ms-text--align-initial { text-align: initial } … one rule per TS option
+// Value maps passed in must match the TS options exactly: a missing or an unknown option
+// fails the build, so TS types and generated CSS can't drift apart silently.
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:meta';
+@use 'sass:string';
+@use './generated' as generated;
+@use './mixins' as msMixin;
+
+@function -prop-definition($base-class, $prop-name) {
+  $config: map.get(generated.$class-name-config-map, $base-class);
+
+  @if not $config {
+    @error 'Unknown class-name config `#{$base-class}`. Known: #{map.keys(generated.$class-name-config-map)}';
+  }
+
+  $definition: map.get($config, 'props', $prop-name);
+
+  @if not $definition {
+    @error 'Unknown prop `#{$prop-name}` in `#{$base-class}`. Known: #{map.keys(map.get($config, "props"))}';
+  }
+
+  @return $definition;
+}
+
+// The options declared in TS for a prop (booleans excluded: they map to a single `--modifier` class)
+@function options($base-class, $prop-name) {
+  $result: ();
+
+  @each $option in map.get(-prop-definition($base-class, $prop-name), 'options')
+  {
+    @if meta.type-of($option) != 'bool' {
+      $result: list.append($result, $option, $separator: comma);
+    }
+  }
+
+  @return $result;
+}
+
+// `.ms-text--align-center` for (`ms-text`, `txtAlign`, `center`)
+@function class-selector($base-class, $prop-name, $option) {
+  $modifier: map.get(-prop-definition($base-class, $prop-name), 'modifier');
+
+  @if $modifier == '' {
+    @return '.#{$base-class}--#{$option}';
+  }
+
+  @return '.#{$base-class}--#{$modifier}-#{$option}';
+}
+
+// Fails the build unless `$keys` contains exactly the TS options of the prop
+@mixin assert-options($base-class, $prop-name, $keys) {
+  $options: options($base-class, $prop-name);
+
+  @each $option in $options {
+    @if not list.index($keys, $option) {
+      @error '`#{$base-class}` / `#{$prop-name}`: option `#{$option}` is declared in TS but has no CSS';
+    }
+  }
+
+  @each $key in $keys {
+    @if not list.index($options, $key) {
+      @error '`#{$base-class}` / `#{$prop-name}`: CSS defines `#{$key}`, which is not a TS option';
+    }
+  }
+}
+
+// Generated options are quoted strings; CSS values must not be
+@function -css-value($value) {
+  @if meta.type-of($value) == 'string' {
+    @return string.unquote($value);
+  }
+
+  @return $value;
+}
+
+// One rule per TS option; `responsive` props also get `@{breakpoint}` variants.
+// `$value-map` maps option → CSS value; without it the option itself is the value.
+// The content block receives `($option, $value)`.
+@mixin each-class($base-class, $prop-name, $value-map: null) {
+  $definition: -prop-definition($base-class, $prop-name);
+  $options: options($base-class, $prop-name);
+
+  @if $value-map {
+    @include assert-options($base-class, $prop-name, map.keys($value-map));
+  }
+
+  @if map.get($definition, 'responsive') {
+    @include msMixin.responsive-variants using ($suffix) {
+      @each $option in $options {
+        $value: -css-value(
+          if($value-map, map.get($value-map, $option), $option)
+        );
+
+        #{class-selector($base-class, $prop-name, $option)}#{$suffix} {
+          @content ($option, $value);
+        }
+      }
+    }
+  } @else {
+    @each $option in $options {
+      $value: -css-value(if($value-map, map.get($value-map, $option), $option));
+
+      #{class-selector($base-class, $prop-name, $option)} {
+        @content ($option, $value);
+      }
+    }
+  }
+}

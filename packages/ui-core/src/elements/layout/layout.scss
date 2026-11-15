@@ -1,14 +1,27 @@
 @use '../../styles/layers';
-@use './layout.variables' as layoutVars;
-@use './layout.mixins' as layoutMixins;
+@use '../../styles/options';
+@use '../../styles/variables' as msVariable;
+@use './layout.variables' as vars;
 
-// Robust generation for all classes
+@layer ms.components {
+  @include options.each-class(vars.$base-class, 'layJustify') using
+    ($option, $value) {
+    justify-content: $value;
+  }
 
-@layer ms.utilities {
-  @include layoutMixins.build-layout(
-    (
-      gap: layoutVars.$gap-map,
-      layout-prop: layoutVars.$layout-prop-map,
+  @include options.each-class(vars.$base-class, 'layAlign') using
+    ($option, $value) {
+    align-items: $value;
+  }
+
+  // Gap sizes are the layout gap tokens (aliases of the spacing primitives)
+  @include options.each-class(
+      vars.$base-class,
+      'layGapSize',
+      msVariable.$layout-gap-map
     )
-  );
+    using ($option, $value) {
+    gap: var(--ms-space-layout-row-#{$option})
+      var(--ms-space-layout-column-#{$option});
+  }
 }

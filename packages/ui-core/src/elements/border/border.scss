@@ -1,17 +1,39 @@
-@use '../../styles/layers';
 @use 'sass:map';
-@use './border.variables' as borderVars;
-@use './border.mixins' as borderMixins;
+@use '../../styles/layers';
+@use '../../styles/options';
+@use './border.variables' as vars;
 
-// Robust generation for all classes
-
+// Generated from `BORDER__CLASS_NAME_CONFIG` options
 @layer ms.utilities {
-  @include borderMixins.build-border(
-    (
-      color: map.get(borderVars.$border-modifier-map, 'color'),
-      radius: map.get(borderVars.$border-modifier-map, 'radius'),
-      style: map.get(borderVars.$border-modifier-map, 'style'),
-      width: map.get(borderVars.$border-modifier-map, 'width'),
+  @include options.each-class(
+      vars.$base-class,
+      'brdColor',
+      map.get(vars.$border-modifier-map, 'color')
     )
-  );
+    using ($option, $value) {
+    border-color: $value;
+  }
+
+  @include options.each-class(
+      vars.$base-class,
+      'brdRadius',
+      map.get(vars.$border-modifier-map, 'radius')
+    )
+    using ($option, $value) {
+    border-radius: $value;
+  }
+
+  @include options.each-class(vars.$base-class, 'brdStyle') using
+    ($option, $value) {
+    border-style: $value;
+  }
+
+  @include options.each-class(
+      vars.$base-class,
+      'brdWidth',
+      map.get(vars.$border-modifier-map, 'width')
+    )
+    using ($option, $value) {
+    border-width: $value;
+  }
 }

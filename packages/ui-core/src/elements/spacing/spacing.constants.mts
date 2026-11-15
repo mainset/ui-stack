@@ -2,6 +2,7 @@
 // so bundlers keep it when tree-shaking re-exports through the side-effect-free `index.mjs`.
 // Foundation (layer order + tokens) goes first; bundlers dedupe it across elements.
 import '../../styles/foundation.scss';
+import { SPACING_SCALE__OPTIONS } from '../../tokens/index.mjs';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
 import { SIZE_PLAIN__ELEMENT_OPTIONS } from '../elements.constants.mjs';
 import './spacing.scss';
@@ -34,7 +35,7 @@ const SPACING__CLASS_NAME_CONFIG = {
       ],
     },
     spcScale: {
-      options: ['element', 'component', 'block', 'section'],
+      options: SPACING_SCALE__OPTIONS,
     },
     spcSize: {
       options: SIZE_PLAIN__ELEMENT_OPTIONS,

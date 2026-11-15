@@ -1,10 +1,12 @@
 // mainset foundation: cascade layer order + every global design token.
+// Token values live in `src/tokens/*.mts` (single source of truth, see `scripts/codegen.mts`).
 // Tier 1 (palette)   --ms-palette-*            literal colors, never used by elements directly
+//                    --ms-space-*              4px-grid spacing primitives
 // Tier 2 (semantic)  --ms-color-*              intent per color scheme (light / dark)
 //                    --ms-color-{tone}-*       tone contract: solid | solid-hover | on-solid |
 //                                              subtle | subtle-hover | border | text
 //                    --ms-tone-*               the *current* tone, inherited; `.ms-tone-{tone}` re-points it
-// Tier 3 (component) --ms-{component}-*        declared next to each element (e.g. `_button.tokens.scss`)
+// Tier 3 (component) --ms-{component}-*        declared next to each element (e.g. `_control.tokens.scss`)
 // Theming: set `data-theme="light" | "dark" | "system"` on any element (nesting is supported),
 // or override tokens from unlayered CSS, e.g. `:root { --ms-palette-violet-600: #7c3aed; }`.
 @use 'sass:map';
@@ -12,8 +14,6 @@
 @use './variables' as msVariable;
 @use './theme';
 @use './base';
-
-$-size-steps: (xs, sm, base, lg, xl);
 
 @layer ms.tokens {
   :root {
@@ -86,25 +86,28 @@ $-size-steps: (xs, sm, base, lg, xl);
       --ms-border-width-#{$name}: #{$value};
     }
 
-    // ----- Spacing tokens -----
-    // Each scale continues where the previous one ends, growing by its own step:
-    // element 2→10px (2px step) | component 14→30px (4px) | block 36→60px (6px) | section 70→110px (10px)
-    $spacing-offset: 0rem;
+    // ----- Spacing primitives (Tier 1): 4px grid, key × 4px (`--ms-space-4` → 16px) -----
+    @each $key, $value in msVariable.$space-map {
+      --ms-space-#{$key}: #{$value};
+    }
 
-    @each $scale, $step in msVariable.$spacing-step-map {
-      --ms-spacing-scale-#{$scale}: #{$step};
-
-      @each $size in $-size-steps {
-        $spacing-offset: $spacing-offset + $step;
-
-        --ms-spacing-scale-#{$scale}-#{$size}: #{$spacing-offset};
+    // ----- Spacing scales (Tier 2): semantic aliases into the primitives -----
+    // element 2→10px | component 12→28px | block 32→64px | section 72→128px
+    @each $scale, $sizes in msVariable.$spacing-scale-map {
+      @each $size, $key in $sizes {
+        --ms-spacing-scale-#{$scale}-#{$size}: var(--ms-space-#{$key});
       }
     }
 
-    // ----- Layout gap tokens -----
-    @each $name, $value in msVariable.$layout-gap-map {
-      --ms-space-layout-column-#{$name}: #{$value};
-      --ms-space-layout-row-#{$name}: #{$value};
+    // ----- Layout gap tokens (Tier 2): 8 / 16 / 24 / 32 / 48px -----
+    @each $name, $key in msVariable.$layout-gap-map {
+      --ms-space-layout-column-#{$name}: var(--ms-space-#{$key});
+      --ms-space-layout-row-#{$name}: var(--ms-space-#{$key});
+    }
+
+    // ----- Container tokens: max content widths (separate from breakpoints) -----
+    @each $name, $value in msVariable.$container-map {
+      --ms-container-#{$name}: #{$value};
     }
 
     // ----- Breakpoint tokens (for JS; CSS media queries can't read custom properties) -----

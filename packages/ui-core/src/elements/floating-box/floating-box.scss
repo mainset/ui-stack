@@ -1,5 +1,23 @@
 @use '../../styles/layers';
+@use '../../styles/options';
 @use './floating-box.variables' as floatingBoxVars;
+
+// Hand-written combinations; the assertions keep them in sync with the TS options
+@include options.assert-options(
+  floatingBoxVars.$base-class,
+  'flbDirection',
+  (top, bottom, before, after)
+);
+@include options.assert-options(
+  floatingBoxVars.$base-class,
+  'flbAlignment',
+  (start, center, end)
+);
+@include options.assert-options(
+  floatingBoxVars.$base-class,
+  'flbPlacement',
+  (outside, inside)
+);
 
 @layer ms.components {
   #{floatingBoxVars.$class-selector} {
@@ -12,6 +30,7 @@
     // ----- Content -----
     &__content {
       z-index: 1;
+
       // width: max-content;
 
       &-positioner {
@@ -101,18 +120,12 @@
         }
       }
     }
+  }
 
-    // ----- Content -----
-    // Props that could be passed into content
-    // &__content {
-    //   position: absolute;
-    // }
-    &--position {
-      @each $value in (floatingBoxVars.$positions) {
-        &-#{$value} #{$root-selector}__content {
-          position: $value;
-        }
-      }
+  @include options.each-class(floatingBoxVars.$base-class, 'flbPosition') using
+    ($option, $value) {
+    #{floatingBoxVars.$class-selector}__content {
+      position: $value;
     }
   }
 }

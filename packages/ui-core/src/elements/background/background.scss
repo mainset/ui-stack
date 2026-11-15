@@ -1,13 +1,11 @@
 @use '../../styles/layers';
-@use './background.variables' as backgroundVars;
-@use './background.mixins' as backgroundMixins;
+@use '../../styles/options';
+@use './background.variables' as vars;
 
-// Robust generation for all classes
-
+// Generated from `BACKGROUND__CLASS_NAME_CONFIG`: one class per tone (`solid`) + `transparent`
 @layer ms.utilities {
-  @include backgroundMixins.build-background(
-    (
-      color: backgroundVars.$color-map,
-    )
-  );
+  @include options.each-class(vars.$base-class, 'bgColor', vars.$color-map)
+    using ($option, $value) {
+    background-color: $value;
+  }
 }

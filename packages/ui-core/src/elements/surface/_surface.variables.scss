@@ -1,1 +1,2 @@
-$class-selector: '.ms-surface';
+$base-class: 'ms-surface';
+$class-selector: '.#{$base-class}';

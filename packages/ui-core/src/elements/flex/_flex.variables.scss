@@ -1,26 +1,2 @@
-$class-selector: '.ms-flex';
-
-// NOTE: includes the CSS initial values (`row`, `nowrap`), so responsive props can switch back
-$container-prop-map: (
-  display: (
-    flex,
-    inline-flex,
-  ),
-  flex-direction: (
-    row,
-    row-reverse,
-    column,
-    column-reverse,
-  ),
-  flex-wrap: (
-    nowrap,
-    wrap,
-    wrap-reverse,
-  ),
-);
-$item-prop-map: (
-  flex-grow: (
-    initial,
-    1,
-  ),
-);
+$base-class: 'ms-flex';
+$item-base-class: 'ms-flex__item';

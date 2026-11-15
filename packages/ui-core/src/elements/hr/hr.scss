@@ -1,33 +1,33 @@
 @use '../../styles/layers';
-@use './hr.variables' as hrVars;
-@use './hr.mixins' as hrMixins;
+@use '../../styles/options';
+@use './hr.variables' as vars;
 
 @layer ms.components {
-  #{hrVars.$class-selector} {
+  #{vars.$class-selector} {
     border: none;
 
-    &#{hrVars.$class-selector} {
-      &--direction {
-        &-horizontal {
-          height: 1px;
-          // width: 100%;
-        }
-
-        &-vertical {
-          // height: 100%;
-          width: 1px;
-        }
-      }
-
-      &--hidden {
-        opacity: 0;
-      }
+    &--hidden {
+      opacity: 0;
     }
   }
 
-  @include hrMixins.build-hr(
-    (
-      color: hrVars.$color-map,
-    )
+  // Hand-written per direction; the assertion keeps them in sync with `hrDirection` TS options
+  @include options.assert-options(
+    vars.$base-class,
+    'hrDirection',
+    (horizontal, vertical)
   );
+
+  #{vars.$class-selector}--direction-horizontal {
+    height: 1px;
+  }
+
+  #{vars.$class-selector}--direction-vertical {
+    width: 1px;
+  }
+
+  @include options.each-class(vars.$base-class, 'hrColor', vars.$color-map)
+    using ($option, $value) {
+    background-color: $value;
+  }
 }

@@ -1,19 +1,34 @@
 @use '../../styles/layers';
 @forward './grid.tokens';
-@use './grid.variables' as gridVars;
-@use './grid.mixins' as gridMixins;
-
-// Robust generation for all classes
+@use '../../styles/options';
+@use './grid.variables' as vars;
 
 @layer ms.components {
-  @include gridMixins.build-grid-container(
-    (
-      container-prop-map: gridVars.$container-prop-map,
-    )
-  );
+  #{vars.$class-selector} {
+    // TODO: grid should accept layout spacing sizes aka base / etc
+    --ms-grid-column-min-width: calc(
+      (100% / var(--ms-grid-columns-number)) - var(
+          --ms-space-layout-column-base
+        )
+    );
 
-  // Grid item
-  #{gridVars.$class-selector}__item {
-    // empty for now, or you can add base grid item styles here
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(var(--ms-grid-column-min-width), 1fr)
+    );
+  }
+
+  @include options.each-class(vars.$base-class, 'grdDisplay') using
+    ($option, $value) {
+    display: $value;
+  }
+
+  @include options.each-class(
+      vars.$base-class,
+      'grdAutoFlow',
+      vars.$auto-flow-map
+    )
+    using ($option, $value) {
+    grid-auto-flow: $value;
   }
 }

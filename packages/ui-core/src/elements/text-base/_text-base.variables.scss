@@ -1,21 +1,14 @@
 @use 'sass:map';
 @use '../../styles/theme';
 
-$class-selector: '.ms-text';
-$alignments: (
-  // css basic
-  initial,
-  // alignments
-  center,
-  end,
-  justify
-);
+$base-class: 'ms-text';
+$class-selector: '.#{$base-class}';
 
 // Generated from the tone list, so every tone is available without hand-written duplicates
 $color-map: map.merge(
   theme.tone-token-map('text'),
   (
-    transparent: transparent,
+    'transparent': transparent,
   )
 );
 $family-map: (
@@ -87,16 +80,6 @@ $size-map-as-style: (
     letter-spacing: var(--ms-letter-spacing-text-xxl),
     line-height: var(--ms-line-height-text-xxl),
   )
-);
-$transforms: (
-  // css basic
-  initial,
-  inherit,
-  unset,
-  // transforms
-  capitalize,
-  lowercase,
-  uppercase
 );
 $weight-map: (
   // css basic
