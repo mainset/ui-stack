@@ -1,39 +1,39 @@
 @use 'sass:map';
-@use '../../styles/layers';
 @use '../../styles/options';
 @use './border.variables' as vars;
 
-// Generated from `BORDER__CLASS_NAME_CONFIG` options
-@layer ms.utilities {
-  @include options.each-class(
-      vars.$base-class,
-      'brdColor',
-      map.get(vars.$border-modifier-map, 'color')
-    )
-    using ($option, $value) {
-    border-color: $value;
-  }
+// Utility classes, from `BORDER__CLASS_NAME_CONFIG` options
+@include options.each-class(
+    vars.$base-class,
+    'brdColor',
+    map.get(vars.$border-modifier-map, 'color'),
+    $tier: utility
+  )
+  using ($option, $value) {
+  border-color: $value;
+}
 
-  @include options.each-class(
-      vars.$base-class,
-      'brdRadius',
-      map.get(vars.$border-modifier-map, 'radius')
-    )
-    using ($option, $value) {
-    border-radius: $value;
-  }
+@include options.each-class(
+    vars.$base-class,
+    'brdRadius',
+    map.get(vars.$border-modifier-map, 'radius'),
+    $tier: utility
+  )
+  using ($option, $value) {
+  border-radius: $value;
+}
 
-  @include options.each-class(vars.$base-class, 'brdStyle') using
-    ($option, $value) {
-    border-style: $value;
-  }
+@include options.each-class(vars.$base-class, 'brdStyle', $tier: utility) using
+  ($option, $value) {
+  border-style: $value;
+}
 
-  @include options.each-class(
-      vars.$base-class,
-      'brdWidth',
-      map.get(vars.$border-modifier-map, 'width')
-    )
-    using ($option, $value) {
-    border-width: $value;
-  }
+@include options.each-class(
+    vars.$base-class,
+    'brdWidth',
+    map.get(vars.$border-modifier-map, 'width'),
+    $tier: utility
+  )
+  using ($option, $value) {
+  border-width: $value;
 }

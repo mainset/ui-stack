@@ -77,12 +77,11 @@ $derive-map: (
   }
 }
 
-// Every color *value* of a color scheme. Nothing here references another semantic token,
-// so a theme block is values only, and nested themes work without re-declaring anything else
-// (the scheme-independent pointers live in `scheme-shared-tokens`).
+// Every color *value* of a color scheme, as `(token name: value)`. Nothing here references
+// another semantic token, so a theme block is values only.
 // NOTE: derived roles (hover / subtle / tinted border & text) are precomputed literals: a runtime
 // override of `--ms-color-{tone}-solid` doesn't re-derive them, override those roles as well.
-@mixin scheme-tokens($scheme) {
+@function scheme-token-map($scheme) {
   $derive: map.get($derive-map, $scheme);
   $canvas: -palette-color(
     map.get(msVariable.$scheme-map, $scheme, 'bg-canvas')
@@ -90,62 +89,87 @@ $derive-map: (
   $text-base: -palette-color(
     map.get(msVariable.$scheme-map, $scheme, 'text-base')
   );
-
-  color-scheme: $scheme;
+  $tokens: ();
 
   // ----- Neutral semantic tokens -----
   @each $name, $ref in map.get(msVariable.$scheme-map, $scheme) {
-    --ms-color-#{$name}: #{palette($ref)};
+    $tokens: map.set($tokens, 'color-#{$name}', palette($ref));
   }
 
   // ----- Tone tokens -----
   @each $tone, $schemes in msVariable.$tone-map {
     $def: map.get($schemes, $scheme);
     $solid: -palette-color(map.get($def, solid));
-
-    --ms-color-#{$tone}-solid: #{palette(map.get($def, solid))};
-    --ms-color-#{$tone}-solid-hover: #{-mix(
-        $solid,
-        map.get($derive, hover-amount),
-        map.get($derive, hover-target)
-      )};
-    --ms-color-#{$tone}-on-solid: #{palette(map.get($def, on-solid))};
-    --ms-color-#{$tone}-subtle: #{-mix(
-        $solid,
-        map.get($derive, subtle-amount),
-        $canvas
-      )};
-    --ms-color-#{$tone}-subtle-hover: #{-mix(
-        $solid,
-        map.get($derive, subtle-hover-amount),
-        $canvas
-      )};
+    $prefix: 'color-#{$tone}';
+    $tokens: map.merge(
+      $tokens,
+      (
+        '#{$prefix}-solid': palette(map.get($def, solid)),
+        '#{$prefix}-solid-hover': -mix(
+            $solid,
+            map.get($derive, hover-amount),
+            map.get($derive, hover-target)
+          ),
+        '#{$prefix}-on-solid': palette(map.get($def, on-solid)),
+        '#{$prefix}-subtle': -mix(
+            $solid,
+            map.get($derive, subtle-amount),
+            $canvas
+          ),
+        '#{$prefix}-subtle-hover': -mix(
+            $solid,
+            map.get($derive, subtle-hover-amount),
+            $canvas
+          ),
+      )
+    );
 
     @each $role in (border, text) {
+      $value: palette(map.get($def, solid));
+
       @if map.has-key($def, $role) {
-        --ms-color-#{$tone}-#{$role}: #{palette(map.get($def, $role))};
+        $value: palette(map.get($def, $role));
       } @else if map.get($derive, '#{$role}-amount') {
-        --ms-color-#{$tone}-#{$role}: #{-mix(
-            $solid,
-            map.get($derive, '#{$role}-amount'),
-            white
-          )};
-      } @else {
-        --ms-color-#{$tone}-#{$role}: #{palette(map.get($def, solid))};
+        $value: -mix($solid, map.get($derive, '#{$role}-amount'), white);
       }
+
+      $tokens: map.set($tokens, '#{$prefix}-#{$role}', $value);
     }
   }
 
   // ----- `transparent` tone hover: the text color, barely visible -----
-  --ms-color-transparent-solid-hover: #{-legacy-rgb(
-      color.change(
-        $text-base,
-        $alpha: map.get($derive, transparent-hover-alpha)
+  $tokens: map.set(
+    $tokens,
+    'color-transparent-solid-hover',
+    -legacy-rgb(
+        color.change(
+          $text-base,
+          $alpha: map.get($derive, transparent-hover-alpha)
+        )
       )
-    )};
+  );
 
   // ----- Elevation (shadow strength depends on the scheme) -----
-  --ms-shadow-color: #{map.get($derive, shadow-color)};
+  @return map.set($tokens, 'shadow-color', map.get($derive, shadow-color));
+}
+
+// Declares a scheme's values. With `$base-scheme`, only the values that differ from it:
+// the base scheme is always declared in full on `:root`, so the identical ones are inherited
+// (by any nesting of themes, since every theme root inherits a full set from its ancestors).
+@mixin scheme-tokens($scheme, $base-scheme: null) {
+  $base: ();
+
+  @if $base-scheme {
+    $base: scheme-token-map($base-scheme);
+  }
+
+  color-scheme: $scheme;
+
+  @each $name, $value in scheme-token-map($scheme) {
+    @if map.get($base, $name) != $value {
+      --ms-#{$name}: #{$value};
+    }
+  }
 }
 
 // Scheme-independent tokens that point at scheme values. Declared once for every theme root,

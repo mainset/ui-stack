@@ -1,35 +1,32 @@
-@use '../../styles/layers';
 @use '../../styles/options';
 @use './list.variables' as vars;
 
-@layer ms.components {
-  #{vars.$class-selector} {
-    display: flex;
-    margin: 0;
-    padding: 0;
+#{options.where(vars.$class-selector)} {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
 
-    // Elements
-    &__space-between {
-      margin: auto;
-    }
-  }
+// Elements
+#{options.where('#{vars.$class-selector}__space-between')} {
+  margin: auto;
+}
 
-  @include options.each-class(
-      vars.$base-class,
-      'lstDirection',
-      vars.$direction-map
-    )
-    using ($option, $value) {
-    flex-direction: $value;
-  }
+@include options.each-class(
+    vars.$base-class,
+    'lstDirection',
+    vars.$direction-map
+  )
+  using ($option, $value) {
+  flex-direction: $value;
+}
 
-  @include options.each-class(vars.$base-class, 'lstStyle', vars.$style-map)
-    using ($option, $value) {
-    list-style: $value;
-  }
+@include options.each-class(vars.$base-class, 'lstStyle', vars.$style-map) using
+  ($option, $value) {
+  list-style: $value;
+}
 
-  @include options.each-class(vars.$base-class, 'lstJustify', vars.$justify-map)
-    using ($option, $value) {
-    justify-content: $value;
-  }
+@include options.each-class(vars.$base-class, 'lstJustify', vars.$justify-map)
+  using ($option, $value) {
+  justify-content: $value;
 }

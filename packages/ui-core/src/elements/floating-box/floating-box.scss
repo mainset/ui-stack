@@ -1,4 +1,5 @@
-@use '../../styles/layers';
+@use 'sass:list';
+@use 'sass:map';
 @use '../../styles/options';
 @use './floating-box.variables' as floatingBoxVars;
 
@@ -19,113 +20,84 @@
   (outside, inside)
 );
 
-@layer ms.components {
-  #{floatingBoxVars.$class-selector} {
-    $root-selector: &;
+$box: floatingBoxVars.$class-selector;
+$positioner: '#{$box}__content-positioner';
 
-    // ----- Wrapper -----
-    display: flex;
-    position: relative;
+// ----- Wrapper -----
+#{options.where($box)} {
+  display: flex;
+  position: relative;
+}
 
-    // ----- Content -----
-    &__content {
-      z-index: 1;
+// ----- Content -----
+#{options.where('#{$box}__content')} {
+  z-index: 1;
+}
 
-      // width: max-content;
+#{options.where($positioner)} {
+  display: flex;
+}
 
-      &-positioner {
-        display: flex;
-      }
-    }
+// ----- Positioner direction -----
+$direction-map: (
+  top: column-reverse,
+  after: row,
+  bottom: column,
+  before: row-reverse,
+);
 
-    // ----- Positioner direction -----
-    &--direction {
-      &-top {
-        flex-direction: column-reverse;
+// The placement that aligns the content to the end of the positioner, per direction
+$end-placement-map: (
+  top: (
+    outside,
+    align-items,
+  ),
+  after: (
+    inside,
+    justify-content,
+  ),
+  bottom: (
+    inside,
+    align-items,
+  ),
+  before: (
+    outside,
+    justify-content,
+  ),
+);
 
-        &#{$root-selector}--placement-outside {
-          // NOTE: align content to the end of the positioner
-          > #{$root-selector}__content-positioner {
-            align-items: flex-end;
-          }
-        }
-      }
-
-      &-after {
-        flex-direction: row;
-
-        &#{$root-selector}--placement-inside {
-          // NOTE: align content to the end of the positioner
-          > #{$root-selector}__content-positioner {
-            justify-content: flex-end;
-          }
-        }
-      }
-
-      &-bottom {
-        flex-direction: column;
-
-        &#{$root-selector}--placement-inside {
-          // NOTE: align content to the end of the positioner
-          > #{$root-selector}__content-positioner {
-            align-items: flex-end;
-          }
-        }
-      }
-
-      &-before {
-        flex-direction: row-reverse;
-
-        &#{$root-selector}--placement-outside {
-          // NOTE: align content to the end of the positioner
-          > #{$root-selector}__content-positioner {
-            justify-content: flex-end;
-          }
-        }
-      }
-
-      // justify horizontally positioned element
-      &-before,
-      &-after {
-        &#{$root-selector}--align {
-          &-center > #{$root-selector}__content-positioner {
-            align-items: center;
-          }
-
-          &-start > #{$root-selector}__content-positioner {
-            align-items: flex-start;
-          }
-
-          &-end > #{$root-selector}__content-positioner {
-            align-items: flex-end;
-          }
-        }
-      }
-
-      // justify vertically positioned element
-      &-top,
-      &-bottom {
-        &#{$root-selector}--align {
-          &-center > #{$root-selector}__content-positioner {
-            justify-content: center;
-          }
-
-          &-start > #{$root-selector}__content-positioner {
-            justify-content: flex-start;
-          }
-
-          &-end > #{$root-selector}__content-positioner {
-            justify-content: flex-end;
-          }
-        }
-      }
-    }
+@each $direction, $flex-direction in $direction-map {
+  #{options.where('#{$box}--direction-#{$direction}')} {
+    flex-direction: $flex-direction;
   }
 
-  @include options.each-class(floatingBoxVars.$base-class, 'flbPosition') using
-    ($option, $value) {
-    #{floatingBoxVars.$class-selector}__content {
-      position: $value;
-    }
+  $placement: list.nth(map.get($end-placement-map, $direction), 1);
+  $property: list.nth(map.get($end-placement-map, $direction), 2);
+
+  #{options.where('#{$box}--direction-#{$direction}#{$box}--placement-#{$placement} > #{$positioner}')} {
+    #{$property}: flex-end;
+  }
+}
+
+// Alignment across the direction axis: horizontal directions align items, vertical ones justify
+$alignment-map: (
+  start: flex-start,
+  center: center,
+  end: flex-end,
+);
+
+@each $alignment, $value in $alignment-map {
+  #{options.where('#{$box}--direction-before#{$box}--align-#{$alignment} > #{$positioner}, #{$box}--direction-after#{$box}--align-#{$alignment} > #{$positioner}')} {
+    align-items: $value;
+  }
+
+  #{options.where('#{$box}--direction-top#{$box}--align-#{$alignment} > #{$positioner}, #{$box}--direction-bottom#{$box}--align-#{$alignment} > #{$positioner}')} {
+    justify-content: $value;
+  }
+}
+
+@each $position in options.options(floatingBoxVars.$base-class, 'flbPosition') {
+  #{options.where('#{$box}--position-#{$position} #{$box}__content')} {
+    position: $position;
   }
 }

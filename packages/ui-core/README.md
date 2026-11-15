@@ -13,7 +13,7 @@ contains only the CSS of the elements in use.
 **Without a bundler** (plain HTML, server templates, Vue/Svelte/…):
 
 ```html
-<!-- reset is optional -->
+<!-- the reset is optional; when used, load it first -->
 <link rel="stylesheet" href="@mainset/ui-core/styles/reset.css" />
 <link rel="stylesheet" href="@mainset/ui-core/styles/index.css" />
 
@@ -34,14 +34,13 @@ buttonRecipe({ srfVariant: 'outlined', srfTheme: 'error', ctlSize: 'sm' });
 //    ms-tone-error ms-control ms-control--size-sm ms-button"
 ```
 
-| Entry                                    | Contents                                              |
-| ---------------------------------------- | ----------------------------------------------------- |
-| `@mainset/ui-core`                       | class-name configs, recipes, types, utils             |
-| `@mainset/ui-core/styles/index.css`      | foundation + every element                            |
-| `@mainset/ui-core/styles/foundation.css` | layer order + all design tokens + base layer          |
-| `@mainset/ui-core/styles/reset.css`      | opt-in modern reset (`normalize.css` is an alias)     |
-| `@mainset/ui-core/scss/mixins`           | `media-up()`, `responsive-variants`, helpers          |
-| `@mainset/ui-core/scss/layers`           | the `@layer` order statement, for adapter stylesheets |
+| Entry                                    | Contents                                          |
+| ---------------------------------------- | ------------------------------------------------- |
+| `@mainset/ui-core`                       | class-name configs, recipes, types, utils         |
+| `@mainset/ui-core/styles/index.css`      | foundation + every element                        |
+| `@mainset/ui-core/styles/foundation.css` | all design tokens + base styles + tone classes    |
+| `@mainset/ui-core/styles/reset.css`      | opt-in modern reset (`normalize.css` is an alias) |
+| `@mainset/ui-core/scss/mixins`           | `media-up()`, `responsive-variants`, helpers      |
 
 ## Single source of truth (codegen)
 
@@ -57,17 +56,32 @@ Any drift fails the build — e.g. a TS option without CSS:
 `pnpm codegen:check` fails when the committed generated file is stale (use it in CI).
 Requires Node ≥ 22.18 (native TS type stripping, no extra tooling).
 
-## Cascade layers
+## Browser support
 
-```css
-@layer ms.reset, ms.tokens, ms.base, ms.components, ms.utilities;
-```
+Chrome / Edge ≥ 88, Firefox ≥ 78, Safari ≥ 14.1 (2021) — the oldest browsers with flex `gap`.
+Within that baseline the CSS avoids newer features on purpose: no `@layer` (2022), no
+`color-mix()` (2023, derived colors are precomputed), no `:has()`, no container queries.
+Newer features may only be used as progressive enhancements that fail on their own
+(e.g. `:user-invalid`, `:focus-visible`, `text-wrap` sit in their own rules or declarations).
 
-Utilities (`bg*`, `brd*`, `txt*`, `spc*`, tones) always beat components; **any app CSS
-written outside a layer beats everything** — overrides never need `!important`.
+## Specificity (instead of cascade layers)
 
-> Caveat: unlayered element selectors in an app (e.g. a global `button { padding: 0 }`)
-> also win over mainset components. Put such resets in a layer (or before `ms.reset`).
+The priority is encoded in the selectors, so it holds in any CSS load order:
+
+| Tier                                                              | Selector       | Specificity | Beaten by                                      |
+| ----------------------------------------------------------------- | -------------- | ----------- | ---------------------------------------------- |
+| reset, tokens, base styles                                        | `:where(…)`    | 0           | everything; the **reset must be loaded first** |
+| components (surface, control, flex, …)                            | `:where(…)`    | 0           | any utility, tone or app class                 |
+| utilities (`bg*`, `brd*`, `txt*`, `spc*`), tones                  | `.class`       | 0,1,0       | app CSS loaded after them                      |
+| states that must beat variants (e.g. `.ms-control[aria-invalid]`) | `.class[attr]` | 0,2,0       | more specific app CSS                          |
+
+**Any app class overrides a component** — no `!important`, no specificity games.
+Components sharing an element never fight over a property: they hand values over through
+custom properties instead (e.g. `.ms-control` sets `--ms-surface-radius` for `.ms-surface`).
+
+> Caveats: an app's element selector (e.g. a global `button { padding: 0 }`) also beats
+> components (0,0,1 > 0). And the reset is 0-specificity too, so loaded _after_ the
+> components it would override them — always import it first.
 
 ## Tokens
 
@@ -171,13 +185,13 @@ roles too (as above), or change the token in `src/tokens/color.tokens.mts` and r
 Where an override takes effect, and where it doesn't (custom properties resolve on the
 element that declares them):
 
-| Override                                                                     | Effect                                                        |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| `--ms-palette-*` / `--ms-color-*` on `:root`                                 | ✅ everywhere (derived roles only when overridden themselves) |
-| `--ms-color-{tone}-*` on an element that has `.ms-tone-{tone}` itself        | ✅ that element                                               |
-| `--ms-color-{tone}-*` on an element that **inherits** its tone from a parent | ❌ ignored — the tone was resolved on the parent              |
-| `--ms-tone-*` on a component class, e.g. `.ms-button { … }`                  | ⚠️ applies to **every** tone of it — scope with `.ms-tone-*`  |
-| `:root` overrides inside a nested `[data-theme]`                             | ❌ re-declared by that theme — also target `[data-theme]`     |
+| Override                                                                     | Effect                                                                       |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `--ms-palette-*` / `--ms-color-*` on `:root`                                 | ✅ everywhere (derived roles only when overridden themselves)                |
+| `--ms-color-{tone}-*` on an element that has `.ms-tone-{tone}` itself        | ✅ that element                                                              |
+| `--ms-color-{tone}-*` on an element that **inherits** its tone from a parent | ❌ ignored — the tone was resolved on the parent                             |
+| `--ms-tone-*` on a component class, e.g. `.ms-button { … }`                  | ⚠️ applies to **every** tone of it — scope with `.ms-tone-*`                 |
+| `:root` overrides inside a nested `[data-theme]`                             | ⚠️ kept only where both schemes share the value — also target `[data-theme]` |
 
 Per-component tokens (e.g. `--ms-button-radius`) are deliberately not exposed yet, in favour
 of strict consistency between components; they can be added later without breaking changes.

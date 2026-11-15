@@ -55,6 +55,15 @@
   @return '.#{$base-class}--#{$modifier}-#{$option}';
 }
 
+// Specificity tiers (no cascade layers, so the priority is encoded in the selectors):
+//   reset, base, tokens  `:where()`  0      lowest; the reset must be loaded first
+//   components           `:where()`  0      any utility or app class beats them, in any load order
+//   utilities, tones     `.class`    0,1,0  win over components; app CSS loaded later wins over them
+// `where('.ms-button:active')` → `:where(.ms-button:active)`; states stay inside, so they add nothing
+@function where($selector) {
+  @return ':where(#{$selector})';
+}
+
 // Fails the build unless `$keys` contains exactly the TS options of the prop
 @mixin assert-options($base-class, $prop-name, $keys) {
   $options: options($base-class, $prop-name);
@@ -91,10 +100,23 @@
   @return -css-value($option);
 }
 
+@function -tier-selector($selector, $tier) {
+  @if $tier == component {
+    @return where($selector);
+  }
+
+  @return $selector;
+}
+
 // One rule per TS option; `responsive` props also get `@{breakpoint}` variants.
 // `$value-map` maps option → CSS value; without it the option itself is the value.
 // The content block receives `($option, $value)`.
-@mixin each-class($base-class, $prop-name, $value-map: null) {
+// `$tier`: `component` (default) wraps the selector in `:where()`, `utility` keeps a plain class.
+@mixin each-class($base-class, $prop-name, $value-map: null, $tier: component) {
+  @if $tier != component and $tier != utility {
+    @error '`$tier` must be `component` or `utility`, got `#{$tier}`';
+  }
+
   $definition: -prop-definition($base-class, $prop-name);
   $options: options($base-class, $prop-name);
 
@@ -107,7 +129,7 @@
       @each $option in $options {
         $value: -option-value($option, $value-map);
 
-        #{class-selector($base-class, $prop-name, $option)}#{$suffix} {
+        #{-tier-selector(class-selector($base-class, $prop-name, $option) + $suffix, $tier)} {
           @content ($option, $value);
         }
       }
@@ -116,7 +138,7 @@
     @each $option in $options {
       $value: -option-value($option, $value-map);
 
-      #{class-selector($base-class, $prop-name, $option)} {
+      #{-tier-selector(class-selector($base-class, $prop-name, $option), $tier)} {
         @content ($option, $value);
       }
     }

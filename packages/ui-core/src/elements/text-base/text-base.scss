@@ -1,65 +1,81 @@
-@use '../../styles/layers';
 @use '../../styles/mixins' as msMixin;
 @use '../../styles/options';
 @use './text-base.variables' as vars;
 
-// Every `txt*` class is generated from `TEXT_BASE__CLASS_NAME_CONFIG` options.
-@layer ms.utilities {
-  #{vars.$class-selector} {
-    line-height: 1;
+// Utility: every `txt*` class is generated from `TEXT_BASE__CLASS_NAME_CONFIG` options.
+// The bare `.ms-text` default is 0-specificity, so any `txt*` / app class overrides it.
+#{options.where(vars.$class-selector)} {
+  line-height: 1;
+}
 
-    &--truncate {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
+#{vars.$class-selector}--truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  @include options.each-class(vars.$base-class, 'txtAlign') using
-    ($option, $value) {
-    text-align: $value;
-  }
+@include options.each-class(vars.$base-class, 'txtAlign', $tier: utility) using
+  ($option, $value) {
+  text-align: $value;
+}
 
-  @include options.each-class(vars.$base-class, 'txtTransform') using
-    ($option, $value) {
-    text-transform: $value;
-  }
+@include options.each-class(vars.$base-class, 'txtTransform', $tier: utility)
+  using ($option, $value) {
+  text-transform: $value;
+}
 
-  @include options.each-class(vars.$base-class, 'txtWeight', vars.$weight-map)
-    using ($option, $value) {
-    font-weight: $value;
-  }
+@include options.each-class(
+    vars.$base-class,
+    'txtWeight',
+    vars.$weight-map,
+    $tier: utility
+  )
+  using ($option, $value) {
+  font-weight: $value;
+}
 
-  @include options.each-class(vars.$base-class, 'txtFamily', vars.$family-map)
-    using ($option, $value) {
-    font-family: $value;
-  }
+@include options.each-class(
+    vars.$base-class,
+    'txtFamily',
+    vars.$family-map,
+    $tier: utility
+  )
+  using ($option, $value) {
+  font-family: $value;
+}
 
-  @include options.each-class(
-      vars.$base-class,
-      'txtSize',
-      vars.$size-map-as-style
-    )
-    using ($option, $value) {
-    @include msMixin.map-to-style($value);
-  }
+@include options.each-class(
+    vars.$base-class,
+    'txtSize',
+    vars.$size-map-as-style,
+    $tier: utility
+  )
+  using ($option, $value) {
+  @include msMixin.map-to-style($value);
+}
 
-  @include options.each-class(vars.$base-class, 'txtColor', vars.$color-map)
-    using ($option, $value) {
-    color: $value;
-  }
+@include options.each-class(
+    vars.$base-class,
+    'txtColor',
+    vars.$color-map,
+    $tier: utility
+  )
+  using ($option, $value) {
+  color: $value;
+}
 
+// One media query for every hover color, instead of one per class
+@media (hover: hover) {
   @include options.each-class(
       vars.$base-class,
       'txtColorHover',
-      vars.$color-map
+      vars.$color-map,
+      $tier: utility
     )
     using ($option, $value) {
-    @media (hover: hover) {
-      // stylelint-disable-next-line nesting-selector-no-missing-scoping-root -- scoped by the generated class
-      &:hover {
-        color: $value;
-      }
+    // stylelint-disable-next-line nesting-selector-no-missing-scoping-root -- scoped by the generated class
+    &:hover {
+      color: $value;
     }
   }
 }

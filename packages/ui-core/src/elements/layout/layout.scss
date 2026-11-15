@@ -1,27 +1,24 @@
-@use '../../styles/layers';
 @use '../../styles/options';
 @use '../../styles/variables' as msVariable;
 @use './layout.variables' as vars;
 
-@layer ms.components {
-  @include options.each-class(vars.$base-class, 'layJustify') using
-    ($option, $value) {
-    justify-content: $value;
-  }
+@include options.each-class(vars.$base-class, 'layJustify') using
+  ($option, $value) {
+  justify-content: $value;
+}
 
-  @include options.each-class(vars.$base-class, 'layAlign') using
-    ($option, $value) {
-    align-items: $value;
-  }
+@include options.each-class(vars.$base-class, 'layAlign') using
+  ($option, $value) {
+  align-items: $value;
+}
 
-  // Gap sizes are the layout gap tokens (aliases of the spacing primitives)
-  @include options.each-class(
-      vars.$base-class,
-      'layGapSize',
-      msVariable.$layout-gap-map
-    )
-    using ($option, $value) {
-    gap: var(--ms-space-layout-row-#{$option})
-      var(--ms-space-layout-column-#{$option});
-  }
+// Gap sizes are the layout gap tokens (aliases of the spacing primitives)
+@include options.each-class(
+    vars.$base-class,
+    'layGapSize',
+    msVariable.$layout-gap-map
+  )
+  using ($option, $value) {
+  gap: var(--ms-space-layout-row-#{$option})
+    var(--ms-space-layout-column-#{$option});
 }

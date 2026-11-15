@@ -1,4 +1,3 @@
-@use '../../styles/layers';
 @use '../../styles/options';
 @use './surface.variables' as surfaceVars;
 
@@ -17,70 +16,61 @@
   (bg, border, all)
 );
 
-@layer ms.components {
-  // Defaults live in `:where()` (0 specificity), so composites built on top of a
-  // surface (e.g. `.ms-control`) can override them regardless of CSS load order.
-  :where(#{surfaceVars.$class-selector}) {
-    border-radius: var(--ms-border-radius-sm);
-    transition-duration: var(--ms-duration-base);
-    transition-property: background-color, border-color, color, box-shadow;
-    transition-timing-function: var(--ms-easing-standard);
+$surface: surfaceVars.$class-selector;
+
+// NOTE: `--ms-surface-radius` is handed over by composites on the same element (e.g. `.ms-control`),
+// so the result doesn't depend on which stylesheet a bundler loads first
+#{options.where($surface)} {
+  border-radius: var(--ms-surface-radius, var(--ms-border-radius-sm));
+  transition-duration: var(--ms-duration-base);
+  transition-property:
+    background-color, border-color, color, box-shadow, opacity;
+  transition-timing-function: var(--ms-easing-standard);
+}
+
+// NOTE: every variant reserves the same border, so switching variants never shifts layout
+#{options.where('#{$surface}--variant-solid, #{$surface}--variant-soft, #{$surface}--variant-outlined, #{$surface}--variant-ghost')} {
+  border: var(--ms-border-width-base) solid transparent;
+}
+
+#{options.where('#{$surface}--variant-solid')} {
+  background-color: var(--ms-tone-solid);
+  color: var(--ms-tone-on-solid);
+}
+
+#{options.where('#{$surface}--variant-soft')} {
+  background-color: var(--ms-tone-subtle);
+  color: var(--ms-tone-text);
+}
+
+#{options.where('#{$surface}--variant-outlined')} {
+  border-color: var(--ms-tone-border);
+  background-color: transparent;
+  color: var(--ms-tone-text);
+}
+
+#{options.where('#{$surface}--variant-ghost')} {
+  background-color: transparent;
+  color: var(--ms-tone-text);
+}
+
+// --- Hover interaction modifiers (opt-in) ---
+$hover-bg: '#{$surface}--hover-bg, #{$surface}--hover-all';
+
+@media (hover: hover) {
+  #{options.where(':is(#{$hover-bg})#{$surface}--variant-solid:hover')} {
+    background-color: var(--ms-tone-solid-hover);
   }
 
-  #{surfaceVars.$class-selector} {
-    // NOTE: every variant reserves the same border, so switching variants never shifts layout
-    &--variant {
-      &-solid,
-      &-soft,
-      &-outlined,
-      &-ghost {
-        border: var(--ms-border-width-base) solid transparent;
-      }
-
-      &-solid {
-        background-color: var(--ms-tone-solid);
-        color: var(--ms-tone-on-solid);
-      }
-
-      &-soft {
-        background-color: var(--ms-tone-subtle);
-        color: var(--ms-tone-text);
-      }
-
-      &-outlined {
-        border-color: var(--ms-tone-border);
-        background-color: transparent;
-        color: var(--ms-tone-text);
-      }
-
-      &-ghost {
-        background-color: transparent;
-        color: var(--ms-tone-text);
-      }
-    }
+  #{options.where(':is(#{$hover-bg})#{$surface}--variant-soft:hover')} {
+    background-color: var(--ms-tone-subtle-hover);
   }
 
-  // --- Hover interaction modifiers (opt-in) ---
-  @media (hover: hover) {
-    #{surfaceVars.$class-selector}--hover-bg,
-    #{surfaceVars.$class-selector}--hover-all {
-      &#{surfaceVars.$class-selector}--variant-solid:hover {
-        background-color: var(--ms-tone-solid-hover);
-      }
+  #{options.where(':is(#{$hover-bg}):is(#{$surface}--variant-outlined, #{$surface}--variant-ghost):hover')} {
+    background-color: var(--ms-tone-subtle);
+  }
 
-      &#{surfaceVars.$class-selector}--variant-soft:hover {
-        background-color: var(--ms-tone-subtle-hover);
-      }
-
-      &#{surfaceVars.$class-selector}--variant-outlined:hover,
-      &#{surfaceVars.$class-selector}--variant-ghost:hover {
-        background-color: var(--ms-tone-subtle);
-      }
-    }
-
-    #{surfaceVars.$class-selector}--hover-border:hover,
-    #{surfaceVars.$class-selector}--hover-all:hover {
-      border-color: var(--ms-tone-border);
-    }
+  #{options.where('#{$surface}--hover-border:hover, #{$surface}--hover-all:hover')} {
+    border-color: var(--ms-tone-border);
   }
 }

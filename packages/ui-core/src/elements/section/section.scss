@@ -1,18 +1,15 @@
-@use '../../styles/layers';
 @use '../../styles/options';
 @use './section.variables' as vars;
 
-@layer ms.components {
-  #{vars.$class-selector} {
-    margin: 0 auto;
-  }
+#{options.where(vars.$class-selector)} {
+  margin: 0 auto;
+}
 
-  @include options.each-class(
-      vars.$base-class,
-      'secMaxWidth',
-      vars.$max-width-map
-    )
-    using ($option, $value) {
-    max-width: $value;
-  }
+@include options.each-class(
+    vars.$base-class,
+    'secMaxWidth',
+    vars.$max-width-map
+  )
+  using ($option, $value) {
+  max-width: $value;
 }
