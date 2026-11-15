@@ -12,6 +12,8 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
+import { mergeResponsiveStyle } from '../utils/index.mjs';
+
 interface FlexContainerProps
   extends
     React.ComponentPropsWithRef<'div'>,
@@ -21,10 +23,11 @@ interface FlexContainerProps
 const FlexContainer: React.FC<FlexContainerProps> = ({
   children,
   className,
+  style,
 
   ...props
 }) => {
-  const [classNames, restProps] = extractClassNamesFromProps(
+  const [classNames, restProps, responsiveStyle] = extractClassNamesFromProps(
     [FLEX_CONTAINER__CLASS_NAME_CONFIG, LAYOUT__CLASS_NAME_CONFIG],
     props,
   );
@@ -33,6 +36,7 @@ const FlexContainer: React.FC<FlexContainerProps> = ({
     'div',
     {
       className: cnx(className, classNames),
+      style: mergeResponsiveStyle(responsiveStyle, style),
       ...restProps,
     },
     children,

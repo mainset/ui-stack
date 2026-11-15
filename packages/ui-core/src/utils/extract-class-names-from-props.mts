@@ -1,21 +1,49 @@
-import { BREAKPOINT__DEFAULT } from '../tokens/index.mjs';
+import type { ResponsiveStyle } from './responsive.mjs';
+import {
+  RESPONSIVE_BASE_BREAKPOINT,
+  isResponsiveObject,
+  responsiveVarClassName,
+  responsiveVarName,
+} from './responsive.mjs';
 
-type CNBasedPropDefinition = {
+/**
+ * A prop may accept a mobile-first per-breakpoint object, e.g. `{ base: 'column', md: 'row' }`.
+ * Only props that change the *layout* are responsive (direction, display, wrap, justify, align,
+ * gap, padding, columns…), never props that only change the *look* (tone, color, radius, weight,
+ * control size): see README › Responsive props.
+ */
+type ResponsiveDefinition =
+  | {
+      /**
+       * `'class'` — for props with few options: one class per option per breakpoint,
+       * `ms-flex--flex-direction-row@md` (the `responsive-variants` Sass mixin).
+       */
+      responsive?: 'class';
+    }
+  | {
+      /**
+       * `'css-var'` — for props with many options: the `base` value stays a plain class, every
+       * other breakpoint adds a single class per prop, `ms-layout--gap-size@md`, and sets its value
+       * inline as `--ms-layout-gap-size-at-md` (the `responsive-var-variants` Sass mixin), so the
+       * CSS grows per breakpoint, not per option × breakpoint.
+       */
+      responsive: 'css-var';
+      cssValue: string;
+    };
+
+type CNBasedPropDefinition = ResponsiveDefinition & {
   options: readonly (string | boolean | number)[];
   defaultValue?: string | boolean | number;
   /**
-   * Accepts a per-breakpoint object, e.g. `{ base: 'column', md: 'row' }`.
-   * Each entry generates the class with an `@{breakpoint}` suffix (none for `base`),
-   * matching the CSS emitted by the `responsive-variants` Sass mixin.
+   * The CSS value of an option, `{option}` is replaced by the option,
+   * e.g. `'var(--ms-space-layout-row-{option})'`. Used by the generated classes and,
+   * for `css-var` responsive props, as the inline value of each breakpoint.
    */
-  isResponsive?: boolean;
+  cssValue?: string;
 };
 
-// The mobile-first default breakpoint (min-width 0): its classes carry no `@{breakpoint}` suffix
-const RESPONSIVE_BASE_BREAKPOINT = BREAKPOINT__DEFAULT;
-
-const isResponsiveObject = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null && !Array.isArray(value);
+const resolveCssValue = (template: string, option: string | number) =>
+  template.replace(/\{option\}/g, String(option));
 
 type ComposedConfig = {
   baseClass: string;
@@ -111,6 +139,7 @@ function processMultipleConfig(
   styles: Record<string, string> | undefined,
   handledPropNames: Record<string, boolean>,
   classes: string[],
+  style: ResponsiveStyle,
 ) {
   const { baseClass, classNameDefinitionByPropName } = config;
 
@@ -138,21 +167,28 @@ function processMultipleConfig(
         : propConfig.defaultValue;
     const { modifier } = propConfig;
 
-    if (propConfig.isResponsive && isResponsiveObject(propValue)) {
+    if (propConfig.responsive && isResponsiveObject(propValue)) {
       for (const breakpoint in propValue) {
+        const breakpointValue = propValue[breakpoint];
         const generatedClass = buildMultipleConfigClass(
           baseClass,
           configPropName,
           modifier,
-          propValue[breakpoint],
+          breakpointValue,
         );
         if (!generatedClass) continue;
 
-        pushClass(
-          breakpoint === RESPONSIVE_BASE_BREAKPOINT
-            ? generatedClass
-            : `${generatedClass}@${breakpoint}`,
-        );
+        if (breakpoint === RESPONSIVE_BASE_BREAKPOINT) {
+          pushClass(generatedClass);
+        } else if (propConfig.responsive === 'css-var') {
+          // NOTE: the Sass side requires a `modifier` for `css-var` props
+          const varModifier = modifier ?? configPropName;
+          pushClass(responsiveVarClassName(baseClass, varModifier, breakpoint));
+          style[responsiveVarName(baseClass, varModifier, breakpoint)] =
+            resolveCssValue(propConfig.cssValue, breakpointValue as string);
+        } else {
+          pushClass(`${generatedClass}@${breakpoint}`);
+        }
       }
       continue;
     }
@@ -163,13 +199,19 @@ function processMultipleConfig(
   }
 }
 
+/**
+ * Style props → `[classNames, restProps, style]`.
+ * {style} holds the inline CSS variables of `css-var` responsive props (empty otherwise):
+ * spread it into the element's `style`, or the breakpoint classes have no value.
+ */
 function extractClassNamesFromProps(
   configs: ClassNameFromPropConfig[],
   props: Record<string, any>,
   styles?: Record<string, string>,
-): [string[], Record<string, any>] {
+): [string[], Record<string, any>, ResponsiveStyle] {
   const classes: string[] = [];
   const restProps: Record<string, any> = {};
+  const style: ResponsiveStyle = {};
 
   // Track all handled props across all configs so we can exclude them from restProps
   const handledPropNames: Record<string, boolean> = {};
@@ -186,7 +228,14 @@ function extractClassNamesFromProps(
     if (isSingleClassComposed) {
       processComposedConfig(config, props, styles, handledPropNames, classes);
     } else {
-      processMultipleConfig(config, props, styles, handledPropNames, classes);
+      processMultipleConfig(
+        config,
+        props,
+        styles,
+        handledPropNames,
+        classes,
+        style,
+      );
     }
   }
 
@@ -199,8 +248,12 @@ function extractClassNamesFromProps(
     }
   }
 
-  return [classes, restProps];
+  return [classes, restProps, style];
 }
 
 export { extractClassNamesFromProps };
-export type { ClassNameFromPropConfig, ExtractClassNameFromPropOptions };
+export type {
+  CNBasedPropDefinition,
+  ClassNameFromPropConfig,
+  ExtractClassNameFromPropOptions,
+};

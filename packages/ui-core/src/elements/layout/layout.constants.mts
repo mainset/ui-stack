@@ -20,17 +20,20 @@ const LAYOUT__CLASS_NAME_CONFIG = {
         'space-around',
         'space-evenly',
       ],
-      isResponsive: true,
+      responsive: 'class',
     },
     layAlign: {
       modifier: 'align-items',
       options: ['flex-start', 'center', 'flex-end', 'stretch', 'baseline'],
-      isResponsive: true,
+      responsive: 'class',
     },
     layGapSize: {
       modifier: 'gap-size',
       options: SIZE_PLAIN__ELEMENT_OPTIONS,
-      isResponsive: true,
+      // many options: per-breakpoint values are CSS variables, not option × breakpoint classes
+      responsive: 'css-var',
+      cssValue:
+        'var(--ms-space-layout-row-{option}) var(--ms-space-layout-column-{option})',
     },
   },
 } as const satisfies ClassNameFromPropConfig;

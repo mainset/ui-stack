@@ -84,7 +84,9 @@ function collectClassNameConfigs(): SassMap {
       propMap[propName] = {
         modifier: definition.modifier ?? '',
         options: [...definition.options],
-        responsive: Boolean(definition.isResponsive),
+        // `false` | `'class'` | `'css-var'`
+        responsive: definition.responsive ?? false,
+        ...(definition.cssValue && { 'css-value': definition.cssValue }),
       };
     }
 
