@@ -1,9 +1,9 @@
 @use '../../styles/layers';
-@use './list.variables' as listVars;
-@use './list.mixins' as listMixins;
+@use '../../styles/options';
+@use './list.variables' as vars;
 
 @layer ms.components {
-  #{listVars.$class-selector} {
+  #{vars.$class-selector} {
     display: flex;
     margin: 0;
     padding: 0;
@@ -14,10 +14,22 @@
     }
   }
 
-  // Robust generation for all classes
-  @include listMixins.build-list(
-    (
-      modifiers: listVars.$list-modifier-map,
+  @include options.each-class(
+      vars.$base-class,
+      'lstDirection',
+      vars.$direction-map
     )
-  );
+    using ($option, $value) {
+    flex-direction: $value;
+  }
+
+  @include options.each-class(vars.$base-class, 'lstStyle', vars.$style-map)
+    using ($option, $value) {
+    list-style: $value;
+  }
+
+  @include options.each-class(vars.$base-class, 'lstJustify', vars.$justify-map)
+    using ($option, $value) {
+    justify-content: $value;
+  }
 }

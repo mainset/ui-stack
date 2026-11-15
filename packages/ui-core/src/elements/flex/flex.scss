@@ -1,19 +1,26 @@
 @use '../../styles/layers';
-@use './flex.variables' as flexVars;
-@use './flex.mixins' as flexMixins;
+@use '../../styles/options';
+@use './flex.variables' as vars;
 
-// Robust generation for all classes
-
+// Option values are the CSS values themselves; responsive props also get `@{breakpoint}` variants
 @layer ms.components {
-  @include flexMixins.build-flex-classes(
-    flexVars.$container-prop-map,
-    flexVars.$class-selector,
-    $is-responsive: true
-  );
+  @include options.each-class(vars.$base-class, 'flxDisplay') using
+    ($option, $value) {
+    display: $value;
+  }
 
-  // Flex item
-  @include flexMixins.build-flex-classes(
-    flexVars.$item-prop-map,
-    '#{flexVars.$class-selector}__item'
-  );
+  @include options.each-class(vars.$base-class, 'flxDirection') using
+    ($option, $value) {
+    flex-direction: $value;
+  }
+
+  @include options.each-class(vars.$base-class, 'flxWrap') using
+    ($option, $value) {
+    flex-wrap: $value;
+  }
+
+  @include options.each-class(vars.$item-base-class, 'flxGrow') using
+    ($option, $value) {
+    flex-grow: $value;
+  }
 }

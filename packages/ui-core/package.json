@@ -11,6 +11,7 @@
   ],
   "files": [
     "dist",
+    "src/styles/_generated.scss",
     "src/styles/_layers.scss",
     "src/styles/_mixins.scss",
     "src/styles/_variables.scss"
@@ -34,8 +35,10 @@
     "@mainset/toolkit-js": "^0.2.0"
   },
   "scripts": {
-    "dev": "ms-cli node-sourcer --exec watch -t web --bundless",
-    "build": "ms-cli node-sourcer --exec build -t web --bundless"
+    "codegen": "node --import ./scripts/ts-hooks.register.mjs ./scripts/codegen.mts",
+    "codegen:check": "pnpm run codegen --check",
+    "dev": "pnpm run codegen && ms-cli node-sourcer --exec watch -t web --bundless",
+    "build": "pnpm run codegen && ms-cli node-sourcer --exec build -t web --bundless"
   },
   "packageManager": "pnpm@10.33.0"
 }

@@ -1,2 +1,2 @@
-$class-selector: '.ms-floating-box';
-$positions: absolute, static, fixed;
+$base-class: 'ms-floating-box';
+$class-selector: '.#{$base-class}';

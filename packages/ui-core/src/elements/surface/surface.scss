@@ -1,9 +1,22 @@
 @use '../../styles/layers';
+@use '../../styles/options';
 @use './surface.variables' as surfaceVars;
 
 // Surface = tone × variant.
 // A tone (`.ms-tone-*`, or the inherited default) only *sets* `--ms-tone-*`;
 // a variant only *reads* them. N tones + M variants, instead of N × M overrides.
+// Hand-written per variant / hover mode; the assertions keep them in sync with the TS options
+@include options.assert-options(
+  surfaceVars.$base-class,
+  'srfVariant',
+  (solid, soft, outlined, ghost)
+);
+@include options.assert-options(
+  surfaceVars.$base-class,
+  'srfHover',
+  (bg, border, all)
+);
+
 @layer ms.components {
   // Defaults live in `:where()` (0 specificity), so composites built on top of a
   // surface (e.g. `.ms-control`) can override them regardless of CSS load order.

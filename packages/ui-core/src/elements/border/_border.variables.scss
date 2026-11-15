@@ -1,12 +1,12 @@
 @use 'sass:map';
 @use '../../styles/theme';
 
-$class-selector: '.ms-border';
+$base-class: 'ms-border';
 $border-modifier-map: (
   color: map.merge(
       theme.tone-token-map('border'),
       (
-        transparent: transparent,
+        'transparent': transparent,
       )
     ),
   radius: (
@@ -22,15 +22,11 @@ $border-modifier-map: (
     xl: var(--ms-border-radius-xl),
     xxl: var(--ms-border-radius-xxl),
   ),
-  style: (
-    solid: solid,
-    dashed: dashed,
-    dotted: dotted,
-    double: double,
-  ),
   width: (
+    xs: var(--ms-border-width-xs),
     sm: var(--ms-border-width-sm),
     base: var(--ms-border-width-base),
     lg: var(--ms-border-width-lg),
+    xl: var(--ms-border-width-xl),
   ),
 );

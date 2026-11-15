@@ -1,14 +1,18 @@
 @use '../../styles/layers';
-@forward './section.tokens';
-@use './section.variables' as sectionVars;
-@use './section.mixins' as sectionMixins;
-
-// Robust generation for all classes
+@use '../../styles/options';
+@use './section.variables' as vars;
 
 @layer ms.components {
-  @include sectionMixins.build-section(
-    (
-      max-width: sectionVars.$max-width-map,
+  #{vars.$class-selector} {
+    margin: 0 auto;
+  }
+
+  @include options.each-class(
+      vars.$base-class,
+      'secMaxWidth',
+      vars.$max-width-map
     )
-  );
+    using ($option, $value) {
+    max-width: $value;
+  }
 }

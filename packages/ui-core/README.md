@@ -43,6 +43,20 @@ buttonRecipe({ srfVariant: 'outlined', srfTheme: 'error', ctlSize: 'sm' });
 | `@mainset/ui-core/scss/mixins`           | `media-up()`, `responsive-variants`, helpers          |
 | `@mainset/ui-core/scss/layers`           | the `@layer` order statement, for adapter stylesheets |
 
+## Single source of truth (codegen)
+
+Token values (`src/tokens/*.mts`) and element options (every `*__CLASS_NAME_CONFIG`) are
+defined **once, in TS**. `pnpm codegen` (run automatically by `build` / `dev`) emits
+`src/styles/_generated.scss`, which Sass consumes:
+
+- tokens → Sass maps → CSS custom properties
+- class-name configs → one class per TS option (`options.each-class()` in `styles/_options.scss`)
+
+Any drift fails the build — e.g. a TS option without CSS:
+`` `ms-list` / `lstJustify`: option `stretch` is declared in TS but has no CSS ``.
+`pnpm codegen:check` fails when the committed generated file is stale (use it in CI).
+Requires Node ≥ 22.18 (native TS type stripping, no extra tooling).
+
 ## Cascade layers
 
 ```css
@@ -65,9 +79,32 @@ written outside a layer beats everything** — overrides never need `!important`
 | 3. Component | `--ms-{component}-*`       | `--ms-control-height-base`                      |
 
 Other families: `--ms-font-*`, `--ms-border-radius-*`, `--ms-border-width-*`,
-`--ms-spacing-scale-*`, `--ms-space-layout-*`, `--ms-shadow-*`, `--ms-z-index-*`,
-`--ms-duration-*` / `--ms-easing-*` (0 under `prefers-reduced-motion`),
-`--ms-focus-ring-*`, `--ms-opacity-*`, `--ms-breakpoint-*`.
+`--ms-shadow-*`, `--ms-z-index-*`, `--ms-duration-*` / `--ms-easing-*` (0 under
+`prefers-reduced-motion`), `--ms-focus-ring-*`, `--ms-opacity-*`, `--ms-breakpoint-*`,
+`--ms-container-*`.
+
+### Spacing
+
+One primitive scale on a 4px grid — the key × 4px is the value (Tailwind convention):
+`--ms-space-0_5` 2px · `1` 4px · `1_5` 6px · `2` 8px · `2_5` 10px · `3` 12px · `4` 16px · `5` 20px ·
+`6` 24px · `7` 28px · `8` 32px · `10` 40px · `12` 48px · `14` 56px · `16` 64px · `18` 72px ·
+`20` 80px · `24` 96px · `28` 112px · `32` 128px.
+
+Semantic tokens only alias into it, never own raw values:
+
+| Semantic                                  | xs  | sm  | base | lg  | xl  |
+| ----------------------------------------- | --- | --- | ---- | --- | --- |
+| `--ms-spacing-scale-element-*`            | 2   | 4   | 6    | 8   | 10  |
+| `--ms-spacing-scale-component-*`          | 12  | 16  | 20   | 24  | 28  |
+| `--ms-spacing-scale-block-*`              | 32  | 40  | 48   | 56  | 64  |
+| `--ms-spacing-scale-section-*`            | 72  | 80  | 96   | 112 | 128 |
+| `--ms-space-layout-{column\|row}-*` (gap) | 8   | 16  | 24   | 32  | 48  |
+
+### Breakpoints vs containers
+
+Breakpoints (`--ms-breakpoint-*`, media queries, responsive props) say **where** the layout
+changes; containers (`--ms-container-*`, e.g. `secMaxWidth`) say **how wide** content may grow.
+They start aligned (`sm`…`xl`) but are separate tokens; `xs` container is 20rem (320px).
 
 ### Tones × variants
 

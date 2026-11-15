@@ -1,31 +1,49 @@
-$class-selector: '.ms-spacing';
-$scale-size-map: (
-  element: (
-    xs: var(--ms-spacing-scale-element-xs),
-    sm: var(--ms-spacing-scale-element-sm),
-    base: var(--ms-spacing-scale-element-base),
-    lg: var(--ms-spacing-scale-element-lg),
-    xl: var(--ms-spacing-scale-element-xl),
+$base-class: 'ms-spacing';
+$class-selector: '.#{$base-class}';
+
+// `spcType` option → CSS properties it sets.
+// Block axis (`t` / `b` / `v`) and inline axis (`s` / `e` / `h`) use logical properties.
+$type-map: (
+  m: (
+    margin,
   ),
-  component: (
-    xs: var(--ms-spacing-scale-component-xs),
-    sm: var(--ms-spacing-scale-component-sm),
-    base: var(--ms-spacing-scale-component-base),
-    lg: var(--ms-spacing-scale-component-lg),
-    xl: var(--ms-spacing-scale-component-xl),
+  mt: (
+    margin-top,
   ),
-  block: (
-    xs: var(--ms-spacing-scale-block-xs),
-    sm: var(--ms-spacing-scale-block-sm),
-    base: var(--ms-spacing-scale-block-base),
-    lg: var(--ms-spacing-scale-block-lg),
-    xl: var(--ms-spacing-scale-block-xl),
+  mb: (
+    margin-bottom,
   ),
-  section: (
-    xs: var(--ms-spacing-scale-section-xs),
-    sm: var(--ms-spacing-scale-section-sm),
-    base: var(--ms-spacing-scale-section-base),
-    lg: var(--ms-spacing-scale-section-lg),
-    xl: var(--ms-spacing-scale-section-xl),
+  ms: (
+    margin-inline-start,
+  ),
+  me: (
+    margin-inline-end,
+  ),
+  mv: (
+    margin-block,
+  ),
+  mh: (
+    margin-inline,
+  ),
+  p: (
+    padding,
+  ),
+  pt: (
+    padding-top,
+  ),
+  pb: (
+    padding-bottom,
+  ),
+  ps: (
+    padding-inline-start,
+  ),
+  pe: (
+    padding-inline-end,
+  ),
+  pv: (
+    padding-block,
+  ),
+  ph: (
+    padding-inline,
   ),
 );

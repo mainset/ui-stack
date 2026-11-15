@@ -1,12 +1,36 @@
+@use 'sass:map';
 @use '../../styles/layers';
-@use './spacing.variables' as spacingVars;
-@use './spacing.mixins' as spacingMixins;
+@use '../../styles/options';
+@use './spacing.variables' as vars;
 
-// Token-based spacing utilities: `.ms-spacing--{type}-{scale}-{size}`
+// Token-based spacing utilities: `.ms-spacing--{type}-{scale}-{size}`, generated from the
+// `SPACING__CLASS_NAME_CONFIG` options (types × scales × sizes), plus `--{type}-0` resets.
 // e.g. `.ms-spacing--ph-element-xl` → `padding-inline: var(--ms-spacing-scale-element-xl)`
+@include options.assert-options(
+  vars.$base-class,
+  'spcType',
+  map.keys(vars.$type-map)
+);
 
 @layer ms.utilities {
-  @include spacingMixins.build-spacing-modifier-excluded(
-    spacingVars.$scale-size-map
-  );
+  @each $type in options.options(vars.$base-class, 'spcType') {
+    $css-props: map.get(vars.$type-map, $type);
+
+    #{vars.$class-selector}--#{$type}-0 {
+      @each $css-prop in $css-props {
+        #{$css-prop}: 0;
+      }
+    }
+
+    @each $scale in options.options(vars.$base-class, 'spcScale') {
+      @each $size in options.options(vars.$base-class, 'spcSize') {
+        #{vars.$class-selector}--#{$type}-#{$scale}-#{$size} {
+          // stylelint-disable-next-line max-nesting-depth -- loops, not selector nesting
+          @each $css-prop in $css-props {
+            #{$css-prop}: var(--ms-spacing-scale-#{$scale}-#{$size});
+          }
+        }
+      }
+    }
+  }
 }

@@ -1,2 +1,2 @@
-$class-selector: '.ms-control';
-$sizes: (xs, sm, base, lg, xl);
+$base-class: 'ms-control';
+$class-selector: '.#{$base-class}';
