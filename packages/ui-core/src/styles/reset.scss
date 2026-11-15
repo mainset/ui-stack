@@ -82,6 +82,7 @@
 
   // NOTE: honour the OS setting for every animation, including third-party ones.
   // (mainset elements already use `--ms-duration-*`, which collapse to 0 in foundation)
+  /* stylelint-disable declaration-no-important -- must beat any (unlayered) app transition */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -92,4 +93,5 @@
       animation-iteration-count: 1 !important;
     }
   }
+  /* stylelint-enable declaration-no-important */
 }

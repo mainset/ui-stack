@@ -10,6 +10,7 @@ $alignments: (
   end,
   justify
 );
+
 // Generated from the tone list, so every tone is available without hand-written duplicates
 $color-map: map.merge(
   theme.tone-token-map('text'),

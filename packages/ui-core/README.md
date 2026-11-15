@@ -1,14 +1,130 @@
-# UI Core Design Tokens & Theming
+# @mainset/ui-core
+
+Framework-agnostic foundation of the mainset UI: design tokens, CSS primitives and
+"recipes" (style props in → class string out). `@mainset/react` is a thin adapter on top;
+any other framework (or plain HTML) can use the same classes.
+
+## Usage
+
+**With a JS bundler** (React adapter, Vite, rspack, webpack…) — nothing to configure:
+every element module imports its own CSS (plus the shared foundation), so the bundle
+contains only the CSS of the elements in use.
+
+**Without a bundler** (plain HTML, server templates, Vue/Svelte/…):
+
+```html
+<!-- reset is optional -->
+<link rel="stylesheet" href="@mainset/ui-core/styles/reset.css" />
+<link rel="stylesheet" href="@mainset/ui-core/styles/index.css" />
+
+<button
+  class="ms-surface ms-surface--variant-outlined ms-surface--hover-all ms-tone-error
+         ms-control ms-control--size-sm ms-button"
+>
+  Delete
+</button>
+```
+
+The same classes come from the recipe (which also adds the `ms-background ms-border`
+utility base classes):
+
+```ts
+buttonRecipe({ srfVariant: 'outlined', srfTheme: 'error', ctlSize: 'sm' });
+// → "ms-background ms-border ms-surface ms-surface--hover-all ms-surface--variant-outlined
+//    ms-tone-error ms-control ms-control--size-sm ms-button"
+```
+
+| Entry                                    | Contents                                              |
+| ---------------------------------------- | ----------------------------------------------------- |
+| `@mainset/ui-core`                       | class-name configs, recipes, types, utils             |
+| `@mainset/ui-core/styles/index.css`      | foundation + every element                            |
+| `@mainset/ui-core/styles/foundation.css` | layer order + all design tokens + base layer          |
+| `@mainset/ui-core/styles/reset.css`      | opt-in modern reset (`normalize.css` is an alias)     |
+| `@mainset/ui-core/scss/mixins`           | `media-up()`, `responsive-variants`, helpers          |
+| `@mainset/ui-core/scss/layers`           | the `@layer` order statement, for adapter stylesheets |
+
+## Cascade layers
+
+```css
+@layer ms.reset, ms.tokens, ms.base, ms.components, ms.utilities;
+```
+
+Utilities (`bg*`, `brd*`, `txt*`, `spc*`, tones) always beat components; **any app CSS
+written outside a layer beats everything** — overrides never need `!important`.
+
+> Caveat: unlayered element selectors in an app (e.g. a global `button { padding: 0 }`)
+> also win over mainset components. Put such resets in a layer (or before `ms.reset`).
+
+## Tokens
+
+| Tier         | Prefix                     | Example                                         |
+| ------------ | -------------------------- | ----------------------------------------------- |
+| 1. Palette   | `--ms-palette-*`           | `--ms-palette-violet-600`                       |
+| 2. Semantic  | `--ms-color-*`             | `--ms-color-text-muted`, `--ms-color-bg-canvas` |
+| 2. Tone      | `--ms-color-{tone}-{role}` | `--ms-color-error-subtle`                       |
+| 3. Component | `--ms-{component}-*`       | `--ms-control-height-base`                      |
+
+Other families: `--ms-font-*`, `--ms-border-radius-*`, `--ms-border-width-*`,
+`--ms-spacing-scale-*`, `--ms-space-layout-*`, `--ms-shadow-*`, `--ms-z-index-*`,
+`--ms-duration-*` / `--ms-easing-*` (0 under `prefers-reduced-motion`),
+`--ms-focus-ring-*`, `--ms-opacity-*`, `--ms-breakpoint-*`.
+
+### Tones × variants
+
+Tones: `primary secondary tertiary error info success warning base muted inverse transparent`.
+Each tone exposes the same contract: `solid | solid-hover | on-solid | subtle | subtle-hover | border | text`
+(only `solid` / `on-solid` are declared — the rest is derived with `color-mix()`, so re-branding a tone is one value).
+
+Components never read a specific tone; they read the **inherited** `--ms-tone-*` contract.
+`.ms-tone-{tone}` re-points it for an element and its whole subtree (default: `primary`):
+
+```html
+<div class="ms-surface ms-surface--variant-soft ms-tone-error">
+  <!-- both buttons are "error" without any prop -->
+  <button class="ms-surface ms-surface--variant-solid ms-control ms-button">
+    Retry
+  </button>
+</div>
+```
+
+Surface variants: `solid | soft | outlined | ghost`.
+
+### Theming
+
+```html
+<html data-theme="light | dark | system">
+  <!-- nesting is supported -->
+</html>
+```
+
+```css
+/* re-brand from app CSS (unlayered, so it wins) */
+:root {
+  --ms-palette-violet-600: #7c3aed;
+}
+```
+
+## Responsive props
+
+Layout props (`flx*`, `lay*`, `grd*`) accept a mobile-first object keyed by breakpoint
+(`xs` 0 · `sm` 36rem · `base` 48rem · `lg` 62rem · `xl` 75rem):
+
+```ts
+flxDirection={{ xs: 'column', base: 'row' }}
+// → "ms-flex--flex-direction-column ms-flex--flex-direction-row@base"
+```
+
+## Background: token strategy
 
 The best and most scalable strategy for handling color tokens in a modern UI kit is using a multi-tiered design token system (often referred to as an "Aliasing" or "Semantic" system).
 
 Standardizing on just literal names (`blue-500`) or just context names (`primary-500`) both present problems at scale. Instead, the industry standard (used by Material Design, Atlassian, GitHub, and Figma) is to use both in a strict hierarchy.
 
-## The 3-Tier Strategy
+### The 3-Tier Strategy
 
 Here is the 3-Tier strategy that will give you infinite flexibility and perfect multi-theme support:
 
-### Level 1: Primitive Tokens (The Palette)
+#### Level 1: Primitive Tokens (The Palette)
 
 These are your literal, literal base colors. They describe exactly what the color is, completely independent of how it is used. They should never change meaning.
 
@@ -16,7 +132,7 @@ These are your literal, literal base colors. They describe exactly what the colo
 - **Examples:** `--blue-100`, `--blue-500`, `--gray-900`, `--red-500`.
 - **Rule:** Never use these directly in your component CSS. If you put `background: var(--blue-500)` in a `Button`, it's impossible to switch that button to "Purple" in a new theme without overriding the button's internal CSS.
 
-### Level 2: Semantic Tokens (The Intent / Context)
+#### Level 2: Semantic Tokens (The Intent / Context)
 
 This is the magic layer. Semantic tokens describe how or where the color is used, but not what the actual color is. They act as a bridge, pointing to your Primitive Tokens.
 
@@ -24,7 +140,7 @@ This is the magic layer. Semantic tokens describe how or where the color is used
 - **Examples:** `--color-text-primary`, `--color-bg-surface`, `--color-border-subtle`, `--color-action-primary-hover`, `--color-feedback-danger`.
 - **Rule:** This is what you use in your CSS Modules.
 
-### Level 3: Component Tokens (Optional, but great for UI Kits)
+#### Level 3: Component Tokens (Optional, but great for UI Kits)
 
 For ultimate flexibility in a commercial UI kit, you map Semantic Tokens to specific Component Tokens.
 
@@ -33,7 +149,7 @@ For ultimate flexibility in a commercial UI kit, you map Semantic Tokens to spec
 
 ---
 
-## How this actually works for Multiple Themes
+### How this actually works for Multiple Themes
 
 The beauty of this system is that when you switch themes (Light vs. Dark, or Brand A vs. Brand B), you only change the Level 2 (Semantic) pointers. Your components never change.
 
@@ -92,7 +208,7 @@ Then, in your React CSS Module (`Button.module.scss`):
 }
 ```
 
-## Why `primary-500` is a trap
+### Why `primary-500` is a trap
 
 Many frameworks use `primary-100` through `primary-900`. But what exactly is `primary-100` used for? Is it a background for a badge? Is it text?
 
@@ -102,7 +218,7 @@ By using exact semantic intents (`--color-text-primary-on-brand`, `--color-bg-su
 
 ---
 
-## Recommended Naming Taxonomy
+### Recommended Naming Taxonomy
 
 A great format used by many enterprise teams is:
 `[Category]-[Concept]-[Property]-[Variant]-[State]`
@@ -120,7 +236,7 @@ A great format used by many enterprise teams is:
 
 ---
 
-### 1. Category (The "What")
+#### 1. Category (The "What")
 
 The foundational type of the design token.
 
@@ -132,7 +248,7 @@ The foundational type of the design token.
 - `opacity`: Alpha transparency.
 - `duration`: Animation or transition timings.
 
-### 2. Concept (The "Where")
+#### 2. Concept (The "Where")
 
 The structural UI element the category is applied to.
 
@@ -143,7 +259,7 @@ The structural UI element the category is applied to.
 - `action`: Interactive elements like buttons, tabs, or links.
 - `feedback`: Alerts, toasts, and validation states.
 
-### 3. Property / Context (The "Intent")
+#### 3. Property / Context (The "Intent")
 
 The semantic meaning or brand role of the element.
 
@@ -151,7 +267,7 @@ The semantic meaning or brand role of the element.
 - **Neutral Roles:** `neutral`, `base`, `inverse` (e.g., white text on dark bg).
 - **Feedback Roles:** `success` (green), `danger` / `error` (red), `warning` (yellow), `info` (blue).
 
-### 4. Variant (The "Scale or Prominence")
+#### 4. Variant (The "Scale or Prominence")
 
 The magnitude, emphasis, or numeric scale of the token.
 
@@ -159,7 +275,7 @@ The magnitude, emphasis, or numeric scale of the token.
 - **T-Shirt Sizes (for fonts, spacing, radius):** `xxs`, `xs`, `sm`, `md`, `lg`, `xl`, `xxl`.
 - **Numeric Scale (often for raw colors or weights):** `100`, `200`, `300` ... `900`.
 
-### 5. State (The "Interaction")
+#### 5. State (The "Interaction")
 
 The user pseudo-class. If it is the default state, this slot is completely omitted.
 

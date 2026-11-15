@@ -1,4 +1,5 @@
 $class-selector: '.ms-layout';
+
 // NOTE: includes the CSS initial-ish values (`flex-start`, `stretch`), so responsive props can switch back
 $layout-prop-map: (
   // main axis

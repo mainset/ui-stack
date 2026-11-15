@@ -3,35 +3,36 @@
 @use './control.variables' as controlVars;
 
 // Control = sizing + states shared by every interactive control.
-// The size class only re-points the local `--_*` variables; one rule consumes them.
+// The size class only re-points the current `--ms-control-*` values (no size suffix) to the
+// sized tokens (`--ms-control-*-{size}`); one rule consumes them.
 @layer ms.components {
   #{controlVars.$class-selector} {
-    --_height: var(--ms-control-height-base);
-    --_padding-inline: var(--ms-control-padding-inline-base);
-    --_font-size: var(--ms-control-font-size-base);
-    --_line-height: var(--ms-control-line-height-base);
-    --_letter-spacing: var(--ms-control-letter-spacing-base);
+    --ms-control-height: var(--ms-control-height-base);
+    --ms-control-padding-inline: var(--ms-control-padding-inline-base);
+    --ms-control-font-size: var(--ms-control-font-size-base);
+    --ms-control-line-height: var(--ms-control-line-height-base);
+    --ms-control-letter-spacing: var(--ms-control-letter-spacing-base);
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--ms-control-gap);
-    min-block-size: var(--_height);
+    min-block-size: var(--ms-control-height);
     padding-block: 0;
-    padding-inline: var(--_padding-inline);
+    padding-inline: var(--ms-control-padding-inline);
     border-radius: var(--ms-control-radius);
-    font-size: var(--_font-size);
-    letter-spacing: var(--_letter-spacing);
-    line-height: var(--_line-height);
+    font-size: var(--ms-control-font-size);
+    letter-spacing: var(--ms-control-letter-spacing);
+    line-height: var(--ms-control-line-height);
     white-space: nowrap;
 
     @each $size in controlVars.$sizes {
       &--size-#{$size} {
-        --_height: var(--ms-control-height-#{$size});
-        --_padding-inline: var(--ms-control-padding-inline-#{$size});
-        --_font-size: var(--ms-control-font-size-#{$size});
-        --_line-height: var(--ms-control-line-height-#{$size});
-        --_letter-spacing: var(--ms-control-letter-spacing-#{$size});
+        --ms-control-height: var(--ms-control-height-#{$size});
+        --ms-control-padding-inline: var(--ms-control-padding-inline-#{$size});
+        --ms-control-font-size: var(--ms-control-font-size-#{$size});
+        --ms-control-line-height: var(--ms-control-line-height-#{$size});
+        --ms-control-letter-spacing: var(--ms-control-letter-spacing-#{$size});
       }
     }
 
