@@ -3,7 +3,7 @@
 // Use it when there is no JS bundler resolving per-element CSS imports
 // (plain HTML, server templates, Vue/Svelte/etc.), e.g.:
 //   <link rel="stylesheet" href="@mainset/ui-core/styles/index.css" />
-// The reset is opt-in and shipped separately: `@mainset/ui-core/styles/normalize.css`.
+// The reset is opt-in and shipped separately: `@mainset/ui-core/styles/reset.css`.
 @use './layers';
 @use './foundation';
 @use '../elements/backdrop/backdrop';

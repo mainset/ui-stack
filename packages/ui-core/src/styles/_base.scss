@@ -1,0 +1,39 @@
+// Base layer: element-agnostic defaults every mainset UI relies on.
+// Kept intentionally small, and in `ms.base`, so unlayered app CSS always wins.
+@mixin base-layer {
+  @layer ms.base {
+    // Page / theme root: a themed subtree (`data-theme`) paints its own canvas and ink,
+    // so nested themes render correctly and text inherits the scheme color by default.
+    :root,
+    [data-theme] {
+      background-color: var(--ms-color-bg-canvas);
+      color: var(--ms-color-text-base);
+      font-family: var(--ms-font-family-text-sans);
+    }
+
+    // Keyboard focus is always visible (resets commonly strip outlines / button borders).
+    // `:where()` keeps specificity at 0, so any element can restyle its own ring.
+    :where(:focus-visible) {
+      outline: var(--ms-focus-ring-width) solid var(--ms-color-focus-ring);
+      outline-offset: var(--ms-focus-ring-offset);
+    }
+  }
+}
+
+@mixin utilities-layer {
+  @layer ms.utilities {
+    // Hidden visually, still announced by assistive tech
+    .ms-visually-hidden,
+    .ms-visually-hidden-focusable:not(:focus, :focus-within) {
+      position: absolute !important;
+      overflow: hidden !important;
+      clip-path: inset(50%) !important;
+      width: 1px !important;
+      height: 1px !important;
+      margin: -1px !important;
+      padding: 0 !important;
+      border: 0 !important;
+      white-space: nowrap !important;
+    }
+  }
+}

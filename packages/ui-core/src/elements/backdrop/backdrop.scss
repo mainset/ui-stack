@@ -8,7 +8,7 @@
 
     // Animation: default to invisible and non-interactive
     opacity: 0;
-    transition: opacity 0.25s ease-in-out;
+    transition: opacity var(--ms-duration-slow) var(--ms-easing-standard);
 
     // NOTE: required to prevent clicks from passing through to the page behind the backdrop when it's not visible
     pointer-events: none;

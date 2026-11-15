@@ -27,7 +27,7 @@ const TEXT_BASE__CLASS_NAME_CONFIG = {
     txtColor: {
       modifier: 'color',
       options: COLOR__ELEMENT_OPTIONS,
-      defaultValue: 'base',
+      // NOTE: no default — text inherits its color (e.g. `on-solid` inside a solid surface)
     },
     txtColorHover: {
       modifier: 'color-hover',
@@ -41,7 +41,7 @@ const TEXT_BASE__CLASS_NAME_CONFIG = {
         'mono',
         // 'heading',
       ],
-      defaultValue: 'sans',
+      // NOTE: no default — the font family is inherited from the theme root
     },
     txtSize: {
       modifier: 'size',

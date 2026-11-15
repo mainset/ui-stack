@@ -1,0 +1,95 @@
+// mainset reset (opt-in): `@mainset/ui-core/styles/reset.css`
+// A modern, minimal reset. Lives in the lowest `ms.reset` layer, so any app / component style wins.
+@use './layers';
+
+@layer ms.reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  * {
+    margin: 0;
+  }
+
+  html {
+    text-size-adjust: none;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    line-height: var(--ms-line-height-text-base, 1.5);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img,
+  picture,
+  video,
+  canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  input,
+  button,
+  textarea,
+  select {
+    color: inherit;
+    font: inherit;
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    border: none;
+    background-color: initial;
+  }
+
+  :target {
+    scroll-margin-block: 5ex;
+  }
+
+  // NOTE: honour the OS setting for every animation, including third-party ones.
+  // (mainset elements already use `--ms-duration-*`, which collapse to 0 in foundation)
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
