@@ -11,6 +11,7 @@ export {
   BACKGROUND__CLASS_NAME_CONFIG,
   BORDER__CLASS_NAME_CONFIG,
   BUTTON__CLASS_NAME_CONFIG,
+  CONTROL__CLASS_NAME_CONFIG,
   FLEX_CONTAINER__CLASS_NAME_CONFIG,
   FLEX_ITEM__CLASS_NAME_CONFIG,
   FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG,
@@ -31,6 +32,9 @@ export type {
   BackgroundStyleProps,
   BorderStyleProps,
   ButtonStyleProps,
+  ControlStyleProps,
+  ElementColor,
+  ElementExtendedSize,
   ElementPlainSize,
   FlexContainerStyleProps,
   FlexItemStyleProps,
@@ -47,7 +51,19 @@ export type {
   TextStyleProps,
 } from './elements/index.mjs';
 export {
+  buttonRecipe,
+  controlRecipe,
+  SURFACE__RECIPE_CONFIGS,
+  surfaceRecipe,
+  toneRecipe,
+} from './recipes/index.mjs';
+export type {
+  ButtonRecipeProps,
+  SurfaceRecipeProps,
+} from './recipes/index.mjs';
+export {
   cnx,
+  composeClassNames,
   extractClassNamesFromProps,
   extractStyleObjFromProps,
 } from './utils/index.mjs';

@@ -6,7 +6,13 @@ export { BORDER__CLASS_NAME_CONFIG } from './border/index.mjs';
 export type { BorderStyleProps } from './border/index.mjs';
 export { BUTTON__CLASS_NAME_CONFIG } from './button/index.mjs';
 export type { ButtonStyleProps } from './button/index.mjs';
-export type { ElementPlainSize } from './elements.types.mjs';
+export { CONTROL__CLASS_NAME_CONFIG } from './control/index.mjs';
+export type { ControlStyleProps } from './control/index.mjs';
+export type {
+  ElementColor,
+  ElementExtendedSize,
+  ElementPlainSize,
+} from './elements.types.mjs';
 export {
   FLEX_CONTAINER__CLASS_NAME_CONFIG,
   FLEX_ITEM__CLASS_NAME_CONFIG,

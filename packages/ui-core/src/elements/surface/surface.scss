@@ -1,90 +1,73 @@
 @use '../../styles/layers';
-@use '../background/background.variables' as bgVars;
 @use './surface.variables' as surfaceVars;
 
-// TODO(phase-0/tone): move to `ms.components` once variants are tone-driven (no utility overrides)
-@layer ms.utilities {
+// Surface = tone × variant.
+// A tone (`.ms-tone-*`, or the inherited default) only *sets* `--ms-tone-*`;
+// a variant only *reads* them. N tones + M variants, instead of N × M overrides.
+@layer ms.components {
+  // Defaults live in `:where()` (0 specificity), so composites built on top of a
+  // surface (e.g. `.ms-control`) can override them regardless of CSS load order.
+  :where(#{surfaceVars.$class-selector}) {
+    border-radius: var(--ms-border-radius-sm);
+    transition-duration: var(--ms-duration-base);
+    transition-property: background-color, border-color, color, box-shadow;
+    transition-timing-function: var(--ms-easing-standard);
+  }
+
   #{surfaceVars.$class-selector} {
-    transition:
-      background-color 0.2s ease-in-out,
-      border-color 0.2s ease-in-out,
-      color 0.2s ease-in-out,
-      box-shadow 0.2s ease-in-out;
-
+    // NOTE: every variant reserves the same border, so switching variants never shifts layout
     &--variant {
-      &-solid[class*='ms-background--color-'] {
-        // By default, solid colored surfaces need inverse (light) text for contrast
-        color: var(--ms-color-text-inverse);
-
-        // Explicitly override text color for themes that have a light background
-        @each $theme in (inverse, transparent) {
-          &#{bgVars.$class-selector}--color-#{$theme} {
-            color: var(--ms-color-text-base);
-          }
-        }
+      &-solid,
+      &-soft,
+      &-outlined,
+      &-ghost {
+        border: var(--ms-border-width-base) solid transparent;
       }
 
-      &-outlined[class*='ms-border--color-'] {
-        // Outlined variants should have text matching their border color
-        background-color: transparent;
-        color: var(--ms-border-color);
+      &-solid {
+        background-color: var(--ms-tone-solid);
+        color: var(--ms-tone-on-solid);
       }
 
-      &-ghost[class*='ms-background--color-'] {
-        // Ghost variants should have text matching their background theme color
-        color: var(--ms-bg-color);
+      &-soft {
+        background-color: var(--ms-tone-subtle);
+        color: var(--ms-tone-text);
+      }
 
-        // Override the solid background set by the background utility class
+      &-outlined {
+        border-color: var(--ms-tone-border);
         background-color: transparent;
+        color: var(--ms-tone-text);
+      }
+
+      &-ghost {
+        background-color: transparent;
+        color: var(--ms-tone-text);
+      }
+    }
+  }
+
+  // --- Hover interaction modifiers (opt-in) ---
+  @media (hover: hover) {
+    #{surfaceVars.$class-selector}--hover-bg,
+    #{surfaceVars.$class-selector}--hover-all {
+      &#{surfaceVars.$class-selector}--variant-solid:hover {
+        background-color: var(--ms-tone-solid-hover);
+      }
+
+      &#{surfaceVars.$class-selector}--variant-soft:hover {
+        background-color: var(--ms-tone-subtle-hover);
+      }
+
+      &#{surfaceVars.$class-selector}--variant-outlined:hover,
+      &#{surfaceVars.$class-selector}--variant-ghost:hover {
+        background-color: var(--ms-tone-subtle);
       }
     }
 
-    // --- Hover Interaction Modifiers ---
-    // Allow consumers to explicitly opt-in to basic dimension/color feedback.
-    &--hover {
-      &-bg,
-      &-all {
-        @media (hover: hover) {
-          // Tie background color interactions securely to the active variant
-          &#{surfaceVars.$class-selector}--variant-solid:hover {
-            background-color: color-mix(
-              in srgb,
-              var(--ms-bg-color) 80%,
-              transparent
-            );
-
-            // Explicitly override text color for themes that have a light background
-            @each $theme in (inverse, transparent) {
-              &.ms-background--color-#{$theme} {
-                background-color: color-mix(
-                  in srgb,
-                  var(--ms-bg-color) 10%,
-                  transparent
-                );
-              }
-            }
-          }
-
-          &#{surfaceVars.$class-selector}--variant-outlined:hover,
-          &#{surfaceVars.$class-selector}--variant-ghost:hover {
-            background-color: color-mix(
-              in srgb,
-              var(--ms-bg-color) 10%,
-              transparent
-            );
-          }
-        }
-      }
-
-      &-border,
-      &-all {
-        @media (hover: hover) {
-          &:hover {
-            // Explicitly pops out the border using the border token
-            border-color: var(--ms-border-color);
-          }
-        }
-      }
+    #{surfaceVars.$class-selector}--hover-border:hover,
+    #{surfaceVars.$class-selector}--hover-all:hover {
+      border-color: var(--ms-tone-border);
     }
   }
 }

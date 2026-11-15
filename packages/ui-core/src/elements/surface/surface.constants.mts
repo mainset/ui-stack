@@ -15,7 +15,7 @@ const SURFACE__CLASS_NAME_CONFIG = {
     },
     srfVariant: {
       modifier: 'variant',
-      options: ['solid', 'outlined', 'ghost'],
+      options: ['solid', 'soft', 'outlined', 'ghost'],
     },
   },
 } as const satisfies ClassNameFromPropConfig;

@@ -1,0 +1,43 @@
+// Component tokens (Tier 3) shared by every interactive control:
+// buttons today, inputs / selects / textareas next — so all controls of a size line up.
+@layer ms.tokens {
+  :root {
+    --ms-control-radius: var(--ms-border-radius-sm);
+    --ms-control-gap: var(--ms-spacing-scale-element-base);
+
+    // xs — 24px
+    --ms-control-height-xs: 1.5rem;
+    --ms-control-padding-inline-xs: var(--ms-spacing-scale-element-base);
+    --ms-control-font-size-xs: var(--ms-font-size-text-xs);
+    --ms-control-line-height-xs: var(--ms-line-height-text-xs);
+    --ms-control-letter-spacing-xs: var(--ms-letter-spacing-text-xs);
+
+    // sm — 28px
+    --ms-control-height-sm: 1.75rem;
+    --ms-control-padding-inline-sm: var(--ms-spacing-scale-element-lg);
+    --ms-control-font-size-sm: var(--ms-font-size-text-sm);
+    --ms-control-line-height-sm: var(--ms-line-height-text-sm);
+    --ms-control-letter-spacing-sm: var(--ms-letter-spacing-text-sm);
+
+    // base — 32px
+    --ms-control-height-base: 2rem;
+    --ms-control-padding-inline-base: var(--ms-spacing-scale-element-xl);
+    --ms-control-font-size-base: var(--ms-font-size-text-sm);
+    --ms-control-line-height-base: var(--ms-line-height-text-sm);
+    --ms-control-letter-spacing-base: var(--ms-letter-spacing-text-sm);
+
+    // lg — 40px
+    --ms-control-height-lg: 2.5rem;
+    --ms-control-padding-inline-lg: var(--ms-spacing-scale-component-xs);
+    --ms-control-font-size-lg: var(--ms-font-size-text-base);
+    --ms-control-line-height-lg: var(--ms-line-height-text-base);
+    --ms-control-letter-spacing-lg: var(--ms-letter-spacing-text-base);
+
+    // xl — 48px
+    --ms-control-height-xl: 3rem;
+    --ms-control-padding-inline-xl: var(--ms-spacing-scale-component-base);
+    --ms-control-font-size-xl: var(--ms-font-size-text-lg);
+    --ms-control-line-height-xl: var(--ms-line-height-text-lg);
+    --ms-control-letter-spacing-xl: var(--ms-letter-spacing-text-lg);
+  }
+}
