@@ -28,10 +28,7 @@ const Badge: React.FC<BadgeProps> = ({
   return React.createElement(
     Surface,
     {
-      className: cnx(
-        className,
-        spacingRecipe(PROPS__BY_BADGE_SIZE[bdgSize]).className,
-      ),
+      className: cnx(className, spacingRecipe(PROPS__BY_BADGE_SIZE[bdgSize])),
       ...props,
     },
     children,

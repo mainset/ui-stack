@@ -24,6 +24,7 @@ export {
   SECTION__CLASS_NAME_CONFIG,
   SPACING__CLASS_NAME_CONFIG,
   spacingRecipe,
+  spacingStyleProps,
   extractSpacingClassNamesFromProps,
   BREAKPOINT__ELEMENT_OPTIONS,
   COLOR__ELEMENT_OPTIONS,

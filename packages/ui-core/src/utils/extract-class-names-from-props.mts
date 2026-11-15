@@ -1,6 +1,7 @@
 import type { ResponsiveStyle } from './responsive.mjs';
 import {
   RESPONSIVE_BASE_BREAKPOINT,
+  isDeclaredOption,
   isResponsiveObject,
   responsiveVarClassName,
   responsiveVarName,
@@ -26,9 +27,11 @@ type ResponsiveDefinition =
        * other breakpoint adds a single class per prop, `ms-layout--gap-size@md`, and sets its value
        * inline as `--ms-layout-gap-size-at-md` (the `responsive-var-variants` Sass mixin), so the
        * CSS grows per breakpoint, not per option × breakpoint.
+       * Needs a non-empty `modifier` (it names the class and the variable; Sass enforces it).
        */
       responsive: 'css-var';
       cssValue: string;
+      modifier: string;
     };
 
 type CNBasedPropDefinition = ResponsiveDefinition & {
@@ -180,14 +183,17 @@ function processMultipleConfig(
 
         if (breakpoint === RESPONSIVE_BASE_BREAKPOINT) {
           pushClass(generatedClass);
-        } else if (propConfig.responsive === 'css-var') {
-          // NOTE: the Sass side requires a `modifier` for `css-var` props
-          const varModifier = modifier ?? configPropName;
+        } else if (propConfig.responsive === 'class') {
+          pushClass(`${generatedClass}@${breakpoint}`);
+        } else if (
+          propConfig.responsive === 'css-var' &&
+          // only declared options reach the inline style (no arbitrary CSS via a prop)
+          isDeclaredOption(propConfig.options, breakpointValue)
+        ) {
+          const varModifier = propConfig.modifier;
           pushClass(responsiveVarClassName(baseClass, varModifier, breakpoint));
           style[responsiveVarName(baseClass, varModifier, breakpoint)] =
-            resolveCssValue(propConfig.cssValue, breakpointValue as string);
-        } else {
-          pushClass(`${generatedClass}@${breakpoint}`);
+            resolveCssValue(propConfig.cssValue, breakpointValue);
         }
       }
       continue;
