@@ -152,6 +152,8 @@ Surface variants: `solid | soft | outlined | ghost`.
 
 ### Theming
 
+Full guides (CSS overrides, React, live theming, token reference): [`docs/theming`](../../docs/theming/README.md).
+
 ```html
 <html data-theme="light | dark | system">
   <!-- nesting is supported -->
