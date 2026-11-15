@@ -147,19 +147,22 @@
     }
   }
 
-  // ----- Semantic tokens (Tier 2), per color scheme -----
+  // ----- Semantic tokens (Tier 2) -----
+  // Pointers shared by every theme root (default tone, shadows), declared once
   :root,
-  [data-theme='light'] {
+  [data-theme] {
+    @include theme.scheme-shared-tokens;
+  }
+
+  // Values per color scheme; `system` is light by default and dark when the OS prefers it
+  :root,
+  [data-theme='light'],
+  [data-theme='system'] {
     @include theme.scheme-tokens(light);
   }
 
   [data-theme='dark'] {
     @include theme.scheme-tokens(dark);
-  }
-
-  // `system` follows the OS preference
-  [data-theme='system'] {
-    @include theme.scheme-tokens(light);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -183,11 +186,7 @@
 
   .ms-tone-transparent {
     --ms-tone-solid: transparent;
-    --ms-tone-solid-hover: color-mix(
-      in oklab,
-      var(--ms-color-text-base) 10%,
-      transparent
-    );
+    --ms-tone-solid-hover: var(--ms-color-transparent-solid-hover);
     --ms-tone-on-solid: var(--ms-color-text-base);
     --ms-tone-subtle: transparent;
     --ms-tone-subtle-hover: var(--ms-tone-solid-hover);
