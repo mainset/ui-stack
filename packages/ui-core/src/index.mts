@@ -69,6 +69,7 @@ export {
   PROGRESS__CLASS_NAME_CONFIG,
   ASPECT_RATIO__CLASS_NAME_CONFIG,
   HOVER__CLASS_NAME_CONFIG,
+  ANIMATE__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
@@ -113,6 +114,7 @@ export type {
   ProgressStyleProps,
   AspectRatioStyleProps,
   HoverStyleProps,
+  AnimateStyleProps,
 } from './elements/index.mjs';
 export {
   BOX__RECIPE_CONFIGS,

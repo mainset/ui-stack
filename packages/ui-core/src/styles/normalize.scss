@@ -6,6 +6,7 @@
 // Utilities (spacing, flex, grid, text…) are included: they only apply token values.
 @use './foundation';
 @use '../elements/alert/alert-normalize';
+@use '../elements/animate/animate';
 @use '../elements/aspect-ratio/aspect-ratio-normalize';
 @use '../elements/avatar/avatar-normalize';
 @use '../elements/backdrop/backdrop-normalize';

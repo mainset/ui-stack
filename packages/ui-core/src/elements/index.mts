@@ -1,4 +1,6 @@
 export { ALERT__CLASS_NAME_CONFIG } from './alert/index.mjs';
+export { ANIMATE__CLASS_NAME_CONFIG } from './animate/index.mjs';
+export type { AnimateStyleProps } from './animate/index.mjs';
 export { ASPECT_RATIO__CLASS_NAME_CONFIG } from './aspect-ratio/index.mjs';
 export type { AspectRatioStyleProps } from './aspect-ratio/index.mjs';
 export {

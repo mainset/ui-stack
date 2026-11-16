@@ -472,6 +472,55 @@ $class-name-config-map: (
     'composed': false,
     'props': (),
   ),
+  'ms-animate': (
+    'composed': false,
+    'props': (
+      'anmState': (
+        'modifier': 'state',
+        'options': (
+          'hidden',
+          'enter',
+          'exit',
+        ),
+        'responsive': false,
+      ),
+      'anmSlide': (
+        'modifier': 'slide',
+        'options': (
+          'up',
+          'down',
+        ),
+        'responsive': false,
+      ),
+      'anmZoom': (
+        'modifier': 'zoom',
+        'options': (
+          'in',
+          'out',
+        ),
+        'responsive': false,
+      ),
+      'anmDuration': (
+        'modifier': 'duration',
+        'options': (
+          'fast',
+          'base',
+          'slow',
+          'slower',
+          'slowest',
+        ),
+        'responsive': false,
+      ),
+      'anmFade': (
+        'modifier': 'fade',
+        'options': (
+          true,
+          false,
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-aspect-ratio': (
     'composed': false,
     'props': (
