@@ -21,6 +21,14 @@ function copyAlongPath<T extends object>(source: T, keys: string[]): T {
   return root;
 }
 
+type FormField = Pick<HTMLInputElement, 'type' | 'value'> &
+  Partial<Pick<HTMLInputElement, 'checked'>>;
+
+/** A field's value; checkboxes and switches give `checked` (their `value` is "on" either way) */
+function readFieldValue(field: FormField): string | boolean {
+  return field.type === 'checkbox' ? Boolean(field.checked) : field.value;
+}
+
 function useFormHandler<T extends object>(initialState: T) {
   const [formHandlerValues, setFormHandlerState] = React.useState(initialState);
 
@@ -30,7 +38,9 @@ function useFormHandler<T extends object>(initialState: T) {
         HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
       >,
     ) => {
-      const { name, value } = e.currentTarget;
+      const field = e.currentTarget;
+      const { name } = field;
+      const value = readFieldValue(field);
       // NOTE: same path syntax as {set}: `address.city`, `items[0].name`
       const keys = name.match(/[^.[\]]+/g) || [];
 
@@ -46,4 +56,4 @@ function useFormHandler<T extends object>(initialState: T) {
   return [formHandlerValues, { handleInputChange }] as const;
 }
 
-export { useFormHandler };
+export { readFieldValue, useFormHandler };
