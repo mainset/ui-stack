@@ -17,7 +17,7 @@ Literal colors. Elements never read them directly; semantic tokens point at them
 | Token                                       | Value                                                    |
 | ------------------------------------------- | -------------------------------------------------------- |
 | `--ms-palette-white` / `-black`             | `rgb(255 255 255)` / `rgb(0 0 0)`                        |
-| `--ms-palette-violet-400` / `-600` / `-800` | `rgb(181 89 255)` / `rgb(144 19 254)` / `rgb(92 11 186)` |
+| `--ms-palette-violet-400` / `-600` / `-800` | `rgb(181 89 255)` / `rgb(139 20 253)` / `rgb(92 11 186)` |
 | `--ms-palette-red-600`                      | `rgb(215 34 38)`                                         |
 | `--ms-palette-blue-600`                     | `rgb(37 99 235)`                                         |
 | `--ms-palette-green-600`                    | `rgb(22 163 74)`                                         |

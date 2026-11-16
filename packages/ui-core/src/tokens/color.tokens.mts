@@ -10,7 +10,7 @@ const PALETTE__TOKENS = {
   black: 'rgb(0 0 0)',
   // brand
   'violet-400': 'rgb(181 89 255)',
-  'violet-600': 'rgb(144 19 254)',
+  'violet-600': 'rgb(139 20 253)', // #8b14fd: the mainset brand purple
   'violet-800': 'rgb(92 11 186)',
   // feedback
   'red-600': 'rgb(215 34 38)',
