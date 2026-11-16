@@ -1,0 +1,52 @@
+@use 'sass:map';
+@use '../../styles/options';
+
+$base-class: 'ms-spinner';
+$sizes: (
+  xs: 0.75rem,
+  sm: 1rem,
+  base: 1.25rem,
+  lg: 1.5rem,
+  xl: 2rem,
+);
+
+:where(:root) {
+  --ms-spinner-duration: 0.75s;
+
+  @each $size, $value in $sizes {
+    --ms-spinner-size-#{$size}: #{$value};
+  }
+}
+
+@keyframes ms-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#{options.where('.#{$base-class}')} {
+  --ms-spinner-size: var(--ms-spinner-size-base);
+
+  display: inline-block;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  inline-size: var(--ms-spinner-size);
+  block-size: var(--ms-spinner-size);
+  border: calc(var(--ms-spinner-size) / 8) solid currentcolor;
+  border-inline-end-color: transparent;
+  border-radius: 50%;
+  vertical-align: middle;
+  animation: ms-spin var(--ms-spinner-duration) linear infinite;
+}
+
+@include options.each-class($base-class, 'spnSize', $sizes) using
+  ($size, $value) {
+  --ms-spinner-size: var(--ms-spinner-size-#{$size});
+}
+
+// NOTE: slower, not stopped: it's the only sign that something is still happening
+@media (prefers-reduced-motion: reduce) {
+  #{options.where('.#{$base-class}')} {
+    animation-duration: calc(var(--ms-spinner-duration) * 3);
+  }
+}

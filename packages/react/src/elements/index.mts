@@ -25,8 +25,10 @@ export { ListBasic } from './ListBasic/index.mjs';
 export { Popover } from './Popover/index.mjs';
 export { Section } from './Section/index.mjs';
 export { Spacing } from './Spacing/index.mjs';
+export { Spinner } from './Spinner/index.mjs';
 export { Cluster, HStack, Stack } from './Stack/index.mjs';
 export { Surface } from './Surface/index.mjs';
 export { Heading, Paragraph, Text, TextSection } from './Typography/index.mjs';
+export { VisuallyHidden } from './VisuallyHidden/index.mjs';
 // utils
 export { createClassNamedRC } from './utils/index.mjs';
