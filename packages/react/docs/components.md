@@ -9,7 +9,7 @@ behaviour. For customizing the looks (tokens, tones, dark mode), see [Theming in
   `lay*`, `grd*`, `ctn*`, `txt*`, `lnk*`, `ctl*`, `fld*`…), so props are easy to grep and never
   collide with HTML attributes.
 - **`*As` picks the tag**: `btnAs`, `srfAs`, `boxAs`, `stkAs`, `flxAs`, `grdAs`, `secAs`,
-  `ctnAs`, `spcAs`, `txtAs`, `lnkAs`, `vhAs`, `hAs`. Each allows only the tags that make sense
+  `ctnAs`, `spcAs`, `txtAs`, `lnkAs`, `vhAs`, `hAs`, `alrtAs`, `mnuAs`. Each allows only the tags that make sense
   for the component. `btnAs`, `srfAs` and `lnkAs` also take a component, e.g. a router link,
   whose props are then type-checked:
 
@@ -78,6 +78,9 @@ Where things live:
 | ------------- | ------------------------------------------------------------------------------------------------------- |
 | `Button`      | `btnAs`, `btnSize`, `btnIsPending` (`aria-busy`), `btnIsDisabled`, `srfTheme`, `srfVariant`, `srfHover` |
 | `ButtonBasic` | the same, unsized (no control height / padding)                                                         |
+| `CloseButton` | an icon button (×), ghost, `aria-label` "Close" by default; `children` replace the icon                 |
+
+`btnIsIcon` makes any `Button` a square for an icon alone; give it an `aria-label`.
 
 ## Forms
 
@@ -159,16 +162,214 @@ fields, switches and labels inside, on an LTR page too.
 Checked colors follow the tone: `<Box className={toneRecipe('success')}>` around a group, or
 `ms-tone-*` on any ancestor.
 
-## Feedback and accessibility (`elements`)
+## Feedback and accessibility
 
-| Component                       | Props                                     | Notes                                      |
-| ------------------------------- | ----------------------------------------- | ------------------------------------------ |
-| `Spinner`                       | `spnSize`, `spnLabel` (default "Loading") | `role="status"`; in the current text color |
-| `VisuallyHidden`                | `vhAs`, `vhIsFocusable`                   | `vhIsFocusable` for skip links             |
-| `Badge`, `CardBasic`, `Surface` | `srf*`, `bgColor`, `brd*`                 | tone × variant containers                  |
+`Alert` is in `components`; everything else here in `elements`.
+
+| Component                       | Props                                                                                                                                             | Notes                                                      |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `Alert`                         | `srfTheme` (default `info`), `srfVariant` (default `soft`), `alrtTitle`, `alrtIcon`, `alrtActions`, `alrtOnDismiss`, `alrtDismissLabel`, `alrtAs` | `role="alert"` for `error` / `warning`, `status` otherwise |
+| `Spinner`                       | `spnSize`, `spnLabel` (default "Loading")                                                                                                         | `role="status"`; in the current text color                 |
+| `VisuallyHidden`                | `vhAs`, `vhIsFocusable`                                                                                                                           | `vhIsFocusable` for skip links                             |
+| `Badge`, `CardBasic`, `Surface` | `srf*`, `bgColor`, `brd*`                                                                                                                         | tone × variant containers                                  |
 
 ```tsx
 <VisuallyHidden vhAs="a" href="#main" vhIsFocusable>
   Skip to content
 </VisuallyHidden>
 ```
+
+```tsx
+<Alert
+  srfTheme="warning"
+  alrtTitle="Payment failed"
+  alrtActions={<Button btnSize="sm">Retry</Button>}
+>
+  Your card was declined.
+</Alert>
+```
+
+## Overlays (`containers`)
+
+They need the `MainSetProvider`: it keeps the stack of open overlays, the backdrop and the
+toasts, so any of them can be opened from any place of the app.
+
+### Dialog and Drawer
+
+Modal: focus trapped while on top and given back to the trigger on close, Escape and a
+backdrop click close the top one only, the page doesn't scroll behind them.
+
+Open one by id from anywhere, or control it:
+
+```tsx
+import { Button } from '@mainset/react/components';
+import { Dialog, useOverlay } from '@mainset/react/containers';
+
+function DeleteProject({ onDelete }: { onDelete: () => void }) {
+  const deleteDialog = useOverlay('delete-project');
+
+  return (
+    <>
+      <Button onClick={deleteDialog.open}>Delete project</Button>
+
+      <Dialog dlgId="delete-project" dlgRole="alertdialog" dlgSize="sm">
+        <Dialog.Header>
+          <Dialog.Title>Delete the project?</Dialog.Title>
+        </Dialog.Header>
+        <Dialog.Body>It can’t be undone.</Dialog.Body>
+        <Dialog.Footer>
+          <Button onClick={deleteDialog.close}>Cancel</Button>
+          <Button srfTheme="error" srfVariant="solid" onClick={onDelete}>
+            Delete
+          </Button>
+        </Dialog.Footer>
+      </Dialog>
+    </>
+  );
+}
+```
+
+| Prop                                | Dialog                                                                  | Drawer                                                       |
+| ----------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------ |
+| id to open it with `useOverlay(id)` | `dlgId`                                                                 | `drwId`                                                      |
+| controlled                          | `dlgIsOpen`, `dlgOnOpenChange`                                          | `drwIsOpen`, `drwOnOpenChange`                               |
+| size                                | `dlgSize` (`xs`–`xl`, `full`)                                           | `drwSize` (its depth)                                        |
+| where                               | centered                                                                | `drwPlacement`: `start` · `end` (default) · `top` · `bottom` |
+| role                                | `dlgRole`: `dialog` · `alertdialog` (a backdrop click doesn't close it) | `dialog`                                                     |
+| `*IsBackdropDismissable`            | default `true` (`false` for `alertdialog`)                              | default `true`                                               |
+
+- Parts: `Header`, `Title` (names the dialog; `hAs`, default `h2`), `CloseButton`, `Body`,
+  `Footer`, the same on `Drawer`. Without a `Title`, give it an `aria-label`.
+- `useDialog().dismiss()` closes the one it's rendered in; `useOverlay(id)` gives
+  `{ isOpen, open, close, toggle }`; `useMainSet()` has `openOverlayById`, `closeOverlayById`,
+  `toggleOverlayOpenById`.
+- The initial focus goes to an element with `autoFocus` / `data-autofocus`, else the first
+  focusable one.
+- `start` / `end` follow `dir`: a drawer at `end` opens on the left in an RTL section.
+
+### Popover
+
+A non-modal panel next to its trigger, positioned by [Floating UI](https://floating-ui.com)
+(it flips and shifts to stay on screen). It moves the focus inside; Escape closes it and returns
+the focus; a press outside or Tab-ing away closes it too.
+
+```tsx
+<Popover popPlacement="bottom" popAlign="end">
+  <Popover.Trigger>
+    <Button>Filters</Button>
+  </Popover.Trigger>
+  <Popover.Content aria-label="Filters">…</Popover.Content>
+</Popover>
+```
+
+Props: `popPlacement` (`top` · `bottom` · `start` · `end`), `popAlign` (`start` · `center` ·
+`end`), `popIsOpen` + `popOnOpenChange`, `popDefaultIsOpen`. `Popper` (`elements`) is the
+CSS-only variant: it shows on hover / focus-within, no script.
+
+### Tooltip
+
+```tsx
+<Tooltip tipContent="Copy link">
+  <Button btnIsIcon aria-label="Copy link">
+    <CopyIcon />
+  </Button>
+</Tooltip>
+```
+
+On hover (after `tipDelay`, 400ms) and on keyboard focus; it stays while the pointer is over it,
+Escape hides it (WCAG 1.4.13). It's the trigger's description (`aria-describedby`), so an icon
+button still needs its `aria-label`. Props: `tipPlacement` (default `top`), `tipAlign`,
+`tipDelay`, `tipIsDisabled`. Disabled buttons fire no pointer events: wrap them in a `span`.
+
+### Menu
+
+```tsx
+<Menu>
+  <Menu.Trigger>
+    <Button>Actions</Button>
+  </Menu.Trigger>
+  <Menu.List>
+    <Menu.Item mnuOnSelect={rename}>Rename</Menu.Item>
+    <Menu.Item mnuAs="a" href="/export">
+      Export
+    </Menu.Item>
+    <Menu.Separator />
+    <Menu.Group mnuLabel="Danger zone">
+      <Menu.Item mnuTone="error" mnuOnSelect={remove}>
+        Delete
+      </Menu.Item>
+    </Menu.Group>
+  </Menu.List>
+</Menu>
+```
+
+Keyboard (WAI-ARIA menu button): Enter / Space / ↓ on the trigger open it on the first item, ↑
+on the last; ↑ / ↓ / Home / End move; typing jumps to an item by its first letters; Enter /
+Space / a click select and close it, returning the focus; Escape closes it; Tab closes it and
+moves on. `mnuIsDisabled` items stay focusable but do nothing. Props: `mnuPlacement`,
+`mnuAlign`, `mnuIsOpen` + `mnuOnOpenChange`.
+
+### Toasts
+
+```tsx
+const { toast } = useToast();
+
+toast({ tstTitle: 'Saved', srfTheme: 'success' });
+toast({
+  tstTitle: 'Message archived',
+  tstAction: { label: 'Undo', onClick: unarchive },
+});
+```
+
+| Option           | Default                                                             |
+| ---------------- | ------------------------------------------------------------------- |
+| `tstTitle`       | required                                                            |
+| `tstDescription` |                                                                     |
+| `srfTheme`       | `base`; `error` is announced assertively                            |
+| `srfVariant`     | `soft`                                                              |
+| `tstDuration`    | 5000ms, paused while hovered or focused; `Infinity` until dismissed |
+| `tstAction`      | `{ label, onClick }`, also dismisses                                |
+| `tstId`          | the same id shows it again in place ("Saving…" → "Saved")           |
+
+`toast()` returns the id, `dismissToast(id)` closes it. At most 5 are shown. Name the list in
+your language with `<MainSetProvider toastRegionLabel="Сповіщення">`.
+
+## Disclosure (`containers`)
+
+### Tabs
+
+```tsx
+<Tabs tbsDefaultId="profile">
+  <Tabs.List aria-label="Account">
+    <Tabs.Trigger tbsId="profile">Profile</Tabs.Trigger>
+    <Tabs.Trigger tbsId="billing">Billing</Tabs.Trigger>
+  </Tabs.List>
+  <Tabs.Content tbsId="profile">…</Tabs.Content>
+  <Tabs.Content tbsId="billing">…</Tabs.Content>
+</Tabs>
+```
+
+← / → move between tabs (mirrored in an RTL section), Home / End jump; only the selected tab
+is in the Tab order. Props: `tbsOrientation` (`vertical`: ↑ / ↓), `tbsActivation` (`auto`
+selects on arrow keys; `manual` waits for Enter / Space), `tbsControllerId` +
+`tbsOnBtnTabChangeClick` (controlled).
+
+### Accordion
+
+```tsx
+<Accordion accDefaultOpenIds={['shipping']}>
+  <Accordion.Item accId="shipping">
+    <Accordion.Trigger>Shipping</Accordion.Trigger>
+    <Accordion.Panel>Free over 50 €.</Accordion.Panel>
+  </Accordion.Item>
+  <Accordion.Item accId="returns">
+    <Accordion.Trigger>Returns</Accordion.Trigger>
+    <Accordion.Panel>30 days.</Accordion.Panel>
+  </Accordion.Item>
+</Accordion>
+```
+
+Props: `accType` (`single` default · `multiple`), `accIsCollapsible` (single: whether all can
+close, default `true`), `accHeadingAs` (the triggers' heading level, default `h3`, to fit the
+page outline), `accOpenIds` + `accOnOpenChange` (controlled); item `accIsDisabled`. Collapsed
+panels stay in the DOM (`hidden`), ↑ / ↓ / Home / End move between triggers.

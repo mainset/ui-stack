@@ -18,8 +18,8 @@ Each component's CSS comes in two files, applied together:
 | `{element}.scss` (theme)   | the mainset look: colors, borders, radius, typography, shadows, opacity, motion           | the design changes  |
 
 - A test keeps normalize layers free of colors, typography, radius, shadows and motion.
-- Some elements have one layer only: mechanics only (`container`, `list`, `popper`,
-  `floating-box`, React's overlay) or look only (`surface`). Utilities (spacing, flex, grid,
+- Some elements have one layer only: mechanics only (`container`, `list`, `overlay`, `popper`,
+  `floating-box`) or look only (`surface`). Utilities (spacing, flex, grid,
   text, background, border, section) are a single file: they only apply token values.
 - Component tokens (`_{element}.tokens.scss`) load with the normalize layer: both layers read
   them, and you override them like any token.
@@ -54,7 +54,8 @@ A test fails on physical properties in any stylesheet. A symmetric glyph that ne
 sides (the select chevron) is marked `rtl-safe:` on the line above. Your own CSS on top should
 follow the same rule.
 
-Props with a prefix (`spc*`, `flx*`, `lay*`, `grd*`, `ctn*`, `txt*`, `lnk*`, `ctl*`, `spn*`) map
+Props with a prefix (`spc*`, `flx*`, `lay*`, `grd*`, `ctn*`, `txt*`, `lnk*`, `ctl*`, `spn*`,
+`btn*`, `ovr*`, `dlg*`, `tbs*`) map
 to modifier classes: `ctlSize: 'lg'` → `ms-control--size-lg`. Props marked _responsive_ also take
 a per-breakpoint object, see [Responsive props](../README.md#responsive-props).
 
@@ -161,6 +162,22 @@ The current tone's text color (`--ms-tone-text`), `--ms-tone-solid-hover` on hov
 `lnkUnderline`: `always` (default; links inside running text need it, WCAG 1.4.1), `hover`,
 `none`. `aria-disabled="true"` disables it. Re-color with a tone (`ms-tone-error`) or `txtColor`.
 
+## Actions
+
+### Icon button
+
+`ms-button--icon` (`btnIsIcon`) makes a button a square of the control height, for an icon
+alone. Give it an `aria-label`.
+
+```html
+<button
+  class="ms-background ms-border ms-surface ms-surface--variant-ghost ms-control ms-control--size-base ms-button ms-button--icon"
+  aria-label="Close"
+>
+  <!-- CLOSE_ICON__SVG from @mainset/ui-core -->
+</button>
+```
+
 ## Forms
 
 Native elements, uncontrolled: they submit, reset and validate like plain HTML.
@@ -260,3 +277,172 @@ A ring in `currentcolor` (so it follows the text, e.g. `on-solid` inside a solid
 
 `ms-visually-hidden` hides from the screen and keeps it for assistive tech;
 `ms-visually-hidden-focusable` shows it while focused (skip links).
+
+## Overlays
+
+Dialogs, drawers, popovers, tooltips and menus. ui-core has their classes and states; the
+behaviour (focus, keyboard, positioning) is script: the [React containers](../../react/docs/components.md#overlays-containers),
+or your own.
+
+States are attributes, so any script can drive them: `data-state="open" | "closed"` runs the
+enter / exit animations, `aria-expanded` / `aria-selected` / `aria-disabled` / `hidden` the rest.
+Animations use the motion tokens, so they stop under reduced motion. Keep a closing element
+rendered until its `animationend`.
+
+### Dialog and drawer
+
+```html
+<div class="ms-backdrop ms-backdrop--visible"></div>
+<div class="ms-overlay ms-overlay--placement-center">
+  <div
+    class="ms-dialog ms-dialog--size-sm"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="delete-title"
+    data-state="open"
+  >
+    <div class="ms-dialog__header">
+      <h2 class="ms-dialog__title" id="delete-title">Delete the project?</h2>
+      <button class="… ms-button ms-button--icon" aria-label="Close">…</button>
+    </div>
+    <div class="ms-dialog__body">It can't be undone.</div>
+    <div class="ms-dialog__footer">…actions</div>
+  </div>
+</div>
+```
+
+- `ms-overlay` is the fixed positioner above the backdrop: `--placement-center` (with a
+  gutter), `start` / `end` (inline edges: they follow `dir`), `top` / `bottom`.
+- `ms-dialog--size-{xs|sm|base|lg|xl|full}`; the body scrolls, header and footer stay.
+- A drawer is `ms-dialog--drawer` in an edge placement: full height at `start` / `end`, full
+  width at `top` / `bottom`; the size is its depth. It slides in from its own edge, in RTL too.
+
+### Popover and tooltip
+
+```html
+<div class="ms-popover" role="dialog" aria-label="Filters" data-state="open">
+  …
+</div>
+<div class="ms-tooltip" role="tooltip" id="copy-tip">Copy link</div>
+```
+
+Both are positioned by script (`position: fixed` + inline `top` / `left` from the real layout,
+so they follow the section's direction). `ms-popover` is a surface panel, `ms-tooltip` a short
+dark label (`hidden` while not shown), referenced by its trigger's `aria-describedby`.
+
+### Menu
+
+```html
+<div class="ms-popover ms-menu" role="menu" aria-labelledby="actions-button">
+  <button class="ms-menu__item" role="menuitem" tabindex="-1">Rename</button>
+  <a class="ms-menu__item" role="menuitem" tabindex="-1" href="/export"
+    >Export</a
+  >
+  <div class="ms-menu__separator" role="separator"></div>
+  <div role="group" aria-labelledby="danger">
+    <div class="ms-menu__group-label" id="danger" aria-hidden="true">
+      Danger zone
+    </div>
+    <button
+      class="ms-menu__item ms-menu__item--toned ms-tone-error"
+      role="menuitem"
+      tabindex="-1"
+    >
+      Delete
+    </button>
+  </div>
+</div>
+```
+
+The highlighted item is the focused one. Disabled items keep the focus (`aria-disabled="true"`).
+
+## Disclosure
+
+### Tabs
+
+```html
+<div class="ms-tabs ms-tabs--orientation-horizontal">
+  <div class="ms-tabs__list" role="tablist" aria-label="Account">
+    <button
+      class="ms-tabs__tab"
+      role="tab"
+      aria-selected="true"
+      aria-controls="p1"
+      id="t1"
+    >
+      Profile
+    </button>
+    <button
+      class="ms-tabs__tab"
+      role="tab"
+      aria-selected="false"
+      tabindex="-1"
+      id="t2"
+    >
+      Billing
+    </button>
+  </div>
+  <div
+    class="ms-tabs__panel"
+    role="tabpanel"
+    id="p1"
+    aria-labelledby="t1"
+    tabindex="0"
+  >
+    …
+  </div>
+</div>
+```
+
+`--orientation-vertical` puts the list beside the panel, its line on the panel's side (in RTL
+too). The selected tab is in the current tone.
+
+### Accordion item
+
+```html
+<div class="ms-disclosure">
+  <h3 class="ms-disclosure__heading">
+    <button
+      class="ms-disclosure__trigger"
+      aria-expanded="true"
+      aria-controls="ship"
+      id="ship-t"
+    >
+      Shipping <span class="ms-disclosure__icon" aria-hidden="true"></span>
+    </button>
+  </h3>
+  <div
+    class="ms-disclosure__panel"
+    role="region"
+    id="ship"
+    aria-labelledby="ship-t"
+  >
+    …
+  </div>
+</div>
+```
+
+The chevron turns with `aria-expanded`; a collapsed panel gets `hidden`.
+
+## Alerts and toasts
+
+```html
+<div
+  class="ms-alert ms-background ms-border ms-surface ms-surface--variant-soft ms-tone-warning"
+  role="alert"
+>
+  <span class="ms-alert__icon" aria-hidden="true">…</span>
+  <div class="ms-alert__content">
+    <p class="ms-alert__title">Payment failed</p>
+    <div class="ms-alert__description">Your card was declined.</div>
+  </div>
+  <div class="ms-alert__actions">…</div>
+</div>
+```
+
+Colors come from the surface + tone (`surfaceRecipe({ srfTheme, srfVariant })`). Use
+`role="alert"` for urgent messages, `role="status"` for the rest.
+
+Toasts are alerts with `ms-toast` (a shadow, enter / exit animations) in an
+`<ol class="ms-toast-region">`, fixed in the block-end / inline-end corner. Announce them through
+a live region that is already in the page: one added together with its content may not be read.
