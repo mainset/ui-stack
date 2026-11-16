@@ -1,0 +1,24 @@
+@use '../../styles/options';
+@use './tooltip.variables' as tooltipVars;
+
+// Theme layer (mainset look) on top of `tooltip-normalize.scss`
+$tooltip: tooltipVars.$class-selector;
+
+#{options.where($tooltip)} {
+  color: var(--ms-tooltip-color);
+  font-size: var(--ms-font-size-text-xs);
+  letter-spacing: var(--ms-letter-spacing-text-xs);
+  line-height: var(--ms-line-height-text-xs);
+  background-color: var(--ms-tooltip-background);
+  border-radius: var(--ms-tooltip-radius);
+}
+
+@keyframes ms-tooltip-enter {
+  from {
+    opacity: 0;
+  }
+}
+
+#{options.where('#{$tooltip}:not([hidden])')} {
+  animation: ms-tooltip-enter var(--ms-duration-fast) var(--ms-easing-enter);
+}

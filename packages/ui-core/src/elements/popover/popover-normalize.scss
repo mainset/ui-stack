@@ -1,0 +1,28 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './popover.tokens';
+@use '../../styles/options';
+@use './popover.variables' as popoverVars;
+
+// Normalize layer: a floating panel next to its trigger. Its position (`top` / `left`) is set
+// inline by the positioning script (Floating UI in React), which measures the real layout, so
+// it follows the direction of the section as well.
+$popover: popoverVars.$class-selector;
+
+#{options.where($popover)} {
+  z-index: var(--ms-z-index-popover);
+  box-sizing: border-box;
+  max-inline-size: min(
+    var(--ms-popover-max-width),
+    calc(100vw - 2 * var(--ms-popover-gutter))
+  );
+  padding: var(--ms-popover-padding);
+}
+
+#{options.where('#{$popover}:focus')} {
+  outline: none;
+}
+
+// Closing: still rendered for its exit animation, no longer interactive
+#{options.where('#{$popover}[data-state="closed"]')} {
+  pointer-events: none;
+}

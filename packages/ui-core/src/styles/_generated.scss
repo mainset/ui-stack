@@ -990,6 +990,10 @@ $class-name-config-map: (
       ),
     ),
   ),
+  'ms-popover': (
+    'composed': false,
+    'props': (),
+  ),
   'ms-popper': (
     'composed': false,
     'props': (
@@ -1242,6 +1246,10 @@ $class-name-config-map: (
     ),
   ),
   'ms-toast': (
+    'composed': false,
+    'props': (),
+  ),
+  'ms-tooltip': (
     'composed': false,
     'props': (),
   ),
