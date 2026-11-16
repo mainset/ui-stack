@@ -83,6 +83,16 @@ export { POPPER_WRAPPER__CLASS_NAME_CONFIG } from './popper/index.mjs';
 export type { PopperWrapperStyleProps } from './popper/index.mjs';
 export { SECTION__CLASS_NAME_CONFIG } from './section/index.mjs';
 export type { SectionStyleProps } from './section/index.mjs';
+export {
+  TABLE__CLASS_NAME_CONFIG,
+  TABLE_CELL__CLASS_NAME_CONFIG,
+  TABLE_WRAPPER__CLASS_NAME_CONFIG,
+} from './table/index.mjs';
+export type {
+  TableCellStyleProps,
+  TableSortDirection,
+  TableStyleProps,
+} from './table/index.mjs';
 export { TOOLTIP__CLASS_NAME_CONFIG } from './tooltip/index.mjs';
 export { TOAST__CLASS_NAME_CONFIG } from './toast/index.mjs';
 export { TABS__CLASS_NAME_CONFIG } from './tabs/index.mjs';

@@ -1,0 +1,21 @@
+// Component tokens (Tier 3) of tables
+:where(:root) {
+  --ms-table-cell-padding-block-sm: var(--ms-spacing-scale-element-sm);
+  --ms-table-cell-padding-inline-sm: var(--ms-spacing-scale-element-lg);
+  --ms-table-cell-padding-block-base: var(--ms-spacing-scale-element-lg);
+  --ms-table-cell-padding-inline-base: var(--ms-spacing-scale-element-xl);
+  --ms-table-cell-padding-block-lg: var(--ms-spacing-scale-element-xl);
+  --ms-table-cell-padding-inline-lg: var(--ms-spacing-scale-component-xs);
+  --ms-table-border-width: var(--ms-border-width-base);
+  --ms-table-radius: var(--ms-border-radius-base);
+  --ms-table-sort-icon-size: 0.5em;
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-table-border-color: var(--ms-color-border-subtle);
+  --ms-table-header-background: var(--ms-color-bg-surface);
+  --ms-table-header-color: var(--ms-color-text-muted);
+  --ms-table-stripe-background: var(--ms-color-bg-subtle);
+  --ms-table-row-background-hover: var(--ms-color-bg-subtle);
+}

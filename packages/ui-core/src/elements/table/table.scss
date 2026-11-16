@@ -1,0 +1,103 @@
+@use '../../styles/options';
+@use './table.variables' as tableVars;
+
+// Theme layer (mainset look) on top of `table-normalize.scss`: a line between rows, a muted
+// header, optional stripes / hover / cell borders, the selected row in the current tone
+$table: tableVars.$class-selector;
+$row: '#{$table} > * > tr';
+$cell: '#{$row} > th, #{$row} > td';
+$line: var(--ms-table-border-width) solid var(--ms-table-border-color);
+
+#{options.where($table)} {
+  font-size: var(--ms-font-size-text-sm);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--ms-letter-spacing-text-sm);
+  line-height: var(--ms-line-height-text-sm);
+}
+
+#{options.where('#{$table} > caption')} {
+  color: var(--ms-color-text-muted);
+}
+
+#{options.where($cell)} {
+  border-block-end: $line;
+}
+
+#{options.where('#{$table} > tbody > tr:last-child > th, #{$table} > tbody > tr:last-child > td')} {
+  border-block-end: 0;
+}
+
+#{options.where('#{$table} > thead > tr > th')} {
+  font-weight: var(--ms-font-weight-medium);
+  color: var(--ms-table-header-color);
+  background-color: var(--ms-table-header-background);
+}
+
+#{options.where('#{$table} > tfoot > tr > th, #{$table} > tfoot > tr > td')} {
+  font-weight: var(--ms-font-weight-medium);
+  border-block-start: $line;
+  border-block-end: 0;
+}
+
+#{options.where('#{$table}--striped > tbody > tr:nth-child(even)')} {
+  background-color: var(--ms-table-stripe-background);
+}
+
+#{options.where('#{$table}--hoverable > tbody > tr:hover')} {
+  background-color: var(--ms-table-row-background-hover);
+}
+
+// NOTE: read here, not through a token, so `ms-tone-*` on the table or the row re-colors it
+#{options.where('#{$table} > tbody > tr[aria-selected="true"]')} {
+  background-color: var(--ms-tone-subtle);
+}
+
+// Bordered: a frame, and a line between columns too
+#{options.where('#{$table}--bordered')} {
+  border: $line;
+  border-radius: var(--ms-table-radius);
+}
+
+#{options.where('#{$table}--bordered > * > tr > * + *')} {
+  border-inline-start: $line;
+}
+
+#{options.where('#{$table}--bordered > thead > tr:first-child > :first-child')} {
+  border-start-start-radius: var(--ms-table-radius);
+}
+
+#{options.where('#{$table}--bordered > thead > tr:first-child > :last-child')} {
+  border-start-end-radius: var(--ms-table-radius);
+}
+
+// Sort indicator: hidden until hovered, a chevron up / down once sorted
+// NOTE: two borders of a square turned 45°: symmetric, so it needs no mirroring in RTL
+#{options.where('#{$table}__sort-icon')} {
+  margin-block-start: calc(-0.5 * var(--ms-table-sort-icon-size));
+  opacity: 0;
+
+  // rtl-safe: a symmetric chevron
+  border-right: 0.125em solid currentcolor;
+  border-bottom: 0.125em solid currentcolor;
+  transform: rotate(45deg);
+  transition:
+    opacity var(--ms-duration-fast) var(--ms-easing-standard),
+    transform var(--ms-duration-base) var(--ms-easing-standard);
+}
+
+#{options.where('#{$table}__sort:hover > #{$table}__sort-icon, #{$table}__sort:focus-visible > #{$table}__sort-icon')} {
+  opacity: 0.5;
+}
+
+#{options.where('th[aria-sort] > #{$table}__sort')} {
+  color: var(--ms-color-text-base);
+}
+
+#{options.where('th[aria-sort] > #{$table}__sort > #{$table}__sort-icon')} {
+  opacity: 1;
+}
+
+#{options.where('th[aria-sort="ascending"] > #{$table}__sort > #{$table}__sort-icon')} {
+  margin-block-start: calc(0.5 * var(--ms-table-sort-icon-size));
+  transform: rotate(-135deg);
+}

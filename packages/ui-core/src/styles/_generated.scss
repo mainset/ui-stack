@@ -1129,6 +1129,70 @@ $class-name-config-map: (
     'composed': false,
     'props': (),
   ),
+  'ms-table__cell': (
+    'composed': false,
+    'props': (
+      'tblAlign': (
+        'modifier': 'align',
+        'options': (
+          'start',
+          'center',
+          'end',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
+  'ms-table-wrapper': (
+    'composed': false,
+    'props': (),
+  ),
+  'ms-table': (
+    'composed': false,
+    'props': (
+      'tblIsStriped': (
+        'modifier': 'striped',
+        'options': (
+          true,
+          false,
+        ),
+        'responsive': false,
+      ),
+      'tblIsHoverable': (
+        'modifier': 'hoverable',
+        'options': (
+          true,
+          false,
+        ),
+        'responsive': false,
+      ),
+      'tblIsBordered': (
+        'modifier': 'bordered',
+        'options': (
+          true,
+          false,
+        ),
+        'responsive': false,
+      ),
+      'tblIsStickyHeader': (
+        'modifier': 'sticky-header',
+        'options': (
+          true,
+          false,
+        ),
+        'responsive': false,
+      ),
+      'tblSize': (
+        'modifier': 'size',
+        'options': (
+          'sm',
+          'base',
+          'lg',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-tabs': (
     'composed': false,
     'props': (
