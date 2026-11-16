@@ -1,0 +1,23 @@
+@use '../../styles/options';
+
+// Normalize layer: label, control, hint and error stacked in one column
+#{options.where('.ms-label')} {
+  display: inline-block;
+}
+
+// NOTE: decorative, the input's `required` is what assistive tech announces.
+// The second `content` (with empty alt text) hides it from screen readers where supported.
+#{options.where('.ms-label--required')}::after {
+  content: ' *';
+  content: ' *' / '';
+}
+
+#{options.where('.ms-field')} {
+  display: grid;
+  gap: var(--ms-spacing-scale-element-base);
+  min-inline-size: 0;
+}
+
+#{options.where('.ms-field__hint, .ms-field__error')} {
+  margin: 0;
+}

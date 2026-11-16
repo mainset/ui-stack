@@ -1,0 +1,17 @@
+// Component tokens (Tier 3) of checkboxes, radios and switches
+:where(:root) {
+  --ms-choice-size: 1rem;
+  --ms-switch-width: 2.25rem;
+  --ms-switch-height: 1.25rem;
+  --ms-switch-thumb-offset: 0.1875rem;
+  --ms-switch-thumb-size: calc(
+    var(--ms-switch-height) - 2 * var(--ms-switch-thumb-offset)
+  );
+}
+
+// NOTE: scheme colors, so declared on every theme root (see `_input.tokens.scss`)
+:where(:root, [data-theme]) {
+  --ms-choice-border-color: var(--ms-color-border-strong);
+  --ms-switch-track-color: var(--ms-color-border-strong);
+  --ms-switch-thumb-color: var(--ms-color-bg-surface);
+}

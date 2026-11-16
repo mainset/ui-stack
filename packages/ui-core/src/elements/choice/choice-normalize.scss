@@ -1,0 +1,88 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './choice.tokens';
+
+// Normalize layer: native inputs without their platform look, sized by tokens.
+// NOTE: selectors are `input:where(…)` (0,0,1) and states stay inside `:where()`: later rules win,
+// utilities / app classes (0,1,0) always win.
+// No pseudo-elements on inputs (Firefox < 88 can't draw them) and no physical sides: the
+// checkbox mark is a sibling svg, the switch thumb a sibling span moved along the inline axis,
+// so both follow the `direction` of their section (`dir="rtl"` on any ancestor).
+input:where(.ms-checkbox__input, .ms-radio, .ms-switch__input) {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  margin: 0;
+  appearance: none;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+input:where(.ms-checkbox__input, .ms-radio) {
+  inline-size: var(--ms-choice-size);
+  block-size: var(--ms-choice-size);
+}
+
+input:where(.ms-checkbox__input, .ms-radio, .ms-switch__input):where(
+    :disabled
+  ) {
+  cursor: not-allowed;
+}
+
+// ----- Checkbox & switch wrappers: the input + its sibling in one grid cell -----
+:where(.ms-checkbox, .ms-switch) {
+  display: inline-grid;
+  flex-shrink: 0;
+  align-items: center;
+  vertical-align: middle;
+}
+
+:where(.ms-checkbox > *, .ms-switch > *) {
+  grid-area: 1 / 1;
+}
+
+:where(.ms-checkbox__icon) {
+  inline-size: var(--ms-choice-size);
+  block-size: var(--ms-choice-size);
+  pointer-events: none;
+}
+
+:where(.ms-checkbox__check, .ms-checkbox__dash) {
+  display: none;
+}
+
+:where(.ms-checkbox__input:checked:not(:indeterminate) + .ms-checkbox__icon)
+  :where(.ms-checkbox__check),
+:where(.ms-checkbox__input:indeterminate + .ms-checkbox__icon)
+  :where(.ms-checkbox__dash) {
+  display: inline;
+}
+
+// ----- Switch: the input is the track, the thumb slides from the inline start to the end -----
+input:where(.ms-switch__input) {
+  inline-size: var(--ms-switch-width);
+  block-size: var(--ms-switch-height);
+}
+
+:where(.ms-switch__thumb) {
+  box-sizing: border-box;
+  justify-self: start;
+  inline-size: var(--ms-switch-thumb-size);
+  block-size: var(--ms-switch-thumb-size);
+  margin-inline-start: var(--ms-switch-thumb-offset);
+  pointer-events: none;
+}
+
+:where(.ms-switch__input:checked + .ms-switch__thumb) {
+  margin-inline-start: calc(
+    var(--ms-switch-width) - var(--ms-switch-thumb-size) - var(
+        --ms-switch-thumb-offset
+      )
+  );
+}
+
+// ----- Label: control + text -----
+:where(.ms-choice) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ms-spacing-scale-element-xl);
+  cursor: pointer;
+}

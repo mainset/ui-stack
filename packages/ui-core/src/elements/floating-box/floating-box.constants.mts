@@ -3,7 +3,7 @@
 // Foundation (tokens + base styles) goes first; bundlers dedupe it across elements.
 import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
-import './floating-box.scss';
+import './floating-box-normalize.scss';
 
 const FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG = {
   baseClass: 'ms-floating-box',

@@ -4,6 +4,7 @@
 import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
 import { SIZE_PLAIN__ELEMENT_OPTIONS } from '../elements.constants.mjs';
+import './control-normalize.scss';
 import './control.scss';
 
 const CONTROL__CLASS_NAME_CONFIG = {

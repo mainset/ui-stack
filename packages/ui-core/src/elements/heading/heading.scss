@@ -3,8 +3,8 @@
 
 $heading: '.ms-heading';
 
+// Theme layer (mainset look) on top of `heading-normalize.scss`
 #{options.where($heading)} {
-  margin: 0;
   font-weight: var(--ms-font-weight-semibold);
 }
 

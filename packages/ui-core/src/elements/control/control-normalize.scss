@@ -1,0 +1,29 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './control.tokens';
+@use '../../styles/options';
+@use './control.variables' as controlVars;
+
+// Normalize layer: the sizing mechanics shared by every interactive control.
+// The size class only re-points the current `--ms-control-*` geometry values (no size suffix) to the
+// sized tokens (`--ms-control-*-{size}`, `_control.tokens.scss`); one rule consumes them.
+$control: controlVars.$class-selector;
+
+#{options.where($control)} {
+  --ms-control-height: var(--ms-control-height-base);
+  --ms-control-padding-inline: var(--ms-control-padding-inline-base);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ms-control-gap);
+  min-block-size: var(--ms-control-height);
+  padding-block: 0;
+  padding-inline: var(--ms-control-padding-inline);
+  white-space: nowrap;
+}
+
+@include options.each-class(controlVars.$base-class, 'ctlSize') using
+  ($size, $value) {
+  --ms-control-height: var(--ms-control-height-#{$size});
+  --ms-control-padding-inline: var(--ms-control-padding-inline-#{$size});
+}

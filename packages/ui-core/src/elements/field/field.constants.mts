@@ -3,6 +3,7 @@
 // Foundation (tokens + base styles) goes first; bundlers dedupe it across elements.
 import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
+import './field-normalize.scss';
 import './field.scss';
 
 /** A form `<label>`; `--required` appends a decorative asterisk (use `required` on the input) */

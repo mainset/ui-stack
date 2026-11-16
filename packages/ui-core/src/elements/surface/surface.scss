@@ -1,6 +1,7 @@
 @use '../../styles/options';
 @use './surface.variables' as surfaceVars;
 
+// Theme layer only: surface is the mainset look itself (no mechanics of its own).
 // Surface = tone × variant.
 // A tone (`.ms-tone-*`, or the inherited default) only *sets* `--ms-tone-*`;
 // a variant only *reads* them. N tones + M variants, instead of N × M overrides.

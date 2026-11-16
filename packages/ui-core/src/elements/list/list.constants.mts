@@ -3,7 +3,7 @@
 // Foundation (tokens + base styles) goes first; bundlers dedupe it across elements.
 import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
-import './list.scss';
+import './list-normalize.scss';
 
 const LIST__CLASS_NAME_CONFIG = {
   baseClass: 'ms-list',

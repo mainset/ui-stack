@@ -1,5 +1,5 @@
 /**
- * Writes `dist/esm/styles/index.min.css` for apps without a bundler (`<link>`, CDN, server templates).
+ * Writes `dist/esm/styles/{index,normalize}.min.css` for apps without a bundler (`<link>`, CDN, server templates).
  * Every other built stylesheet stays unminified on purpose: an app's bundler minifies those itself,
  * and readable package CSS is easier to debug.
  * Targets the supported browsers (root `.browserslistrc`), so no newer syntax is introduced.
@@ -12,18 +12,21 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 import { BROWSERSLIST } from '../../../scripts/browserslist.mjs';
 
-const source = new URL('../dist/esm/styles/index.css', import.meta.url);
-const target = new URL('../dist/esm/styles/index.min.css', import.meta.url);
+// The two bundles meant for `<link>`: everything, and the headless normalize layers
+for (const name of ['index', 'normalize']) {
+  const source = new URL(`../dist/esm/styles/${name}.css`, import.meta.url);
+  const target = new URL(`../dist/esm/styles/${name}.min.css`, import.meta.url);
 
-const { code } = transform({
-  filename: 'index.css',
-  code: readFileSync(source),
-  minify: true,
-  targets: browserslistToTargets(browserslist(BROWSERSLIST)),
-});
+  const { code } = transform({
+    filename: `${name}.css`,
+    code: readFileSync(source),
+    minify: true,
+    targets: browserslistToTargets(browserslist(BROWSERSLIST)),
+  });
 
-writeFileSync(target, code);
+  writeFileSync(target, code);
 
-console.log(
-  `✔ styles/index.min.css: ${(code.length / 1024).toFixed(1)} KiB (from ${(readFileSync(source).length / 1024).toFixed(1)} KiB)`,
-);
+  console.log(
+    `✔ styles/${name}.min.css: ${(code.length / 1024).toFixed(1)} KiB (from ${(readFileSync(source).length / 1024).toFixed(1)} KiB)`,
+  );
+}

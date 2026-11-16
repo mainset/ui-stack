@@ -3,6 +3,7 @@
 // Foundation (tokens + base styles) goes first; bundlers dedupe it across elements.
 import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
+import './button-normalize.scss';
 import './button.scss';
 
 const BUTTON__CLASS_NAME_CONFIG = {

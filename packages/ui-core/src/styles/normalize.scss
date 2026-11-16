@@ -1,0 +1,29 @@
+// Headless bundle: design tokens, base styles, utilities and every component's normalize layer
+// (`*-normalize.scss`: resets, layout mechanics, direction handling), without the mainset look.
+// Use it to keep mainset's structure and behaviour under a completely different visual language:
+//   <link rel="stylesheet" href="@mainset/ui-core/styles/normalize.css" />
+//   <link rel="stylesheet" href="/my-theme.css" />
+// Utilities (spacing, flex, grid, text…) are included: they only apply token values.
+@use './foundation';
+@use '../elements/backdrop/backdrop-normalize';
+@use '../elements/background/background';
+@use '../elements/border/border';
+@use '../elements/button/button-normalize';
+@use '../elements/choice/choice-normalize';
+@use '../elements/container/container-normalize';
+@use '../elements/control/control-normalize';
+@use '../elements/field/field-normalize';
+@use '../elements/flex/flex';
+@use '../elements/floating-box/floating-box-normalize';
+@use '../elements/grid/grid';
+@use '../elements/heading/heading-normalize';
+@use '../elements/hr/hr-normalize';
+@use '../elements/input/input-normalize';
+@use '../elements/layout/layout';
+@use '../elements/link/link-normalize';
+@use '../elements/list/list-normalize';
+@use '../elements/popper/popper-normalize';
+@use '../elements/section/section';
+@use '../elements/spacing/spacing';
+@use '../elements/spinner/spinner-normalize';
+@use '../elements/text-base/text-base';

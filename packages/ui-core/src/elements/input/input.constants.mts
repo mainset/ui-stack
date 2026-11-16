@@ -5,6 +5,7 @@ import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
 // NOTE: an input is always a control too (size, invalid state), so its CSS comes along
 import '../control/control.constants.mjs';
+import './input-normalize.scss';
 import './input.scss';
 
 /** Text-like `<input>`, `<textarea>` and native `<select>`, on top of `.ms-control` (sizes) */

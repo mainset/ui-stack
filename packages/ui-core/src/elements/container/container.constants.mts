@@ -4,7 +4,7 @@
 import '../../styles/foundation.scss';
 import { CONTAINER__SIZE__OPTIONS } from '../../tokens/index.mjs';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
-import './container.scss';
+import './container-normalize.scss';
 
 /** Centered, width-limited content with side gutters (`--ms-container-gutter`) */
 const CONTAINER__CLASS_NAME_CONFIG = {

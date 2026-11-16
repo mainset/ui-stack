@@ -3,6 +3,7 @@
 // Foundation (tokens + base styles) goes first; bundlers dedupe it across elements.
 import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
+import './link-normalize.scss';
 import './link.scss';
 
 /** A text link in the current tone's `text` color (`--ms-tone-text`, primary by default) */

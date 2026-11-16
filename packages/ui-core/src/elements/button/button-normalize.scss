@@ -1,0 +1,25 @@
+@use '../../styles/options';
+@use './button.variables' as buttonVars;
+
+// Normalize layer: button behaviour. Size comes from `.ms-control`, color / variant from
+// `.ms-surface` + tone — see `buttonRecipe()`.
+$button: buttonVars.$class-selector;
+
+#{options.where($button)} {
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+}
+
+#{options.where('#{$button}--full-width')} {
+  inline-size: 100%;
+}
+
+#{options.where('#{$button}:disabled, #{$button}[aria-disabled="true"], #{$button}--disabled')} {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+#{options.where('#{$button}[aria-busy="true"]')} {
+  cursor: progress;
+}

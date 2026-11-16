@@ -1,0 +1,24 @@
+@use '../../styles/options';
+
+// Normalize layer: underline modes and the disabled state
+$link: '.ms-link';
+
+#{options.where($link)} {
+  text-decoration-line: none;
+  cursor: pointer;
+}
+
+#{options.where('#{$link}--underline-always')} {
+  text-decoration-line: underline;
+}
+
+@media (hover: hover) {
+  #{options.where('#{$link}--underline-hover:hover')} {
+    text-decoration-line: underline;
+  }
+}
+
+#{options.where('#{$link}[aria-disabled="true"]')} {
+  cursor: not-allowed;
+  pointer-events: none;
+}

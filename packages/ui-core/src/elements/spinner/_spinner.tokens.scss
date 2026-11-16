@@ -1,0 +1,9 @@
+// Component tokens (Tier 3) of the spinner
+:where(:root) {
+  --ms-spinner-duration: 0.75s;
+  --ms-spinner-size-xs: 0.75rem;
+  --ms-spinner-size-sm: 1rem;
+  --ms-spinner-size-base: 1.25rem;
+  --ms-spinner-size-lg: 1.5rem;
+  --ms-spinner-size-xl: 2rem;
+}

@@ -61,7 +61,8 @@ describe('Checkbox / Radio / Switch', () => {
 
   it('Switch is a checkbox announced as a switch', () => {
     expect(html(<Switch name="email" />)).toBe(
-      '<input type="checkbox" role="switch" class="ms-switch" name="email"/>',
+      '<span class="ms-switch"><input type="checkbox" role="switch" class="ms-switch__input" name="email"/>' +
+        '<span class="ms-switch__thumb" aria-hidden="true"></span></span>',
     );
   });
 

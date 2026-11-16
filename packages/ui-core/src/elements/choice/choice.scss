@@ -1,39 +1,14 @@
-@use '../../styles/options';
+// Theme layer (mainset look) on top of `choice-normalize.scss`.
+// Checked colors follow the current tone (`--ms-tone-solid` / `--ms-tone-on-solid`).
+$motion: var(--ms-duration-fast) var(--ms-easing-standard);
 
-// NOTE: selectors are `input:where(…)` (0,0,1) and states stay inside `:where()`: later rules win,
-// utilities / app classes (0,1,0) and `[aria-invalid]` (0,1,1) always win.
-// No pseudo-elements on inputs (Firefox < 88 can't draw them): the checkbox mark is a sibling
-// svg, the radio dot and the switch thumb are background gradients.
-:where(:root) {
-  --ms-choice-size: 1rem;
-  --ms-switch-width: 2.25rem;
-  --ms-switch-height: 1.25rem;
-}
-
-// NOTE: scheme colors, so declared on every theme root (see `input.scss`)
-:where(:root, [data-theme]) {
-  --ms-choice-border-color: var(--ms-color-border-strong);
-  --ms-switch-track-color: var(--ms-color-border-strong);
-  --ms-switch-thumb-color: var(--ms-color-bg-surface);
-}
-
-// ----- Shared box: checkbox / radio -----
-input:where(.ms-checkbox__input, .ms-radio, .ms-switch) {
-  box-sizing: border-box;
-  flex-shrink: 0;
-  margin: 0;
-  appearance: none;
-  cursor: pointer;
-  vertical-align: middle;
+input:where(.ms-checkbox__input, .ms-radio, .ms-switch__input) {
   transition:
-    background-color var(--ms-duration-fast) var(--ms-easing-standard),
-    background-position var(--ms-duration-fast) var(--ms-easing-standard),
-    border-color var(--ms-duration-fast) var(--ms-easing-standard);
+    background-color $motion,
+    border-color $motion;
 }
 
 input:where(.ms-checkbox__input, .ms-radio) {
-  inline-size: var(--ms-choice-size);
-  block-size: var(--ms-choice-size);
   border: var(--ms-border-width-base) solid var(--ms-choice-border-color);
   background-color: var(--ms-input-background);
 }
@@ -66,78 +41,54 @@ input:where(.ms-radio):where(:checked) {
   );
 }
 
-// ----- Checkbox: input + svg in one grid cell -----
-:where(.ms-checkbox) {
-  display: inline-grid;
-  flex-shrink: 0;
-  vertical-align: middle;
-}
-
-:where(.ms-checkbox > *) {
-  grid-area: 1 / 1;
-}
-
 :where(.ms-checkbox__icon) {
-  inline-size: var(--ms-choice-size);
-  block-size: var(--ms-choice-size);
   fill: none;
   stroke: var(--ms-tone-on-solid);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2;
-  pointer-events: none;
 }
 
-:where(.ms-checkbox__check, .ms-checkbox__dash) {
-  display: none;
-}
-
-:where(.ms-checkbox__input:checked:not(:indeterminate) + .ms-checkbox__icon)
-  :where(.ms-checkbox__check),
-:where(.ms-checkbox__input:indeterminate + .ms-checkbox__icon)
-  :where(.ms-checkbox__dash) {
-  display: inline;
-}
-
-// ----- Switch: track = background color, thumb = a sliding radial gradient -----
-input:where(.ms-switch) {
-  inline-size: var(--ms-switch-width);
-  block-size: var(--ms-switch-height);
+// ----- Switch -----
+input:where(.ms-switch__input) {
   border: 0;
   border-radius: var(--ms-border-radius-pill);
-  background: radial-gradient(
-      circle closest-side,
-      var(--ms-switch-thumb-color) calc(100% - 3px),
-      transparent calc(100% - 2px)
-    )
-    left center / var(--ms-switch-height) var(--ms-switch-height) no-repeat
-    var(--ms-switch-track-color);
+  background-color: var(--ms-switch-track-color);
 }
 
-input:where(.ms-switch):where(:checked) {
-  --ms-switch-thumb-color: var(--ms-tone-on-solid);
-
+input:where(.ms-switch__input):where(:checked) {
   background-color: var(--ms-tone-solid);
-  background-position: right center;
+}
+
+:where(.ms-switch__thumb) {
+  border-radius: 50%;
+  background-color: var(--ms-switch-thumb-color);
+  transition:
+    margin-inline-start $motion,
+    background-color $motion;
+}
+
+:where(.ms-switch__input:checked + .ms-switch__thumb) {
+  background-color: var(--ms-tone-on-solid);
 }
 
 // ----- States -----
-input:where(.ms-checkbox__input, .ms-radio, .ms-switch):where(:disabled) {
+input:where(.ms-checkbox__input, .ms-radio, .ms-switch__input):where(:disabled),
+:where(.ms-switch__input:disabled + .ms-switch__thumb) {
   opacity: var(--ms-opacity-disabled);
-  cursor: not-allowed;
 }
 
-input:where(.ms-checkbox__input, .ms-radio, .ms-switch)[aria-invalid='true'] {
+input:where(
+    .ms-checkbox__input,
+    .ms-radio,
+    .ms-switch__input
+  )[aria-invalid='true'] {
   border-color: var(--ms-color-error-border);
   box-shadow: 0 0 0 var(--ms-border-width-base) var(--ms-color-error-border);
 }
 
-// ----- Label: control + text -----
+// ----- Label -----
 :where(.ms-choice) {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ms-spacing-scale-element-xl);
-  cursor: pointer;
   font-size: var(--ms-font-size-text-sm);
   line-height: var(--ms-line-height-text-sm);
 }

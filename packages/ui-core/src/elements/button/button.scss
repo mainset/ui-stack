@@ -1,31 +1,13 @@
 @use '../../styles/options';
 @use './button.variables' as buttonVars;
 
-// Button behaviour styles only. Size comes from `.ms-control`,
-// color / variant / transitions from `.ms-surface` + tone — see `buttonRecipe()`.
+// Theme layer (mainset look) on top of `button-normalize.scss`
 $button: buttonVars.$class-selector;
-
-#{options.where($button)} {
-  cursor: pointer;
-  text-decoration: none;
-  user-select: none;
-}
 
 #{options.where('#{$button}:active')} {
   opacity: var(--ms-opacity-pressed);
 }
 
-// modifiers
-#{options.where('#{$button}--full-width')} {
-  width: 100%;
-}
-
 #{options.where('#{$button}:disabled, #{$button}[aria-disabled="true"], #{$button}--disabled')} {
   opacity: var(--ms-opacity-disabled);
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-#{options.where('#{$button}[aria-busy="true"]')} {
-  cursor: progress;
 }

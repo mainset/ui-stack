@@ -1,29 +1,7 @@
 @use '../../styles/options';
 @use './hr.variables' as vars;
 
-#{options.where(vars.$class-selector)} {
-  border: none;
-}
-
-#{options.where('#{vars.$class-selector}--hidden')} {
-  opacity: 0;
-}
-
-// Hand-written per direction; the assertion keeps them in sync with `hrDirection` TS options
-@include options.assert-options(
-  vars.$base-class,
-  'hrDirection',
-  (horizontal, vertical)
-);
-
-#{options.where('#{vars.$class-selector}--direction-horizontal')} {
-  height: 1px;
-}
-
-#{options.where('#{vars.$class-selector}--direction-vertical')} {
-  width: 1px;
-}
-
+// Theme layer (mainset look) on top of `hr-normalize.scss`
 @include options.each-class(vars.$base-class, 'hrColor', vars.$color-map) using
   ($option, $value) {
   background-color: $value;
