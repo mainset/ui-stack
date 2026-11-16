@@ -3,18 +3,22 @@ import type {
   BorderStyleProps,
   ButtonStyleProps,
   ElementPlainSize,
+  HoverStyleProps,
   SurfaceStyleProps,
 } from '@mainset/ui-core';
 import { BUTTON__RECIPE_CONFIGS } from '@mainset/ui-core';
 
 import type { ButtonElementType } from '../../elements/ButtonBasic/index.mjs';
+import type { ButtonIconProps } from '../../elements/ButtonBasic/render-button.mjs';
 import { renderButton } from '../../elements/ButtonBasic/render-button.mjs';
 import type { PolymorphicProps } from '../../elements/utils/index.mjs';
 
 type ButtonOwnProps = SurfaceStyleProps &
   BackgroundStyleProps &
   BorderStyleProps &
-  ButtonStyleProps & {
+  ButtonStyleProps &
+  ButtonIconProps &
+  HoverStyleProps & {
     btnIsPending?: boolean;
     btnSize?: ElementPlainSize;
   };

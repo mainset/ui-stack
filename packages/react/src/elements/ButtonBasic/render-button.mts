@@ -1,15 +1,34 @@
-import { cnx, extractClassNamesFromProps, toneRecipe } from '@mainset/ui-core';
+import type { HoverStyleProps } from '@mainset/ui-core';
+import {
+  BUTTON__CLASS_NAME_CONFIG,
+  cnx,
+  extractClassNamesFromProps,
+  extractHoverClassNamesFromProps,
+  toneRecipe,
+} from '@mainset/ui-core';
 import React from 'react';
 
 type ClassNameConfigs = Parameters<typeof extractClassNamesFromProps>[0];
 
-type ButtonRenderProps = Record<string, unknown> & {
-  btnAs?: React.ElementType;
-  btnIsDisabled?: boolean | null;
-  srfTheme?: Parameters<typeof toneRecipe>[0];
-  className?: string;
-  children?: React.ReactNode;
-};
+const { baseClass: BUTTON } = BUTTON__CLASS_NAME_CONFIG;
+
+/** Icon slots of a button, before / after its label; they follow the text direction */
+interface ButtonIconProps {
+  /** An icon before the label (decorative: give it `aria-hidden`) */
+  btnIconStart?: React.ReactNode;
+  /** An icon after the label, e.g. an arrow; with `hvrIsGroup`, `hvrEffect` on it nudges it */
+  btnIconEnd?: React.ReactNode;
+}
+
+type ButtonRenderProps = Record<string, unknown> &
+  ButtonIconProps &
+  HoverStyleProps & {
+    btnAs?: React.ElementType;
+    btnIsDisabled?: boolean | null;
+    srfTheme?: Parameters<typeof toneRecipe>[0];
+    className?: string;
+    children?: React.ReactNode;
+  };
 
 // Tag-specific defaults: a native button gets `type` / `disabled`, others simulate them via ARIA
 function tagProps(
@@ -39,13 +58,26 @@ function tagProps(
  */
 function renderButton(
   configs: ClassNameConfigs,
-  { btnAs, srfTheme, className, children, ...props }: ButtonRenderProps,
+  {
+    btnAs,
+    btnIconStart,
+    btnIconEnd,
+    srfTheme,
+    className,
+    children,
+    ...props
+  }: ButtonRenderProps,
 ) {
   const Component = btnAs || 'button';
-  const [classNames, restProps] = extractClassNamesFromProps(configs, props);
+  const [hoverClassName, withoutHoverProps] =
+    extractHoverClassNamesFromProps(props);
+  const [classNames, restProps] = extractClassNamesFromProps(
+    configs,
+    withoutHoverProps,
+  );
 
   const elementProps: Record<string, unknown> = {
-    className: cnx(className, classNames, toneRecipe(srfTheme)),
+    className: cnx(className, classNames, toneRecipe(srfTheme), hoverClassName),
     ...tagProps(Component, props.btnIsDisabled),
     ...restProps,
   };
@@ -54,7 +86,19 @@ function renderButton(
   if (Component === 'button' && !elementProps.type)
     elementProps.type = 'button';
 
-  return React.createElement(Component, elementProps, children);
+  const iconSlot = (icon: React.ReactNode) =>
+    icon === undefined || icon === null || icon === false
+      ? null
+      : React.createElement('span', { className: `${BUTTON}__icon` }, icon);
+
+  return React.createElement(
+    Component,
+    elementProps,
+    iconSlot(btnIconStart),
+    children,
+    iconSlot(btnIconEnd),
+  );
 }
 
 export { renderButton };
+export type { ButtonIconProps };
