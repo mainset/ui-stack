@@ -26,6 +26,14 @@ $menu: menuVars.$class-selector;
   opacity: var(--ms-opacity-disabled);
 }
 
+#{options.where('#{$menu}__item-indicator')} {
+  fill: none;
+  stroke: var(--ms-menu-item-indicator-color);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
 #{options.where('#{$menu}__separator')} {
   border-block-start: var(--ms-border-width-base) solid
     var(--ms-menu-separator-color);
