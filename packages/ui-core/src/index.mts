@@ -57,6 +57,9 @@ export {
   POPOVER__CLASS_NAME_CONFIG,
   TOOLTIP__CLASS_NAME_CONFIG,
   MENU__CLASS_NAME_CONFIG,
+  TABLE__CLASS_NAME_CONFIG,
+  TABLE_CELL__CLASS_NAME_CONFIG,
+  TABLE_WRAPPER__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
@@ -90,6 +93,9 @@ export type {
   DialogStyleProps,
   OverlayStyleProps,
   TabsStyleProps,
+  TableStyleProps,
+  TableCellStyleProps,
+  TableSortDirection,
 } from './elements/index.mjs';
 export {
   BOX__RECIPE_CONFIGS,

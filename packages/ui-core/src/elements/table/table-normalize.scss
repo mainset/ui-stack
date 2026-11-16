@@ -1,0 +1,74 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './table.tokens';
+@use '../../styles/options';
+@use './table.variables' as tableVars;
+
+// Normalize layer: a full-width table with padded, start-aligned cells, in a wrapper that
+// scrolls it. `border-collapse: separate`, so the sticky header keeps its line.
+$table: tableVars.$class-selector;
+$cell: '#{$table} > * > tr > th, #{$table} > * > tr > td';
+
+#{options.where('.ms-table-wrapper')} {
+  overflow: auto;
+  max-inline-size: 100%;
+}
+
+#{options.where($table)} {
+  --ms-table-cell-padding-block: var(--ms-table-cell-padding-block-base);
+  --ms-table-cell-padding-inline: var(--ms-table-cell-padding-inline-base);
+
+  inline-size: 100%;
+  border-spacing: 0;
+  border-collapse: separate;
+}
+
+@include options.each-class(tableVars.$base-class, 'tblSize') using
+  ($size, $value) {
+  --ms-table-cell-padding-block: var(--ms-table-cell-padding-block-#{$size});
+  --ms-table-cell-padding-inline: var(--ms-table-cell-padding-inline-#{$size});
+}
+
+#{options.where($cell)} {
+  padding: var(--ms-table-cell-padding-block)
+    var(--ms-table-cell-padding-inline);
+  text-align: start;
+  vertical-align: middle;
+}
+
+#{options.where('#{$table} > caption')} {
+  padding-block-end: var(--ms-table-cell-padding-block);
+  text-align: start;
+}
+
+@include options.each-class('ms-table__cell', 'tblAlign') using ($align, $value) {
+  text-align: $value;
+}
+
+#{options.where('#{$table}--sticky-header > thead > tr > th')} {
+  position: sticky;
+  z-index: 1;
+  inset-block-start: 0;
+}
+
+// A sortable column header: the whole label is a button
+#{options.where('#{$table}__sort')} {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ms-spacing-scale-element-base);
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  appearance: none;
+}
+
+#{options.where('#{$table}__sort-icon')} {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  inline-size: var(--ms-table-sort-icon-size);
+  block-size: var(--ms-table-sort-icon-size);
+}

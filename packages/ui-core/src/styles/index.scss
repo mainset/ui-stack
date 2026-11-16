@@ -50,10 +50,12 @@
 @use '../elements/spinner/spinner-normalize';
 @use '../elements/spinner/spinner';
 @use '../elements/surface/surface';
+@use '../elements/table/table-normalize';
+@use '../elements/table/table';
 @use '../elements/tabs/tabs-normalize';
 @use '../elements/tabs/tabs';
+@use '../elements/text-base/text-base';
 @use '../elements/toast/toast-normalize';
 @use '../elements/toast/toast';
-@use '../elements/text-base/text-base';
 @use '../elements/tooltip/tooltip-normalize';
 @use '../elements/tooltip/tooltip';
