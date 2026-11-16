@@ -10,7 +10,15 @@ export { Alert } from './Alert/index.mjs';
 export type { AlertElementType, AlertProps } from './Alert/index.mjs';
 export { AvatarGroup } from './AvatarGroup/index.mjs';
 export type { AvatarGroupProps } from './AvatarGroup/index.mjs';
+export { Breadcrumb } from './Breadcrumb/index.mjs';
+export type {
+  BreadcrumbItemElementType,
+  BreadcrumbItemProps,
+  BreadcrumbProps,
+} from './Breadcrumb/index.mjs';
 export { Button } from './Button/index.mjs';
 export { CloseButton } from './CloseButton/index.mjs';
 export type { CloseButtonProps } from './CloseButton/index.mjs';
 export { Field } from './Field/index.mjs';
+export { Pagination } from './Pagination/index.mjs';
+export type { PaginationProps } from './Pagination/index.mjs';
