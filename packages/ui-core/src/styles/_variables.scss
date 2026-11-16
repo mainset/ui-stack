@@ -1,6 +1,6 @@
 // Public Sass variables of mainset ui-core.
 // Every token value comes from `src/tokens/*.mts` via codegen (`_generated.scss`):
-//   $palette-map, $tone-map, $scheme-map, $space-map, $spacing-scale-map, $layout-gap-map,
+//   $palette-map, $tone-map, $scheme-map, $scheme-token-map, $space-map, $spacing-scale-map, $layout-gap-map,
 //   $breakpoint-map, $container-map, $border-radius-map, $border-width-map, $z-index-map,
 //   $class-name-config-map
 // Edit the TS tokens, then run `pnpm codegen`; never edit the generated file by hand.

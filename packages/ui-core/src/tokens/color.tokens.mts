@@ -54,8 +54,9 @@ const TONE__OPTIONS = [
 type Tone = (typeof TONE__OPTIONS)[number];
 
 /**
- * Only `solid` + `on-solid` are required; `subtle`, `hover`, `border`, `text` are derived at build time
- * by Sass in `oklab` (styles/_theme.scss) unless declared explicitly (e.g. neutrals keep text = solid).
+ * Only `solid` + `on-solid` are required; `subtle`, `hover`, `border`, `text` are derived in `oklab`
+ * by `deriveToneRoles()` (src/theme), at build time (codegen) and at runtime (`createTheme()`),
+ * unless declared explicitly (e.g. neutrals keep text = solid).
  */
 type ToneDefinition = {
   solid: PaletteColor;
@@ -169,11 +170,75 @@ const SCHEME__TOKENS = {
   },
 } as const satisfies Record<ColorScheme, Record<string, PaletteColor>>;
 
+/** The 7 roles every tone provides as `--ms-color-{tone}-{role}` (and `--ms-tone-{role}`) */
+const TONE_ROLE__OPTIONS = [
+  'solid',
+  'solid-hover',
+  'on-solid',
+  'subtle',
+  'subtle-hover',
+  'border',
+  'text',
+] as const;
+type ToneRole = (typeof TONE_ROLE__OPTIONS)[number];
+
+type ToneDerivation = {
+  /** `solid-hover` = `hoverAmount` of `solid` mixed with `hoverTarget` */
+  hoverTarget: PaletteColor;
+  hoverAmount: number;
+  /** `subtle` / `subtle-hover` = this amount of `solid` mixed with the page canvas */
+  subtleAmount: number;
+  subtleHoverAmount: number;
+  /** amount of `solid` mixed with white; `null` keeps the role equal to `solid` */
+  textAmount: number | null;
+  borderAmount: number | null;
+  /** `transparent` tone: a hint of the text color on hover */
+  transparentHoverAlpha: number;
+  shadowColor: string;
+};
+
+/**
+ * How derived tone roles are mixed (in `oklab`), per color scheme. Amounts are 0..1 of `solid`.
+ * Shared by the build (codegen) and the runtime (`createTheme()`), so both always agree.
+ */
+const TONE_DERIVATION__TOKENS = {
+  light: {
+    hoverTarget: 'black',
+    hoverAmount: 0.85,
+    subtleAmount: 0.12,
+    subtleHoverAmount: 0.2,
+    textAmount: null,
+    borderAmount: null,
+    transparentHoverAlpha: 0.1,
+    shadowColor: 'rgb(3 7 18 / 10%)',
+  },
+  dark: {
+    hoverTarget: 'white',
+    hoverAmount: 0.85,
+    subtleAmount: 0.18,
+    subtleHoverAmount: 0.28,
+    // lighten toward white, so tinted text / borders keep contrast on dark surfaces
+    textAmount: 0.55,
+    borderAmount: 0.7,
+    transparentHoverAlpha: 0.1,
+    shadowColor: 'rgb(0 0 0 / 50%)',
+  },
+} as const satisfies Record<ColorScheme, ToneDerivation>;
+
 export {
   COLOR_SCHEME__OPTIONS,
   PALETTE__TOKENS,
   SCHEME__TOKENS,
   TONE__OPTIONS,
   TONE__TOKENS,
+  TONE_DERIVATION__TOKENS,
+  TONE_ROLE__OPTIONS,
 };
-export type { ColorScheme, PaletteColor, Tone, ToneDefinition };
+export type {
+  ColorScheme,
+  PaletteColor,
+  Tone,
+  ToneDefinition,
+  ToneDerivation,
+  ToneRole,
+};

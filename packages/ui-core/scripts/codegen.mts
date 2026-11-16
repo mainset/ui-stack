@@ -13,6 +13,11 @@ import path from 'node:path';
 import * as prettier from 'prettier';
 
 import * as elements from '../src/elements/index.mjs';
+import {
+  deriveToneRoles,
+  deriveTransparentHover,
+  paletteColor,
+} from '../src/theme/derive.mjs';
 import * as tokens from '../src/tokens/index.mjs';
 import type { ClassNameFromPropConfig } from '../src/utils/index.mjs';
 
@@ -51,6 +56,7 @@ function toSass(value: SassData): string {
   if (typeof value === 'number' || typeof value === 'boolean') {
     return String(value);
   }
+
   if (Array.isArray(value)) {
     // NOTE: the trailing comma keeps single-item lists as lists
     return `(${value.map(toSass).join(', ')},)`;
@@ -99,11 +105,75 @@ function collectClassNameConfigs(): SassMap {
   return configMap;
 }
 
+// ----- Color scheme values -----
+// NOTE: derived roles come from the same `deriveToneRoles()` that `createTheme()` runs in the
+// browser, so a runtime theme and the shipped CSS can't drift apart
+const paletteVar = (name: tokens.PaletteColor) =>
+  new Raw(`var(--ms-palette-${name})`);
+
+/** `(token name: value)` of one scheme; plain values, no references to other semantic tokens */
+function schemeTokenMap(scheme: tokens.ColorScheme): Map<string, SassData> {
+  const derivation = tokens.TONE_DERIVATION__TOKENS[scheme];
+  const neutrals: Record<string, tokens.PaletteColor> =
+    tokens.SCHEME__TOKENS[scheme];
+  const map = new Map<string, SassData>();
+
+  for (const [name, ref] of Object.entries(neutrals)) {
+    map.set(`color-${name}`, paletteVar(ref));
+  }
+
+  for (const tone of tokens.TONE__OPTIONS) {
+    const definition: tokens.ToneDefinition = tokens.TONE__TOKENS[tone][scheme];
+    const derived = deriveToneRoles(scheme, {
+      solid: paletteColor(definition.solid),
+      onSolid: paletteColor(definition['on-solid']),
+      canvas: paletteColor(neutrals['bg-canvas']),
+    });
+    // NOTE: a role that isn't mixed stays a palette reference, so palette overrides reach it
+    const roleValue = (role: 'border' | 'text') => {
+      const explicit = definition[role];
+      if (explicit) return paletteVar(explicit);
+      return derivation[`${role}Amount`] === null
+        ? paletteVar(definition.solid)
+        : new Raw(derived[role]);
+    };
+
+    const prefix = `color-${tone}`;
+
+    map.set(`${prefix}-solid`, paletteVar(definition.solid));
+    map.set(`${prefix}-solid-hover`, new Raw(derived['solid-hover']));
+    map.set(`${prefix}-on-solid`, paletteVar(definition['on-solid']));
+    map.set(`${prefix}-subtle`, new Raw(derived.subtle));
+    map.set(`${prefix}-subtle-hover`, new Raw(derived['subtle-hover']));
+    map.set(`${prefix}-border`, roleValue('border'));
+    map.set(`${prefix}-text`, roleValue('text'));
+  }
+
+  map.set(
+    'color-transparent-solid-hover',
+    new Raw(
+      deriveTransparentHover(scheme, paletteColor(neutrals['text-base'])),
+    ),
+  );
+  map.set('shadow-color', new Raw(derivation.shadowColor));
+
+  return map;
+}
+
 // ----- Output -----
 const variables: [string, SassData][] = [
   ['palette-map', rawValues(tokens.PALETTE__TOKENS)],
   ['tone-map', tokens.TONE__TOKENS],
   ['scheme-map', tokens.SCHEME__TOKENS],
+  [
+    'scheme-token-map',
+    new Map(
+      tokens.COLOR_SCHEME__OPTIONS.map((scheme) => [
+        scheme,
+        schemeTokenMap(scheme),
+      ]),
+    ),
+  ],
   [
     'space-map',
     new Map(
@@ -146,6 +216,7 @@ async function main() {
       );
       process.exit(1);
     }
+
     console.log('✔ generated Sass is up to date');
   } else {
     await writeFile(OUTPUT_PATH, output);

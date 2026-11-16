@@ -2,7 +2,10 @@
   "extends": ["@mainset/dev-stack-fe/tsconfig--type-only"],
   "compilerOptions": {
     "rootDir": ".",
-    "outDir": "./dist/types"
+    "outDir": "./dist/types",
+    // NOTE: same built-in APIs as `tsconfig--bundler` (the 2021 browser baseline); the shared
+    // type-only config leaves `lib` implicit, which falls back to es2016 (no `Object.entries`)
+    "lib": ["ES2021", "DOM", "DOM.Iterable"]
   },
   "include": ["src/**/*", "@types/**/*"]
 }
