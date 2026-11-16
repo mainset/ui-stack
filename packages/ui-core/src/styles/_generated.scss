@@ -472,6 +472,31 @@ $class-name-config-map: (
     'composed': false,
     'props': (),
   ),
+  'ms-aspect-ratio': (
+    'composed': false,
+    'props': (
+      'aspRatio': (
+        'modifier': 'ratio',
+        'options': (
+          '1-1',
+          '4-3',
+          '3-2',
+          '16-10',
+          '16-9',
+          '21-9',
+        ),
+        'responsive': false,
+      ),
+      'aspFit': (
+        'modifier': 'fit',
+        'options': (
+          'cover',
+          'contain',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-avatar-group': (
     'composed': false,
     'props': (),

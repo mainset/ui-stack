@@ -67,6 +67,7 @@ export {
   BREADCRUMB__CLASS_NAME_CONFIG,
   SKELETON__CLASS_NAME_CONFIG,
   PROGRESS__CLASS_NAME_CONFIG,
+  ASPECT_RATIO__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
@@ -109,6 +110,7 @@ export type {
   PaginationRangeOptions,
   SkeletonStyleProps,
   ProgressStyleProps,
+  AspectRatioStyleProps,
 } from './elements/index.mjs';
 export {
   BOX__RECIPE_CONFIGS,
