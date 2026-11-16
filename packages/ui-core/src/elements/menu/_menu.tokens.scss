@@ -1,0 +1,17 @@
+// Component tokens (Tier 3) of menus
+:where(:root) {
+  --ms-menu-min-width: 10rem;
+  --ms-menu-max-height: 20rem;
+  --ms-menu-padding: var(--ms-spacing-scale-element-sm);
+  --ms-menu-item-gap: var(--ms-spacing-scale-element-lg);
+  --ms-menu-item-padding-block: var(--ms-spacing-scale-element-base);
+  --ms-menu-item-padding-inline: var(--ms-spacing-scale-element-lg);
+  --ms-menu-item-radius: var(--ms-border-radius-xs);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-menu-item-background-highlight: var(--ms-color-bg-subtle);
+  --ms-menu-separator-color: var(--ms-color-border-subtle);
+  --ms-menu-group-label-color: var(--ms-color-text-muted);
+}

@@ -1,0 +1,40 @@
+@use '../../styles/options';
+@use './menu.variables' as menuVars;
+
+// Theme layer (mainset look) on top of `menu-normalize.scss`
+$menu: menuVars.$class-selector;
+
+#{options.where('#{$menu}__item')} {
+  border-radius: var(--ms-menu-item-radius);
+}
+
+// The highlight follows the focus (arrow keys, and the pointer moves it)
+#{options.where('#{$menu}__item:focus')} {
+  outline: none;
+  background-color: var(--ms-menu-item-background-highlight);
+}
+
+#{options.where('#{$menu}__item:focus-visible')} {
+  outline: none;
+}
+
+#{options.where('#{$menu}__item--toned')} {
+  color: var(--ms-tone-text);
+}
+
+#{options.where('#{$menu}__item[aria-disabled="true"]')} {
+  opacity: var(--ms-opacity-disabled);
+}
+
+#{options.where('#{$menu}__separator')} {
+  border-block-start: var(--ms-border-width-base) solid
+    var(--ms-menu-separator-color);
+}
+
+#{options.where('#{$menu}__group-label')} {
+  color: var(--ms-menu-group-label-color);
+  font-size: var(--ms-font-size-text-xs);
+  font-weight: var(--ms-font-weight-semibold);
+  letter-spacing: var(--ms-letter-spacing-text-xs);
+  line-height: var(--ms-line-height-text-xs);
+}

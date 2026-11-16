@@ -75,6 +75,7 @@ export { LINK__CLASS_NAME_CONFIG } from './link/index.mjs';
 export type { LinkStyleProps } from './link/index.mjs';
 export { LIST__CLASS_NAME_CONFIG } from './list/index.mjs';
 export type { ListStyleProps } from './list/index.mjs';
+export { MENU__CLASS_NAME_CONFIG } from './menu/index.mjs';
 export { OVERLAY__CLASS_NAME_CONFIG } from './overlay/index.mjs';
 export type { OverlayStyleProps } from './overlay/index.mjs';
 export { POPOVER__CLASS_NAME_CONFIG } from './popover/index.mjs';
