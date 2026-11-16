@@ -15,12 +15,6 @@ $button: buttonVars.$class-selector;
   opacity: var(--ms-opacity-pressed);
 }
 
-// button basic, single out of the box, theme
-#{options.where('#{$button}--theme-transparent')} {
-  padding: unset;
-  background-color: transparent;
-}
-
 // modifiers
 #{options.where('#{$button}--full-width')} {
   width: 100%;
