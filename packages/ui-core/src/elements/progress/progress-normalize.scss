@@ -1,0 +1,53 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './progress.tokens';
+@use '../../styles/options';
+
+// Normalize layer: a track of `prgSize` height, its bar filled from the inline start (the
+// right in RTL) to `--ms-progress-value`; an indeterminate bar runs across
+$progress: '.ms-progress';
+
+@keyframes ms-progress-indeterminate {
+  from {
+    inset-inline-start: calc(-1 * var(--ms-progress-indeterminate-width));
+  }
+
+  to {
+    inset-inline-start: 100%;
+  }
+}
+
+#{options.where($progress)} {
+  --ms-progress-height: var(--ms-progress-height-base);
+
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: var(--ms-progress-height);
+  overflow: hidden;
+}
+
+@include options.each-class('ms-progress', 'prgSize') using ($size, $value) {
+  --ms-progress-height: var(--ms-progress-height-#{$size});
+}
+
+#{options.where('#{$progress}__bar')} {
+  display: block;
+  inline-size: calc(var(--ms-progress-value, 0) * 100%);
+  block-size: 100%;
+}
+
+#{options.where('#{$progress}--indeterminate > #{$progress}__bar')} {
+  position: absolute;
+  inset-block: 0;
+  inline-size: var(--ms-progress-indeterminate-width);
+  animation: ms-progress-indeterminate var(--ms-progress-indeterminate-duration)
+    ease-in-out infinite;
+}
+
+// NOTE: slower, not stopped: it's the only sign that something is still happening
+@media (prefers-reduced-motion: reduce) {
+  #{options.where('#{$progress}--indeterminate > #{$progress}__bar')} {
+    animation-duration: calc(var(--ms-progress-indeterminate-duration) * 3);
+  }
+}

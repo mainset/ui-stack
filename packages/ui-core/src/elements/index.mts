@@ -96,6 +96,8 @@ export type {
 export { POPOVER__CLASS_NAME_CONFIG } from './popover/index.mjs';
 export { POPPER_WRAPPER__CLASS_NAME_CONFIG } from './popper/index.mjs';
 export type { PopperWrapperStyleProps } from './popper/index.mjs';
+export { PROGRESS__CLASS_NAME_CONFIG } from './progress/index.mjs';
+export type { ProgressStyleProps } from './progress/index.mjs';
 export { SECTION__CLASS_NAME_CONFIG } from './section/index.mjs';
 export type { SectionStyleProps } from './section/index.mjs';
 export { SKELETON__CLASS_NAME_CONFIG } from './skeleton/index.mjs';
