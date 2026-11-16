@@ -1,0 +1,12 @@
+// Component tokens (Tier 3) of breadcrumbs
+:where(:root) {
+  --ms-breadcrumb-gap: var(--ms-spacing-scale-element-lg);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-breadcrumb-color: var(--ms-color-text-muted);
+  --ms-breadcrumb-color-hover: var(--ms-color-text-base);
+  --ms-breadcrumb-color-current: var(--ms-color-text-base);
+  --ms-breadcrumb-separator-color: var(--ms-color-text-muted);
+}

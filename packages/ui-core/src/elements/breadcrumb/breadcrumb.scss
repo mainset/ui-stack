@@ -1,0 +1,30 @@
+@use '../../styles/options';
+
+// Theme layer (mainset look) on top of `breadcrumb-normalize.scss`: muted links, the current
+// page in the text color
+$breadcrumb: '.ms-breadcrumb';
+
+#{options.where($breadcrumb)} {
+  font-size: var(--ms-font-size-text-sm);
+  letter-spacing: var(--ms-letter-spacing-text-sm);
+  line-height: var(--ms-line-height-text-sm);
+  color: var(--ms-breadcrumb-color);
+}
+
+#{options.where('a#{$breadcrumb}__link')} {
+  transition: color var(--ms-duration-fast) var(--ms-easing-standard);
+}
+
+#{options.where('a#{$breadcrumb}__link:hover')} {
+  color: var(--ms-breadcrumb-color-hover);
+  text-decoration: underline;
+}
+
+#{options.where('#{$breadcrumb}__link[aria-current="page"]')} {
+  font-weight: var(--ms-font-weight-medium);
+  color: var(--ms-breadcrumb-color-current);
+}
+
+#{options.where('#{$breadcrumb}__separator')} {
+  color: var(--ms-breadcrumb-separator-color);
+}
