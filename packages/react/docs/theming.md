@@ -5,7 +5,7 @@ React you:
 
 1. set the color scheme with a `data-theme` attribute,
 2. pick tones and variants with props,
-3. override tokens with your own CSS, as in [Theming with CSS](./ui-core.md),
+3. override tokens with your own CSS, as in [Theming with CSS](../../ui-core/docs/css-overrides.md),
 4. optionally, set brand colors at runtime with `<MainSetProvider theme>` and `useTheme()`
    ([live theming](#4-live-theming)).
 
@@ -14,11 +14,12 @@ Steps 1–3 are plain CSS and attributes, with no runtime cost. Only step 4 runs
 ## Setup
 
 ```tsx
-// your token overrides (any order works)
+// optional reset; import it before anything else
 import { MainSetProvider } from '@mainset/react/containers';
 import '@mainset/react/styles/main.css';
+import '@mainset/ui-core/styles/reset.css';
 
-// optional reset; import it before anything else
+// your token overrides (any order works)
 import './app-theme.css';
 
 export function App() {
@@ -133,8 +134,8 @@ Tones and colors are **not responsive props**: a button doesn't change color at 
 ## 3. Overriding tokens
 
 Global and scheme overrides go in a stylesheet, see
-[Theming with CSS](./ui-core.md#3-re-brand-change-a-tone) and the
-[scheme-aware pattern](./ui-core.md#scheme-aware-overrides).
+[Theming with CSS](../../ui-core/docs/css-overrides.md#3-re-brand-change-a-tone) and the
+[scheme-aware pattern](../../ui-core/docs/css-overrides.md#scheme-aware-overrides).
 
 For one element, pass the custom property through `className` (preferred) or `style`:
 
@@ -146,29 +147,80 @@ For one element, pass the custom property through `className` (preferred) or `st
 ```
 
 Overriding `--ms-tone-*` works only on an element that carries the tone itself, i.e. one with
-`srfTheme` set. See [where an override applies](./ui-core.md#where-an-override-applies).
+`srfTheme` set. See [where an override applies](../../ui-core/docs/css-overrides.md#where-an-override-applies).
 
 ## 4. Live theming
 
 Brand colors that are only known at runtime (per tenant, or picked by the user) go in the
-provider. Every other role is derived exactly like the shipped CSS, and the theme is
-server-rendered with the page:
+provider. Every other role is derived exactly like the shipped CSS, by `createTheme()` from
+`@mainset/ui-core/theme`; see [its options](../../ui-core/docs/live-theming.md#createthemeoptions).
+
+`MainSetProvider` takes the theme and renders it as one `<style>` element, so it's
+server-rendered with the page (no flash of the default brand) and updated on the client:
 
 ```tsx
-<MainSetProvider theme={{ tones: { primary: tenant.brandColor } }}>
-  …
-</MainSetProvider>
+import { MainSetProvider } from '@mainset/react/containers';
+
+export function App({ brandColor }: { brandColor?: string }) {
+  return (
+    <MainSetProvider theme={{ tones: { primary: brandColor } }}>
+      <Routes />
+    </MainSetProvider>
+  );
+}
 ```
+
+`useTheme()` reads and changes it from anywhere below the provider:
 
 ```tsx
-const { theme, setTheme } = useTheme();
-setTheme((current) => ({
-  ...current,
-  tones: { ...current?.tones, primary: '#be123c' },
-}));
+import { useTheme } from '@mainset/react/containers';
+
+function BrandColorPicker() {
+  const { theme, setTheme } = useTheme();
+  const current = theme?.tones?.primary;
+
+  return (
+    <input
+      type="color"
+      value={typeof current === 'string' ? current : '#9013fe'}
+      onChange={(event) => {
+        const primary = event.target.value;
+        setTheme((current) => ({
+          ...current,
+          tones: { ...current?.tones, primary },
+        }));
+      }}
+    />
+  );
+}
 ```
 
-Options, color pickers, persistence and CSP: [Live theming](./live-theming.md#react).
+- `onChange` on a color input fires on every move, so the page follows the cursor.
+- `setTheme(undefined)` restores the built-in theme.
+- `setTheme` changes survive re-renders, including an inline `theme={{ … }}` object. A `theme` prop
+  with **different content** replaces them (e.g. after loading another tenant's brand).
+- `themeNonce` sets a CSP nonce on the `<style>` element.
+- `useTheme()` only handles tone colors and tokens. The color **scheme** is the `data-theme`
+  attribute, see [A scheme switcher](#a-scheme-switcher-app-code).
+
+### Persisting the choice
+
+Store the user's choice (profile, cookie, `localStorage`) and pass it back as the `theme` prop.
+With a server-side source (profile or cookie), the first paint is already right:
+
+```tsx
+function ThemePersistence() {
+  const { theme } = useTheme();
+
+  React.useEffect(() => {
+    try {
+      localStorage.setItem('brand-theme', JSON.stringify(theme ?? null));
+    } catch {}
+  }, [theme]);
+
+  return null;
+}
+```
 
 ## Your own components
 

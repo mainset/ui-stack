@@ -152,7 +152,7 @@ Surface variants: `solid | soft | outlined | ghost`.
 
 ### Theming
 
-Full guides (CSS overrides, React, live theming, token reference): [`docs/theming`](../../docs/theming/README.md).
+Customization guides (theming model, CSS overrides, live theming, token reference): [`docs/`](./docs/README.md).
 
 Brand colors known only at runtime (per tenant, user-picked): `createTheme()` derives every tone
 role from one color, exactly like the build, and returns the CSS

@@ -10,7 +10,7 @@ import { createTheme } from '@mainset/ui-core/theme';
 createTheme({ tones: { primary: '#0f766e' } }); // → CSS text for light, dark and system
 ```
 
-In React it's one prop: [`<MainSetProvider theme={…}>`](#react).
+In React it's one prop: [`<MainSetProvider theme={…}>`](../../react/docs/theming.md#4-live-theming).
 
 ## How it works
 
@@ -19,7 +19,7 @@ In React it's one prop: [`<MainSetProvider theme={…}>`](#react).
    derived by `deriveToneRoles()`, **the same function the build uses** to generate the shipped
    CSS. A runtime theme can't drift from the built-in one: given the built-in `#9013fe`,
    `createTheme()` returns exactly the shipped `--ms-color-primary-*` values.
-3. The result is written in the [scheme-aware pattern](./ui-core.md#scheme-aware-overrides), so
+3. The result is written in the [scheme-aware pattern](./css-overrides.md#scheme-aware-overrides), so
    light, dark, `system` and nested `data-theme` subtrees all update. Its selectors outrank the
    built-in 0-specificity tokens, so it wins in any load order.
 
@@ -78,72 +78,8 @@ New tone **names** can't be added at runtime: tone classes are generated at buil
 
 ## React
 
-`MainSetProvider` takes the theme and renders it as one `<style>` element, so it's
-server-rendered with the page (no flash of the default brand) and updated on the client:
-
-```tsx
-import { MainSetProvider } from '@mainset/react/containers';
-
-export function App({ brandColor }: { brandColor?: string }) {
-  return (
-    <MainSetProvider theme={{ tones: { primary: brandColor } }}>
-      <Routes />
-    </MainSetProvider>
-  );
-}
-```
-
-`useTheme()` reads and changes it from anywhere below the provider:
-
-```tsx
-import { useTheme } from '@mainset/react/containers';
-
-function BrandColorPicker() {
-  const { theme, setTheme } = useTheme();
-  const current = theme?.tones?.primary;
-
-  return (
-    <input
-      type="color"
-      value={typeof current === 'string' ? current : '#9013fe'}
-      onChange={(event) => {
-        const primary = event.target.value;
-        setTheme((current) => ({
-          ...current,
-          tones: { ...current?.tones, primary },
-        }));
-      }}
-    />
-  );
-}
-```
-
-- `onChange` on a color input fires on every move, so the page follows the cursor.
-- `setTheme(undefined)` restores the built-in theme.
-- `setTheme` changes survive re-renders, including an inline `theme={{ … }}` object. A `theme` prop
-  with **different content** replaces them (e.g. after loading another tenant's brand).
-- `themeNonce` sets a CSP nonce on the `<style>` element.
-- `useTheme()` only handles tone colors and tokens. The color **scheme** is the `data-theme`
-  attribute, see [A scheme switcher](./react.md#a-scheme-switcher-app-code).
-
-### Persisting
-
-Store the user's choice (profile, cookie, `localStorage`) and pass it back as the `theme` prop.
-With a server-side source (profile or cookie), the first paint is already right:
-
-```tsx
-function ThemePersistence() {
-  const { theme } = useTheme();
-
-  React.useEffect(() => {
-    try {
-      localStorage.setItem('brand-theme', JSON.stringify(theme ?? null));
-    } catch {}
-  }, [theme]);
-
-  return null;
-}
-```
+`@mainset/react` wraps this API: `<MainSetProvider theme={…}>` server-renders the theme and
+`useTheme()` changes it. See [Theming in React: live theming](../../react/docs/theming.md#4-live-theming).
 
 ## Plain JS
 
@@ -178,7 +114,7 @@ test updates under your policy.
 ## Static themes at build time
 
 The same API generates a stylesheet in a build script, instead of hand-writing every role as in
-[Re-brand: change a tone](./ui-core.md#3-re-brand-change-a-tone):
+[Re-brand: change a tone](./css-overrides.md#3-re-brand-change-a-tone):
 
 ```js
 // scripts/build-theme.mjs

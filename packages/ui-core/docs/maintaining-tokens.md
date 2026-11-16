@@ -2,7 +2,7 @@
 
 This page is for **maintainers of this repo**, who change what `@mainset/ui-core` ships by
 default. Product teams should override tokens instead, see
-[Theming with CSS](./ui-core.md); no fork needed.
+[Theming with CSS](./css-overrides.md); no fork needed.
 
 ## Where each value lives
 
