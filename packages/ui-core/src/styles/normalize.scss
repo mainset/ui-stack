@@ -26,6 +26,7 @@
 @use '../elements/link/link-normalize';
 @use '../elements/list/list-normalize';
 @use '../elements/overlay/overlay-normalize';
+@use '../elements/popover/popover-normalize';
 @use '../elements/popper/popper-normalize';
 @use '../elements/section/section';
 @use '../elements/spacing/spacing';
@@ -33,3 +34,4 @@
 @use '../elements/tabs/tabs-normalize';
 @use '../elements/toast/toast-normalize';
 @use '../elements/text-base/text-base';
+@use '../elements/tooltip/tooltip-normalize';

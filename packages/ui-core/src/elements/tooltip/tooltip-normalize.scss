@@ -1,0 +1,20 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './tooltip.tokens';
+@use '../../styles/options';
+@use './tooltip.variables' as tooltipVars;
+
+// Normalize layer: a short description next to its trigger (`role="tooltip"`, referenced by the
+// trigger's `aria-describedby`). Positioned by script, like `.ms-popover`.
+$tooltip: tooltipVars.$class-selector;
+
+#{options.where($tooltip)} {
+  z-index: var(--ms-z-index-tooltip);
+  box-sizing: border-box;
+  max-inline-size: var(--ms-tooltip-max-width);
+  padding: var(--ms-tooltip-padding-block) var(--ms-tooltip-padding-inline);
+  overflow-wrap: break-word;
+}
+
+#{options.where('#{$tooltip}[hidden]')} {
+  display: none;
+}

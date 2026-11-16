@@ -1,0 +1,39 @@
+@use '../../styles/options';
+@use './popover.variables' as popoverVars;
+
+// Theme layer (mainset look) on top of `popover-normalize.scss`
+$popover: popoverVars.$class-selector;
+
+#{options.where($popover)} {
+  color: var(--ms-popover-color);
+  font-size: var(--ms-font-size-text-sm);
+  letter-spacing: var(--ms-letter-spacing-text-sm);
+  line-height: var(--ms-line-height-text-sm);
+  background-color: var(--ms-popover-background);
+  border: var(--ms-border-width-base) solid var(--ms-popover-border-color);
+  border-radius: var(--ms-popover-radius);
+  box-shadow: var(--ms-popover-shadow);
+}
+
+// NOTE: `opacity` / `scale` only: symmetric, the inline `top` / `left` of the position stay free
+@keyframes ms-popover-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes ms-popover-exit {
+  to {
+    opacity: 0;
+  }
+}
+
+#{options.where('#{$popover}[data-state="open"]')} {
+  animation: ms-popover-enter var(--ms-duration-fast) var(--ms-easing-enter);
+}
+
+#{options.where('#{$popover}[data-state="closed"]')} {
+  animation: ms-popover-exit var(--ms-duration-fast) var(--ms-easing-exit)
+    forwards;
+}

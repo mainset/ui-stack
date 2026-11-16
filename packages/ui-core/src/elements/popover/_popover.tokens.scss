@@ -1,0 +1,17 @@
+// Component tokens (Tier 3) of popovers (and menus, which are popovers)
+:where(:root) {
+  --ms-popover-max-width: 20rem;
+  --ms-popover-padding: var(--ms-spacing-scale-component-xs);
+  --ms-popover-radius: var(--ms-border-radius-base);
+  --ms-popover-shadow: var(--ms-shadow-lg);
+
+  // Kept between the popover and the viewport edges
+  --ms-popover-gutter: var(--ms-spacing-scale-element-xl);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-popover-background: var(--ms-color-bg-surface);
+  --ms-popover-border-color: var(--ms-color-border-subtle);
+  --ms-popover-color: var(--ms-color-text-base);
+}

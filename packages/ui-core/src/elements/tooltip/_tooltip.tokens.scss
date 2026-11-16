@@ -1,0 +1,13 @@
+// Component tokens (Tier 3) of tooltips
+:where(:root) {
+  --ms-tooltip-max-width: 16rem;
+  --ms-tooltip-padding-block: var(--ms-spacing-scale-element-sm);
+  --ms-tooltip-padding-inline: var(--ms-spacing-scale-element-lg);
+  --ms-tooltip-radius: var(--ms-border-radius-xs);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-tooltip-background: var(--ms-color-base-solid);
+  --ms-tooltip-color: var(--ms-color-base-on-solid);
+}
