@@ -5,17 +5,16 @@ import React from 'react';
 
 // NOTE: avoid loop dependency as MainSetProvider uses OverlayContainer
 import { OverlayContainer } from '../Overlay/OverlayContainer.js';
-import { MainSetContext, MainSetContextValue } from './MainSetContext.mjs';
+import {
+  MainSetContext,
+  type MainSetContextValue,
+  type OverlayRegistration,
+} from './MainSetContext.mjs';
 import {
   type MainSetTheme,
   MainSetThemeContext,
   type MainSetThemeContextValue,
 } from './MainSetThemeContext.mjs';
-
-type MainSetProviderState = Pick<
-  MainSetContextValue,
-  'isOverlayOpenById' | 'overlayStackIds'
->;
 
 interface MainSetProviderProps {
   children?: React.ReactNode;
@@ -72,61 +71,105 @@ const MainSetProvider = ({
     [themeState.theme, setTheme],
   );
 
-  const [state, setState] = React.useState<MainSetProviderState>({
-    isOverlayOpenById: {},
-    overlayStackIds: [],
-  });
+  const [isOverlayOpenById, setIsOverlayOpenById] = React.useState<
+    Record<string, boolean>
+  >({});
+  const [overlayStackIds, setOverlayStackIds] = React.useState<string[]>([]);
+  // NOTE: a ref, so registering a dismiss handler doesn't re-render every consumer
+  const overlayRegistrationsRef = React.useRef(
+    new Map<string, OverlayRegistration>(),
+  );
 
-  /*
-  const setOverlayOpenById = React.useCallback((id: string, isOpen: boolean) => {
-    setState((prevState) => {
-      const isCurrentlyOpen = prevState.isOverlayOpenById[id] ?? false;
-      if (isCurrentlyOpen === isOpen) return prevState;
+  const setOverlayOpen = React.useCallback(
+    (id: string, isOpen: boolean | ((isOpen: boolean) => boolean)) =>
+      setIsOverlayOpenById((prevState) => {
+        const wasOpen = prevState[id] ?? false;
+        const willBeOpen =
+          typeof isOpen === 'function' ? isOpen(wasOpen) : isOpen;
 
-      const newStack = isOpen
-        ? prevState.overlayStackIds.includes(id)
-          ? prevState.overlayStackIds
-          : [...prevState.overlayStackIds, id]
-        : prevState.overlayStackIds.filter((stackId) => stackId !== id);
+        return wasOpen === willBeOpen
+          ? prevState
+          : { ...prevState, [id]: willBeOpen };
+      }),
+    [],
+  );
 
-      return {
-        isOverlayOpenById: { ...prevState.isOverlayOpenById, [id]: isOpen },
-        overlayStackIds: newStack,
+  const openOverlayById = React.useCallback(
+    (id: string) => setOverlayOpen(id, true),
+    [setOverlayOpen],
+  );
+  const closeOverlayById = React.useCallback(
+    (id: string) => setOverlayOpen(id, false),
+    [setOverlayOpen],
+  );
+  const toggleOverlayOpenById = React.useCallback(
+    (id: string) => setOverlayOpen(id, (isOpen) => !isOpen),
+    [setOverlayOpen],
+  );
+
+  const registerOverlay = React.useCallback(
+    (id: string, registration: OverlayRegistration) => {
+      overlayRegistrationsRef.current.set(id, registration);
+      setOverlayStackIds((prevIds) => [
+        ...prevIds.filter((stackId) => stackId !== id),
+        id,
+      ]);
+
+      return () => {
+        // NOTE: only its own registration, a remount may have replaced it already
+        if (overlayRegistrationsRef.current.get(id) === registration) {
+          overlayRegistrationsRef.current.delete(id);
+        }
+
+        setOverlayStackIds((prevIds) =>
+          prevIds.filter((stackId) => stackId !== id),
+        );
       };
-    });
-  }, []);
-  */
+    },
+    [],
+  );
 
-  const toggleOverlayOpenById = React.useCallback((id: string) => {
-    setState((prevState) => {
-      const isCurrentlyOpen = prevState.isOverlayOpenById[id] ?? false;
-      const willBeOpen = !isCurrentlyOpen;
+  const overlayStackIdsRef = React.useRef(overlayStackIds);
+  React.useLayoutEffect(() => {
+    overlayStackIdsRef.current = overlayStackIds;
+  }, [overlayStackIds]);
 
-      const newStack = willBeOpen
-        ? prevState.overlayStackIds.includes(id)
-          ? prevState.overlayStackIds
-          : [...prevState.overlayStackIds, id]
-        : prevState.overlayStackIds.filter((stackId) => stackId !== id);
+  const dismissTopOverlay = React.useCallback(
+    (reason: 'escape' | 'backdrop') => {
+      const stackIds = overlayStackIdsRef.current;
+      // NOTE: not `.at(-1)`, Safari 15.4+
+      const topId = stackIds[stackIds.length - 1];
+      const registration =
+        topId === undefined
+          ? undefined
+          : overlayRegistrationsRef.current.get(topId);
 
-      return {
-        isOverlayOpenById: { ...prevState.isOverlayOpenById, [id]: willBeOpen },
-        overlayStackIds: newStack,
-      };
-    });
-  }, []);
+      if (!registration) return;
+      if (reason === 'backdrop' && !registration.isBackdropDismissable) return;
+
+      registration.onDismiss();
+    },
+    [],
+  );
 
   const value = React.useMemo<MainSetContextValue>(
     () => ({
-      isOverlayOpenById: state.isOverlayOpenById,
-      overlayStackIds: state.overlayStackIds,
-      // setOverlayOpenById,
+      isOverlayOpenById,
+      overlayStackIds,
+      openOverlayById,
+      closeOverlayById,
       toggleOverlayOpenById,
+      dismissTopOverlay,
+      registerOverlay,
     }),
     [
-      state.isOverlayOpenById,
-      state.overlayStackIds,
-      // setOverlayOpenById,
+      isOverlayOpenById,
+      overlayStackIds,
+      openOverlayById,
+      closeOverlayById,
       toggleOverlayOpenById,
+      dismissTopOverlay,
+      registerOverlay,
     ],
   );
 

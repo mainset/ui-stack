@@ -1,35 +1,27 @@
 import React from 'react';
 
+/**
+ * Escape dismisses the top-most overlay, unless something inside it handled the key first
+ * (an open menu or popover calls `preventDefault()`) or an IME composition is in progress.
+ */
 const useGlobalEscapeOverlay = (
-  overlayStackIds: string[],
-  toggleOverlayOpenById: (id: string) => void,
+  isActive: boolean,
+  dismissTopOverlay: (reason: 'escape') => void,
 ) => {
-  const stackRef = React.useRef(overlayStackIds);
-
   React.useEffect(() => {
-    stackRef.current = overlayStackIds;
-  }, [overlayStackIds]);
+    if (!isActive) return;
 
-  React.useEffect(() => {
-    if (typeof document === 'undefined') return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape' || event.defaultPrevented || event.isComposing)
+        return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        const currentStackIds = stackRef.current;
-        if (currentStackIds.length === 0) return;
-
-        const topOverlayId = currentStackIds[currentStackIds.length - 1];
-        if (topOverlayId) {
-          toggleOverlayOpenById(topOverlayId);
-        }
-      }
+      event.preventDefault();
+      dismissTopOverlay('escape');
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [toggleOverlayOpenById]);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isActive, dismissTopOverlay]);
 };
 
 export { useGlobalEscapeOverlay };

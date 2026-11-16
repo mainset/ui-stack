@@ -6,11 +6,19 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export { Dialog, Drawer, useDialog } from './Dialog/index.mjs';
+export type {
+  DialogPartProps,
+  DialogProps,
+  DialogTitleProps,
+  DrawerProps,
+} from './Dialog/index.mjs';
 export {
   MainSetContext,
   MainSetProvider,
   MainSetThemeContext,
   useMainSet,
+  useOverlay,
   useTheme,
 } from './MainSetContext/index.mjs';
 export type {
@@ -20,6 +28,7 @@ export type {
   MainSetThemeContextValue,
 } from './MainSetContext/index.mjs';
 export { OverlayContent } from './Overlay/index.mjs';
+export type { OverlayContentProps } from './Overlay/index.mjs';
 export { Presence } from './Presence/index.mjs';
 export { SVGIcon } from './SVGIcon/index.mjs';
 export { Tabs } from './Tabs/index.mjs';

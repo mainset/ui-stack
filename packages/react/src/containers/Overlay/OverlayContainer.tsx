@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOMClient from 'react-dom';
 
 import { Backdrop } from '../../elements/Backdrop/index.mjs';
+import { useIsClient } from '../../hooks/useIsClient.mjs';
 // NOTE: avoid loop dependency as MainSetProvider uses OverlayContainer
 import { useMainSet } from '../MainSetContext/MainSetContext.mjs';
 import {
@@ -13,41 +14,27 @@ import {
 
 const OVERLAY_CONTAINER_ID = 'ms-overlay__root';
 
+/** Rendered once by `MainSetProvider`: the backdrop, Escape and the page scroll lock */
 const OverlayContainer = () => {
-  const { overlayStackIds, toggleOverlayOpenById } = useMainSet();
+  const { overlayStackIds, dismissTopOverlay } = useMainSet();
+  const isClient = useIsClient();
+  const isAnyOverlayOpen = overlayStackIds.length > 0;
 
-  // Apply side-effects based on active overlays
-  useGlobalEscapeOverlay(overlayStackIds, toggleOverlayOpenById);
-  useGlobalBodyScrollLock(overlayStackIds.length > 0);
+  useGlobalEscapeOverlay(isAnyOverlayOpen, dismissTopOverlay);
+  useGlobalBodyScrollLock(isAnyOverlayOpen);
 
-  const handleBackdropClick = React.useCallback(() => {
-    const topOverlayId = overlayStackIds[overlayStackIds.length - 1];
-    if (topOverlayId) {
-      toggleOverlayOpenById(topOverlayId);
-    }
-  }, [overlayStackIds.length, toggleOverlayOpenById]);
+  if (!isClient) return null;
 
-  // Decide whether to use explicitly passed prop OR the global context stack
-  const isAnyOverlayOpen = React.useMemo(() => {
-    return overlayStackIds.length > 0;
-  }, [overlayStackIds.length]);
-
-  const overlayRootNode = React.useMemo(() => {
-    return typeof window === 'undefined'
-      ? null
-      : ReactDOMClient.createPortal(
-          <div id={OVERLAY_CONTAINER_ID}>
-            <Backdrop
-              bgColor="base"
-              bckIsVisible={isAnyOverlayOpen}
-              bckOnClick={handleBackdropClick}
-            />
-          </div>,
-          document.body,
-        );
-  }, [handleBackdropClick, isAnyOverlayOpen]);
-
-  return overlayRootNode;
+  return ReactDOMClient.createPortal(
+    <div id={OVERLAY_CONTAINER_ID}>
+      <Backdrop
+        bgColor="base"
+        bckIsVisible={isAnyOverlayOpen}
+        bckOnClick={() => dismissTopOverlay('backdrop')}
+      />
+    </div>,
+    document.body,
+  );
 };
 
 export { OVERLAY_CONTAINER_ID, OverlayContainer };
