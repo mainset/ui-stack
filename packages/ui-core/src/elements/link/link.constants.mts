@@ -17,6 +17,14 @@ const LINK__CLASS_NAME_CONFIG = {
       options: ['always', 'hover', 'none'],
       defaultValue: 'always',
     },
+    // boolean
+    // The whole nearest `ms-link-area` (a card) becomes the link's click target; its focus ring
+    // goes around that area. One stretched link per area; other links in it need
+    // `position: relative` (and a `z-index`) to stay clickable.
+    lnkIsStretched: {
+      modifier: 'stretched',
+      options: [true, false],
+    },
   },
 } as const satisfies ClassNameFromPropConfig;
 
