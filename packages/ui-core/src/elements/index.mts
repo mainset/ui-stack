@@ -30,6 +30,8 @@ export type {
   ElementPlainSize,
   ResponsiveValue,
 } from './elements.types.mjs';
+export { CLOSE_ICON__SVG, DIALOG__CLASS_NAME_CONFIG } from './dialog/index.mjs';
+export type { DialogStyleProps } from './dialog/index.mjs';
 export {
   FIELD__CLASS_NAME_CONFIG,
   LABEL__CLASS_NAME_CONFIG,
@@ -71,6 +73,8 @@ export { LINK__CLASS_NAME_CONFIG } from './link/index.mjs';
 export type { LinkStyleProps } from './link/index.mjs';
 export { LIST__CLASS_NAME_CONFIG } from './list/index.mjs';
 export type { ListStyleProps } from './list/index.mjs';
+export { OVERLAY__CLASS_NAME_CONFIG } from './overlay/index.mjs';
+export type { OverlayStyleProps } from './overlay/index.mjs';
 export { POPPER_WRAPPER__CLASS_NAME_CONFIG } from './popper/index.mjs';
 export type { PopperWrapperStyleProps } from './popper/index.mjs';
 export { SECTION__CLASS_NAME_CONFIG } from './section/index.mjs';

@@ -1,0 +1,5 @@
+// Component tokens (Tier 3) of overlays (dialogs, drawers)
+:where(:root) {
+  // Space kept around a centered overlay, so it never touches the viewport edges
+  --ms-overlay-gutter: var(--ms-spacing-scale-component-base);
+}

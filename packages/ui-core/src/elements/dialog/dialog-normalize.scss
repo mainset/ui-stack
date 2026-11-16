@@ -1,0 +1,78 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './dialog.tokens';
+@use '../../styles/options';
+@use '../overlay/overlay.variables' as overlayVars;
+@use './dialog.variables' as dialogVars;
+
+// Normalize layer: the panel of a dialog / drawer (header, scrolling body, footer), sized per
+// `dlgSize`. Placed by its `.ms-overlay` positioner.
+$dialog: dialogVars.$class-selector;
+$overlay: overlayVars.$class-selector;
+
+#{options.where($dialog)} {
+  --ms-dialog-size: var(--ms-dialog-size-base);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  inline-size: 100%;
+  max-inline-size: var(--ms-dialog-size);
+  max-block-size: 100%;
+  margin: 0;
+}
+
+@include options.each-class(dialogVars.$base-class, 'dlgSize') using
+  ($size, $value) {
+  --ms-dialog-size: var(--ms-dialog-size-#{$size});
+}
+
+// Focused as a fallback when it has nothing focusable; the panel itself needs no ring
+#{options.where('#{$dialog}:focus')} {
+  outline: none;
+}
+
+// Closing: still rendered for its exit animation, no longer interactive
+#{options.where('#{$dialog}[data-state="closed"]')} {
+  pointer-events: none;
+}
+
+#{options.where('#{$dialog}__header')} {
+  display: flex;
+  align-items: center;
+  gap: var(--ms-dialog-gap);
+  padding: var(--ms-dialog-padding) var(--ms-dialog-padding) 0;
+}
+
+#{options.where('#{$dialog}__title')} {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  margin: 0;
+}
+
+#{options.where('#{$dialog}__body')} {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  padding: var(--ms-dialog-padding);
+  overflow: auto;
+}
+
+#{options.where('#{$dialog}__footer')} {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--ms-dialog-gap);
+  padding: 0 var(--ms-dialog-padding) var(--ms-dialog-padding);
+}
+
+// ----- Drawer: full height at an inline edge, full width at a block edge -----
+#{options.where('#{$overlay}--placement-start > #{$dialog}--drawer, #{$overlay}--placement-end > #{$dialog}--drawer')} {
+  inline-size: min(100%, var(--ms-dialog-size));
+  max-inline-size: none;
+  block-size: 100%;
+}
+
+#{options.where('#{$overlay}--placement-top > #{$dialog}--drawer, #{$overlay}--placement-bottom > #{$dialog}--drawer')} {
+  max-inline-size: none;
+  max-block-size: min(100%, var(--ms-dialog-size));
+}

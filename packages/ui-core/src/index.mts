@@ -47,6 +47,9 @@ export {
   SURFACE__CLASS_NAME_CONFIG,
   SWITCH__CLASS_NAME_CONFIG,
   TEXT_BASE__CLASS_NAME_CONFIG,
+  CLOSE_ICON__SVG,
+  DIALOG__CLASS_NAME_CONFIG,
+  OVERLAY__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
@@ -77,6 +80,8 @@ export type {
   SpinnerStyleProps,
   SurfaceStyleProps,
   TextStyleProps,
+  DialogStyleProps,
+  OverlayStyleProps,
 } from './elements/index.mjs';
 export {
   BOX__RECIPE_CONFIGS,

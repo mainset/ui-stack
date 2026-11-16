@@ -1,0 +1,55 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './overlay.tokens';
+@use '../../styles/options';
+@use './overlay.variables' as overlayVars;
+
+// Normalize layer only: the positioner of a dialog / drawer, above the backdrop.
+// Clicks outside its content fall through to the backdrop.
+$overlay: overlayVars.$class-selector;
+
+@include options.assert-options(
+  overlayVars.$base-class,
+  'ovrPlacement',
+  (center, start, end, top, bottom)
+);
+
+#{options.where($overlay)} {
+  position: fixed;
+  inset: 0;
+  z-index: var(--ms-z-index-modal);
+  display: flex;
+  box-sizing: border-box;
+  padding: var(--ms-overlay-gutter);
+  pointer-events: none;
+}
+
+#{options.where('#{$overlay} > *')} {
+  pointer-events: auto;
+}
+
+#{options.where('#{$overlay}--placement-center')} {
+  align-items: center;
+  justify-content: center;
+}
+
+// Edges: flush with the viewport, along the inline axis (`start` / `end`, so they follow `dir`)
+// or the block axis (`top` / `bottom`)
+#{options.where('#{$overlay}--placement-start, #{$overlay}--placement-end, #{$overlay}--placement-top, #{$overlay}--placement-bottom')} {
+  padding: 0;
+}
+
+#{options.where('#{$overlay}--placement-start')} {
+  justify-content: flex-start;
+}
+
+#{options.where('#{$overlay}--placement-end')} {
+  justify-content: flex-end;
+}
+
+#{options.where('#{$overlay}--placement-top')} {
+  align-items: flex-start;
+}
+
+#{options.where('#{$overlay}--placement-bottom')} {
+  align-items: flex-end;
+}

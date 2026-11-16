@@ -18,6 +18,8 @@
 @use '../elements/container/container-normalize';
 @use '../elements/control/control-normalize';
 @use '../elements/control/control';
+@use '../elements/dialog/dialog-normalize';
+@use '../elements/dialog/dialog';
 @use '../elements/field/field-normalize';
 @use '../elements/field/field';
 @use '../elements/flex/flex';
@@ -33,6 +35,7 @@
 @use '../elements/link/link-normalize';
 @use '../elements/link/link';
 @use '../elements/list/list-normalize';
+@use '../elements/overlay/overlay-normalize';
 @use '../elements/popper/popper-normalize';
 @use '../elements/section/section';
 @use '../elements/spacing/spacing';
