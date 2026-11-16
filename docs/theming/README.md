@@ -93,14 +93,16 @@ mode `border` / `text`) are **mixed at build time** in the oklab space and shipp
 colors, because `color-mix()` isn't available in the supported browsers (Safari 14.1, Chrome 88,
 Firefox 78).
 
-Consequence: if you change a tone's `solid` at runtime, **also set its derived roles**, or
-hover and soft states keep the old color. [Live theming](./live-theming.md) has a helper that
-computes them exactly like the build does.
+Consequence: if you override a tone's `solid` by hand, **also set its derived roles**, or hover
+and soft states keep the old color. `createTheme()` from `@mainset/ui-core/theme` derives all of
+them from one color with the same function the build uses, at runtime or in a build script. In
+React that's `<MainSetProvider theme>`. See [Live theming](./live-theming.md).
 
 ## Rules of thumb (for developers and AI agents)
 
-1. Re-brand by overriding `--ms-color-{tone}-*` (all roles), or `--ms-palette-*` plus the
-   derived roles. Never edit or copy ui-core's CSS.
+1. Re-brand with `createTheme({ tones: { primary: '#…' } })` (or `<MainSetProvider theme>`), or by
+   overriding all `--ms-color-{tone}-*` roles in CSS. Never edit or copy ui-core's CSS, and never
+   hand-compute derived roles.
 2. Scope dark-mode-specific values to `[data-theme='dark']` (and `system` under
    `prefers-color-scheme: dark`). See the [scheme-aware override pattern](./ui-core.md#scheme-aware-overrides).
 3. To change the color of a subtree, use a tone (`.ms-tone-*` / `srfTheme`), not new CSS.

@@ -103,9 +103,11 @@ precomputed, so **override every role you want changed**, in each scheme:
 }
 ```
 
-These values are what the build itself would derive from `#0f766e`. To compute them for your
-own color, run the `toneTokens()` helper from [Live theming](./live-theming.md#the-helper) once
-(in Node or the browser console) and paste the output. Or call it at runtime.
+These values are what the build itself derives from `#0f766e`. You don't have to compute or
+type them: `createTheme({ tones: { primary: '#0f766e' } })` from `@mainset/ui-core/theme` returns
+this whole stylesheet (focus ring included). Run it once in a
+[build script](./live-theming.md#static-themes-at-build-time), or at
+[runtime](./live-theming.md).
 
 **Shortcut:** to change only the base hue and accept stale hover/soft shades for a quick
 prototype, override the palette color: `:root { --ms-palette-violet-600: #0f766e; }`. That changes
@@ -171,8 +173,8 @@ Scheme-independent tokens (fonts, radius, spacing, motion, control sizes) can si
 ```
 
 Note: the precomputed `subtle` roles were mixed against the default canvas (`white` / `gray-950`).
-A slightly different canvas is fine. For a very different one, recompute the tones with
-`toneTokens(tone, solid, { canvasLight, canvasDark })`.
+A slightly different canvas is fine. For a very different one, recompute the tones against it:
+`createTheme()` mixes them with the `--ms-color-bg-canvas` you pass in `light` / `dark`.
 
 ## A custom theme name
 

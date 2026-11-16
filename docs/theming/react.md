@@ -1,13 +1,15 @@
 # Theming in React (`@mainset/react`)
 
-`@mainset/react` has **no theme provider and no theme object**. Components render ui-core classes,
-and ui-core's CSS custom properties do all the theming. In React you:
+Components render ui-core classes, and ui-core's CSS custom properties do all the theming. In
+React you:
 
 1. set the color scheme with a `data-theme` attribute,
 2. pick tones and variants with props,
-3. override tokens with your own CSS, as in [Theming with CSS](./ui-core.md).
+3. override tokens with your own CSS, as in [Theming with CSS](./ui-core.md),
+4. optionally, set brand colors at runtime with `<MainSetProvider theme>` and `useTheme()`
+   ([live theming](#4-live-theming)).
 
-The library has no React-specific theming API to learn, and React adds no runtime cost for theming.
+Steps 1–3 are plain CSS and attributes, with no runtime cost. Only step 4 runs JS.
 
 ## Setup
 
@@ -21,9 +23,8 @@ import './app-theme.css';
 
 export function App() {
   return (
+    // overlays / modals state, and the optional runtime `theme`
     <MainSetProvider>
-      {' '}
-      {/* overlays / modals state; not related to theming */}
       <Routes />
     </MainSetProvider>
   );
@@ -149,9 +150,25 @@ Overriding `--ms-tone-*` works only on an element that carries the tone itself, 
 
 ## 4. Live theming
 
-To let users pick brand colors in the browser, generate the tone values and inject them as a
-stylesheet. A `<input type="color">` then re-themes the page on every change. See
-[Live theming](./live-theming.md#react).
+Brand colors that are only known at runtime (per tenant, or picked by the user) go in the
+provider. Every other role is derived exactly like the shipped CSS, and the theme is
+server-rendered with the page:
+
+```tsx
+<MainSetProvider theme={{ tones: { primary: tenant.brandColor } }}>
+  …
+</MainSetProvider>
+```
+
+```tsx
+const { theme, setTheme } = useTheme();
+setTheme((current) => ({
+  ...current,
+  tones: { ...current?.tones, primary: '#be123c' },
+}));
+```
+
+Options, color pickers, persistence and CSP: [Live theming](./live-theming.md#react).
 
 ## Your own components
 
