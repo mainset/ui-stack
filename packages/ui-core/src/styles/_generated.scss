@@ -1087,6 +1087,20 @@ $class-name-config-map: (
     'composed': false,
     'props': (),
   ),
+  'ms-skeleton': (
+    'composed': false,
+    'props': (
+      'sklVariant': (
+        'modifier': 'variant',
+        'options': (
+          'text',
+          'rect',
+          'circle',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-spacing': (
     'composed': true,
     'props': (
