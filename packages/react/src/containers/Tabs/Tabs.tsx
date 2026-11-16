@@ -82,7 +82,8 @@ function TabsComponent({
     () => ({
       tbsId: resolvedTbsId,
       tbsOnBtnTabChangeClick: handleIdChange,
-      tbsOrientation,
+      // NOTE: `null` (an explicit reset) means the default too
+      tbsOrientation: tbsOrientation ?? 'horizontal',
       tbsActivation,
       tbsBaseId,
     }),
