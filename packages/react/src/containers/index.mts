@@ -13,6 +13,8 @@ export type {
   AccordionProps,
   AccordionTriggerProps,
 } from './Accordion/index.mjs';
+export { Avatar, avatarInitials } from './Avatar/index.mjs';
+export type { AvatarProps } from './Avatar/index.mjs';
 export { Dialog, Drawer, useDialog } from './Dialog/index.mjs';
 export type {
   DialogPartProps,
