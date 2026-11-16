@@ -577,6 +577,14 @@ $class-name-config-map: (
       ),
     ),
   ),
+  'ms-checkbox': (
+    'composed': false,
+    'props': (),
+  ),
+  'ms-choice': (
+    'composed': false,
+    'props': (),
+  ),
   'ms-container': (
     'composed': false,
     'props': (
@@ -921,6 +929,10 @@ $class-name-config-map: (
       ),
     ),
   ),
+  'ms-radio': (
+    'composed': false,
+    'props': (),
+  ),
   'ms-section': (
     'composed': false,
     'props': (
@@ -1014,6 +1026,10 @@ $class-name-config-map: (
         'responsive': false,
       ),
     ),
+  ),
+  'ms-switch': (
+    'composed': false,
+    'props': (),
   ),
   'ms-text': (
     'composed': false,

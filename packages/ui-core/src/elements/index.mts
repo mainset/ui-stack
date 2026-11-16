@@ -6,6 +6,13 @@ export { BORDER__CLASS_NAME_CONFIG } from './border/index.mjs';
 export type { BorderStyleProps } from './border/index.mjs';
 export { BUTTON__CLASS_NAME_CONFIG } from './button/index.mjs';
 export type { ButtonStyleProps } from './button/index.mjs';
+export {
+  CHECKBOX__CLASS_NAME_CONFIG,
+  CHECKBOX_ICON__SVG,
+  CHOICE__CLASS_NAME_CONFIG,
+  RADIO__CLASS_NAME_CONFIG,
+  SWITCH__CLASS_NAME_CONFIG,
+} from './choice/index.mjs';
 export { CONTAINER__CLASS_NAME_CONFIG } from './container/index.mjs';
 export type { ContainerStyleProps } from './container/index.mjs';
 export { CONTROL__CLASS_NAME_CONFIG } from './control/index.mjs';
