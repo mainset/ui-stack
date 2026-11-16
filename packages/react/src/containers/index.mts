@@ -42,6 +42,8 @@ export type {
   MenuItemProps,
   MenuListProps,
   MenuProps,
+  MenuRadioGroupProps,
+  MenuRadioItemProps,
 } from './Menu/index.mjs';
 export { OverlayContent } from './Overlay/index.mjs';
 export type { OverlayContentProps } from './Overlay/index.mjs';
