@@ -190,6 +190,7 @@ const variables: [string, SassData][] = [
   ['border-radius-map', rawValues(tokens.BORDER_RADIUS__TOKENS)],
   ['border-width-map', rawValues(tokens.BORDER_WIDTH__TOKENS)],
   ['z-index-map', rawValues(tokens.Z_INDEX__TOKENS)],
+  ['heading-level-size-map', elements.HEADING_LEVEL__SIZES],
   ['class-name-config-map', collectClassNameConfigs()],
 ];
 

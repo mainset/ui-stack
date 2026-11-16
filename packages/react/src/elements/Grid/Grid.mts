@@ -11,32 +11,33 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
+import type { PolymorphicProps } from '../utils/index.mjs';
 import { mergeResponsiveStyle } from '../utils/index.mjs';
 
-interface GridContainerProps
-  extends
-    React.ComponentPropsWithRef<'div'>,
-    GridContainerStyleProps,
-    LayoutStyleProps {
-  as?: 'main' | 'section' | 'div';
-}
+type GridElementType = 'div' | 'section' | 'main' | 'article' | 'ul' | 'ol';
 
-const GridContainer: React.FC<GridContainerProps> = ({
-  as = 'div',
+type GridContainerProps<C extends GridElementType = 'div'> = PolymorphicProps<
+  'grdAs',
+  C,
+  GridContainerStyleProps & LayoutStyleProps
+>;
+
+function GridContainer<C extends GridElementType = 'div'>({
+  grdAs,
 
   children,
   className,
   style,
 
   ...props
-}) => {
+}: GridContainerProps<C>) {
   const [classNames, restProps, responsiveStyle] = extractClassNamesFromProps(
     [GRID_CONTAINER__CLASS_NAME_CONFIG, LAYOUT__CLASS_NAME_CONFIG],
     props,
   );
 
   return React.createElement(
-    as,
+    grdAs || 'div',
     {
       className: cnx(className, classNames),
       style: mergeResponsiveStyle(responsiveStyle, style),
@@ -44,23 +45,26 @@ const GridContainer: React.FC<GridContainerProps> = ({
     },
     children,
   );
-};
-
-interface GridItemProps
-  extends React.ComponentPropsWithRef<'div'>, GridItemStyleProps {
-  as?: 'section' | 'div';
 }
 
-const GridItem: React.FC<GridItemProps> = ({
-  as = 'div',
+type GridItemElementType = 'div' | 'section' | 'article' | 'li';
+
+type GridItemProps<C extends GridItemElementType = 'div'> = PolymorphicProps<
+  'grdAs',
+  C,
+  GridItemStyleProps
+>;
+
+function GridItem<C extends GridItemElementType = 'div'>({
+  grdAs,
 
   children,
   className,
 
   ...props
-}) => {
+}: GridItemProps<C>) {
   return React.createElement(
-    as,
+    grdAs || 'div',
     {
       className: cnx(
         className,
@@ -70,11 +74,16 @@ const GridItem: React.FC<GridItemProps> = ({
     },
     children,
   );
-};
+}
 
 const Grid = Object.assign(GridContainer, {
   Item: GridItem,
 });
 
 export { Grid };
-export type { GridContainerProps, GridItemProps };
+export type {
+  GridContainerProps,
+  GridElementType,
+  GridItemElementType,
+  GridItemProps,
+};

@@ -1,22 +1,30 @@
-import type { ButtonStyleProps, ElementPlainSize } from '@mainset/ui-core';
+import type {
+  BackgroundStyleProps,
+  BorderStyleProps,
+  ButtonStyleProps,
+  ElementPlainSize,
+  SurfaceStyleProps,
+} from '@mainset/ui-core';
 import { BUTTON__RECIPE_CONFIGS } from '@mainset/ui-core';
-import type React from 'react';
 
-import type { ButtonBasicProps } from '../../elements/ButtonBasic/index.mjs';
+import type { ButtonElementType } from '../../elements/ButtonBasic/index.mjs';
 import { renderButton } from '../../elements/ButtonBasic/render-button.mjs';
-import type { SurfaceProps } from '../../elements/Surface/index.mjs';
+import type { PolymorphicProps } from '../../elements/utils/index.mjs';
 
-type AllowedAs = 'button' | 'div' | 'a';
-type ButtonElementType = AllowedAs | React.JSXElementConstructor<any>;
-
-// NOTE: {SurfaceProps} takes the same {C}: the bare default (`'div'`) would intersect `as` into `never`
-type ButtonProps<C extends ButtonElementType = 'button'> = SurfaceProps<C> &
-  // NOTE: {btnIsDisabled} comes from {ButtonBasicProps}
-  Omit<ButtonStyleProps, 'btnIsDisabled'> &
-  ButtonBasicProps<C> & {
+type ButtonOwnProps = SurfaceStyleProps &
+  BackgroundStyleProps &
+  BorderStyleProps &
+  ButtonStyleProps & {
     btnIsPending?: boolean;
     btnSize?: ElementPlainSize;
   };
+
+// `btnAs="a"` / `btnAs={Link}` keeps the button look on a link
+type ButtonProps<C extends ButtonElementType = 'button'> = PolymorphicProps<
+  'btnAs',
+  C,
+  ButtonOwnProps
+>;
 
 /**
  * Button = Surface (tone × variant) + Control (size) + button behaviour, as one element:

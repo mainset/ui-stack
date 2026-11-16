@@ -3,25 +3,17 @@ import {
   BUTTON__CLASS_NAME_CONFIG,
   SURFACE__RECIPE_CONFIGS,
 } from '@mainset/ui-core';
-import type React from 'react';
 
+import type { AnyComponent, PolymorphicProps } from '../utils/index.mjs';
 import { renderButton } from './render-button.mjs';
 
-type AllowedAs = 'button' | 'div' | 'a';
-type ButtonElementType = AllowedAs | React.JSXElementConstructor<any>;
+// `btnAs={Link}` renders a router link styled as a button
+type ButtonElementType = 'button' | 'a' | 'div' | AnyComponent;
 
-// 1. Better Types: Separate our own props from the element's props
-type ButtonBasicOwnProps<C extends ButtonElementType> = Pick<
-  ButtonStyleProps,
-  'btnIsDisabled'
-> & {
-  as?: C;
-};
+type ButtonBasicOwnProps = Pick<ButtonStyleProps, 'btnIsDisabled'>;
 
-// 2. Omit our own keys from the inherited props to prevent collision
 type ButtonBasicProps<C extends ButtonElementType = 'button'> =
-  ButtonBasicOwnProps<C> &
-    Omit<React.ComponentPropsWithoutRef<C>, keyof ButtonBasicOwnProps<C>>;
+  PolymorphicProps<'btnAs', C, ButtonBasicOwnProps>;
 
 // Surface (tone × variant) + button behaviour, without the control sizing
 const BUTTON_BASIC__CONFIGS = [
@@ -40,4 +32,4 @@ function ButtonBasic<C extends ButtonElementType = 'button'>(
 }
 
 export { ButtonBasic };
-export type { ButtonBasicProps };
+export type { ButtonBasicProps, ButtonElementType };

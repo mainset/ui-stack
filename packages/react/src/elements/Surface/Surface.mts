@@ -11,33 +11,32 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
-type AllowedAs =
+import type { AnyComponent, PolymorphicProps } from '../utils/index.mjs';
+
+type SurfaceElementType =
   | 'div'
   | 'span'
-  // | 'article'
-  // | 'main'
   | 'section'
-  // | 'aside'
-  // | 'header'
+  | 'article'
+  | 'aside'
+  | 'header'
   | 'footer'
-  // | 'li'
-  // | 'ul'
-  // | 'ol'
+  | 'li'
   | 'a'
-  | 'button';
+  | 'button'
+  | AnyComponent;
 
-type SurfaceElementType = AllowedAs | React.JSXElementConstructor<any>;
-
-// 1. Extend from all composed utility traits so they autocomplete and can be overridden
-type SurfaceOwnProps<C extends SurfaceElementType> = SurfaceStyleProps &
+// Every composed utility trait, so they autocomplete and can be overridden
+type SurfaceOwnProps = SurfaceStyleProps &
   BackgroundStyleProps &
-  BorderStyleProps & {
-    as?: C;
-  };
+  BorderStyleProps;
 
-// 2. Safely merge with dynamic component props (e.g. `href` if as="a")
-type SurfaceProps<C extends SurfaceElementType = 'div'> = SurfaceOwnProps<C> &
-  Omit<React.ComponentPropsWithoutRef<C>, keyof SurfaceOwnProps<C>>;
+// `srfAs="a"` adds `href`, `srfAs={Link}` adds the link's props
+type SurfaceProps<C extends SurfaceElementType = 'div'> = PolymorphicProps<
+  'srfAs',
+  C,
+  SurfaceOwnProps
+>;
 
 /**
  * Tone × variant container. All the visual logic lives in ui-core CSS:
@@ -45,7 +44,7 @@ type SurfaceProps<C extends SurfaceElementType = 'div'> = SurfaceOwnProps<C> &
  * `bg*` / `brd*` props are utilities and always win over the variant.
  */
 function Surface<C extends SurfaceElementType = 'div'>({
-  as,
+  srfAs,
 
   srfTheme,
 
@@ -54,7 +53,7 @@ function Surface<C extends SurfaceElementType = 'div'>({
 
   ...props
 }: SurfaceProps<C>) {
-  const Component = as || 'div';
+  const Component: React.ElementType = srfAs || 'div';
 
   const [classNames, restProps] = extractClassNamesFromProps(
     SURFACE__RECIPE_CONFIGS,
@@ -72,4 +71,4 @@ function Surface<C extends SurfaceElementType = 'div'>({
 }
 
 export { Surface };
-export type { SurfaceProps };
+export type { SurfaceElementType, SurfaceProps };

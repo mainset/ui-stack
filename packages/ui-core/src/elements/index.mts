@@ -39,6 +39,11 @@ export type {
   GridContainerStyleProps,
   GridItemStyleProps,
 } from './grid/index.mjs';
+export {
+  HEADING__CLASS_NAME_CONFIG,
+  HEADING_LEVEL__SIZES,
+} from './heading/index.mjs';
+export type { HeadingLevel } from './heading/index.mjs';
 export { HR__CLASS_NAME_CONFIG } from './hr/index.mjs';
 export type { HrStyleProps } from './hr/index.mjs';
 export { LAYOUT__CLASS_NAME_CONFIG } from './layout/index.mjs';

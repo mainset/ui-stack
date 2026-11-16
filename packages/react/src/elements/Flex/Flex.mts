@@ -12,28 +12,46 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
+import type { PolymorphicProps } from '../utils/index.mjs';
 import { mergeResponsiveStyle } from '../utils/index.mjs';
 
-interface FlexContainerProps
-  extends
-    React.ComponentPropsWithRef<'div'>,
-    FlexContainerStyleProps,
-    LayoutStyleProps {}
+type FlexElementType =
+  | 'div'
+  | 'span'
+  | 'section'
+  | 'article'
+  | 'aside'
+  | 'header'
+  | 'footer'
+  | 'main'
+  | 'nav'
+  | 'form'
+  | 'ul'
+  | 'ol'
+  | 'li';
 
-const FlexContainer: React.FC<FlexContainerProps> = ({
+type FlexContainerProps<C extends FlexElementType = 'div'> = PolymorphicProps<
+  'flxAs',
+  C,
+  FlexContainerStyleProps & LayoutStyleProps
+>;
+
+function FlexContainer<C extends FlexElementType = 'div'>({
+  flxAs,
+
   children,
   className,
   style,
 
   ...props
-}) => {
+}: FlexContainerProps<C>) {
   const [classNames, restProps, responsiveStyle] = extractClassNamesFromProps(
     [FLEX_CONTAINER__CLASS_NAME_CONFIG, LAYOUT__CLASS_NAME_CONFIG],
     props,
   );
 
   return React.createElement(
-    'div',
+    flxAs || 'div',
     {
       className: cnx(className, classNames),
       style: mergeResponsiveStyle(responsiveStyle, style),
@@ -41,34 +59,47 @@ const FlexContainer: React.FC<FlexContainerProps> = ({
     },
     children,
   );
-};
+}
 
-interface FlexItemProps
-  extends React.ComponentPropsWithRef<'div'>, FlexItemStyleProps {}
+type FlexItemElementType = 'div' | 'span' | 'section' | 'article' | 'li';
 
-const FlexItem: React.FC<FlexItemProps> = ({
+type FlexItemProps<C extends FlexItemElementType = 'div'> = PolymorphicProps<
+  'flxAs',
+  C,
+  FlexItemStyleProps
+>;
+
+function FlexItem<C extends FlexItemElementType = 'div'>({
+  flxAs,
+
   children,
   className,
 
   ...props
-}) => {
+}: FlexItemProps<C>) {
   const [classNames, restProps] = extractClassNamesFromProps(
     [FLEX_ITEM__CLASS_NAME_CONFIG],
     props,
   );
 
   return React.createElement(
-    'div',
+    flxAs || 'div',
     {
       className: cnx(className, classNames),
       ...restProps,
     },
     children,
   );
-};
+}
 
 const Flex = Object.assign(FlexContainer, {
   Item: FlexItem,
 });
 
 export { Flex };
+export type {
+  FlexContainerProps,
+  FlexElementType,
+  FlexItemElementType,
+  FlexItemProps,
+};
