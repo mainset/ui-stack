@@ -1,9 +1,9 @@
 'use client';
 
-import { Backdrop } from '@mainset/react/elements';
 import React from 'react';
 import ReactDOMClient from 'react-dom';
 
+import { Backdrop } from '../../elements/Backdrop/index.mjs';
 // NOTE: avoid loop dependency as MainSetProvider uses OverlayContainer
 import { useMainSet } from '../MainSetContext/MainSetContext.mjs';
 import {

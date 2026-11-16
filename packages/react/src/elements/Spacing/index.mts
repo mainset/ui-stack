@@ -1,1 +1,1 @@
-export { Spacing } from './Spacing.mjs';
+export * from './Spacing.mjs';

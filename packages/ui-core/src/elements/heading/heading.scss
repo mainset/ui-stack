@@ -1,0 +1,20 @@
+@use '../../styles/options';
+@use '../../styles/variables' as msVariable;
+
+$heading: '.ms-heading';
+
+#{options.where($heading)} {
+  margin: 0;
+  font-weight: var(--ms-font-weight-semibold);
+}
+
+// NOTE: `h2:where(.ms-heading)` is (0,0,1): above the 0-specificity `.ms-text` base on the same
+// element (its `line-height: 1`), below every `txtSize` / app class (0,1,0)
+// Sizes per level come from `HEADING_LEVEL__SIZES` (TS), via codegen
+@each $level, $size in msVariable.$heading-level-size-map {
+  #{$level}#{options.where($heading)} {
+    font-size: var(--ms-font-size-text-#{$size});
+    letter-spacing: var(--ms-letter-spacing-text-#{$size});
+    line-height: var(--ms-line-height-text-#{$size});
+  }
+}

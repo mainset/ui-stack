@@ -1,10 +1,10 @@
 'use client';
 
-import { Presence } from '@mainset/react/components';
-import { Flex } from '@mainset/react/elements';
 import React from 'react';
 import ReactDOMClient from 'react-dom';
 
+import { Presence } from '../../components/Presence/index.mjs';
+import { Flex } from '../../elements/Flex/index.mjs';
 // NOTE: avoid loop dependency as MainSetProvider uses OverlayContainer
 import { useMainSet } from '../MainSetContext/MainSetContext.mjs';
 import { OVERLAY_CONTAINER_ID } from './OverlayContainer.js';

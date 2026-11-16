@@ -453,6 +453,15 @@ $z-index-map: (
   'tooltip': 1700,
 );
 
+$heading-level-size-map: (
+  'h1': 'xxl',
+  'h2': 'xl',
+  'h3': 'lg',
+  'h4': 'base',
+  'h5': 'sm',
+  'h6': 'xs',
+);
+
 $class-name-config-map: (
   'ms-backdrop': (
     'composed': false,
@@ -694,6 +703,10 @@ $class-name-config-map: (
     ),
   ),
   'ms-grid__item': (
+    'composed': false,
+    'props': (),
+  ),
+  'ms-heading': (
     'composed': false,
     'props': (),
   ),

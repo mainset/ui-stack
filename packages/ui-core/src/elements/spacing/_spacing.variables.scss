@@ -4,46 +4,18 @@ $class-selector: '.#{$base-class}';
 // `spcType` option → CSS properties it sets.
 // Block axis (`t` / `b` / `v`) and inline axis (`s` / `e` / `h`) use logical properties.
 $type-map: (
-  m: (
-    margin,
-  ),
-  mt: (
-    margin-top,
-  ),
-  mb: (
-    margin-bottom,
-  ),
-  ms: (
-    margin-inline-start,
-  ),
-  me: (
-    margin-inline-end,
-  ),
-  mv: (
-    margin-block,
-  ),
-  mh: (
-    margin-inline,
-  ),
-  p: (
-    padding,
-  ),
-  pt: (
-    padding-top,
-  ),
-  pb: (
-    padding-bottom,
-  ),
-  ps: (
-    padding-inline-start,
-  ),
-  pe: (
-    padding-inline-end,
-  ),
-  pv: (
-    padding-block,
-  ),
-  ph: (
-    padding-inline,
-  ),
+  m: (margin,),
+  mt: (margin-top,),
+  mb: (margin-bottom,),
+  ms: (margin-inline-start,),
+  me: (margin-inline-end,),
+  mv: (margin-block,),
+  mh: (margin-inline,),
+  p: (padding,),
+  pt: (padding-top,),
+  pb: (padding-bottom,),
+  ps: (padding-inline-start,),
+  pe: (padding-inline-end,),
+  pv: (padding-block,),
+  ph: (padding-inline,),
 );

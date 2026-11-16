@@ -1,5 +1,6 @@
-import { OverlayContent } from '@mainset/react/containers';
 import React from 'react';
+
+import { OverlayContent } from '../../containers/Overlay/OverlayContent.js';
 
 interface SidebarBasicProps extends Pick<
   React.AriaAttributes,

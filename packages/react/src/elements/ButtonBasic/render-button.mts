@@ -4,7 +4,7 @@ import React from 'react';
 type ClassNameConfigs = Parameters<typeof extractClassNamesFromProps>[0];
 
 type ButtonRenderProps = Record<string, unknown> & {
-  as?: React.ElementType;
+  btnAs?: React.ElementType;
   btnIsDisabled?: boolean | null;
   srfTheme?: Parameters<typeof toneRecipe>[0];
   className?: string;
@@ -39,9 +39,9 @@ function tagProps(
  */
 function renderButton(
   configs: ClassNameConfigs,
-  { as, srfTheme, className, children, ...props }: ButtonRenderProps,
+  { btnAs, srfTheme, className, children, ...props }: ButtonRenderProps,
 ) {
-  const Component = as || 'button';
+  const Component = btnAs || 'button';
   const [classNames, restProps] = extractClassNamesFromProps(configs, props);
 
   const elementProps: Record<string, unknown> = {

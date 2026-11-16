@@ -19,10 +19,10 @@ $family-map: (
 $size-map-as-style: (
   // css basic
   initial: (
-      font-size: initial,
-      letter-spacing: initial,
-      line-height: initial,
-    ),
+    font-size: initial,
+    letter-spacing: initial,
+    line-height: initial,
+  ),
   inherit: (
     font-size: inherit,
     letter-spacing: inherit,
@@ -35,10 +35,10 @@ $size-map-as-style: (
   ),
   // relative
   smaller: (
-      font-size: smaller,
-      letter-spacing: inherit,
-      line-height: inherit,
-    ),
+    font-size: smaller,
+    letter-spacing: inherit,
+    line-height: inherit,
+  ),
   larger: (
     font-size: larger,
     letter-spacing: inherit,
@@ -46,10 +46,10 @@ $size-map-as-style: (
   ),
   // absolute
   xxs: (
-      font-size: var(--ms-font-size-text-xxs),
-      letter-spacing: var(--ms-letter-spacing-text-xxs),
-      line-height: var(--ms-line-height-text-xxs),
-    ),
+    font-size: var(--ms-font-size-text-xxs),
+    letter-spacing: var(--ms-letter-spacing-text-xxs),
+    line-height: var(--ms-line-height-text-xxs),
+  ),
   xs: (
     font-size: var(--ms-font-size-text-xs),
     letter-spacing: var(--ms-letter-spacing-text-xs),
@@ -79,7 +79,7 @@ $size-map-as-style: (
     font-size: var(--ms-font-size-text-xxl),
     letter-spacing: var(--ms-letter-spacing-text-xxl),
     line-height: var(--ms-line-height-text-xxl),
-  )
+  ),
 );
 $weight-map: (
   // css basic
@@ -89,5 +89,5 @@ $weight-map: (
   lighter: lighter,
   bolder: bolder,
   // absolute
-  bold: bold
+  bold: bold,
 );
