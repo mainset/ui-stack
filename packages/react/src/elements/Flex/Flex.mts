@@ -12,23 +12,10 @@ import {
 } from '@mainset/ui-core';
 import React from 'react';
 
-import type { PolymorphicProps } from '../utils/index.mjs';
+import type { BlockElementType, PolymorphicProps } from '../utils/index.mjs';
 import { mergeResponsiveStyle } from '../utils/index.mjs';
 
-type FlexElementType =
-  | 'div'
-  | 'span'
-  | 'section'
-  | 'article'
-  | 'aside'
-  | 'header'
-  | 'footer'
-  | 'main'
-  | 'nav'
-  | 'form'
-  | 'ul'
-  | 'ol'
-  | 'li';
+type FlexElementType = BlockElementType;
 
 type FlexContainerProps<C extends FlexElementType = 'div'> = PolymorphicProps<
   'flxAs',

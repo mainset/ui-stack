@@ -52,7 +52,9 @@ describe('prefixed *As props', () => {
         </Grid>,
       ),
     ).toMatch(/^<ul [^>]*><li[ >].*<\/li><\/ul>$/);
-    expect(html(<Spacing spcAs="span" />)).toMatch(/^<span/);
+    expect(
+      html(<Spacing spcAs="span" spcType="p" spcScale="element" />),
+    ).toMatch(/^<span/);
   });
 
   it('hAs sets the level; txtSize sets the looks', () => {

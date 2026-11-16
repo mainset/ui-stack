@@ -9,6 +9,7 @@
 // elements
 export { Backdrop } from './Backdrop/index.mjs';
 export { Badge } from './Badge/index.mjs';
+export { Box } from './Box/index.mjs';
 export { ButtonBasic } from './ButtonBasic/index.mjs';
 export { CardBasic } from './CardBasic/index.mjs';
 export { Flex } from './Flex/index.mjs';
