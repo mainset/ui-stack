@@ -36,8 +36,12 @@ export type {
 } from './MainSetContext/index.mjs';
 export { OverlayContent } from './Overlay/index.mjs';
 export type { OverlayContentProps } from './Overlay/index.mjs';
+export { Popover } from './Popover/index.mjs';
+export type { PopoverContentProps, PopoverProps } from './Popover/index.mjs';
 export { Presence } from './Presence/index.mjs';
 export { SVGIcon } from './SVGIcon/index.mjs';
 export { Tabs } from './Tabs/index.mjs';
 export { useToast } from './Toast/index.mjs';
+export { Tooltip } from './Tooltip/index.mjs';
+export type { TooltipProps } from './Tooltip/index.mjs';
 export type { ToastContextValue, ToastOptions } from './Toast/index.mjs';
