@@ -82,6 +82,8 @@ export {
   spacingStyleProps,
 } from './spacing/index.mjs';
 export type { SpacingStyleProps } from './spacing/index.mjs';
+export { SPINNER__CLASS_NAME_CONFIG } from './spinner/index.mjs';
+export type { SpinnerStyleProps } from './spinner/index.mjs';
 export { SURFACE__CLASS_NAME_CONFIG } from './surface/index.mjs';
 export type { SurfaceStyleProps } from './surface/index.mjs';
 export { TEXT_BASE__CLASS_NAME_CONFIG } from './text-base/index.mjs';

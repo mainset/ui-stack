@@ -1020,6 +1020,22 @@ $class-name-config-map: (
       ),
     ),
   ),
+  'ms-spinner': (
+    'composed': false,
+    'props': (
+      'spnSize': (
+        'modifier': 'size',
+        'options': (
+          'xs',
+          'sm',
+          'base',
+          'lg',
+          'xl',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-surface': (
     'composed': false,
     'props': (

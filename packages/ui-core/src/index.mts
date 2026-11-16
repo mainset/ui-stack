@@ -43,6 +43,7 @@ export {
   COLOR__ELEMENT_OPTIONS,
   SIZE_EXTENDED__ELEMENT_OPTIONS,
   SIZE_PLAIN__ELEMENT_OPTIONS,
+  SPINNER__CLASS_NAME_CONFIG,
   SURFACE__CLASS_NAME_CONFIG,
   SWITCH__CLASS_NAME_CONFIG,
   TEXT_BASE__CLASS_NAME_CONFIG,
@@ -73,6 +74,7 @@ export type {
   PopperWrapperStyleProps,
   SectionStyleProps,
   SpacingStyleProps,
+  SpinnerStyleProps,
   SurfaceStyleProps,
   TextStyleProps,
 } from './elements/index.mjs';
