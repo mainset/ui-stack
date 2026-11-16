@@ -1,5 +1,6 @@
 'use client';
 
+import { TABS__CLASS_NAME_CONFIG, cnx } from '@mainset/ui-core';
 import React from 'react';
 
 import {
@@ -8,11 +9,19 @@ import {
   useTabsContext,
 } from './TabsContext.mjs';
 
-interface TabsContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  tbsId: string;
-}
+const { baseClass: TABS } = TABS__CLASS_NAME_CONFIG;
 
-function TabsContent({ tbsId, children, ...props }: TabsContentProps) {
+type TabsContentProps = React.ComponentPropsWithRef<'div'> & {
+  tbsId: string;
+};
+
+/** The panel of a tab, rendered while its tab is selected */
+function TabsContent({
+  tbsId,
+  className,
+  children,
+  ...props
+}: TabsContentProps) {
   const context = useTabsContext();
 
   if (context.tbsId !== tbsId) return null;
@@ -24,6 +33,7 @@ function TabsContent({ tbsId, children, ...props }: TabsContentProps) {
       aria-labelledby={getTabsTriggerId(context.tbsBaseId, tbsId)}
       tabIndex={0}
       data-state="active"
+      className={cnx(className, `${TABS}__panel`)}
       {...props}
     >
       {children}

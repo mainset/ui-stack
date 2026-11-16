@@ -5,6 +5,8 @@ import React from 'react';
 interface TabsContextValue {
   tbsId: string;
   tbsOnBtnTabChangeClick: (id: string) => void;
+  tbsOrientation: 'horizontal' | 'vertical';
+  tbsActivation: 'auto' | 'manual';
   /** Unique per <Tabs> instance, used to link triggers and panels via ARIA */
   tbsBaseId: string;
 }
