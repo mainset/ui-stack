@@ -17,6 +17,7 @@ export { Flex } from './Flex/index.mjs';
 export { FloatingBox } from './FloatingBox/index.mjs';
 export { Grid } from './Grid/index.mjs';
 export { Hr } from './Hr/index.mjs';
+export { Input, Select, Textarea } from './Input/index.mjs';
 export { Link } from './Link/index.mjs';
 export { ListBasic } from './ListBasic/index.mjs';
 export { Popover } from './Popover/index.mjs';

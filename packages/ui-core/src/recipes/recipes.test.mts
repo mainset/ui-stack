@@ -7,6 +7,8 @@ import {
   boxStyleProps,
   buttonRecipe,
   controlRecipe,
+  inputRecipe,
+  selectWrapperRecipe,
   surfaceRecipe,
   toneRecipe,
 } from './index.mjs';
@@ -116,5 +118,15 @@ describe('boxStyleProps', () => {
     expect(style).toEqual({
       '--ms-spacing-p-at-md': 'var(--ms-spacing-scale-block-lg)',
     });
+  });
+});
+
+describe('inputRecipe', () => {
+  it('is a sized control with the field look', () => {
+    expect(inputRecipe()).toBe('ms-control ms-control--size-base ms-input');
+    expect(inputRecipe({ ctlSize: 'lg' })).toBe(
+      'ms-control ms-control--size-lg ms-input',
+    );
+    expect(selectWrapperRecipe()).toBe('ms-select');
   });
 });
