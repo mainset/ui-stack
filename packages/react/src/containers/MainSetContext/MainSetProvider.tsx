@@ -5,6 +5,7 @@ import React from 'react';
 
 // NOTE: avoid loop dependency as MainSetProvider uses OverlayContainer
 import { OverlayContainer } from '../Overlay/OverlayContainer.js';
+import { ToastProvider } from '../Toast/ToastProvider.js';
 import {
   MainSetContext,
   type MainSetContextValue,
@@ -27,6 +28,8 @@ interface MainSetProviderProps {
   theme?: MainSetTheme;
   /** CSP nonce for the theme `<style>` element */
   themeNonce?: string;
+  /** The name of the toast list for assistive tech, in the page's language @default 'Notifications' */
+  toastRegionLabel?: string;
 }
 
 // The runtime theme state, re-seeded whenever the {theme} prop's CSS changes
@@ -36,6 +39,7 @@ const MainSetProvider = ({
   children,
   theme: themeProp,
   themeNonce,
+  toastRegionLabel,
 }: MainSetProviderProps) => {
   const themePropCss = React.useMemo(
     () => (themeProp ? createTheme(themeProp) : ''),
@@ -186,7 +190,9 @@ const MainSetProvider = ({
           />
         )}
         <OverlayContainer />
-        {children}
+        <ToastProvider toastRegionLabel={toastRegionLabel}>
+          {children}
+        </ToastProvider>
       </MainSetContext.Provider>
     </MainSetThemeContext.Provider>
   );
