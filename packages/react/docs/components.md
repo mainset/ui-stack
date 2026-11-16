@@ -6,10 +6,10 @@ behaviour. For customizing the looks (tokens, tones, dark mode), see [Theming in
 ## Conventions
 
 - **Prefixed props.** Each component family has a prefix (`btn*`, `srf*`, `spc*`, `flx*`,
-  `lay*`, `grd*`, `ctn*`, `txt*`, `lnk*`, `ctl*`, `fld*`…), so props are easy to grep and never
+  `lay*`, `grd*`, `ctn*`, `txt*`, `lnk*`, `ctl*`, `fld*`, `anm*`, `hvr*`…), so props are easy to grep and never
   collide with HTML attributes.
 - **`*As` picks the tag**: `btnAs`, `srfAs`, `boxAs`, `stkAs`, `flxAs`, `grdAs`, `secAs`,
-  `ctnAs`, `spcAs`, `txtAs`, `lnkAs`, `vhAs`, `hAs`, `alrtAs`, `mnuAs`. Each allows only the tags that make sense
+  `ctnAs`, `spcAs`, `txtAs`, `lnkAs`, `vhAs`, `hAs`, `alrtAs`, `mnuAs`, `anmAs`. Each allows only the tags that make sense
   for the component. `btnAs`, `srfAs` and `lnkAs` also take a component, e.g. a router link,
   whose props are then type-checked:
 
@@ -36,15 +36,22 @@ Where things live:
 
 ## Layout (`elements`)
 
-| Component                      | Props                                                                           | Notes                                            |
-| ------------------------------ | ------------------------------------------------------------------------------- | ------------------------------------------------ |
-| `Box`                          | `boxAs`, spacing, `bgColor`, `brd*`                                             | the base primitive                               |
-| `Stack` / `HStack` / `Cluster` | `stkAs`, `flx*`, `lay*`, spacing                                                | column / centered row / wrapping row, gap `base` |
-| `Flex`, `Flex.Item`            | `flxAs`, `flx*`, `lay*`                                                         | raw flexbox                                      |
-| `Grid`, `Grid.Item`            | `grdAs`, `grdColumns`, `grdAutoFlow`, `lay*`; item `grdColSpan`, `grdIsFullRow` | auto-fit columns by default                      |
-| `Container`                    | `ctnAs`, `ctnSize` (default `xl`), `ctnIsGutterless`, spacing                   | centered max width + gutters                     |
-| `Section`                      | `secAs`, `secMaxWidth`, `bgColor`                                               | a page band                                      |
-| `Spacing`                      | `spcAs`, spacing                                                                | spacing only                                     |
+| Component                      | Props                                                                                | Notes                                            |
+| ------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------ |
+| `Box`                          | `boxAs`, spacing, `bgColor`, `brd*`                                                  | the base primitive                               |
+| `Stack` / `HStack` / `Cluster` | `stkAs`, `flx*`, `lay*`, spacing                                                     | column / centered row / wrapping row, gap `base` |
+| `Flex`, `Flex.Item`            | `flxAs`, `flx*`, `lay*`                                                              | raw flexbox                                      |
+| `Grid`, `Grid.Item`            | `grdAs`, `grdColumns`, `grdAutoFlow`, `lay*`; item `grdColSpan`, `grdIsFullRow`      | auto-fit columns by default                      |
+| `Container`                    | `ctnAs`, `ctnSize` (default `xl`), `ctnIsGutterless`, spacing                        | centered max width + gutters                     |
+| `Section`                      | `secAs`, `secMaxWidth`, `bgColor`                                                    | a page band                                      |
+| `Spacing`                      | `spcAs`, spacing                                                                     | spacing only                                     |
+| `AspectRatio`                  | `aspRatio` (`1-1` … `16-9` default … `21-9`), `aspFit` (`cover` · `contain`), `brd*` | media that keeps its shape while it loads        |
+| `ListBasic.Item`               | `lstIcon`                                                                            | a row with a leading icon on its first line      |
+
+`flxDisplay` / `grdDisplay` take `none`, to show a block from a breakpoint up
+(`flxDisplay={{ base: 'none', lg: 'flex' }}`) or hide it. Lay a page out with wrappers rather
+than spacing on every side of one element: `Section` (vertical rhythm) > `Container` (side
+gutters) > `Stack` (the gap between children).
 
 ```tsx
 <Section secAs="footer" bgColor="inverse">
@@ -72,15 +79,47 @@ Where things live:
 <Heading hAs="h1" txtSize="lg">Settings</Heading> {/* the page's h1, toolbar-sized */}
 ```
 
+`txt*` props (on `Heading`, `Text`, `Paragraph`, `Link`): `txtSize` (`xxs`–`xxl`, fluid
+`display-sm` / `display-base` / `display-lg` for headlines), `txtWeight` (`normal` `medium`
+`semibold` `bold`…), `txtLeading` (`tight` · `relaxed`), `txtWrap` (`balance` · `pretty` ·
+`nowrap`), `txtVariant` (`overline`: the label above a heading · `lead`: the intro under it),
+`txtColor` (any tone, or `subtle` for captions), `txtColorHover`, `txtAlign`, `txtFamily`,
+`txtTransform`, `txtIsTruncated`. See [ui-core Text](../../ui-core/docs/elements.md#text).
+
+```tsx
+<Text txtAs="p" txtVariant="overline" txtColor="primary">Products</Text>
+<Heading hAs="h2" txtSize="display-sm" txtWrap="balance">Find any document</Heading>
+<Text txtAs="p" txtVariant="lead" txtColor="muted" txtWrap="pretty">…</Text>
+```
+
 ## Actions (`components` / `elements`)
 
-| Component     | Props                                                                                                   |
-| ------------- | ------------------------------------------------------------------------------------------------------- |
-| `Button`      | `btnAs`, `btnSize`, `btnIsPending` (`aria-busy`), `btnIsDisabled`, `srfTheme`, `srfVariant`, `srfHover` |
-| `ButtonBasic` | the same, unsized (no control height / padding)                                                         |
-| `CloseButton` | an icon button (×), ghost, `aria-label` "Close" by default; `children` replace the icon                 |
+| Component     | Props                                                                                                                                         |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Button`      | `btnAs`, `btnSize`, `btnIsPending` (`aria-busy`), `btnIsDisabled`, `btnIconStart`, `btnIconEnd`, `srfTheme`, `srfVariant`, `srfHover`, `hvr*` |
+| `ButtonBasic` | the same, unsized (no control height / padding)                                                                                               |
+| `CloseButton` | an icon button (×), ghost, `aria-label` "Close" by default; `children` replace the icon                                                       |
 
 `btnIsIcon` makes any `Button` a square for an icon alone; give it an `aria-label`.
+`btnIconStart` / `btnIconEnd` put an icon before / after the label, sized to the text.
+
+```tsx
+<Button
+  btnAs={RouterLink}
+  to="/docninja"
+  srfVariant="solid"
+  brdRadius="pill"
+  hvrIsGroup
+  btnIconEnd={
+    <ArrowRight
+      aria-hidden
+      className={hoverRecipe({ hvrEffect: 'nudge-end' })}
+    />
+  }
+>
+  Explore DocNinja
+</Button>
+```
 
 ## Forms
 
@@ -171,7 +210,8 @@ Checked colors follow the tone: `<Box className={toneRecipe('success')}>` around
 | `Alert`                         | `srfTheme` (default `info`), `srfVariant` (default `soft`), `alrtTitle`, `alrtIcon`, `alrtActions`, `alrtOnDismiss`, `alrtDismissLabel`, `alrtAs` | `role="alert"` for `error` / `warning`, `status` otherwise |
 | `Spinner`                       | `spnSize`, `spnLabel` (default "Loading")                                                                                                         | `role="status"`; in the current text color                 |
 | `VisuallyHidden`                | `vhAs`, `vhIsFocusable`                                                                                                                           | `vhIsFocusable` for skip links                             |
-| `Badge`, `CardBasic`, `Surface` | `srf*`, `bgColor`, `brd*`                                                                                                                         | tone × variant containers                                  |
+| `Badge`, `CardBasic`, `Surface` | `srf*`, `bgColor`, `brd*`, `hvr*`; `Badge` `bdgSize` (`sm` · `base`); `CardBasic` `crdIsInteractive`                                              | tone × variant containers                                  |
+| `IconTile`                      | `ictVariant` (`outlined` default · `soft` · `solid`), `ictShape` (`square` · `circle`), `ictSize` (`sm` · `base` · `lg`), `ictTheme`              | an icon on a small tile, decorative (`aria-hidden`)        |
 
 ```tsx
 <VisuallyHidden vhAs="a" href="#main" vhIsFocusable>
@@ -187,6 +227,76 @@ Checked colors follow the tone: `<Box className={toneRecipe('success')}>` around
 >
   Your card was declined.
 </Alert>
+```
+
+### Interactive cards
+
+`crdIsInteractive` makes the whole card the click target of one `<Link lnkIsStretched>` inside
+it (its title): a screen reader reads that link once, by its own text, and the focus ring goes
+around the card. The card is a hover group too: `hvrEffect` on it lifts it, on an icon inside
+nudges the icon.
+
+```tsx
+<CardBasic
+  srfVariant="outlined"
+  srfHover="border"
+  crdIsInteractive
+  hvrEffect="lift"
+>
+  <IconTile>
+    <Search />
+  </IconTile>
+  <Heading hAs="h3" txtSize="lg">
+    <Link
+      lnkAs={RouterLink}
+      to="/docninja"
+      lnkIsStretched
+      lnkUnderline="none"
+      txtColor="base"
+    >
+      DocNinja
+    </Link>
+  </Heading>
+  <Text txtAs="p" txtColor="muted">
+    Offline search through your documents.
+  </Text>
+</CardBasic>
+```
+
+## Motion
+
+### Hover effects (`hvr*`)
+
+On `Box`, `Stack`, `Text`, `Link`, `Surface`, `CardBasic`, `Badge`, `Button`: `hvrEffect`
+(`lift` · `zoom` · `nudge-end` · `nudge-up-end`) and `hvrIsGroup` (hovering it, or focusing it
+with the keyboard, plays its descendants' effects). Motion only, for pointers that can hover,
+never under `prefers-reduced-motion`. For an icon from an icon library, use
+`hoverRecipe({ hvrEffect })` from `@mainset/ui-core` as its `className`.
+
+### Animate (`containers`)
+
+CSS entrance and exit animations. `anmFade` (default on), `anmSlide` (`up` · `down`),
+`anmZoom` (`in` · `out`), `anmDuration` (`fast` … `slower` default … `slowest`), `anmDelay` (ms),
+`anmAs`. Only `opacity` and `transform` move; `prefers-reduced-motion` shows it at once.
+
+| Trigger                        | Plays                                                                                       |
+| ------------------------------ | ------------------------------------------------------------------------------------------- |
+| `anmTrigger="mount"` (default) | from the first paint, in CSS alone: server-rendered HTML animates before hydration          |
+| `anmTrigger="visible"`         | when it scrolls into view; what's on screen at load is simply shown, SSR HTML stays visible |
+| `anmIsIn` (controlled)         | the entrance on `true`, the exit on `false`; `anmIsUnmountedOnExit`, `anmOnExited`          |
+
+```tsx
+<Animate anmSlide="up" anmFade={false}>{/* the page's largest text: no fade (LCP) */}
+  <Heading hAs="h1" txtSize="display-base">Software users love</Heading>
+</Animate>
+
+<Stack stkAs="ul">
+  {features.map((feature, index) => (
+    <Animate key={feature.id} anmAs="li" anmTrigger="visible" anmSlide="up" anmDelay={index * 80}>
+      …
+    </Animate>
+  ))}
+</Stack>
 ```
 
 ## Overlays (`containers`)
@@ -309,6 +419,28 @@ Space / a click select and close it, returning the focus; Escape closes it; Tab 
 moves on. `mnuIsDisabled` items stay focusable but do nothing. Props: `mnuPlacement`,
 `mnuAlign`, `mnuIsOpen` + `mnuOnOpenChange`.
 
+A single choice is a `Menu.RadioGroup` (`mnuValue`, `mnuOnValueChange`, optional `mnuLabel`) of
+`Menu.RadioItem`s (`mnuValue`): the checked one shows a check mark and gets the focus when the
+menu opens; selecting one checks it and closes the menu.
+
+```tsx
+<Menu mnuAlign="end">
+  <Menu.Trigger>
+    <Button srfVariant="ghost">EN</Button>
+  </Menu.Trigger>
+  <Menu.List aria-label="Language">
+    <Menu.RadioGroup mnuValue={locale} mnuOnValueChange={changeLanguage}>
+      <Menu.RadioItem mnuValue="en" lang="en">
+        English
+      </Menu.RadioItem>
+      <Menu.RadioItem mnuValue="uk" lang="uk">
+        Українська
+      </Menu.RadioItem>
+    </Menu.RadioGroup>
+  </Menu.List>
+</Menu>
+```
+
 ### Toasts
 
 ```tsx
@@ -371,8 +503,9 @@ selects on arrow keys; `manual` waits for Enter / Space), `tbsControllerId` +
 
 Props: `accType` (`single` default · `multiple`), `accIsCollapsible` (single: whether all can
 close, default `true`), `accHeadingAs` (the triggers' heading level, default `h3`, to fit the
-page outline), `accOpenIds` + `accOnOpenChange` (controlled); item `accIsDisabled`. Collapsed
-panels stay in the DOM (`hidden`), ↑ / ↓ / Home / End move between triggers.
+page outline), `accOpenIds` + `accOnOpenChange` (controlled); item `accIsDisabled`. Panels open
+and close with a height animation; collapsed ones stay in the DOM (`inert`, hidden from
+assistive tech). ↑ / ↓ / Home / End move between triggers.
 
 ## Data display
 
@@ -499,3 +632,26 @@ Props: `brcSeparator` (default `/`; `›` is mirrored in RTL text, an icon may n
 `brcLabel` ("Breadcrumb"). Each child becomes a list item, so pass items directly, not in a
 fragment. `Breadcrumb.Item`: `brcAs` (a router link), `brcIsCurrent` (`aria-current="page"`);
 it's a `span` unless it has an `href` or a `brcAs`.
+
+### Table of contents (`useActiveSectionId`, `hooks`)
+
+Scroll-spy: the id of the section being read, the last one whose top passed the reading line
+(below `--ms-scroll-offset`, e.g. a fixed header), or the last section at the page's end. `null`
+on the server and in the first render. Mark its link `aria-current="location"`.
+
+```tsx
+const activeId = useActiveSectionId(SECTION_IDS);
+
+<nav aria-label="Contents">
+  {SECTION_IDS.map((id) => (
+    <Link
+      key={id}
+      href={`#${id}`}
+      lnkUnderline="hover"
+      aria-current={id === activeId ? 'location' : undefined}
+    >
+      {titles[id]}
+    </Link>
+  ))}
+</nav>;
+```

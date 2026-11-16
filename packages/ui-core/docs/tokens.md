@@ -12,17 +12,18 @@ overridden on `:root` alone.
 
 ### Palette (Tier 1): global
 
-Literal colors. Elements never read them directly; semantic tokens point at them.
+Literal colors. Elements never read them directly; semantic tokens point at them. `violet-600`
+(`#8b14fd`) is the mainset brand purple, the default `primary`.
 
-| Token                                       | Value                                                    |
-| ------------------------------------------- | -------------------------------------------------------- |
-| `--ms-palette-white` / `-black`             | `rgb(255 255 255)` / `rgb(0 0 0)`                        |
-| `--ms-palette-violet-400` / `-600` / `-800` | `rgb(181 89 255)` / `rgb(139 20 253)` / `rgb(92 11 186)` |
-| `--ms-palette-red-600`                      | `rgb(215 34 38)`                                         |
-| `--ms-palette-blue-600`                     | `rgb(37 99 235)`                                         |
-| `--ms-palette-green-600`                    | `rgb(22 163 74)`                                         |
-| `--ms-palette-yellow-500`                   | `rgb(234 179 8)`                                         |
-| `--ms-palette-gray-{50…950}`                | Tailwind-like gray scale: 50, 100, 200 … 900, 950        |
+| Token                                       | Value                                                             |
+| ------------------------------------------- | ----------------------------------------------------------------- |
+| `--ms-palette-white` / `-black`             | `rgb(255 255 255)` / `rgb(0 0 0)`                                 |
+| `--ms-palette-violet-400` / `-600` / `-800` | `rgb(181 89 255)` / `rgb(139 20 253)` / `rgb(92 11 186)`          |
+| `--ms-palette-red-600`                      | `rgb(215 34 38)`                                                  |
+| `--ms-palette-blue-600`                     | `rgb(37 99 235)`                                                  |
+| `--ms-palette-green-600`                    | `rgb(22 163 74)`                                                  |
+| `--ms-palette-yellow-500`                   | `rgb(234 179 8)`                                                  |
+| `--ms-palette-gray-{50…950}`                | gray scale: 50, 100, 200 … 900, 950, and 450 (dark `text-subtle`) |
 
 ### Neutral semantic tokens: per scheme
 
@@ -33,6 +34,7 @@ Literal colors. Elements never read them directly; semantic tokens point at them
 | `--ms-color-bg-subtle`      | gray-50             | gray-800           | quiet fills                  |
 | `--ms-color-text-base`      | gray-800            | gray-100           | body text                    |
 | `--ms-color-text-muted`     | gray-600            | gray-400           | secondary text               |
+| `--ms-color-text-subtle`    | gray-500            | gray-450           | captions, meta (still AA)    |
 | `--ms-color-text-disabled`  | gray-400            | gray-600           |                              |
 | `--ms-color-text-inverse`   | gray-50             | gray-900           | text on inverted fills       |
 | `--ms-color-border-subtle`  | gray-200            | gray-800           | dividers                     |
@@ -74,13 +76,18 @@ read them, and so can your CSS. Override them only together with a tone class
 
 ## Typography: global
 
-| Token                                             | Values                                                      |
-| ------------------------------------------------- | ----------------------------------------------------------- |
-| `--ms-font-family-text-{sans,serif,mono}`         | system-ui stack / georgia stack / ui-monospace stack        |
-| `--ms-font-weight-{regular,medium,semibold,bold}` | 400 / 500 / 600 / 700                                       |
-| `--ms-font-size-text-{size}`                      | xxs 10px · xs 12 · sm 14 · base 16 · lg 20 · xl 24 · xxl 36 |
-| `--ms-line-height-text-{size}`                    | paired with each font size                                  |
-| `--ms-letter-spacing-text-{size}`                 | paired with each font size                                  |
+| Token                                                              | Values                                                              |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------- |
+| `--ms-font-family-text-{sans,serif,mono}`                          | system-ui stack / georgia stack / ui-monospace stack                |
+| `--ms-font-weight-{regular,medium,semibold,bold}`                  | 400 / 500 / 600 / 700                                               |
+| `--ms-font-size-text-{size}`                                       | xxs 10px · xs 12 · sm 14 · base 16 · lg 20 · xl 24 · xxl 36         |
+| `--ms-line-height-text-{size}`                                     | paired with each font size                                          |
+| `--ms-letter-spacing-text-{size}`                                  | paired with each font size                                          |
+| `--ms-font-size-display-{sm,base,lg}`                              | fluid: 30→36px · 36→60px · 48→72px (`clamp()`)                      |
+| `--ms-line-height-display-*` / `--ms-letter-spacing-display-*`     | paired with each display size                                       |
+| `--ms-line-height-{tight,relaxed}`                                 | 1.2 / 1.625 (`txtLeading`)                                          |
+| `--ms-overline-{font-family,font-size,font-weight,letter-spacing}` | mono · xs · medium · 0.16em (`txtVariant="overline"`)               |
+| `--ms-scroll-offset`                                               | 0: room kept above in-page anchor targets (a fixed header's height) |
 
 ## Spacing: global
 
@@ -107,12 +114,12 @@ that uses it.
 
 ## Motion, focus, opacity: global
 
-| Token                                      | Default                                               |
-| ------------------------------------------ | ----------------------------------------------------- |
-| `--ms-duration-{fast,base,slow}`           | 120 / 200 / 300 ms (0 under `prefers-reduced-motion`) |
-| `--ms-easing-{standard,enter,exit}`        | cubic-bezier curves                                   |
-| `--ms-focus-ring-width` / `-offset`        | 2px / 2px                                             |
-| `--ms-opacity-{disabled,pressed,backdrop}` | 0.7 / 0.8 / 0.6                                       |
+| Token                                           | Default                                                               |
+| ----------------------------------------------- | --------------------------------------------------------------------- |
+| `--ms-duration-{fast,base,slow,slower,slowest}` | 120 / 200 / 300 / 500 / 800 ms (0 under `prefers-reduced-motion`)     |
+| `--ms-easing-{standard,enter,exit,emphasized}`  | cubic-bezier curves; `emphasized` is a long, soft landing (entrances) |
+| `--ms-focus-ring-width` / `-offset`             | 2px / 2px                                                             |
+| `--ms-opacity-{disabled,pressed,backdrop}`      | 0.7 / 0.8 / 0.6                                                       |
 
 ## Layout: global
 
@@ -300,6 +307,28 @@ A selected row reads `--ms-tone-subtle` directly, so `ms-tone-*` on the table or
 | `--ms-progress-indeterminate-width`    | 40%                                 | global     |
 | `--ms-progress-indeterminate-duration` | 1.5s (×3 under reduced motion)      | global     |
 | `--ms-progress-track-background`       | `var(--ms-color-border-subtle)`     | per scheme |
+
+### Motion and media
+
+| Token                                                  | Default                                | Scope               |
+| ------------------------------------------------------ | -------------------------------------- | ------------------- |
+| `--ms-animate-duration`                                | `var(--ms-duration-slower)`            | global              |
+| `--ms-animate-easing-enter` / `-exit`                  | `emphasized` / `exit` easing           | global              |
+| `--ms-animate-slide-distance`                          | 1.5rem                                 | global              |
+| `--ms-animate-zoom-in-scale` / `-out-scale`            | 0.95 / 1.05                            | global              |
+| `--ms-hover-duration` / `--ms-hover-easing`            | `var(--ms-duration-base)` / standard   | global              |
+| `--ms-hover-lift-distance`                             | 0.25rem                                | global              |
+| `--ms-hover-zoom-scale` / `-zoom-duration`             | 1.05 / `var(--ms-duration-slower)`     | global              |
+| `--ms-hover-nudge-distance`                            | 0.125rem                               | global              |
+| `--ms-surface-transition-property`                     | colors, shadow, opacity, `transform`   | global              |
+| `--ms-icon-tile-size-{sm,base,lg}`                     | 2rem / 2.5rem / 2.75rem                | global              |
+| `--ms-icon-tile-icon-scale`                            | 0.5 (the icon, as a share of the tile) | global              |
+| `--ms-icon-tile-radius` / `-border-width`              | `--ms-border-radius-base` / base width | global              |
+| `--ms-icon-tile-outlined-background` / `-border-color` | `bg-subtle` / `border-subtle`          | per scheme          |
+| `--ms-list-item-gap` / `-icon-size` / `-icon-line`     | element-xl / 1em / 1.5em               | global              |
+| `--ms-link-stretched-radius`                           | `var(--ms-border-radius-lg)`           | global              |
+| `--ms-menu-item-indicator-size` / `-color`             | 1rem / `var(--ms-tone-text)`           | global / per scheme |
+| `--ms-disclosure-duration`                             | `var(--ms-duration-slow)`              | global              |
 
 ### Pagination and breadcrumb
 

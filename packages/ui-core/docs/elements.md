@@ -100,6 +100,10 @@ stackStyleProps({ layGapSize: 'sm' }, 'cluster');
 Props: `flxDirection`, `flxWrap`, `flxDisplay` (responsive), `layJustify`, `layAlign`
 (responsive), `layGapSize` (responsive), spacing.
 
+`flxDisplay` (and `grdDisplay` on a grid) also takes `none`: shown from a breakpoint up with
+`{ base: 'none', lg: 'flex' }`, hidden from it with `{ base: 'flex', md: 'none' }`. One prop holds
+both states, so they never compete in the cascade.
+
 ### Container
 
 Centered content up to a container width, with side gutters.
@@ -136,6 +140,43 @@ Auto-fit columns by default; equal columns with `grdColumns`.
 | item `grdColSpan` (responsive) | 1–12                                      |
 | item `grdIsFullRow`            | spans the whole row                       |
 
+### List item with an icon
+
+A row with a leading icon (a check mark, a feature icon) that stays on the first line while the
+text wraps beside it. The icon takes the tone's text color.
+
+```html
+<ul
+  class="ms-flex ms-flex--display-flex ms-flex--flex-direction-column ms-layout ms-layout--gap-size-sm"
+>
+  <li class="ms-list__item">
+    <span class="ms-list__item-icon"><svg aria-hidden="true">…</svg></span>
+    <span>Works offline</span>
+  </li>
+</ul>
+```
+
+Customize: `--ms-list-item-gap`, `--ms-list-item-icon-size` (1em), `--ms-list-item-icon-line`
+(the first line's height, `1.5em`: match it to the text's line height).
+
+### Aspect ratio
+
+A box of a fixed ratio whose single media child fills it, so the page doesn't shift while the
+image loads. It uses the padding technique (`aspect-ratio` needs Safari 15 / Firefox 89).
+
+```html
+<div
+  class="ms-aspect-ratio ms-aspect-ratio--ratio-16-10 ms-aspect-ratio--fit-cover"
+>
+  <img src="shot.webp" alt="The search results" />
+</div>
+```
+
+| Prop       | Values                                               |
+| ---------- | ---------------------------------------------------- |
+| `aspRatio` | `1-1` `4-3` `3-2` `16-10` `16-9` (default) `21-9`    |
+| `aspFit`   | `cover` (default, cropped) · `contain` (letterboxed) |
+
 ## Typography
 
 ### Heading
@@ -149,8 +190,34 @@ The tag sets the level and its default size; `txtSize` changes the looks only.
 
 ### Text
 
-The `txt*` utilities on any text element: `txtSize` (`xxs`–`xxl`), `txtWeight`, `txtColor`
-(any tone), `txtColorHover`, `txtAlign`, `txtFamily`, `txtTransform`, `txtIsTruncated`.
+The `txt*` utilities on any text element:
+
+| Prop                                                                       | Values                                                                                        |
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `txtSize`                                                                  | `xxs`–`xxl`; fluid `display-sm` (30→36px) · `display-base` (36→60px) · `display-lg` (48→72px) |
+| `txtWeight`                                                                | `normal` `medium` `semibold` `bold` · `lighter` `bolder`                                      |
+| `txtLeading`                                                               | `tight` · `relaxed`: overrides the line height the size brings                                |
+| `txtWrap`                                                                  | `balance` (headings) · `pretty` (paragraphs) · `nowrap`                                       |
+| `txtVariant`                                                               | `overline` (the label above a heading: mono, uppercase, tracked) · `lead` (intro text)        |
+| `txtColor`                                                                 | any tone, or `subtle`: the faintest text that still passes WCAG AA                            |
+| `txtColorHover`, `txtAlign`, `txtFamily`, `txtTransform`, `txtIsTruncated` | as their names say                                                                            |
+
+Display sizes grow with the viewport between a floor and a ceiling (`clamp()` with a `rem` part,
+so they still zoom), so a headline needs no size per breakpoint. `balance` / `pretty` are
+ignored by older browsers, which wrap as usual. A variant is a preset: `txtSize`, `txtWeight`…
+on the same element still win.
+
+```html
+<p class="ms-text ms-text--variant-overline ms-text--color-primary">Products</p>
+<h2 class="ms-heading ms-text ms-text--size-display-sm ms-text--wrap-balance">
+  Find any document
+</h2>
+<p
+  class="ms-text ms-text--variant-lead ms-text--color-muted ms-text--wrap-pretty"
+>
+  …
+</p>
+```
 
 ### Link
 
@@ -161,6 +228,25 @@ The `txt*` utilities on any text element: `txtSize` (`xxs`–`xxl`), `txtWeight`
 The current tone's text color (`--ms-tone-text`), `--ms-tone-solid-hover` on hover.
 `lnkUnderline`: `always` (default; links inside running text need it, WCAG 1.4.1), `hover`,
 `none`. `aria-disabled="true"` disables it. Re-color with a tone (`ms-tone-error`) or `txtColor`.
+
+**Stretched link** (`lnkIsStretched` / `ms-link--stretched`): the whole nearest `ms-link-area`
+(a card) becomes the link's click target, and its focus ring goes around that area. There is
+one real link inside, so a screen reader reads it once, by its own text. Other links in the
+area need `position: relative` and a `z-index` to stay clickable. Round the ring with
+`--ms-link-stretched-radius` (default `--ms-border-radius-lg`).
+
+```html
+<article class="ms-surface ms-surface--variant-outlined ms-link-area">
+  <h3>
+    <a
+      class="ms-link ms-link--underline-none ms-link--stretched"
+      href="/docninja"
+      >DocNinja</a
+    >
+  </h3>
+  <p>Offline document search.</p>
+</article>
+```
 
 ## Actions
 
@@ -176,6 +262,20 @@ alone. Give it an `aria-label`.
 >
   <!-- CLOSE_ICON__SVG from @mainset/ui-core -->
 </button>
+```
+
+### Button icons
+
+An icon before or after the label goes in an `ms-button__icon` span, sized to the text
+(`1.15em`); the button's gap spaces it.
+
+```html
+<a class="… ms-button ms-hover--group" href="/download">
+  Download
+  <span class="ms-button__icon"
+    ><svg class="ms-hover--nudge-end" aria-hidden="true">…</svg></span
+  >
+</a>
 ```
 
 ## Forms
@@ -356,6 +456,25 @@ dark label (`hidden` while not shown), referenced by its trigger's `aria-describ
 
 The highlighted item is the focused one. Disabled items keep the focus (`aria-disabled="true"`).
 
+A single choice (a language) is a group of `menuitemradio`s; the checked one shows its
+`ms-menu__item-indicator` check mark (`--ms-menu-item-indicator-color`, the tone's text):
+
+```html
+<div role="group">
+  <button
+    class="ms-menu__item"
+    role="menuitemradio"
+    aria-checked="true"
+    tabindex="-1"
+  >
+    English
+    <svg class="ms-menu__item-indicator" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3.75 8.25l2.75 2.75 5.75-6" />
+    </svg>
+  </button>
+</div>
+```
+
 ## Disclosure
 
 ### Tabs
@@ -417,12 +536,16 @@ too). The selected tab is in the current tone.
     id="ship"
     aria-labelledby="ship-t"
   >
-    …
+    <div class="ms-disclosure__panel-content">…</div>
   </div>
 </div>
 ```
 
-The chevron turns with `aria-expanded`; a collapsed panel gets `hidden`.
+The chevron turns with `aria-expanded`. `data-state="closed"` collapses the panel to no height
+and `visibility: hidden` (out of the tab order and the accessibility tree); the theme layer
+animates it to its content's height (`--ms-disclosure-duration`), browsers without grid-row
+transitions open it at once. A panel with the `hidden` attribute is simply not displayed. The
+padding is on the content, so a collapsed panel has no leftover height.
 
 ## Alerts and toasts
 
@@ -447,7 +570,86 @@ Toasts are alerts with `ms-toast` (a shadow, enter / exit animations) in an
 `<ol class="ms-toast-region">`, fixed in the block-end / inline-end corner. Announce them through
 a live region that is already in the page: one added together with its content may not be read.
 
+## Motion
+
+### Animate
+
+Entrance and exit animations from CSS alone. The modifiers say where it comes from, and combine
+freely; the state says when it moves. Only `opacity` and `transform` change, so nothing around
+it reflows. Under `prefers-reduced-motion` it is shown at once (no delay, no hidden wait).
+
+```html
+<!-- plays from the first paint: no JS needed -->
+<h1 class="ms-animate ms-animate--state-enter ms-animate--slide-up">…</h1>
+<li
+  class="ms-animate ms-animate--state-enter ms-animate--fade ms-animate--slide-up"
+  style="--ms-animate-delay: 160ms"
+>
+  …
+</li>
+```
+
+| Prop / class                             | Values                                                    |
+| ---------------------------------------- | --------------------------------------------------------- |
+| `anmState` / `ms-animate--state-*`       | `enter` (default) · `exit` · `hidden` (held at the start) |
+| `anmFade` / `ms-animate--fade`           | from transparent (default on)                             |
+| `anmSlide` / `ms-animate--slide-*`       | `up` (rises into place) · `down`                          |
+| `anmZoom` / `ms-animate--zoom-*`         | `in` (grows into place) · `out`                           |
+| `anmDuration` / `ms-animate--duration-*` | `fast` `base` `slow` `slower` (default) `slowest`         |
+
+Leave the fade out for a page's largest text: Chrome counts its Largest Contentful Paint only
+once it's visible, so a headline fading in from 0 is reported late. An entrance holds nothing
+once it ends, so a hover effect on the same element still works. Customize:
+`--ms-animate-slide-distance`, `--ms-animate-zoom-{in,out}-scale`,
+`--ms-animate-easing-{enter,exit}`, `--ms-animate-duration`.
+
+### Hover effects
+
+Small motion on hover, for a pointer that can hover (any of them, so a touchscreen laptop with a
+mouse gets it too, a phone doesn't), and never under `prefers-reduced-motion`. Colors stay with
+the element (`srfHover`, `txtColorHover`).
+
+| Class                    | Effect                                                          |
+| ------------------------ | --------------------------------------------------------------- |
+| `ms-hover--lift`         | rises (`--ms-hover-lift-distance`, 0.25rem)                     |
+| `ms-hover--zoom`         | grows (`--ms-hover-zoom-scale`, 1.05): media in a card          |
+| `ms-hover--nudge-end`    | moves toward the inline end (follows RTL)                       |
+| `ms-hover--nudge-up-end` | up and toward the end: a ↗ arrow                                |
+| `ms-hover--group`        | hovering or keyboard-focusing it plays its descendants' effects |
+
+```html
+<a
+  class="ms-surface ms-surface--variant-outlined ms-surface--hover-border ms-hover--group ms-hover--lift"
+  href="/docninja"
+>
+  DocNinja <svg class="ms-hover--nudge-up-end" aria-hidden="true">…</svg>
+</a>
+```
+
+From JS, `hoverRecipe({ hvrEffect, hvrIsGroup })` returns just these classes (no base class), for
+any element or an icon's `className`.
+
 ## Data display
+
+### Icon tile
+
+An icon on a small tile, beside a feature's title or a list row; painted from the current tone.
+Decorative: the text beside it carries the meaning.
+
+```html
+<span
+  class="ms-icon-tile ms-icon-tile--size-base ms-icon-tile--shape-square ms-icon-tile--variant-outlined"
+  aria-hidden="true"
+>
+  <svg>…</svg>
+</span>
+```
+
+| Prop         | Values                                                            |
+| ------------ | ----------------------------------------------------------------- |
+| `ictVariant` | `outlined` (default: neutral tile, toned icon) · `soft` · `solid` |
+| `ictShape`   | `square` (default) · `circle`                                     |
+| `ictSize`    | `sm` (2rem) · `base` (2.5rem) · `lg` (2.75rem)                    |
 
 ### Table
 
