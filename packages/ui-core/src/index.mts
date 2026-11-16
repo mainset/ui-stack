@@ -67,6 +67,9 @@ export {
   BUTTON__RECIPE_CONFIGS,
   buttonRecipe,
   controlRecipe,
+  STACK__PRESETS,
+  STACK__RECIPE_CONFIGS,
+  stackStyleProps,
   SURFACE__RECIPE_CONFIGS,
   surfaceRecipe,
   toneRecipe,
@@ -74,6 +77,8 @@ export {
 export type {
   BoxRecipeProps,
   ButtonRecipeProps,
+  StackPreset,
+  StackRecipeProps,
   SurfaceRecipeProps,
 } from './recipes/index.mjs';
 export {
