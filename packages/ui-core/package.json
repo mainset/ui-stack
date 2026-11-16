@@ -20,6 +20,10 @@
       "types": "./dist/types/src/index.d.mts",
       "import": "./dist/esm/index.mjs"
     },
+    "./theme": {
+      "types": "./dist/types/src/theme/index.d.mts",
+      "import": "./dist/esm/theme/index.mjs"
+    },
     "./styles/index.css": "./dist/esm/styles/index.css",
     "./styles/index.min.css": "./dist/esm/styles/index.min.css",
     "./styles/foundation.css": "./dist/esm/styles/foundation.css",
