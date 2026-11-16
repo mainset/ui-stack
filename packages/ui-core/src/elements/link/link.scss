@@ -11,7 +11,7 @@ $link: '.ms-link';
   transition: color var(--ms-duration-fast) var(--ms-easing-standard);
 }
 
-@media (hover: hover) {
+@media (any-hover: hover) {
   #{options.where('#{$link}:hover')} {
     color: var(--ms-tone-solid-hover);
   }

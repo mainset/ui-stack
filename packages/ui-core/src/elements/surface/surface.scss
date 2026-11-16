@@ -58,7 +58,9 @@ $surface: surfaceVars.$class-selector;
 // --- Hover interaction modifiers (opt-in) ---
 $hover-bg: '#{$surface}--hover-bg, #{$surface}--hover-all';
 
-@media (hover: hover) {
+// `any-hover`: some input can hover (a touchscreen laptop with a mouse reports `hover: none` as
+// its primary pointer); phones have none, so taps leave no sticky hover
+@media (any-hover: hover) {
   #{options.where(':is(#{$hover-bg})#{$surface}--variant-solid:hover')} {
     background-color: var(--ms-tone-solid-hover);
   }

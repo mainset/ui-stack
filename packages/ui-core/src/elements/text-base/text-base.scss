@@ -109,7 +109,7 @@
 }
 
 // One media query for every hover color, instead of one per class
-@media (hover: hover) {
+@media (any-hover: hover) {
   @include options.each-class(
       vars.$base-class,
       'txtColorHover',

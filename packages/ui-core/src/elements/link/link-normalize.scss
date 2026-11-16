@@ -12,7 +12,7 @@ $link: '.ms-link';
   text-decoration-line: underline;
 }
 
-@media (hover: hover) {
+@media (any-hover: hover) {
   #{options.where('#{$link}--underline-hover:hover')} {
     text-decoration-line: underline;
   }
