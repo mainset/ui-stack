@@ -463,6 +463,10 @@ $heading-level-size-map: (
 );
 
 $class-name-config-map: (
+  'ms-alert': (
+    'composed': false,
+    'props': (),
+  ),
   'ms-backdrop': (
     'composed': false,
     'props': (
@@ -1236,5 +1240,9 @@ $class-name-config-map: (
         'responsive': false,
       ),
     ),
+  ),
+  'ms-toast': (
+    'composed': false,
+    'props': (),
   ),
 );

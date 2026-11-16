@@ -1,0 +1,32 @@
+@use '../../styles/options';
+@use './toast.variables' as toastVars;
+
+// Theme layer (mainset look) on top of `toast-normalize.scss`
+$toast: toastVars.$class-selector;
+
+#{options.where($toast)} {
+  box-shadow: var(--ms-toast-shadow);
+}
+
+// NOTE: a logical offset: slides in from the inline end in LTR and RTL sections alike
+@keyframes ms-toast-enter {
+  from {
+    inset-inline-start: var(--ms-toast-enter-distance);
+    opacity: 0;
+  }
+}
+
+@keyframes ms-toast-exit {
+  to {
+    opacity: 0;
+  }
+}
+
+#{options.where('#{$toast}[data-state="open"]')} {
+  animation: ms-toast-enter var(--ms-duration-base) var(--ms-easing-enter);
+}
+
+#{options.where('#{$toast}[data-state="closed"]')} {
+  animation: ms-toast-exit var(--ms-duration-fast) var(--ms-easing-exit)
+    forwards;
+}

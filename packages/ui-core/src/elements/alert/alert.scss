@@ -1,0 +1,18 @@
+@use '../../styles/options';
+@use './alert.variables' as alertVars;
+
+// Theme layer (mainset look) on top of `alert-normalize.scss`
+$alert: alertVars.$class-selector;
+
+#{options.where($alert)} {
+  // NOTE: handed to `.ms-surface` on the same element
+  --ms-surface-radius: var(--ms-alert-radius);
+
+  font-size: var(--ms-font-size-text-sm);
+  letter-spacing: var(--ms-letter-spacing-text-sm);
+  line-height: var(--ms-line-height-text-sm);
+}
+
+#{options.where('#{$alert}__title')} {
+  font-weight: var(--ms-font-weight-semibold);
+}
