@@ -183,3 +183,76 @@ Checked colors follow the current tone (`--ms-tone-solid`, `--ms-tone-on-solid`)
 
 `h1`–`h6` with `.ms-heading` take the text size of their level (h1 `xxl`, h2 `xl`, h3 `lg`,
 h4 `base`, h5 `sm`, h6 `xs`) and `--ms-font-weight-semibold`. Any `txtSize` class overrides it.
+
+### Overlay, dialog, drawer
+
+| Token                        | Default                                                | Scope      |
+| ---------------------------- | ------------------------------------------------------ | ---------- |
+| `--ms-overlay-gutter`        | `component-base` (around a centered dialog)            | global     |
+| `--ms-dialog-size-{size}`    | xs 20rem · sm 25 · base 32 · lg 48 · xl 64 · full 100% | global     |
+| `--ms-dialog-padding`        | `component-base`                                       | global     |
+| `--ms-dialog-gap`            | `component-xs`                                         | global     |
+| `--ms-dialog-radius`         | `var(--ms-border-radius-lg)`                           | global     |
+| `--ms-dialog-shadow`         | `var(--ms-shadow-xl)`                                  | global     |
+| `--ms-dialog-enter-distance` | `var(--ms-space-12)` (a drawer's slide)                | global     |
+| `--ms-dialog-background`     | `var(--ms-color-bg-surface)`                           | per scheme |
+| `--ms-dialog-color`          | `var(--ms-color-text-base)`                            | per scheme |
+
+### Popover, menu, tooltip
+
+| Token                                    | Default                                                           | Scope      |
+| ---------------------------------------- | ----------------------------------------------------------------- | ---------- |
+| `--ms-popover-max-width`                 | 20rem                                                             | global     |
+| `--ms-popover-padding`                   | `component-xs`                                                    | global     |
+| `--ms-popover-radius`                    | `var(--ms-border-radius-base)`                                    | global     |
+| `--ms-popover-shadow`                    | `var(--ms-shadow-lg)`                                             | global     |
+| `--ms-popover-gutter`                    | `element-xl` (to the viewport)                                    | global     |
+| `--ms-popover-background`                | `var(--ms-color-bg-surface)`                                      | per scheme |
+| `--ms-popover-border-color`              | `var(--ms-color-border-subtle)`                                   | per scheme |
+| `--ms-popover-color`                     | `var(--ms-color-text-base)`                                       | per scheme |
+| `--ms-menu-min-width` / `-max-height`    | 10rem / 20rem                                                     | global     |
+| `--ms-menu-padding`                      | `element-sm`                                                      | global     |
+| `--ms-menu-item-gap` / `-padding-*`      | `element-lg` / `element-base` `element-lg`                        | global     |
+| `--ms-menu-item-radius`                  | `var(--ms-border-radius-xs)`                                      | global     |
+| `--ms-menu-item-background-highlight`    | `var(--ms-color-bg-subtle)`                                       | per scheme |
+| `--ms-menu-separator-color`              | `var(--ms-color-border-subtle)`                                   | per scheme |
+| `--ms-menu-group-label-color`            | `var(--ms-color-text-muted)`                                      | per scheme |
+| `--ms-tooltip-max-width`                 | 16rem                                                             | global     |
+| `--ms-tooltip-padding-block` / `-inline` | `element-sm` / `element-lg`                                       | global     |
+| `--ms-tooltip-radius`                    | `var(--ms-border-radius-xs)`                                      | global     |
+| `--ms-tooltip-background` / `-color`     | the `base` tone's solid / on-solid (dark on light, light on dark) | per scheme |
+
+### Tabs and disclosure
+
+| Token                                       | Default                         | Scope      |
+| ------------------------------------------- | ------------------------------- | ---------- |
+| `--ms-tabs-gap`                             | `component-xs`                  | global     |
+| `--ms-tabs-tab-padding-block` / `-inline`   | `element-lg` / `element-xl`     | global     |
+| `--ms-tabs-indicator-width`                 | `var(--ms-border-width-lg)`     | global     |
+| `--ms-tabs-list-border-width`               | `var(--ms-border-width-base)`   | global     |
+| `--ms-tabs-list-border-color`               | `var(--ms-color-border-subtle)` | per scheme |
+| `--ms-tabs-tab-color` / `-color-hover`      | text muted / text base          | per scheme |
+| `--ms-disclosure-gap`                       | `component-xs`                  | global     |
+| `--ms-disclosure-padding-block` / `-inline` | `component-xs` / 0              | global     |
+| `--ms-disclosure-icon-size`                 | 0.5em                           | global     |
+| `--ms-disclosure-border-width`              | `var(--ms-border-width-base)`   | global     |
+| `--ms-disclosure-border-color`              | `var(--ms-color-border-subtle)` | per scheme |
+| `--ms-disclosure-icon-color`                | `var(--ms-color-text-muted)`    | per scheme |
+
+The selected tab uses the current tone (`--ms-tone-text`, `--ms-tone-solid`).
+
+### Alert and toast
+
+| Token                                  | Default                                  |
+| -------------------------------------- | ---------------------------------------- |
+| `--ms-alert-gap`                       | `component-xs`                           |
+| `--ms-alert-padding-block` / `-inline` | `component-xs` / `component-sm`          |
+| `--ms-alert-radius`                    | `var(--ms-border-radius-base)`           |
+| `--ms-alert-icon-size`                 | 1.25em                                   |
+| `--ms-toast-gutter`                    | `component-base` (to the viewport edges) |
+| `--ms-toast-gap`                       | `element-xl`                             |
+| `--ms-toast-width`                     | 24rem                                    |
+| `--ms-toast-shadow`                    | `var(--ms-shadow-lg)`                    |
+| `--ms-toast-enter-distance`            | `var(--ms-space-8)`                      |
+
+Colors come from the surface + tone of the alert.

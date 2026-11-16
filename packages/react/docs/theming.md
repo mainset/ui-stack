@@ -24,7 +24,7 @@ import './app-theme.css';
 
 export function App() {
   return (
-    // overlays / modals state, and the optional runtime `theme`
+    // overlays (dialogs, drawers), toasts, and the optional runtime `theme`
     <MainSetProvider>
       <Routes />
     </MainSetProvider>
