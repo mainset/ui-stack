@@ -1,0 +1,52 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './disclosure.tokens';
+@use '../../styles/options';
+@use './disclosure.variables' as disclosureVars;
+
+// Normalize layer: an expandable section. A heading wraps the full-width trigger button
+// (`aria-expanded`); the panel is hidden with the `hidden` attribute while collapsed.
+$disclosure: disclosureVars.$class-selector;
+
+#{options.where('#{$disclosure}__heading')} {
+  margin: 0;
+  font: inherit;
+}
+
+#{options.where('#{$disclosure}__trigger')} {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ms-disclosure-gap);
+  box-sizing: border-box;
+  inline-size: 100%;
+  margin: 0;
+  padding: var(--ms-disclosure-padding-block)
+    var(--ms-disclosure-padding-inline);
+  font: inherit;
+  color: inherit;
+  text-align: start;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  appearance: none;
+}
+
+#{options.where('#{$disclosure}__trigger:disabled, #{$disclosure}__trigger[aria-disabled="true"]')} {
+  cursor: default;
+}
+
+#{options.where('#{$disclosure}__icon')} {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  inline-size: var(--ms-disclosure-icon-size);
+  block-size: var(--ms-disclosure-icon-size);
+}
+
+#{options.where('#{$disclosure}__panel')} {
+  padding: 0 var(--ms-disclosure-padding-inline)
+    var(--ms-disclosure-padding-block);
+}
+
+#{options.where('#{$disclosure}__panel[hidden]')} {
+  display: none;
+}
