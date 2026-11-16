@@ -104,11 +104,11 @@ React that's `<MainSetProvider theme>`. See [Live theming](./live-theming.md).
    overriding all `--ms-color-{tone}-*` roles in CSS. Never edit or copy ui-core's CSS, and never
    hand-compute derived roles.
 2. Scope dark-mode-specific values to `[data-theme='dark']` (and `system` under
-   `prefers-color-scheme: dark`). See the [scheme-aware override pattern](./ui-core.md#scheme-aware-overrides).
+   `prefers-color-scheme: dark`). See the [scheme-aware override pattern](./css-overrides.md#scheme-aware-overrides).
 3. To change the color of a subtree, use a tone (`.ms-tone-*` / `srfTheme`), not new CSS.
 4. Override `--ms-color-{tone}-*` on `:root` / `[data-theme]` elements, or on an element that
    has `.ms-tone-{tone}` itself. Elsewhere it has no effect, because the tone was already resolved
-   on an ancestor. See [where overrides apply](./ui-core.md#where-an-override-applies).
+   on an ancestor. See [where overrides apply](./css-overrides.md#where-an-override-applies).
 5. Don't use `color-mix()`, `@layer`, `:has()` or other post-2021 CSS in theme overrides if you
    need the same browser support as the library.
 6. Responsive props never change colors. Tone, color and radius are not responsive by design.

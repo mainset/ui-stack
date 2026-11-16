@@ -5,7 +5,7 @@ Every design token is a CSS custom property on `:root`, prefixed `--ms-`. Values
 disagree, the code is right.
 
 **Scheme column:** "per scheme" tokens have different values in light and dark, so override them
-with the [scheme-aware pattern](./ui-core.md#scheme-aware-overrides). "global" tokens can be
+with the [scheme-aware pattern](./css-overrides.md#scheme-aware-overrides). "global" tokens can be
 overridden on `:root` alone.
 
 ## Colors

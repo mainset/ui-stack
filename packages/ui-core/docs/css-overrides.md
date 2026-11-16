@@ -1,7 +1,7 @@
 # Theming with CSS (`@mainset/ui-core`)
 
 Everything here is plain CSS, so it works the same in React, Vue, Svelte, server templates or
-static HTML. Read the [overview](./README.md) first for the model.
+static HTML. Read the [overview](./theming.md) first for the model.
 
 ## Setup
 
@@ -64,7 +64,7 @@ toneRecipe('warning'); // → "ms-tone-warning"
 
 ## 3. Re-brand: change a tone
 
-A tone has 7 roles (see the [overview](./README.md#2-tones-ms-tone-tone)). Derived roles are
+A tone has 7 roles (see the [overview](./theming.md#2-tones-ms-tone-tone)). Derived roles are
 precomputed, so **override every role you want changed**, in each scheme:
 
 ```css
