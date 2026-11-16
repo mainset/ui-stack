@@ -467,6 +467,34 @@ $class-name-config-map: (
     'composed': false,
     'props': (),
   ),
+  'ms-avatar-group': (
+    'composed': false,
+    'props': (),
+  ),
+  'ms-avatar': (
+    'composed': false,
+    'props': (
+      'avtSize': (
+        'modifier': 'size',
+        'options': (
+          'xs',
+          'sm',
+          'base',
+          'lg',
+          'xl',
+        ),
+        'responsive': false,
+      ),
+      'avtShape': (
+        'modifier': 'shape',
+        'options': (
+          'circle',
+          'square',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-backdrop': (
     'composed': false,
     'props': (

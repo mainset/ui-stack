@@ -1,4 +1,9 @@
 export { ALERT__CLASS_NAME_CONFIG } from './alert/index.mjs';
+export {
+  AVATAR__CLASS_NAME_CONFIG,
+  AVATAR_GROUP__CLASS_NAME_CONFIG,
+} from './avatar/index.mjs';
+export type { AvatarStyleProps } from './avatar/index.mjs';
 export { BACKDROP__CLASS_NAME_CONFIG } from './backdrop/index.mjs';
 export type { BackdropStyleProps } from './backdrop/index.mjs';
 export { BACKGROUND__CLASS_NAME_CONFIG } from './background/index.mjs';

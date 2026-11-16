@@ -1,0 +1,21 @@
+// Component tokens (Tier 3) of avatars
+:where(:root) {
+  --ms-avatar-size-xs: 1.5rem;
+  --ms-avatar-size-sm: 2rem;
+  --ms-avatar-size-base: 2.5rem;
+  --ms-avatar-size-lg: 3rem;
+  --ms-avatar-size-xl: 4rem;
+  --ms-avatar-radius-square: var(--ms-border-radius-base);
+
+  // initials, relative to the avatar size
+  --ms-avatar-font-scale: 0.4;
+
+  // the share of an avatar hidden under the previous one in a group
+  --ms-avatar-group-overlap: 0.25;
+  --ms-avatar-group-ring-width: var(--ms-border-width-lg);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-avatar-group-ring-color: var(--ms-color-bg-canvas);
+}

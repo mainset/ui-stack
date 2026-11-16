@@ -1,0 +1,61 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './avatar.tokens';
+@use '../../styles/options';
+@use './avatar.variables' as avatarVars;
+
+// Normalize layer: a square box of `avtSize` that crops its picture. The picture lies over the
+// fallback (initials, an icon), so the fallback shows until it has loaded. In a group, each
+// avatar slides under the previous one
+$avatar: avatarVars.$class-selector;
+
+@include options.assert-options(
+  avatarVars.$base-class,
+  'avtShape',
+  (circle, square)
+);
+
+#{options.where($avatar)} {
+  --ms-avatar-size: var(--ms-avatar-size-base);
+
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: var(--ms-avatar-size);
+  block-size: var(--ms-avatar-size);
+  overflow: hidden;
+  vertical-align: middle;
+  user-select: none;
+}
+
+@include options.each-class(avatarVars.$base-class, 'avtSize') using
+  ($size, $value) {
+  --ms-avatar-size: var(--ms-avatar-size-#{$size});
+}
+
+#{options.where('#{$avatar} > img')} {
+  position: absolute;
+  inset: 0;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+#{options.where('#{$avatar} > svg')} {
+  inline-size: 60%;
+  block-size: 60%;
+}
+
+#{options.where('.ms-avatar-group')} {
+  display: inline-flex;
+  align-items: center;
+}
+
+#{options.where('.ms-avatar-group > * + *')} {
+  margin-inline-start: calc(
+    -1 * var(--ms-avatar-group-overlap) * var(--ms-avatar-size)
+  );
+}

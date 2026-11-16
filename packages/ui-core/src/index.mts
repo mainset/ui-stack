@@ -60,6 +60,8 @@ export {
   TABLE__CLASS_NAME_CONFIG,
   TABLE_CELL__CLASS_NAME_CONFIG,
   TABLE_WRAPPER__CLASS_NAME_CONFIG,
+  AVATAR__CLASS_NAME_CONFIG,
+  AVATAR_GROUP__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
@@ -96,6 +98,7 @@ export type {
   TableStyleProps,
   TableCellStyleProps,
   TableSortDirection,
+  AvatarStyleProps,
 } from './elements/index.mjs';
 export {
   BOX__RECIPE_CONFIGS,
