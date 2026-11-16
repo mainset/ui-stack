@@ -1,0 +1,35 @@
+@use '../../styles/options';
+@use './disclosure.variables' as disclosureVars;
+
+// Theme layer (mainset look) on top of `disclosure-normalize.scss`
+$disclosure: disclosureVars.$class-selector;
+
+#{options.where($disclosure)} {
+  border-block-end: var(--ms-disclosure-border-width) solid
+    var(--ms-disclosure-border-color);
+}
+
+#{options.where('#{$disclosure}__trigger')} {
+  font-weight: var(--ms-font-weight-medium);
+}
+
+#{options.where('#{$disclosure}__trigger:disabled')} {
+  opacity: var(--ms-opacity-disabled);
+}
+
+// A chevron pointing down, up while expanded.
+// NOTE: two borders of a square turned 45°: symmetric, so it needs no mirroring in RTL
+#{options.where('#{$disclosure}__icon')} {
+  margin-block-start: calc(-0.25 * var(--ms-disclosure-icon-size));
+
+  // rtl-safe: a symmetric chevron
+  border-right: 0.125em solid var(--ms-disclosure-icon-color);
+  border-bottom: 0.125em solid var(--ms-disclosure-icon-color);
+  transform: rotate(45deg);
+  transition: transform var(--ms-duration-base) var(--ms-easing-standard);
+}
+
+#{options.where('#{$disclosure}__trigger[aria-expanded="true"] > #{$disclosure}__icon')} {
+  margin-block-start: calc(0.25 * var(--ms-disclosure-icon-size));
+  transform: rotate(-135deg);
+}

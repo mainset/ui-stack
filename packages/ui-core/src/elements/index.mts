@@ -32,6 +32,7 @@ export type {
 } from './elements.types.mjs';
 export { CLOSE_ICON__SVG, DIALOG__CLASS_NAME_CONFIG } from './dialog/index.mjs';
 export type { DialogStyleProps } from './dialog/index.mjs';
+export { DISCLOSURE__CLASS_NAME_CONFIG } from './disclosure/index.mjs';
 export {
   FIELD__CLASS_NAME_CONFIG,
   LABEL__CLASS_NAME_CONFIG,
