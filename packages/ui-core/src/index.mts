@@ -50,6 +50,7 @@ export {
   CLOSE_ICON__SVG,
   DIALOG__CLASS_NAME_CONFIG,
   OVERLAY__CLASS_NAME_CONFIG,
+  TABS__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
@@ -82,6 +83,7 @@ export type {
   TextStyleProps,
   DialogStyleProps,
   OverlayStyleProps,
+  TabsStyleProps,
 } from './elements/index.mjs';
 export {
   BOX__RECIPE_CONFIGS,
