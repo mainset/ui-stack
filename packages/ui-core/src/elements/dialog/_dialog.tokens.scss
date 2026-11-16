@@ -1,0 +1,23 @@
+// Component tokens (Tier 3) of dialogs and drawers
+:where(:root) {
+  // Widths per `dlgSize` (a drawer's depth: its width at `start` / `end`, height at `top` / `bottom`)
+  --ms-dialog-size-xs: 20rem; // 320px
+  --ms-dialog-size-sm: 25rem; // 400px
+  --ms-dialog-size-base: 32rem; // 512px
+  --ms-dialog-size-lg: 48rem; // 768px
+  --ms-dialog-size-xl: 64rem; // 1024px
+  --ms-dialog-size-full: 100%;
+  --ms-dialog-padding: var(--ms-spacing-scale-component-base);
+  --ms-dialog-gap: var(--ms-spacing-scale-component-xs);
+  --ms-dialog-radius: var(--ms-border-radius-lg);
+  --ms-dialog-shadow: var(--ms-shadow-xl);
+
+  // How far a drawer slides in from its edge
+  --ms-dialog-enter-distance: var(--ms-space-12);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-dialog-background: var(--ms-color-bg-surface);
+  --ms-dialog-color: var(--ms-color-text-base);
+}

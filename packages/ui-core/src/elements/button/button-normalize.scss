@@ -15,6 +15,19 @@ $button: buttonVars.$class-selector;
   inline-size: 100%;
 }
 
+// Icon only: a square of the control height (`--ms-control-height`, set by `.ms-control`)
+#{options.where('#{$button}--icon')} {
+  flex-shrink: 0;
+  inline-size: var(--ms-control-height);
+  padding-inline: 0;
+}
+
+#{options.where('#{$button}--icon > svg')} {
+  flex-shrink: 0;
+  inline-size: 1.25em;
+  block-size: 1.25em;
+}
+
 #{options.where('#{$button}:disabled, #{$button}[aria-disabled="true"], #{$button}--disabled')} {
   cursor: not-allowed;
   pointer-events: none;

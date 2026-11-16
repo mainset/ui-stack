@@ -18,6 +18,11 @@ const BUTTON__CLASS_NAME_CONFIG = {
       modifier: 'full-width',
       options: [true, false],
     },
+    // icon only: a square of the control height; give it an `aria-label`
+    btnIsIcon: {
+      modifier: 'icon',
+      options: [true, false],
+    },
   },
 } as const satisfies ClassNameFromPropConfig;
 

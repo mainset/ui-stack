@@ -575,6 +575,14 @@ $class-name-config-map: (
         ),
         'responsive': false,
       ),
+      'btnIsIcon': (
+        'modifier': 'icon',
+        'options': (
+          true,
+          false,
+        ),
+        'responsive': false,
+      ),
     ),
   ),
   'ms-checkbox': (
@@ -621,6 +629,31 @@ $class-name-config-map: (
           'base',
           'lg',
           'xl',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
+  'ms-dialog': (
+    'composed': false,
+    'props': (
+      'dlgSize': (
+        'modifier': 'size',
+        'options': (
+          'xs',
+          'sm',
+          'base',
+          'lg',
+          'xl',
+          'full',
+        ),
+        'responsive': false,
+      ),
+      'dlgIsDrawer': (
+        'modifier': 'drawer',
+        'options': (
+          true,
+          false,
         ),
         'responsive': false,
       ),
@@ -928,6 +961,22 @@ $class-name-config-map: (
         'options': (
           'center',
           'end',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
+  'ms-overlay': (
+    'composed': false,
+    'props': (
+      'ovrPlacement': (
+        'modifier': 'placement',
+        'options': (
+          'center',
+          'start',
+          'end',
+          'top',
+          'bottom',
         ),
         'responsive': false,
       ),

@@ -1,0 +1,74 @@
+@use '../../styles/options';
+@use '../overlay/overlay.variables' as overlayVars;
+@use './dialog.variables' as dialogVars;
+
+// Theme layer (mainset look) on top of `dialog-normalize.scss`
+$dialog: dialogVars.$class-selector;
+$overlay: overlayVars.$class-selector;
+
+#{options.where($dialog)} {
+  color: var(--ms-dialog-color);
+  background-color: var(--ms-dialog-background);
+  border-radius: var(--ms-dialog-radius);
+  box-shadow: var(--ms-dialog-shadow);
+}
+
+#{options.where('#{$dialog}--drawer')} {
+  border-radius: 0;
+}
+
+#{options.where('#{$dialog}__title')} {
+  font-size: var(--ms-font-size-text-lg);
+  font-weight: var(--ms-font-weight-semibold);
+  letter-spacing: var(--ms-letter-spacing-text-lg);
+  line-height: var(--ms-line-height-text-lg);
+}
+
+// ----- Enter / exit: a fade, plus a slight zoom (centered) or a slide from the edge (drawer) -----
+// NOTE: logical offsets, so a drawer slides in from its own edge in LTR and RTL sections alike
+@keyframes ms-dialog-enter {
+  from {
+    inset-block-start: var(--ms-dialog-enter-block, 0);
+    inset-inline-start: var(--ms-dialog-enter-inline, 0);
+    opacity: 0;
+    transform: scale(var(--ms-dialog-enter-scale, 1));
+  }
+}
+
+@keyframes ms-dialog-exit {
+  to {
+    inset-block-start: var(--ms-dialog-enter-block, 0);
+    inset-inline-start: var(--ms-dialog-enter-inline, 0);
+    opacity: 0;
+    transform: scale(var(--ms-dialog-enter-scale, 1));
+  }
+}
+
+#{options.where('#{$dialog}[data-state="open"]')} {
+  animation: ms-dialog-enter var(--ms-duration-base) var(--ms-easing-enter);
+}
+
+#{options.where('#{$dialog}[data-state="closed"]')} {
+  animation: ms-dialog-exit var(--ms-duration-fast) var(--ms-easing-exit)
+    forwards;
+}
+
+#{options.where('#{$overlay}--placement-center > #{$dialog}')} {
+  --ms-dialog-enter-scale: 0.96;
+}
+
+#{options.where('#{$overlay}--placement-start > #{$dialog}')} {
+  --ms-dialog-enter-inline: calc(-1 * var(--ms-dialog-enter-distance));
+}
+
+#{options.where('#{$overlay}--placement-end > #{$dialog}')} {
+  --ms-dialog-enter-inline: var(--ms-dialog-enter-distance);
+}
+
+#{options.where('#{$overlay}--placement-top > #{$dialog}')} {
+  --ms-dialog-enter-block: calc(-1 * var(--ms-dialog-enter-distance));
+}
+
+#{options.where('#{$overlay}--placement-bottom > #{$dialog}')} {
+  --ms-dialog-enter-block: var(--ms-dialog-enter-distance);
+}
