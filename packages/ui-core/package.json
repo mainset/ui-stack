@@ -27,7 +27,7 @@
     },
     "./styles/index.css": "./dist/esm/styles/index.css",
     "./styles/index.min.css": "./dist/esm/styles/index.min.css",
-    "./styles/normalize.css": "./dist/esm/styles/reset.css",
+    "./styles/normalize.css": "./dist/esm/styles/normalize.css",
     "./styles/normalize.min.css": "./dist/esm/styles/normalize.min.css",
     "./styles/foundation.css": "./dist/esm/styles/foundation.css",
     "./styles/reset.css": "./dist/esm/styles/reset.css",
