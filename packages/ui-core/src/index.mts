@@ -56,6 +56,7 @@ export {
   TOAST__CLASS_NAME_CONFIG,
   POPOVER__CLASS_NAME_CONFIG,
   TOOLTIP__CLASS_NAME_CONFIG,
+  MENU__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,

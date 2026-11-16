@@ -1,0 +1,52 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './menu.tokens';
+@use '../../styles/options';
+@use './menu.variables' as menuVars;
+
+// Normalize layer: a list of actions (`role="menu"`) on an `.ms-popover` panel. Items are
+// buttons or links reset to full-width rows; the highlighted one is the focused one.
+$menu: menuVars.$class-selector;
+
+#{options.where($menu)} {
+  --ms-popover-padding: var(--ms-menu-padding);
+
+  display: flex;
+  flex-direction: column;
+  min-inline-size: var(--ms-menu-min-width);
+  max-block-size: var(--ms-menu-max-height);
+  overflow-y: auto;
+}
+
+#{options.where('#{$menu}__item')} {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--ms-menu-item-gap);
+  box-sizing: border-box;
+  inline-size: 100%;
+  margin: 0;
+  padding: var(--ms-menu-item-padding-block) var(--ms-menu-item-padding-inline);
+  font: inherit;
+  color: inherit;
+  text-align: start;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  appearance: none;
+}
+
+// NOTE: disabled items stay focusable (WAI-ARIA menu), so `aria-disabled`, not `disabled`
+#{options.where('#{$menu}__item[aria-disabled="true"]')} {
+  cursor: not-allowed;
+}
+
+#{options.where('#{$menu}__separator')} {
+  flex-shrink: 0;
+  margin: var(--ms-spacing-scale-element-sm) 0;
+}
+
+#{options.where('#{$menu}__group-label')} {
+  padding: var(--ms-menu-item-padding-block) var(--ms-menu-item-padding-inline);
+}
