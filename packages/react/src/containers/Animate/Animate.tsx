@@ -4,8 +4,11 @@ import type { AnimateStyleProps } from '@mainset/ui-core';
 import { ANIMATE__CLASS_NAME_CONFIG, cnx } from '@mainset/ui-core';
 import React from 'react';
 
-import type { BlockElementType, PolymorphicProps } from '../utils/index.mjs';
-import { mergeRefs, splitStyleProps } from '../utils/index.mjs';
+import type {
+  BlockElementType,
+  PolymorphicProps,
+} from '../../elements/utils/index.mjs';
+import { mergeRefs, splitStyleProps } from '../../elements/utils/index.mjs';
 
 type AnimateState = NonNullable<AnimateStyleProps['anmState']>;
 

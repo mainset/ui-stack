@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { render } from '../../test/dom.js';
 import { Button } from '../components/Button/index.mjs';
-import { Animate } from './Animate/index.mjs';
+import { Animate } from '../containers/Animate/index.mjs';
 import { AspectRatio } from './AspectRatio/index.mjs';
 import { Badge } from './Badge/index.mjs';
 import { Box } from './Box/index.mjs';

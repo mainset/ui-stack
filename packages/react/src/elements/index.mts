@@ -7,8 +7,6 @@
  */
 
 // elements
-export { Animate } from './Animate/index.mjs';
-export type { AnimateProps } from './Animate/index.mjs';
 export { AspectRatio } from './AspectRatio/index.mjs';
 export type { AspectRatioProps } from './AspectRatio/index.mjs';
 export { Backdrop } from './Backdrop/index.mjs';
