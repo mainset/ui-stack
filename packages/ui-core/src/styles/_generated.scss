@@ -1059,6 +1059,28 @@ $class-name-config-map: (
       ),
     ),
   ),
+  'ms-progress': (
+    'composed': false,
+    'props': (
+      'prgIsIndeterminate': (
+        'modifier': 'indeterminate',
+        'options': (
+          true,
+          false,
+        ),
+        'responsive': false,
+      ),
+      'prgSize': (
+        'modifier': 'size',
+        'options': (
+          'sm',
+          'base',
+          'lg',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-radio': (
     'composed': false,
     'props': (),

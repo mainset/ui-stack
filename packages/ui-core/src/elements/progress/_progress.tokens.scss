@@ -1,0 +1,13 @@
+// Component tokens (Tier 3) of progress bars
+:where(:root) {
+  --ms-progress-height-sm: 0.25rem;
+  --ms-progress-height-base: 0.5rem;
+  --ms-progress-height-lg: 0.75rem;
+  --ms-progress-indeterminate-width: 40%;
+  --ms-progress-indeterminate-duration: 1.5s;
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-progress-track-background: var(--ms-color-border-subtle);
+}
