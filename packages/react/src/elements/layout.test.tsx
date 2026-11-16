@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import { Box } from './Box/index.mjs';
 import { Container } from './Container/index.mjs';
+import { Grid } from './Grid/index.mjs';
 import { Cluster, HStack, Stack } from './Stack/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
@@ -94,6 +95,28 @@ describe('Container', () => {
       ),
     ).toBe(
       '<main class="ms-container ms-container--size-full ms-container--gutterless ms-spacing--pv-section-sm"></main>',
+    );
+  });
+});
+
+describe('Grid', () => {
+  it('maps responsive columns and spans to classes + CSS variables', () => {
+    const markup = html(
+      <Grid grdColumns={{ base: 1, md: 3 }}>
+        <Grid.Item grdColSpan={{ base: 1, md: 2 }} />
+        <Grid.Item grdIsFullRow />
+      </Grid>,
+    );
+
+    expect(markup).toContain('ms-grid--columns-1 ms-grid--columns@md');
+    expect(markup).toContain(
+      'style="--ms-grid-columns-at-md:repeat(3, minmax(0, 1fr))"',
+    );
+    expect(markup).toContain(
+      '<div class="ms-grid__item ms-grid__item--col-span-1 ms-grid__item--col-span@md" style="--ms-grid__item-col-span-at-md:span 2 / span 2">',
+    );
+    expect(markup).toContain(
+      '<div class="ms-grid__item ms-grid__item--full-row">',
     );
   });
 });

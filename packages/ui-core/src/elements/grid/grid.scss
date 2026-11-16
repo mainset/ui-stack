@@ -2,8 +2,8 @@
 @use '../../styles/options';
 @use './grid.variables' as vars;
 
+// Default: auto-fit columns; `grdColumns` (below, later in this file) replaces the template
 #{options.where(vars.$class-selector)} {
-  // TODO: grid should accept layout spacing sizes aka base / etc
   --ms-grid-column-min-width: calc(
     (100% / var(--ms-grid-columns-number)) - var(--ms-space-layout-column-base)
   );
@@ -26,4 +26,19 @@
   )
   using ($option, $value) {
   grid-auto-flow: $value;
+}
+
+@include options.each-class(vars.$base-class, 'grdColumns') using
+  ($option, $value) {
+  grid-template-columns: $value;
+}
+
+// ----- Items -----
+@include options.each-class(vars.$item-base-class, 'grdColSpan') using
+  ($option, $value) {
+  grid-column: $value;
+}
+
+#{options.where('.#{vars.$item-base-class}--full-row')} {
+  grid-column: 1 / -1;
 }
