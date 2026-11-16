@@ -1,0 +1,10 @@
+// Component tokens (Tier 3) of inputs, textareas and selects.
+// NOTE: on every theme root, not only `:root`: they point at scheme colors, and a `var()` in a
+// custom property resolves where it's declared (see `scheme-shared-tokens` in `_theme.scss`)
+:where(:root, [data-theme]) {
+  --ms-input-border-color: var(--ms-color-border-default);
+  --ms-input-border-color-hover: var(--ms-color-border-strong);
+  --ms-input-background: var(--ms-color-bg-surface);
+  --ms-input-background-readonly: var(--ms-color-bg-subtle);
+  --ms-input-placeholder-color: var(--ms-color-text-muted);
+}

@@ -9,7 +9,7 @@ import { Flex } from '../../elements/Flex/index.mjs';
 import { useMainSet } from '../MainSetContext/MainSetContext.mjs';
 import { OVERLAY_CONTAINER_ID } from './OverlayContainer.js';
 import { useFocusTrap } from './overlay-hooks/index.mjs';
-import './overlay.scss';
+import './overlay-normalize.scss';
 
 interface OverlayContentProps
   extends

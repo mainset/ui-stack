@@ -5,6 +5,7 @@ import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
 // NOTE: choices share the input tokens (`--ms-input-background`, …)
 import '../input/input.constants.mjs';
+import './choice-normalize.scss';
 import './choice.scss';
 
 // Checked colors follow the current tone (`--ms-tone-solid` / `--ms-tone-on-solid`)
@@ -21,7 +22,10 @@ const RADIO__CLASS_NAME_CONFIG = {
   classNameDefinitionByPropName: {},
 } as const satisfies ClassNameFromPropConfig;
 
-/** On `<input type="checkbox" role="switch">` itself (track + sliding thumb) */
+/**
+ * Wrapper of `<input type="checkbox" role="switch" class="ms-switch__input">` (the track) and a
+ * `<span class="ms-switch__thumb" aria-hidden="true">` right after it
+ */
 const SWITCH__CLASS_NAME_CONFIG = {
   baseClass: 'ms-switch',
   classNameDefinitionByPropName: {},

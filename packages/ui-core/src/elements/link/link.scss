@@ -1,26 +1,17 @@
 @use '../../styles/options';
 
-$base-class: 'ms-link';
-$link: '.#{$base-class}';
+// Theme layer (mainset look) on top of `link-normalize.scss`:
+// the current tone's text color (`--ms-tone-text`, primary by default)
+$link: '.ms-link';
 
 #{options.where($link)} {
   border-radius: var(--ms-border-radius-xs);
   color: var(--ms-tone-text);
-  text-decoration-line: none;
   text-underline-offset: 0.2em;
-  cursor: pointer;
   transition: color var(--ms-duration-fast) var(--ms-easing-standard);
 }
 
-#{options.where('#{$link}--underline-always')} {
-  text-decoration-line: underline;
-}
-
 @media (hover: hover) {
-  #{options.where('#{$link}--underline-hover:hover')} {
-    text-decoration-line: underline;
-  }
-
   #{options.where('#{$link}:hover')} {
     color: var(--ms-tone-solid-hover);
   }
@@ -28,6 +19,4 @@ $link: '.#{$base-class}';
 
 #{options.where('#{$link}[aria-disabled="true"]')} {
   opacity: var(--ms-opacity-disabled);
-  cursor: not-allowed;
-  pointer-events: none;
 }

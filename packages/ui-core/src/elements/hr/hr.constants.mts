@@ -4,6 +4,7 @@
 import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
 import { COLOR__ELEMENT_OPTIONS } from '../elements.constants.mjs';
+import './hr-normalize.scss';
 import './hr.scss';
 
 const HR__CLASS_NAME_CONFIG = {

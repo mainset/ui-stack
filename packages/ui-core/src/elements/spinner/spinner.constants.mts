@@ -4,6 +4,7 @@
 import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
 import { SIZE_PLAIN__ELEMENT_OPTIONS } from '../elements.constants.mjs';
+import './spinner-normalize.scss';
 import './spinner.scss';
 
 /** A spinning ring in the current text color (`currentcolor`) */

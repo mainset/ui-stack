@@ -1,0 +1,6 @@
+@use '../../styles/options';
+
+// Normalize layer
+#{options.where('.ms-heading')} {
+  margin: 0;
+}

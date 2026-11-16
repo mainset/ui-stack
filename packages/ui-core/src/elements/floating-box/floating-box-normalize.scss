@@ -3,6 +3,8 @@
 @use '../../styles/options';
 @use './floating-box.variables' as floatingBoxVars;
 
+// Normalize layer only: mechanics with no mainset look of their own
+
 // Hand-written combinations; the assertions keep them in sync with the TS options
 @include options.assert-options(
   floatingBoxVars.$base-class,

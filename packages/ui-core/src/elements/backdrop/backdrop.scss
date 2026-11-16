@@ -1,19 +1,7 @@
 @use '../../styles/options';
 @use './backdrop.variables' as backdropVars;
 
+// Theme layer (mainset look) on top of `backdrop-normalize.scss`
 #{options.where(backdropVars.$class-selector)} {
-  position: fixed;
-  inset: 0; // shorthand for top: 0, right: 0, bottom: 0, left: 0
-
-  // Animation: default to invisible and non-interactive
-  opacity: 0;
   transition: opacity var(--ms-duration-slow) var(--ms-easing-standard);
-
-  // NOTE: required to prevent clicks from passing through to the page behind the backdrop when it's not visible
-  pointer-events: none;
-}
-
-#{options.where('#{backdropVars.$class-selector}--visible')} {
-  opacity: var(--ms-opacity-backdrop);
-  pointer-events: auto;
 }

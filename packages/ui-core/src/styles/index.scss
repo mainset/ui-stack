@@ -4,27 +4,39 @@
 //   <link rel="stylesheet" href="@mainset/ui-core/styles/index.min.css" />
 // (`index.min.css` is this file minified, written after the build by `scripts/minify-css.mjs`).
 // The reset is opt-in and shipped separately: `@mainset/ui-core/styles/reset.css`.
+// Each component is its normalize layer (`*-normalize`, mechanics) followed by its theme layer
+// (the mainset look); `normalize.scss` bundles the normalize layers alone.
 @use './foundation';
+@use '../elements/backdrop/backdrop-normalize';
 @use '../elements/backdrop/backdrop';
 @use '../elements/background/background';
 @use '../elements/border/border';
+@use '../elements/button/button-normalize';
 @use '../elements/button/button';
+@use '../elements/choice/choice-normalize';
 @use '../elements/choice/choice';
-@use '../elements/container/container';
+@use '../elements/container/container-normalize';
+@use '../elements/control/control-normalize';
 @use '../elements/control/control';
+@use '../elements/field/field-normalize';
 @use '../elements/field/field';
 @use '../elements/flex/flex';
-@use '../elements/floating-box/floating-box';
+@use '../elements/floating-box/floating-box-normalize';
 @use '../elements/grid/grid';
+@use '../elements/heading/heading-normalize';
 @use '../elements/heading/heading';
+@use '../elements/hr/hr-normalize';
 @use '../elements/hr/hr';
+@use '../elements/input/input-normalize';
 @use '../elements/input/input';
 @use '../elements/layout/layout';
+@use '../elements/link/link-normalize';
 @use '../elements/link/link';
-@use '../elements/list/list';
-@use '../elements/popper/popper';
+@use '../elements/list/list-normalize';
+@use '../elements/popper/popper-normalize';
 @use '../elements/section/section';
 @use '../elements/spacing/spacing';
+@use '../elements/spinner/spinner-normalize';
 @use '../elements/spinner/spinner';
 @use '../elements/surface/surface';
 @use '../elements/text-base/text-base';

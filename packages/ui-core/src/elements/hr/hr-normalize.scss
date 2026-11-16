@@ -1,0 +1,26 @@
+@use '../../styles/options';
+@use './hr.variables' as vars;
+
+// Normalize layer: a 1px line along `hrDirection`
+#{options.where(vars.$class-selector)} {
+  border: none;
+}
+
+#{options.where('#{vars.$class-selector}--hidden')} {
+  opacity: 0;
+}
+
+// Hand-written per direction; the assertion keeps them in sync with `hrDirection` TS options
+@include options.assert-options(
+  vars.$base-class,
+  'hrDirection',
+  (horizontal, vertical)
+);
+
+#{options.where('#{vars.$class-selector}--direction-horizontal')} {
+  block-size: 1px;
+}
+
+#{options.where('#{vars.$class-selector}--direction-vertical')} {
+  inline-size: 1px;
+}

@@ -1,0 +1,53 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './input.tokens';
+@use '../../styles/options';
+
+// Normalize layer: native fields reset into a full-width block that inherits the font.
+// NOTE: `:is(input, textarea, select):where(.ms-input)` is (0,0,1): it beats the 0-specificity
+// `.ms-control` rules on the same element (display, `white-space`…) in any load order, and
+// every utility / app class (0,1,0) still beats it
+$input: '.ms-input';
+$select: '.ms-select';
+$fields: ':is(input, textarea, select)#{options.where($input)}';
+
+#{$fields} {
+  box-sizing: border-box;
+  display: block;
+  inline-size: 100%;
+  margin: 0;
+  font-family: inherit;
+  text-align: start;
+  appearance: none;
+}
+
+#{$fields}:where(:disabled) {
+  cursor: not-allowed;
+}
+
+// Multi-line: keeps line breaks, resizable along the block axis only
+textarea#{options.where($input)} {
+  white-space: pre-wrap;
+  resize: vertical;
+}
+
+// ----- Native select: the wrapper positions the chevron at the inline end -----
+#{options.where($select)} {
+  position: relative;
+  display: block;
+
+  &::after {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: var(--ms-spacing-scale-component-xs);
+    content: '';
+    pointer-events: none;
+  }
+}
+
+// Room for the chevron
+select#{options.where($input)} {
+  padding-inline-end: calc(
+    var(--ms-control-padding-inline) + var(--ms-spacing-scale-component-sm)
+  );
+  cursor: pointer;
+}

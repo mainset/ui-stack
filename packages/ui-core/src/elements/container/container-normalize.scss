@@ -1,6 +1,8 @@
 @use '../../styles/mixins' as msMixin;
 @use '../../styles/options';
 
+// Normalize layer only: mechanics with no mainset look of their own
+
 $base-class: 'ms-container';
 $container: '.#{$base-class}';
 

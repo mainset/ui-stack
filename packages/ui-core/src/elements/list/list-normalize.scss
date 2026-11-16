@@ -1,6 +1,8 @@
 @use '../../styles/options';
 @use './list.variables' as vars;
 
+// Normalize layer only: mechanics with no mainset look of their own
+
 #{options.where(vars.$class-selector)} {
   display: flex;
   margin: 0;

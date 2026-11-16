@@ -1,7 +1,7 @@
 @use '../../styles/options';
 
+// Theme layer (mainset look) on top of `field-normalize.scss`
 #{options.where('.ms-label')} {
-  display: inline-block;
   color: var(--ms-color-text-base);
   font-size: var(--ms-font-size-text-sm);
   font-weight: var(--ms-font-weight-medium);
@@ -9,22 +9,11 @@
   line-height: var(--ms-line-height-text-sm);
 }
 
-// NOTE: decorative, the input's `required` is what assistive tech announces.
-// The second `content` (with empty alt text) hides it from screen readers where supported.
 #{options.where('.ms-label--required')}::after {
   color: var(--ms-color-error-text);
-  content: ' *';
-  content: ' *' / '';
-}
-
-#{options.where('.ms-field')} {
-  display: grid;
-  gap: var(--ms-spacing-scale-element-base);
-  min-inline-size: 0;
 }
 
 #{options.where('.ms-field__hint, .ms-field__error')} {
-  margin: 0;
   font-size: var(--ms-font-size-text-xs);
   letter-spacing: var(--ms-letter-spacing-text-xs);
   line-height: var(--ms-line-height-text-xs);

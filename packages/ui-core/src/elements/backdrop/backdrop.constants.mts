@@ -3,6 +3,7 @@
 // Foundation (tokens + base styles) goes first; bundlers dedupe it across elements.
 import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
+import './backdrop-normalize.scss';
 import './backdrop.scss';
 
 const BACKDROP__CLASS_NAME_CONFIG = {

@@ -1,0 +1,35 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './spinner.tokens';
+@use '../../styles/options';
+
+// Normalize layer: a round box of `spnSize` that spins
+$base-class: 'ms-spinner';
+
+@keyframes ms-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#{options.where('.#{$base-class}')} {
+  --ms-spinner-size: var(--ms-spinner-size-base);
+
+  display: inline-block;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  inline-size: var(--ms-spinner-size);
+  block-size: var(--ms-spinner-size);
+  vertical-align: middle;
+  animation: ms-spin var(--ms-spinner-duration) linear infinite;
+}
+
+@include options.each-class($base-class, 'spnSize') using ($size, $value) {
+  --ms-spinner-size: var(--ms-spinner-size-#{$size});
+}
+
+// NOTE: slower, not stopped: it's the only sign that something is still happening
+@media (prefers-reduced-motion: reduce) {
+  #{options.where('.#{$base-class}')} {
+    animation-duration: calc(var(--ms-spinner-duration) * 3);
+  }
+}

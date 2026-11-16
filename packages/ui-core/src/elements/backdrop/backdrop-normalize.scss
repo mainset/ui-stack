@@ -1,0 +1,17 @@
+@use '../../styles/options';
+@use './backdrop.variables' as backdropVars;
+
+// Normalize layer: covers the viewport; invisible and click-through until `--visible`
+#{options.where(backdropVars.$class-selector)} {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+
+  // NOTE: required to prevent clicks from passing through to the page behind the backdrop when it's not visible
+  pointer-events: none;
+}
+
+#{options.where('#{backdropVars.$class-selector}--visible')} {
+  opacity: var(--ms-opacity-backdrop);
+  pointer-events: auto;
+}
