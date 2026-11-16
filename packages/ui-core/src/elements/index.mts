@@ -83,6 +83,15 @@ export type { ListStyleProps } from './list/index.mjs';
 export { MENU__CLASS_NAME_CONFIG } from './menu/index.mjs';
 export { OVERLAY__CLASS_NAME_CONFIG } from './overlay/index.mjs';
 export type { OverlayStyleProps } from './overlay/index.mjs';
+export {
+  PAGINATION__CLASS_NAME_CONFIG,
+  paginationRange,
+} from './pagination/index.mjs';
+export type {
+  PaginationRangeItem,
+  PaginationRangeOptions,
+  PaginationStyleProps,
+} from './pagination/index.mjs';
 export { POPOVER__CLASS_NAME_CONFIG } from './popover/index.mjs';
 export { POPPER_WRAPPER__CLASS_NAME_CONFIG } from './popper/index.mjs';
 export type { PopperWrapperStyleProps } from './popper/index.mjs';

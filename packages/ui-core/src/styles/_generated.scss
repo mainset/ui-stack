@@ -1022,6 +1022,22 @@ $class-name-config-map: (
       ),
     ),
   ),
+  'ms-pagination': (
+    'composed': false,
+    'props': (
+      'pgnSize': (
+        'modifier': 'size',
+        'options': (
+          'xs',
+          'sm',
+          'base',
+          'lg',
+          'xl',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-popover': (
     'composed': false,
     'props': (),

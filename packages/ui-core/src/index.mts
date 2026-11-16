@@ -62,6 +62,8 @@ export {
   TABLE_WRAPPER__CLASS_NAME_CONFIG,
   AVATAR__CLASS_NAME_CONFIG,
   AVATAR_GROUP__CLASS_NAME_CONFIG,
+  PAGINATION__CLASS_NAME_CONFIG,
+  paginationRange,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
@@ -99,6 +101,9 @@ export type {
   TableCellStyleProps,
   TableSortDirection,
   AvatarStyleProps,
+  PaginationStyleProps,
+  PaginationRangeItem,
+  PaginationRangeOptions,
 } from './elements/index.mjs';
 export {
   BOX__RECIPE_CONFIGS,

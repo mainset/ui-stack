@@ -1,0 +1,39 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './pagination.tokens';
+@use '../../styles/options';
+
+// Normalize layer: a wrapping row of page buttons, at least square, and ellipsis gaps of the
+// same size
+$pagination: '.ms-pagination';
+
+#{options.where($pagination)} {
+  --ms-control-height: var(--ms-control-height-base);
+}
+
+@include options.each-class('ms-pagination', 'pgnSize') using ($size, $value) {
+  --ms-control-height: var(--ms-control-height-#{$size});
+}
+
+#{options.where('#{$pagination}__list')} {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-pagination-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#{options.where('#{$pagination}__page')} {
+  justify-content: center;
+  min-inline-size: var(--ms-control-height);
+  padding-inline: var(--ms-pagination-page-padding-inline);
+}
+
+#{options.where('#{$pagination}__ellipsis')} {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--ms-control-height);
+  min-block-size: var(--ms-control-height);
+}
