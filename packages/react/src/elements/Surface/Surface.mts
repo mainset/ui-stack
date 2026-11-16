@@ -1,12 +1,14 @@
 import type {
   BackgroundStyleProps,
   BorderStyleProps,
+  HoverStyleProps,
   SurfaceStyleProps,
 } from '@mainset/ui-core';
 import {
   SURFACE__RECIPE_CONFIGS,
   cnx,
   extractClassNamesFromProps,
+  extractHoverClassNamesFromProps,
   toneRecipe,
 } from '@mainset/ui-core';
 import React from 'react';
@@ -29,7 +31,8 @@ type SurfaceElementType =
 // Every composed utility trait, so they autocomplete and can be overridden
 type SurfaceOwnProps = SurfaceStyleProps &
   BackgroundStyleProps &
-  BorderStyleProps;
+  BorderStyleProps &
+  HoverStyleProps;
 
 // `srfAs="a"` adds `href`, `srfAs={Link}` adds the link's props
 type SurfaceProps<C extends SurfaceElementType = 'div'> = PolymorphicProps<
@@ -55,15 +58,22 @@ function Surface<C extends SurfaceElementType = 'div'>({
 }: SurfaceProps<C>) {
   const Component: React.ElementType = srfAs || 'div';
 
+  const [hoverClassName, withoutHoverProps] =
+    extractHoverClassNamesFromProps(props);
   const [classNames, restProps] = extractClassNamesFromProps(
     SURFACE__RECIPE_CONFIGS,
-    props,
+    withoutHoverProps,
   );
 
   return React.createElement(
     Component,
     {
-      className: cnx(className, classNames, toneRecipe(srfTheme)),
+      className: cnx(
+        className,
+        classNames,
+        toneRecipe(srfTheme),
+        hoverClassName,
+      ),
       ...restProps,
     },
     children,

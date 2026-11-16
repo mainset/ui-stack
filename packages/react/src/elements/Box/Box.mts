@@ -1,4 +1,4 @@
-import type { BoxRecipeProps } from '@mainset/ui-core';
+import type { BoxRecipeProps, HoverStyleProps } from '@mainset/ui-core';
 import { BOX__RECIPE_CONFIGS, cnx } from '@mainset/ui-core';
 import React from 'react';
 
@@ -8,7 +8,7 @@ import { splitStyleProps } from '../utils/index.mjs';
 type BoxProps<C extends BlockElementType = 'div'> = PolymorphicProps<
   'boxAs',
   C,
-  BoxRecipeProps
+  BoxRecipeProps & HoverStyleProps
 >;
 
 /**

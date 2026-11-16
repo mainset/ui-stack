@@ -1,4 +1,8 @@
-import type { SpacingStyleProps, TextStyleProps } from '@mainset/ui-core';
+import type {
+  HoverStyleProps,
+  SpacingStyleProps,
+  TextStyleProps,
+} from '@mainset/ui-core';
 import { TEXT_BASE__CLASS_NAME_CONFIG, cnx } from '@mainset/ui-core';
 import React from 'react';
 
@@ -24,7 +28,7 @@ type TextElementType =
 type TextProps<C extends TextElementType = 'span'> = PolymorphicProps<
   'txtAs',
   C,
-  TextStyleProps & Partial<SpacingStyleProps>
+  TextStyleProps & Partial<SpacingStyleProps> & HoverStyleProps
 >;
 
 /**

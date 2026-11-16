@@ -1,6 +1,7 @@
 import type { ClassNameFromPropConfig } from '@mainset/ui-core';
 import {
   extractClassNamesFromProps,
+  extractHoverClassNamesFromProps,
   extractSpacingClassNamesFromProps,
 } from '@mainset/ui-core';
 import type React from 'react';
@@ -15,8 +16,8 @@ type SplitStyleProps = [
 ];
 
 /**
- * One pass over a component's style props: the class-name {configs} plus the spacing props
- * (`spc*`). Returns the classes, the props left for the element, and its `style` with the CSS
+ * One pass over a component's style props: the class-name {configs} plus the spacing (`spc*`)
+ * and hover (`hvr*`) props. Returns the classes, the props left for the element, and its `style` with the CSS
  * variables of responsive props merged in (the element's own `style` wins).
  */
 function splitStyleProps(
@@ -26,11 +27,15 @@ function splitStyleProps(
 ): SplitStyleProps {
   const [classNames, withoutClassProps, responsiveStyle] =
     extractClassNamesFromProps(configs, props);
-  const [spacingClassNames, restProps, spacingStyle] =
+  const [spacingClassNames, withoutSpacingProps, spacingStyle] =
     extractSpacingClassNamesFromProps(withoutClassProps);
+  const [hoverClassName, restProps] =
+    extractHoverClassNamesFromProps(withoutSpacingProps);
 
   return [
-    classNames.concat(spacingClassNames),
+    hoverClassName
+      ? classNames.concat(spacingClassNames, hoverClassName)
+      : classNames.concat(spacingClassNames),
     restProps,
     mergeResponsiveStyle({ ...responsiveStyle, ...spacingStyle }, style),
   ];
