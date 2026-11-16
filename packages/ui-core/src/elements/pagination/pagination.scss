@@ -1,0 +1,13 @@
+@use '../../styles/options';
+
+// Theme layer (mainset look) on top of `pagination-normalize.scss`; the pages are buttons
+#{options.where('.ms-pagination__ellipsis')} {
+  color: var(--ms-pagination-ellipsis-color);
+  letter-spacing: 0.1em;
+}
+
+// The `‹` `›` glyphs of previous / next (mirrored by the browser in RTL text)
+#{options.where('.ms-pagination__arrow')} {
+  font-size: 1.5em;
+  line-height: 1;
+}
