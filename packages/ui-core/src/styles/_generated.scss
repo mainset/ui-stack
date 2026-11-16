@@ -861,6 +861,20 @@ $class-name-config-map: (
       ),
     ),
   ),
+  'ms-link': (
+    'composed': false,
+    'props': (
+      'lnkUnderline': (
+        'modifier': 'underline',
+        'options': (
+          'always',
+          'hover',
+          'none',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-list': (
     'composed': false,
     'props': (
