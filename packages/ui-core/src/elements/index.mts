@@ -51,6 +51,8 @@ export { HR__CLASS_NAME_CONFIG } from './hr/index.mjs';
 export type { HrStyleProps } from './hr/index.mjs';
 export { LAYOUT__CLASS_NAME_CONFIG } from './layout/index.mjs';
 export type { LayoutStyleProps } from './layout/index.mjs';
+export { LINK__CLASS_NAME_CONFIG } from './link/index.mjs';
+export type { LinkStyleProps } from './link/index.mjs';
 export { LIST__CLASS_NAME_CONFIG } from './list/index.mjs';
 export type { ListStyleProps } from './list/index.mjs';
 export { POPPER_WRAPPER__CLASS_NAME_CONFIG } from './popper/index.mjs';

@@ -1,0 +1,33 @@
+@use '../../styles/options';
+
+$base-class: 'ms-link';
+$link: '.#{$base-class}';
+
+#{options.where($link)} {
+  border-radius: var(--ms-border-radius-xs);
+  color: var(--ms-tone-text);
+  text-decoration-line: none;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+  transition: color var(--ms-duration-fast) var(--ms-easing-standard);
+}
+
+#{options.where('#{$link}--underline-always')} {
+  text-decoration-line: underline;
+}
+
+@media (hover: hover) {
+  #{options.where('#{$link}--underline-hover:hover')} {
+    text-decoration-line: underline;
+  }
+
+  #{options.where('#{$link}:hover')} {
+    color: var(--ms-tone-solid-hover);
+  }
+}
+
+#{options.where('#{$link}[aria-disabled="true"]')} {
+  opacity: var(--ms-opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
