@@ -1,7 +1,7 @@
 import { debounce } from '@mainset/toolkit-js';
 import React from 'react';
 
-function useCallbackDebounce<Deps extends any[], Args extends any[]>(
+function useCallbackDebounce<Deps extends unknown[], Args extends unknown[]>(
   dFunc: (dependenciesRef: React.RefObject<Deps>, ...args: Args) => void,
   dependencies: Deps,
   delay: number,

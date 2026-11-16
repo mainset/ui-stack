@@ -16,6 +16,7 @@ import './spacing.scss';
 import type { SpacingSize, SpacingStyleProps } from './spacing.types.mjs';
 
 type SpacingPropName = 'spcType' | 'spcScale' | 'spcSize' | 'spcSizes';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- props are interfaces (no index signature), which `Record<string, unknown>` rejects
 type SpacingPropsInput = Partial<SpacingStyleProps> & Record<string, any>;
 
 const BASE_CLASS = 'ms-spacing';
@@ -31,18 +32,18 @@ function pushSpacingSize(
   classNames: string[],
   style: ResponsiveStyle,
 ) {
-  if (size == null) return;
+  if (size === null || size === undefined) return;
 
   if (!isResponsiveObject(size)) {
     classNames.push(`${BASE_CLASS}--${type}-${scale}-${size}`);
     return;
   }
 
-  for (const breakpoint in size) {
-    const breakpointSize = (size as Record<string, string | null | undefined>)[
-      breakpoint
-    ];
-    if (breakpointSize == null) continue;
+  const sizeByBreakpoint = size as Record<string, string | null | undefined>;
+
+  for (const breakpoint of Object.keys(sizeByBreakpoint)) {
+    const breakpointSize = sizeByBreakpoint[breakpoint];
+    if (breakpointSize === null || breakpointSize === undefined) continue;
 
     if (breakpoint === RESPONSIVE_BASE_BREAKPOINT) {
       classNames.push(`${BASE_CLASS}--${type}-${scale}-${breakpointSize}`);

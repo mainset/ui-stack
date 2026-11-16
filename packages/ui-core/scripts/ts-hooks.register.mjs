@@ -11,6 +11,7 @@ registerHooks({
       if (specifier.startsWith('.') && specifier.endsWith('.mjs')) {
         return nextResolve(specifier.replace(/\.mjs$/, '.mts'), context);
       }
+
       throw error;
     }
   },
@@ -18,6 +19,7 @@ registerHooks({
     if (/\.s?css$/.test(url)) {
       return { format: 'module', source: '', shortCircuit: true };
     }
+
     return nextLoad(url, context);
   },
 });

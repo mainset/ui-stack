@@ -70,6 +70,7 @@ type ClassNameFromPropConfig = ComposedConfig | MultipleClassesConfig;
 
 type ExtractClassNameFromPropOptions<
   TConfig extends {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- any readonly tuple of options
     classNameDefinitionByPropName: Record<string, { options: readonly any[] }>;
   },
   TPropName extends keyof TConfig['classNameDefinitionByPropName'],
@@ -127,7 +128,9 @@ function buildMultipleConfigClass(
   modifier: string | undefined,
   propValue: unknown,
 ): string | null {
-  if (propValue == null || propValue === false) return null;
+  if (propValue === null || propValue === undefined || propValue === false) {
+    return null;
+  }
 
   if (propValue === true) {
     return modifier
@@ -223,6 +226,7 @@ function getCompiledConfigs(
       node = { compiled: null, next: new WeakMap() };
       level.set(configs[i], node);
     }
+
     level = node.next;
   }
 
@@ -242,9 +246,9 @@ function composedClass(
   for (let i = 0; i < composed.props.length; i++) {
     const { name, definition } = composed.props[i];
     const propValue =
-      props[name] !== undefined ? props[name] : definition.defaultValue;
+      props[name] === undefined ? definition.defaultValue : props[name];
 
-    if (propValue != null && propValue !== false) {
+    if (propValue !== null && propValue !== undefined && propValue !== false) {
       if (propValue === true) {
         if (definition.modifier) combinedValues.push(definition.modifier);
       } else {
@@ -267,7 +271,7 @@ function responsiveClasses(
   const { baseClass, name, definition } = prop;
   const classes: string[] = [];
 
-  for (const breakpoint in propValue) {
+  for (const breakpoint of Object.keys(propValue)) {
     const breakpointValue = propValue[breakpoint];
     const generatedClass =
       prop.classByOption.get(breakpointValue) ??
@@ -371,9 +375,12 @@ function fillSlots(
  */
 function extractClassNamesFromProps(
   configs: ClassNameFromPropConfig[],
+  /* eslint-disable @typescript-eslint/no-explicit-any -- props are interfaces (no index
+     signature), and the rest props are spread onto elements as-is */
   props: Record<string, any>,
 ): [string[], Record<string, any>, ResponsiveStyle] {
   const restProps: Record<string, any> = {};
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   const style: ResponsiveStyle = {};
   const slots = fillSlots(getCompiledConfigs(configs), props, style, restProps);
 
@@ -395,6 +402,7 @@ function extractClassNamesFromProps(
  */
 function composeClassNameString(
   configs: ClassNameFromPropConfig[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- props are interfaces (no index signature), which `Record<string, unknown>` rejects
   props: Record<string, any>,
 ): [string, ResponsiveStyle] {
   const style: ResponsiveStyle = {};
