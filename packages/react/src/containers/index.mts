@@ -9,6 +9,14 @@
 export {
   MainSetContext,
   MainSetProvider,
+  MainSetThemeContext,
   useMainSet,
+  useTheme,
+} from './MainSetContext/index.mjs';
+export type {
+  MainSetContextValue,
+  MainSetProviderProps,
+  MainSetTheme,
+  MainSetThemeContextValue,
 } from './MainSetContext/index.mjs';
 export { OverlayContent } from './Overlay/index.mjs';
