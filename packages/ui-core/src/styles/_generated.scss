@@ -626,6 +626,10 @@ $class-name-config-map: (
       ),
     ),
   ),
+  'ms-field': (
+    'composed': false,
+    'props': (),
+  ),
   'ms-flex': (
     'composed': false,
     'props': (
@@ -831,6 +835,19 @@ $class-name-config-map: (
   'ms-input': (
     'composed': false,
     'props': (),
+  ),
+  'ms-label': (
+    'composed': false,
+    'props': (
+      'lblIsRequired': (
+        'modifier': 'required',
+        'options': (
+          true,
+          false,
+        ),
+        'responsive': false,
+      ),
+    ),
   ),
   'ms-layout': (
     'composed': false,

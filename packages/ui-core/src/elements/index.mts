@@ -31,6 +31,11 @@ export type {
   ResponsiveValue,
 } from './elements.types.mjs';
 export {
+  FIELD__CLASS_NAME_CONFIG,
+  LABEL__CLASS_NAME_CONFIG,
+} from './field/index.mjs';
+export type { LabelStyleProps } from './field/index.mjs';
+export {
   FLEX_CONTAINER__CLASS_NAME_CONFIG,
   FLEX_ITEM__CLASS_NAME_CONFIG,
 } from './flex/index.mjs';
