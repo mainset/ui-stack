@@ -154,6 +154,17 @@ Surface variants: `solid | soft | outlined | ghost`.
 
 Full guides (CSS overrides, React, live theming, token reference): [`docs/theming`](../../docs/theming/README.md).
 
+Brand colors known only at runtime (per tenant, user-picked): `createTheme()` derives every tone
+role from one color, exactly like the build, and returns the CSS
+(`@mainset/ui-core/theme`, no CSS imports, runs in Node and the browser):
+
+```ts
+import { applyTheme, createTheme } from '@mainset/ui-core/theme';
+
+createTheme({ tones: { primary: '#0f766e' } }); // CSS text, e.g. for SSR
+applyTheme({ tones: { primary: '#0f766e' } }); // browser: writes <style id="ms-theme">
+```
+
 ```html
 <html data-theme="light | dark | system">
   <!-- nesting is supported -->

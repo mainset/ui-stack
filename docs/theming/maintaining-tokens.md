@@ -6,15 +6,16 @@ default. Product teams should override tokens instead, see
 
 ## Where each value lives
 
-| What                                              | Source (edit this)                                           | Generated?       |
-| ------------------------------------------------- | ------------------------------------------------------------ | ---------------- |
-| palette, tones, neutral scheme colors             | `packages/ui-core/src/tokens/color.tokens.mts`               | yes, via codegen |
-| spacing primitives, scales, layout gaps           | `packages/ui-core/src/tokens/spacing.tokens.mts`             | yes              |
-| radius, border widths                             | `packages/ui-core/src/tokens/border.tokens.mts`              | yes              |
-| breakpoints, containers, z-index                  | `packages/ui-core/src/tokens/layout.tokens.mts`              | yes              |
-| how derived tone roles are mixed (hover, subtle…) | `$derive-map` in `packages/ui-core/src/styles/_theme.scss`   | no (Sass)        |
-| fonts, motion, focus ring, opacity                | `packages/ui-core/src/styles/foundation.scss`                | no (Sass)        |
-| control sizes and radius                          | `packages/ui-core/src/elements/control/_control.tokens.scss` | no (Sass)        |
+| What                                              | Source (edit this)                                           | Generated?        |
+| ------------------------------------------------- | ------------------------------------------------------------ | ----------------- |
+| palette, tones, neutral scheme colors             | `packages/ui-core/src/tokens/color.tokens.mts`               | yes, via codegen  |
+| spacing primitives, scales, layout gaps           | `packages/ui-core/src/tokens/spacing.tokens.mts`             | yes               |
+| radius, border widths                             | `packages/ui-core/src/tokens/border.tokens.mts`              | yes               |
+| breakpoints, containers, z-index                  | `packages/ui-core/src/tokens/layout.tokens.mts`              | yes               |
+| how derived tone roles are mixed (hover, subtle…) | `TONE_DERIVATION__TOKENS` in `color.tokens.mts`              | yes               |
+| the derivation itself (oklab mixing)              | `packages/ui-core/src/theme/derive.mts`, `color.mts`         | shipped as JS too |
+| fonts, motion, focus ring, opacity                | `packages/ui-core/src/styles/foundation.scss`                | no (Sass)         |
+| control sizes and radius                          | `packages/ui-core/src/elements/control/_control.tokens.scss` | no (Sass)         |
 
 TS tokens are the single source of truth: `pnpm codegen` (run by `build` and `dev`) writes
 `src/styles/_generated.scss`, and Sass turns it into custom properties and classes. Never edit
@@ -79,11 +80,14 @@ Add a key to both schemes in `SCHEME__TOKENS` (e.g. `'bg-overlay': 'gray-900'`).
 
 ### Change the derivation
 
-`$derive-map` in `_theme.scss` sets how far `solid` is mixed toward black/white/canvas for each
-role, per scheme. **If you change it, update the numbers in
-[`live-theming.md`](./live-theming.md#the-helper) too**, so runtime themes keep matching the
-build. A quick check: `toneTokens('primary', '#9013fe')` must equal the
-`--ms-color-primary-*` values in `dist/esm/styles/foundation.css`.
+`TONE_DERIVATION__TOKENS` in `color.tokens.mts` sets how far `solid` is mixed toward
+black/white/canvas for each role, per scheme. The mixing runs in `deriveToneRoles()`
+(`src/theme/derive.mts`), which both codegen (the shipped CSS) and `createTheme()` (runtime
+themes) call, so the two can't drift. Codegen writes the computed values into
+`$scheme-token-map` in `_generated.scss`; Sass only prints them.
+
+A derivation change is a visual change for every product: compare `dist/esm/styles/foundation.css`
+before and after, and report it in the PR.
 
 ## Constraints
 
