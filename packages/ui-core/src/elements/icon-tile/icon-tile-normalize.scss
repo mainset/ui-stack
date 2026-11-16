@@ -1,0 +1,33 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './icon-tile.tokens';
+@use '../../styles/options';
+
+// Normalize layer: a square (or round) box with its icon centered, sized by `ictSize`
+$icon-tile: '.ms-icon-tile';
+$size-map: (
+  sm: var(--ms-icon-tile-size-sm),
+  base: var(--ms-icon-tile-size-base),
+  lg: var(--ms-icon-tile-size-lg),
+);
+
+#{options.where($icon-tile)} {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: var(--ms-icon-tile-size);
+  block-size: var(--ms-icon-tile-size);
+  border: var(--ms-icon-tile-border-width) solid transparent;
+}
+
+#{options.where('#{$icon-tile} > svg, #{$icon-tile} > img')} {
+  flex-shrink: 0;
+  inline-size: calc(var(--ms-icon-tile-size) * var(--ms-icon-tile-icon-scale));
+  block-size: calc(var(--ms-icon-tile-size) * var(--ms-icon-tile-icon-scale));
+}
+
+@include options.each-class('ms-icon-tile', 'ictSize', $size-map) using
+  ($option, $value) {
+  --ms-icon-tile-size: #{$value};
+}

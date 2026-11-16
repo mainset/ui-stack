@@ -77,6 +77,8 @@ export { HOVER__CLASS_NAME_CONFIG } from './hover/index.mjs';
 export type { HoverStyleProps } from './hover/index.mjs';
 export { HR__CLASS_NAME_CONFIG } from './hr/index.mjs';
 export type { HrStyleProps } from './hr/index.mjs';
+export { ICON_TILE__CLASS_NAME_CONFIG } from './icon-tile/index.mjs';
+export type { IconTileStyleProps } from './icon-tile/index.mjs';
 export {
   INPUT__CLASS_NAME_CONFIG,
   SELECT__CLASS_NAME_CONFIG,

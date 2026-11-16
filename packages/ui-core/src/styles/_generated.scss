@@ -1009,6 +1009,37 @@ $class-name-config-map: (
       ),
     ),
   ),
+  'ms-icon-tile': (
+    'composed': false,
+    'props': (
+      'ictSize': (
+        'modifier': 'size',
+        'options': (
+          'sm',
+          'base',
+          'lg',
+        ),
+        'responsive': false,
+      ),
+      'ictShape': (
+        'modifier': 'shape',
+        'options': (
+          'square',
+          'circle',
+        ),
+        'responsive': false,
+      ),
+      'ictVariant': (
+        'modifier': 'variant',
+        'options': (
+          'outlined',
+          'soft',
+          'solid',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-input': (
     'composed': false,
     'props': (),
@@ -1076,6 +1107,14 @@ $class-name-config-map: (
           'always',
           'hover',
           'none',
+        ),
+        'responsive': false,
+      ),
+      'lnkIsStretched': (
+        'modifier': 'stretched',
+        'options': (
+          true,
+          false,
         ),
         'responsive': false,
       ),

@@ -70,6 +70,7 @@ export {
   ASPECT_RATIO__CLASS_NAME_CONFIG,
   HOVER__CLASS_NAME_CONFIG,
   ANIMATE__CLASS_NAME_CONFIG,
+  ICON_TILE__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
@@ -115,6 +116,7 @@ export type {
   AspectRatioStyleProps,
   HoverStyleProps,
   AnimateStyleProps,
+  IconTileStyleProps,
 } from './elements/index.mjs';
 export {
   BOX__RECIPE_CONFIGS,

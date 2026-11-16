@@ -1,3 +1,5 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './list.tokens';
 @use '../../styles/options';
 @use './list.variables' as vars;
 
@@ -12,6 +14,26 @@
 // Elements
 #{options.where('#{vars.$class-selector}__space-between')} {
   margin: auto;
+}
+
+// An item with a leading icon (a check mark, a feature icon): the icon sits on the first line,
+// the text wraps beside it, never under it
+#{options.where('#{vars.$class-selector}__item')} {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ms-list-item-gap);
+}
+
+#{options.where('#{vars.$class-selector}__item-icon')} {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  block-size: var(--ms-list-item-icon-line);
+}
+
+#{options.where('#{vars.$class-selector}__item-icon > svg')} {
+  inline-size: var(--ms-list-item-icon-size);
+  block-size: var(--ms-list-item-icon-size);
 }
 
 @include options.each-class(
