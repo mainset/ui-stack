@@ -1,0 +1,37 @@
+name: Check pull request
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A newer push to the same branch cancels the run in progress
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: ./.github/actions/install-and-cache-dependencies
+
+      # Generated Sass must match the TS tokens / class-name configs it is generated from
+      - name: Generated code is up to date
+        run: pnpm run codegen:check
+
+      - name: Lint
+        run: pnpm run lint
+
+      # Builds + type-checks every package, then guards the output against the browser baseline
+      - uses: ./.github/actions/build-packages
+
+      - name: Test
+        run: pnpm run test
