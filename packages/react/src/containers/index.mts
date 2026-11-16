@@ -6,6 +6,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export { Accordion } from './Accordion/index.mjs';
+export type {
+  AccordionItemProps,
+  AccordionPanelProps,
+  AccordionProps,
+  AccordionTriggerProps,
+} from './Accordion/index.mjs';
 export { Dialog, Drawer, useDialog } from './Dialog/index.mjs';
 export type {
   DialogPartProps,
