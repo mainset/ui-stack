@@ -28,6 +28,17 @@ $button: buttonVars.$class-selector;
   block-size: 1.25em;
 }
 
+// Icon slots (`btnIconStart` / `btnIconEnd`): an icon sized to the label's text
+#{options.where('#{$button}__icon')} {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+#{options.where('#{$button}__icon > svg')} {
+  inline-size: 1.15em;
+  block-size: 1.15em;
+}
+
 #{options.where('#{$button}:disabled, #{$button}[aria-disabled="true"], #{$button}--disabled')} {
   cursor: not-allowed;
   pointer-events: none;
