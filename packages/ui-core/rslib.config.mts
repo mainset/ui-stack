@@ -17,7 +17,12 @@ const webPackageRslibConfig = generateWebPackageRslibConfig({
     entry: {
       // NOTE: Sass partials ({_*.scss}) are inlined by the stylesheets that `@use` them,
       // so compiling them standalone would only ship orphan CSS files
-      index: [srcGlob('/**/*'), `!${srcGlob('/**/_*.scss')}`],
+      // NOTE: tests run from source (vitest), they don't ship
+      index: [
+        srcGlob('/**/*'),
+        `!${srcGlob('/**/_*.scss')}`,
+        `!${srcGlob('/**/*.test.*')}`,
+      ],
     },
   },
 });
