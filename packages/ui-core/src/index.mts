@@ -65,6 +65,7 @@ export {
   PAGINATION__CLASS_NAME_CONFIG,
   paginationRange,
   BREADCRUMB__CLASS_NAME_CONFIG,
+  SKELETON__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
@@ -105,6 +106,7 @@ export type {
   PaginationStyleProps,
   PaginationRangeItem,
   PaginationRangeOptions,
+  SkeletonStyleProps,
 } from './elements/index.mjs';
 export {
   BOX__RECIPE_CONFIGS,

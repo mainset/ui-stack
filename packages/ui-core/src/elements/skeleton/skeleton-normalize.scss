@@ -1,0 +1,60 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './skeleton.tokens';
+@use '../../styles/options';
+
+// Normalize layer: the box of a placeholder; its content (if any) keeps the size, unseen
+$skeleton: '.ms-skeleton';
+
+@include options.assert-options(
+  'ms-skeleton',
+  'sklVariant',
+  (text, rect, circle)
+);
+
+#{options.where($skeleton)} {
+  display: block;
+  box-sizing: border-box;
+  color: transparent;
+  pointer-events: none;
+  user-select: none;
+}
+
+#{options.where('#{$skeleton} > *')} {
+  visibility: hidden;
+}
+
+#{options.where('#{$skeleton}--variant-text')} {
+  block-size: var(--ms-skeleton-text-height);
+  margin-block: var(--ms-skeleton-text-gap);
+}
+
+// Several text lines; the last one is shorter, like a paragraph's
+#{options.where('.ms-skeleton-lines')} {
+  display: block;
+}
+
+#{options.where('.ms-skeleton-lines > #{$skeleton}--variant-text:last-child:not(:first-child)')} {
+  inline-size: var(--ms-skeleton-text-last-width);
+}
+
+#{options.where('#{$skeleton}--variant-rect')} {
+  min-block-size: var(--ms-skeleton-rect-min-height);
+}
+
+#{options.where('#{$skeleton}--variant-circle')} {
+  flex-shrink: 0;
+  inline-size: var(--ms-skeleton-circle-size);
+  block-size: var(--ms-skeleton-circle-size);
+}
+
+// With content, the placeholder is its size
+#{options.where('#{$skeleton}:not(:empty)')} {
+  block-size: auto;
+  min-block-size: 0;
+  margin-block: 0;
+}
+
+#{options.where('#{$skeleton}--variant-circle:not(:empty)')} {
+  display: inline-block;
+  inline-size: auto;
+}

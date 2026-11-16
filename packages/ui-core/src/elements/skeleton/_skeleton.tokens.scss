@@ -1,0 +1,15 @@
+// Component tokens (Tier 3) of skeletons
+:where(:root) {
+  --ms-skeleton-text-height: 0.75em;
+  --ms-skeleton-text-gap: 0.375em;
+  --ms-skeleton-text-last-width: 60%;
+  --ms-skeleton-rect-min-height: 1rem;
+  --ms-skeleton-circle-size: 2.5rem;
+  --ms-skeleton-radius: var(--ms-border-radius-sm);
+  --ms-skeleton-duration: 1.5s;
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-skeleton-background: var(--ms-color-border-subtle);
+}

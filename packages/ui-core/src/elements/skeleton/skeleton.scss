@@ -1,0 +1,27 @@
+@use '../../styles/options';
+
+// Theme layer (mainset look) on top of `skeleton-normalize.scss`: a softly pulsing block
+$skeleton: '.ms-skeleton';
+
+@keyframes ms-skeleton-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+#{options.where($skeleton)} {
+  background-color: var(--ms-skeleton-background);
+  border-radius: var(--ms-skeleton-radius);
+  animation: ms-skeleton-pulse var(--ms-skeleton-duration)
+    var(--ms-easing-standard) infinite;
+}
+
+#{options.where('#{$skeleton}--variant-circle')} {
+  border-radius: var(--ms-border-radius-circle);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #{options.where($skeleton)} {
+    animation: none;
+  }
+}
