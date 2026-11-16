@@ -5,7 +5,12 @@
 // `.ms-surface` + tone — see `buttonRecipe()`.
 $button: buttonVars.$class-selector;
 
+// NOTE: the row layout is here, not only on `.ms-control`, so an unsized button (`ButtonBasic`)
+// keeps an icon beside its label too
 #{options.where($button)} {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   text-decoration: none;
   user-select: none;
