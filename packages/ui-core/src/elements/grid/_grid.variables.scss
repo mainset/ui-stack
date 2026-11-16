@@ -1,5 +1,6 @@
 $base-class: 'ms-grid';
 $class-selector: '.#{$base-class}';
+$item-base-class: 'ms-grid__item';
 $auto-flow-map: (
   row: row,
   column: column,

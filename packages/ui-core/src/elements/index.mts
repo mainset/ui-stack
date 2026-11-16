@@ -34,6 +34,7 @@ export type {
 export { FLOATING_BOX__WRAPPER__CLASS_NAME_CONFIG } from './floating-box/index.mjs';
 export type { FloatingBoxWrapperStyleProps } from './floating-box/index.mjs';
 export {
+  GRID_COLUMN__OPTIONS,
   GRID_CONTAINER__CLASS_NAME_CONFIG,
   GRID_ITEM__CLASS_NAME_CONFIG,
 } from './grid/index.mjs';
