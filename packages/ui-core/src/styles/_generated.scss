@@ -1113,6 +1113,19 @@ $class-name-config-map: (
     'composed': false,
     'props': (),
   ),
+  'ms-tabs': (
+    'composed': false,
+    'props': (
+      'tbsOrientation': (
+        'modifier': 'orientation',
+        'options': (
+          'horizontal',
+          'vertical',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-text': (
     'composed': false,
     'props': (

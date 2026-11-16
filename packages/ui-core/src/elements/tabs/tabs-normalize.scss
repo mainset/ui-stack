@@ -1,0 +1,62 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './tabs.tokens';
+@use '../../styles/options';
+@use './tabs.variables' as tabsVars;
+
+// Normalize layer: a tab list above (horizontal) or beside (vertical) its panel.
+// Tabs are buttons reset to inherit the text; the selected one is `[aria-selected="true"]`.
+$tabs: tabsVars.$class-selector;
+$vertical: '#{$tabs}--orientation-vertical';
+
+@include options.assert-options(
+  tabsVars.$base-class,
+  'tbsOrientation',
+  (horizontal, vertical)
+);
+
+#{options.where($tabs)} {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ms-tabs-gap);
+  min-inline-size: 0;
+}
+
+#{options.where($vertical)} {
+  flex-direction: row;
+}
+
+#{options.where('#{$tabs}__list')} {
+  display: flex;
+  flex-shrink: 0;
+
+  // A long row of tabs scrolls instead of overflowing the page
+  overflow-x: auto;
+}
+
+#{options.where('#{$vertical} > #{$tabs}__list')} {
+  flex-direction: column;
+  overflow-x: visible;
+}
+
+#{options.where('#{$tabs}__tab')} {
+  flex-shrink: 0;
+  margin: 0;
+  padding: var(--ms-tabs-tab-padding-block) var(--ms-tabs-tab-padding-inline);
+  font: inherit;
+  color: inherit;
+  text-align: start;
+  white-space: nowrap;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  appearance: none;
+}
+
+#{options.where('#{$tabs}__tab:disabled')} {
+  cursor: not-allowed;
+}
+
+#{options.where('#{$tabs}__panel')} {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}

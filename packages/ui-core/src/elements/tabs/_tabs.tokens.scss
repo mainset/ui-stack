@@ -1,0 +1,15 @@
+// Component tokens (Tier 3) of tabs
+:where(:root) {
+  --ms-tabs-gap: var(--ms-spacing-scale-component-xs);
+  --ms-tabs-tab-padding-block: var(--ms-spacing-scale-element-lg);
+  --ms-tabs-tab-padding-inline: var(--ms-spacing-scale-element-xl);
+  --ms-tabs-indicator-width: var(--ms-border-width-lg);
+  --ms-tabs-list-border-width: var(--ms-border-width-base);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-tabs-list-border-color: var(--ms-color-border-subtle);
+  --ms-tabs-tab-color: var(--ms-color-text-muted);
+  --ms-tabs-tab-color-hover: var(--ms-color-text-base);
+}

@@ -1,0 +1,50 @@
+@use '../../styles/options';
+@use './tabs.variables' as tabsVars;
+
+// Theme layer (mainset look) on top of `tabs-normalize.scss`: a line under the list (beside it
+// when vertical), the selected tab marked in the current tone.
+// NOTE: logical borders, so a vertical list keeps its line next to the panel in RTL too
+$tabs: tabsVars.$class-selector;
+$vertical: '#{$tabs}--orientation-vertical';
+
+#{options.where('#{$tabs}__list')} {
+  border-block-end: var(--ms-tabs-list-border-width) solid
+    var(--ms-tabs-list-border-color);
+}
+
+#{options.where('#{$tabs}__tab')} {
+  // Overlaps the list's line, so the selected tab's indicator replaces it
+  margin-block-end: calc(-1 * var(--ms-tabs-list-border-width));
+  font-weight: var(--ms-font-weight-medium);
+  color: var(--ms-tabs-tab-color);
+  border-block-end: var(--ms-tabs-indicator-width) solid transparent;
+  transition:
+    color var(--ms-duration-fast) var(--ms-easing-standard),
+    border-color var(--ms-duration-fast) var(--ms-easing-standard);
+}
+
+#{options.where('#{$vertical} > #{$tabs}__list')} {
+  border-block-end: 0;
+  border-inline-end: var(--ms-tabs-list-border-width) solid
+    var(--ms-tabs-list-border-color);
+}
+
+#{options.where('#{$vertical} #{$tabs}__tab')} {
+  margin-block-end: 0;
+  margin-inline-end: calc(-1 * var(--ms-tabs-list-border-width));
+  border-block-end: 0;
+  border-inline-end: var(--ms-tabs-indicator-width) solid transparent;
+}
+
+#{options.where('#{$tabs}__tab:hover')} {
+  color: var(--ms-tabs-tab-color-hover);
+}
+
+#{options.where('#{$tabs}__tab[aria-selected="true"]')} {
+  color: var(--ms-tone-text);
+  border-color: var(--ms-tone-solid);
+}
+
+#{options.where('#{$tabs}__tab:disabled')} {
+  opacity: var(--ms-opacity-disabled);
+}
