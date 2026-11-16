@@ -11,7 +11,8 @@ const FLEX_CONTAINER__CLASS_NAME_CONFIG = {
     // css-based
     flxDisplay: {
       modifier: 'display',
-      options: ['flex', 'inline-flex'],
+      // `none` hides it; responsive, e.g. `{ base: 'none', lg: 'flex' }` shows it from `lg` up
+      options: ['flex', 'inline-flex', 'none'],
       defaultValue: 'flex',
       responsive: 'class',
     },

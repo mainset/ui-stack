@@ -14,7 +14,8 @@ const GRID_CONTAINER__CLASS_NAME_CONFIG = {
     // css-based
     grdDisplay: {
       modifier: 'display',
-      options: ['grid', 'inline-grid'],
+      // `none` hides it; responsive, e.g. `{ base: 'none', md: 'grid' }` shows it from `md` up
+      options: ['grid', 'inline-grid', 'none'],
       defaultValue: 'grid',
       responsive: 'class',
     },
