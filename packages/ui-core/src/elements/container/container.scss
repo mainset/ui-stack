@@ -17,6 +17,7 @@ $container: '.#{$base-class}';
 #{options.where($container)} {
   box-sizing: border-box;
   inline-size: 100%;
+
   // NOTE: the fallback is the `ctnSize` default, for a bare `.ms-container` in plain HTML
   max-inline-size: var(--ms-container-max-width, var(--ms-container-xl));
   margin-inline: auto;
