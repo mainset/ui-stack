@@ -7,6 +7,8 @@ import {
   boxStyleProps,
   buttonRecipe,
   controlRecipe,
+  extractHoverClassNamesFromProps,
+  hoverRecipe,
   inputRecipe,
   selectWrapperRecipe,
   surfaceRecipe,
@@ -128,5 +130,30 @@ describe('inputRecipe', () => {
       'ms-control ms-control--size-lg ms-input',
     );
     expect(selectWrapperRecipe()).toBe('ms-select');
+  });
+});
+
+describe('hoverRecipe', () => {
+  it('returns only the classes of the given props, no base class', () => {
+    expect(hoverRecipe()).toBe('');
+    expect(hoverRecipe({ hvrEffect: 'lift' })).toBe('ms-hover--lift');
+    expect(
+      classes(hoverRecipe({ hvrEffect: 'zoom', hvrIsGroup: true })),
+    ).toEqual(classes('ms-hover--zoom ms-hover--group'));
+  });
+
+  it('ignores an undeclared effect', () => {
+    // @ts-expect-error -- not an option
+    expect(hoverRecipe({ hvrEffect: 'spin' })).toBe('');
+  });
+
+  it('splits the hover props off the rest', () => {
+    const [className, restProps] = extractHoverClassNamesFromProps({
+      hvrIsGroup: true,
+      id: 'card',
+    });
+
+    expect(className).toBe('ms-hover--group');
+    expect(restProps).toEqual({ id: 'card' });
   });
 });

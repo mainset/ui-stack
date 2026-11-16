@@ -71,6 +71,8 @@ export {
   HEADING_LEVEL__SIZES,
 } from './heading/index.mjs';
 export type { HeadingLevel } from './heading/index.mjs';
+export { HOVER__CLASS_NAME_CONFIG } from './hover/index.mjs';
+export type { HoverStyleProps } from './hover/index.mjs';
 export { HR__CLASS_NAME_CONFIG } from './hr/index.mjs';
 export type { HrStyleProps } from './hr/index.mjs';
 export {

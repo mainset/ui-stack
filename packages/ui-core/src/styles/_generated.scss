@@ -899,6 +899,29 @@ $class-name-config-map: (
     'composed': false,
     'props': (),
   ),
+  'ms-hover': (
+    'composed': false,
+    'props': (
+      'hvrEffect': (
+        'modifier': '',
+        'options': (
+          'lift',
+          'zoom',
+          'nudge-end',
+          'nudge-up-end',
+        ),
+        'responsive': false,
+      ),
+      'hvrIsGroup': (
+        'modifier': 'group',
+        'options': (
+          true,
+          false,
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-break': (
     'composed': false,
     'props': (

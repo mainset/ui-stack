@@ -155,9 +155,17 @@
   --ms-duration-fast: 120ms;
   --ms-duration-base: 200ms;
   --ms-duration-slow: 300ms;
+  --ms-duration-slower: 500ms; // Media zooms, larger surfaces
+  --ms-duration-slowest: 800ms; // Entrances of whole blocks (`ms-animate`)
   --ms-easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --ms-easing-enter: cubic-bezier(0, 0, 0.2, 1);
   --ms-easing-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ms-easing-emphasized: cubic-bezier(
+    0.22,
+    1,
+    0.36,
+    1
+  ); // A long, soft landing (entrances)
 
   // ----- Focus ring tokens (color is semantic: `--ms-color-focus-ring`) -----
   --ms-focus-ring-width: 0.125rem; // 2px
@@ -175,6 +183,8 @@
     --ms-duration-fast: 0ms;
     --ms-duration-base: 0ms;
     --ms-duration-slow: 0ms;
+    --ms-duration-slower: 0ms;
+    --ms-duration-slowest: 0ms;
   }
 }
 

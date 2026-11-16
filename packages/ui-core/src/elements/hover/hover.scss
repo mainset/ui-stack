@@ -1,0 +1,96 @@
+@use '../../styles/options';
+
+// Hover effects: motion only (transform / an inline offset), never color: colors belong to the
+// element (`srfHover`, `txtColorHover`). One class per effect; it plays on its own hover, or on
+// the hover / keyboard focus of an `ms-hover--group` ancestor.
+$effects: (lift, zoom, nudge-end, nudge-up-end);
+
+@include options.assert-options('ms-hover', 'hvrEffect', $effects);
+
+// Component tokens (Tier 3)
+:where(:root) {
+  --ms-hover-duration: var(--ms-duration-base);
+  --ms-hover-easing: var(--ms-easing-standard);
+  --ms-hover-lift-distance: 0.25rem;
+  --ms-hover-zoom-scale: 1.05;
+  --ms-hover-zoom-duration: var(--ms-duration-slower);
+  --ms-hover-nudge-distance: 0.125rem;
+}
+
+// The resting state: what transitions. A surface keeps its own list (which has `transform`),
+// so its color transitions survive; anything else transitions the moved properties only.
+:where(.ms-hover--lift:not(.ms-surface), .ms-hover--zoom:not(.ms-surface)) {
+  transition: transform var(--ms-hover-duration) var(--ms-hover-easing);
+}
+
+:where(.ms-hover--zoom) {
+  transition-duration: var(--ms-hover-zoom-duration);
+}
+
+// NOTE: the nudge moves an inline offset, not a transform: `inset-inline-start` follows the
+// `direction` of its section (RTL), a `translate` can't
+:where(.ms-hover--nudge-end, .ms-hover--nudge-up-end) {
+  position: relative;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  transition-duration: var(--ms-hover-duration);
+  transition-property: inset-block-start, inset-inline-start;
+  transition-timing-function: var(--ms-hover-easing);
+}
+
+// The active state, for each trigger: the element hovered, a hovered group, a focused group
+@mixin active($effect) {
+  :where(
+    .ms-hover--#{$effect}:hover,
+    .ms-hover--group:hover .ms-hover--#{$effect}
+  ) {
+    @content;
+  }
+}
+
+@mixin focused($effect) {
+  :where(.ms-hover--group:focus-visible .ms-hover--#{$effect}) {
+    @content;
+  }
+}
+
+@mixin effect-styles($trigger) {
+  @include meta-trigger($trigger, lift) {
+    transform: translateY(calc(-1 * var(--ms-hover-lift-distance)));
+  }
+
+  @include meta-trigger($trigger, zoom) {
+    transform: scale(var(--ms-hover-zoom-scale));
+  }
+
+  @include meta-trigger($trigger, nudge-end) {
+    inset-inline-start: var(--ms-hover-nudge-distance);
+  }
+
+  @include meta-trigger($trigger, nudge-up-end) {
+    inset-block-start: calc(-1 * var(--ms-hover-nudge-distance));
+    inset-inline-start: var(--ms-hover-nudge-distance);
+  }
+}
+
+@mixin meta-trigger($trigger, $effect) {
+  @if $trigger == hover {
+    @include active($effect) {
+      @content;
+    }
+  } @else {
+    @include focused($effect) {
+      @content;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  // Pointers that can hover only: a tap on a phone leaves no sticky lift
+  @media (any-hover: hover) {
+    @include effect-styles(hover);
+  }
+
+  // Keyboard focus moves like a hover, on every device
+  @include effect-styles(focus);
+}
