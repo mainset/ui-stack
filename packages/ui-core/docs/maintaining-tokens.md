@@ -94,6 +94,12 @@ before and after, and report it in the PR.
 - **Browser baseline (2021):** Chrome 88, Firefox 78, Safari 14.1. No `@layer`, `color-mix()`,
   `:has()`, container queries or media range syntax in shipped CSS; the build guard fails
   otherwise. That's why derived colors are precomputed.
+- **Two layers per component:** mechanics in `{element}-normalize.scss` (no colors, typography,
+  radius, shadows or motion: a test enforces it), the look in `{element}.scss`. Add both to
+  `styles/index.scss`, and the normalize layer to `styles/normalize.scss` (a test checks both).
+- **Direction-agnostic:** logical properties and flex / grid `start` / `end` only; no
+  `left` / `right`, `translateX`, `[dir]` or `:dir()`. Mark a symmetric glyph that needs physical
+  sides with `rtl-safe:` on the line above.
 - **0 specificity:** token and component rules stay inside `:where()`, so app overrides always win.
 - **Keep customization hooks:** don't remove or rename a public `--ms-*` token without calling it
   out as a breaking change and offering a migration path.

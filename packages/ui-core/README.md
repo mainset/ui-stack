@@ -34,14 +34,15 @@ buttonRecipe({ srfVariant: 'outlined', srfTheme: 'error', ctlSize: 'sm' });
 //    ms-control ms-control--size-sm ms-button ms-tone-error"
 ```
 
-| Entry                                    | Contents                                          |
-| ---------------------------------------- | ------------------------------------------------- |
-| `@mainset/ui-core`                       | class-name configs, recipes, types, utils         |
-| `@mainset/ui-core/styles/index.css`      | foundation + every element                        |
-| `@mainset/ui-core/styles/index.min.css`  | the same, minified (for use without a bundler)    |
-| `@mainset/ui-core/styles/foundation.css` | all design tokens + base styles + tone classes    |
-| `@mainset/ui-core/styles/reset.css`      | opt-in modern reset (`normalize.css` is an alias) |
-| `@mainset/ui-core/scss/mixins`           | `media-up()`, `responsive-variants`, helpers      |
+| Entry                                       | Contents                                                                                                             |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `@mainset/ui-core`                          | class-name configs, recipes, types, utils                                                                            |
+| `@mainset/ui-core/styles/index.css`         | foundation + every element                                                                                           |
+| `@mainset/ui-core/styles/index.min.css`     | the same, minified (for use without a bundler)                                                                       |
+| `@mainset/ui-core/styles/normalize.min.css` | headless: every component's normalize layer, no mainset look ([layers](./docs/elements.md#two-layers-per-component)) |
+| `@mainset/ui-core/styles/foundation.css`    | all design tokens + base styles + tone classes                                                                       |
+| `@mainset/ui-core/styles/reset.css`         | opt-in modern reset (`normalize.css` is an alias)                                                                    |
+| `@mainset/ui-core/scss/mixins`              | `media-up()`, `responsive-variants`, helpers                                                                         |
 
 ## Single source of truth (codegen)
 
