@@ -7,6 +7,8 @@
 // Each component is its normalize layer (`*-normalize`, mechanics) followed by its theme layer
 // (the mainset look); `normalize.scss` bundles the normalize layers alone.
 @use './foundation';
+@use '../elements/alert/alert-normalize';
+@use '../elements/alert/alert';
 @use '../elements/backdrop/backdrop-normalize';
 @use '../elements/backdrop/backdrop';
 @use '../elements/background/background';
@@ -46,4 +48,6 @@
 @use '../elements/surface/surface';
 @use '../elements/tabs/tabs-normalize';
 @use '../elements/tabs/tabs';
+@use '../elements/toast/toast-normalize';
+@use '../elements/toast/toast';
 @use '../elements/text-base/text-base';

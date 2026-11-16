@@ -1,0 +1,54 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './alert.tokens';
+@use '../../styles/options';
+@use './alert.variables' as alertVars;
+
+// Normalize layer: icon, content (title + description) and actions in a row; the colors come
+// from `.ms-surface` + a tone (`surfaceRecipe({ srfTheme: 'warning', srfVariant: 'soft' })`)
+$alert: alertVars.$class-selector;
+
+#{options.where($alert)} {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ms-alert-gap);
+  box-sizing: border-box;
+  padding: var(--ms-alert-padding-block) var(--ms-alert-padding-inline);
+}
+
+#{options.where('#{$alert}__icon')} {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--ms-alert-icon-size);
+  block-size: var(--ms-alert-icon-size);
+}
+
+#{options.where('#{$alert}__icon > svg')} {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+#{options.where('#{$alert}__content')} {
+  display: grid;
+  flex: 1 1 auto;
+  gap: var(--ms-spacing-scale-element-xs);
+  min-inline-size: 0;
+}
+
+#{options.where('#{$alert}__title, #{$alert}__description')} {
+  margin: 0;
+}
+
+#{options.where('#{$alert}__actions')} {
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-spacing-scale-element-lg);
+}
+
+// The dismiss icon button sits at the inline end
+#{options.where('#{$alert} > .ms-button--icon')} {
+  flex-shrink: 0;
+}

@@ -1,0 +1,8 @@
+// Component tokens (Tier 3) of alerts (and toasts, which are alerts)
+:where(:root) {
+  --ms-alert-gap: var(--ms-spacing-scale-component-xs);
+  --ms-alert-padding-block: var(--ms-spacing-scale-component-xs);
+  --ms-alert-padding-inline: var(--ms-spacing-scale-component-sm);
+  --ms-alert-radius: var(--ms-border-radius-base);
+  --ms-alert-icon-size: 1.25em;
+}

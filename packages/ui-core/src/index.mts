@@ -52,6 +52,8 @@ export {
   OVERLAY__CLASS_NAME_CONFIG,
   TABS__CLASS_NAME_CONFIG,
   DISCLOSURE__CLASS_NAME_CONFIG,
+  ALERT__CLASS_NAME_CONFIG,
+  TOAST__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,

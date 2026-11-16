@@ -1,0 +1,10 @@
+// Component tokens (Tier 3) of toasts
+:where(:root) {
+  --ms-toast-gutter: var(--ms-spacing-scale-component-base);
+  --ms-toast-gap: var(--ms-spacing-scale-element-xl);
+  --ms-toast-width: 24rem;
+  --ms-toast-shadow: var(--ms-shadow-lg);
+
+  // How far a toast slides in from the inline end
+  --ms-toast-enter-distance: var(--ms-space-8);
+}
