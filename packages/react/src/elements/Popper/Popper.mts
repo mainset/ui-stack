@@ -10,10 +10,10 @@ import { FloatingBox } from '../FloatingBox/FloatingBox.mjs';
 import type { FloatingBoxWrapperProps } from '../FloatingBox/FloatingBox.mts';
 
 // Wrapper
-interface PopoverWrapperProps
+interface PopperWrapperProps
   extends FloatingBoxWrapperProps, PopperWrapperStyleProps {}
 
-const PopoverWrapper: React.FC<PopoverWrapperProps> = ({
+const PopperWrapper: React.FC<PopperWrapperProps> = ({
   children,
   className,
 
@@ -40,9 +40,9 @@ const PopoverWrapper: React.FC<PopoverWrapperProps> = ({
 };
 
 // Content
-type PopoverContentProps = React.HTMLAttributes<HTMLDivElement>;
+type PopperContentProps = React.HTMLAttributes<HTMLDivElement>;
 
-const PopoverContent: React.FC<PopoverContentProps> = ({
+const PopperContent: React.FC<PopperContentProps> = ({
   children,
   className,
 
@@ -58,8 +58,14 @@ const PopoverContent: React.FC<PopoverContentProps> = ({
   );
 };
 
-const Popover = Object.assign(PopoverWrapper, {
-  Content: PopoverContent,
+/**
+ * CSS-only popper: the content shows while the wrapper is hovered or has focus inside
+ * (`popIsOpen` controls it instead). No script, so it works server-rendered too; for a
+ * click-opened panel with focus handling and collision-aware positioning, use the `Popover`
+ * container.
+ */
+const Popper = Object.assign(PopperWrapper, {
+  Content: PopperContent,
 });
 
-export { Popover };
+export { Popper };

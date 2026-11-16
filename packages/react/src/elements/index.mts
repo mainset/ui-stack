@@ -22,7 +22,7 @@ export { Input, Select, Textarea } from './Input/index.mjs';
 export { Label } from './Label/index.mjs';
 export { Link } from './Link/index.mjs';
 export { ListBasic } from './ListBasic/index.mjs';
-export { Popover } from './Popover/index.mjs';
+export { Popper } from './Popper/index.mjs';
 export { Section } from './Section/index.mjs';
 export { Spacing } from './Spacing/index.mjs';
 export { Spinner } from './Spinner/index.mjs';
