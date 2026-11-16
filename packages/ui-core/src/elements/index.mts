@@ -49,6 +49,10 @@ export {
 export type { HeadingLevel } from './heading/index.mjs';
 export { HR__CLASS_NAME_CONFIG } from './hr/index.mjs';
 export type { HrStyleProps } from './hr/index.mjs';
+export {
+  INPUT__CLASS_NAME_CONFIG,
+  SELECT__CLASS_NAME_CONFIG,
+} from './input/index.mjs';
 export { LAYOUT__CLASS_NAME_CONFIG } from './layout/index.mjs';
 export type { LayoutStyleProps } from './layout/index.mjs';
 export { LINK__CLASS_NAME_CONFIG } from './link/index.mjs';

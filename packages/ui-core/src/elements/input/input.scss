@@ -1,0 +1,96 @@
+@use '../../styles/options';
+
+$input: '.ms-input';
+$select: '.ms-select';
+
+// NOTE: `:is(input, textarea, select):where(.ms-input)` is (0,0,1): it beats the 0-specificity
+// `.ms-control` rules on the same element (display, `white-space`…) in any load order, and
+// every utility / app class (0,1,0) still beats it
+$fields: ':is(input, textarea, select)#{options.where($input)}';
+
+:where(:root) {
+  --ms-input-border-color: var(--ms-color-border-default);
+  --ms-input-border-color-hover: var(--ms-color-border-strong);
+  --ms-input-background: var(--ms-color-bg-surface);
+  --ms-input-background-readonly: var(--ms-color-bg-subtle);
+  --ms-input-placeholder-color: var(--ms-color-text-muted);
+}
+
+#{$fields} {
+  box-sizing: border-box;
+  display: block;
+  inline-size: 100%;
+  margin: 0;
+  border: var(--ms-border-width-base) solid var(--ms-input-border-color);
+  background-color: var(--ms-input-background);
+  color: var(--ms-color-text-base);
+  font-family: inherit;
+  text-align: start;
+  appearance: none;
+  transition:
+    border-color var(--ms-duration-fast) var(--ms-easing-standard),
+    background-color var(--ms-duration-fast) var(--ms-easing-standard);
+
+  &::placeholder {
+    color: var(--ms-input-placeholder-color);
+    opacity: 1;
+  }
+}
+
+// NOTE: states stay inside `:where()` (all (0,0,1), later rule wins), so the invalid border of
+// `.ms-control` (0,2,0) shows through hover and focus
+@media (hover: hover) {
+  #{$fields}:where(:hover:not(:disabled)) {
+    border-color: var(--ms-input-border-color-hover);
+  }
+}
+
+#{$fields}:where(:focus) {
+  border-color: var(--ms-color-focus-ring);
+}
+
+#{$fields}:where(:disabled) {
+  opacity: var(--ms-opacity-disabled);
+  cursor: not-allowed;
+}
+
+#{$fields}:where([readonly]) {
+  background-color: var(--ms-input-background-readonly);
+}
+
+// Multi-line: grows with its rows, keeps line breaks
+textarea#{options.where($input)} {
+  padding-block: var(--ms-spacing-scale-element-lg);
+  white-space: pre-wrap;
+  resize: vertical;
+}
+
+// ----- Native select: the wrapper draws a chevron in the text color -----
+#{options.where($select)} {
+  position: relative;
+  display: block;
+  color: var(--ms-color-text-muted);
+
+  &::after {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: var(--ms-spacing-scale-component-xs);
+    inline-size: 0.4em;
+    block-size: 0.4em;
+
+    // NOTE: physical sides on purpose: this draws a glyph, which must not flip in RTL
+    border-right: var(--ms-border-width-lg) solid currentcolor;
+    border-bottom: var(--ms-border-width-lg) solid currentcolor;
+    content: '';
+    pointer-events: none;
+    transform: translateY(-70%) rotate(45deg);
+  }
+}
+
+// Room for the chevron
+select#{options.where($input)} {
+  padding-inline-end: calc(
+    var(--ms-control-padding-inline) + var(--ms-spacing-scale-component-sm)
+  );
+  cursor: pointer;
+}

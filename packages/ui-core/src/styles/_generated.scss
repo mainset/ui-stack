@@ -820,6 +820,10 @@ $class-name-config-map: (
       ),
     ),
   ),
+  'ms-input': (
+    'composed': false,
+    'props': (),
+  ),
   'ms-layout': (
     'composed': false,
     'props': (
@@ -936,6 +940,10 @@ $class-name-config-map: (
         'responsive': false,
       ),
     ),
+  ),
+  'ms-select': (
+    'composed': false,
+    'props': (),
   ),
   'ms-spacing': (
     'composed': true,
