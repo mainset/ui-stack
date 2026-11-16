@@ -3,6 +3,7 @@
 import { CHECKBOX__CLASS_NAME_CONFIG, cnx } from '@mainset/ui-core';
 import React from 'react';
 
+import { mergeRefs } from '../utils/index.mjs';
 import type { ChoiceProps } from './Choice.mjs';
 import { withLabel } from './Choice.mjs';
 
@@ -12,12 +13,6 @@ type CheckboxProps = ChoiceProps & {
   /** "Some selected": shows a dash. It's a DOM property only, so it's set after render. */
   chkIsIndeterminate?: boolean;
 };
-
-// Sets a ref of any kind (callback or object), so the caller's `ref` still works
-function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
-  if (typeof ref === 'function') ref(value);
-  else if (ref) ref.current = value;
-}
 
 /**
  * A native checkbox (uncontrolled: `name` + `defaultChecked`), checked in the current tone.
@@ -40,13 +35,8 @@ function Checkbox({
     if (inputRef.current) inputRef.current.indeterminate = chkIsIndeterminate;
   }, [chkIsIndeterminate]);
 
-  const setRef = React.useCallback(
-    (node: HTMLInputElement | null) => {
-      inputRef.current = node;
-      assignRef(ref, node);
-    },
-    [ref],
-  );
+  // NOTE: the caller's `ref` still receives the input
+  const setRef = React.useMemo(() => mergeRefs(inputRef, ref), [ref]);
 
   return withLabel(
     <span className={CHECKBOX}>

@@ -1,89 +1,124 @@
 'use client';
 
+import type { OverlayStyleProps } from '@mainset/ui-core';
+import {
+  OVERLAY__CLASS_NAME_CONFIG,
+  cnx,
+  extractClassNamesFromProps,
+} from '@mainset/ui-core';
 import React from 'react';
 import ReactDOMClient from 'react-dom';
 
-import { Flex } from '../../elements/Flex/index.mjs';
+import { mergeRefs } from '../../elements/utils/index.mjs';
+import { useIsClient } from '../../hooks/useIsClient.mjs';
+import { usePresence } from '../../hooks/usePresence.mjs';
 // NOTE: avoid loop dependency as MainSetProvider uses OverlayContainer
 import { useMainSet } from '../MainSetContext/MainSetContext.mjs';
-import { Presence } from '../Presence/index.mjs';
 import { OVERLAY_CONTAINER_ID } from './OverlayContainer.js';
-import { useFocusTrap } from './overlay-hooks/index.mjs';
-import './overlay-normalize.scss';
+import { useFocusReturn, useFocusTrap } from './overlay-hooks/index.mjs';
 
-interface OverlayContentProps
-  extends
-    React.PropsWithChildren,
-    Pick<
-      React.AriaAttributes,
-      'aria-label' | 'aria-labelledby' | 'aria-describedby'
-    > {
-  ovrId: string; // Add id to know if it's the top-most modal
-  ovrIsOpen: boolean;
-  ovrPlacement?: 'middle' | 'start' | 'end';
-  /**
-   * WAI-ARIA role of the overlay; modal overlays must expose `dialog` (or `alertdialog`)
-   * together with an accessible name ({aria-label} or {aria-labelledby})
-   * @default 'dialog'
-   */
-  ovrRole?: 'dialog' | 'alertdialog';
-}
+type OverlayContentProps = Omit<React.ComponentPropsWithRef<'div'>, 'role'> &
+  OverlayStyleProps & {
+    /**
+     * Opens it from anywhere with `useOverlay(ovrId).open()` / `openOverlayById(ovrId)`,
+     * when {ovrIsOpen} isn't given
+     */
+    ovrId?: string;
+    /** Controlled open state; without it, the provider's state for {ovrId} */
+    ovrIsOpen?: boolean;
+    /** Escape, a backdrop click or a close button asks to close: `false` */
+    ovrOnOpenChange?: (isOpen: boolean) => void;
+    /**
+     * WAI-ARIA role; give it an accessible name (`aria-label` / `aria-labelledby`)
+     * @default 'dialog'
+     */
+    ovrRole?: 'dialog' | 'alertdialog';
+    /**
+     * Whether a backdrop click closes it
+     * @default true, `false` for an `alertdialog`
+     */
+    ovrIsBackdropDismissable?: boolean;
+  };
 
-const FLEX_PROPS__BY_OVERLAY_PLACEMENT = {
-  middle: { layAlign: 'center', layJustify: 'center' },
-  start: {},
-  end: { layJustify: 'flex-end' },
-} as const;
-
-const OverlayContent = ({
+/**
+ * The behaviour of every modal overlay (dialog, drawer): a portal above the backdrop, on the
+ * provider's overlay stack (Escape and a backdrop click close the top one), focus trapped while
+ * it's on top and given back on close, the page scroll locked, `data-state` for the enter / exit
+ * animation. The panel itself is unstyled: `Dialog` and `Drawer` add the looks.
+ */
+function OverlayContent({
   ovrId,
   ovrIsOpen,
-  ovrPlacement = 'middle',
+  ovrOnOpenChange,
   ovrRole = 'dialog',
+  ovrIsBackdropDismissable = ovrRole !== 'alertdialog',
+
+  ref,
   children,
-  ...ariaProps
-}: OverlayContentProps) => {
-  const { overlayStackIds } = useMainSet();
+  ...props
+}: OverlayContentProps) {
+  const {
+    isOverlayOpenById,
+    overlayStackIds,
+    closeOverlayById,
+    registerOverlay,
+  } = useMainSet();
+  const isClient = useIsClient();
 
-  const isTopOverlay = overlayStackIds[overlayStackIds.length - 1] === ovrId;
-  const contentRef = React.useRef<HTMLDivElement>(null);
+  const generatedId = React.useId();
+  const id = ovrId ?? generatedId;
+  const isOpen = ovrIsOpen ?? isOverlayOpenById[id] ?? false;
 
-  useFocusTrap(contentRef, ovrIsOpen && isTopOverlay);
+  const panelRef = React.useRef<HTMLDivElement | null>(null);
+  const setPanelRef = React.useMemo(() => mergeRefs(panelRef, ref), [ref]);
+  const { isMounted, state } = usePresence(isOpen, panelRef);
 
-  const portalNode = React.useMemo(() => {
-    if (typeof window === 'undefined') return null;
+  // Latest callbacks, so the registration doesn't change with every render
+  const dismissRef = React.useRef<() => void>(() => undefined);
+  React.useLayoutEffect(() => {
+    dismissRef.current = () => {
+      ovrOnOpenChange?.(false);
+      if (ovrIsOpen === undefined) closeOverlayById(id);
+    };
+  });
 
-    const overlayRoot =
-      window.document.getElementById(OVERLAY_CONTAINER_ID) ||
-      window.document.body;
+  React.useLayoutEffect(() => {
+    if (!isOpen) return;
 
-    // We wrap {children} in a single un-styled container div strictly for the focus trap ref
-    const wrappedChildren = (
-      <Flex
-        ref={contentRef}
-        className="ms-overlay__content-positioner"
+    return registerOverlay(id, {
+      onDismiss: () => dismissRef.current(),
+      isBackdropDismissable: ovrIsBackdropDismissable,
+    });
+  }, [id, isOpen, ovrIsBackdropDismissable, registerOverlay]);
+
+  const isTopOverlay = overlayStackIds[overlayStackIds.length - 1] === id;
+  useFocusTrap(panelRef, isOpen && isTopOverlay);
+  useFocusReturn(isOpen);
+
+  const [overlayClassNames, panelProps] = extractClassNamesFromProps(
+    [OVERLAY__CLASS_NAME_CONFIG],
+    props,
+  );
+
+  if (!isClient || !isMounted) return null;
+
+  return ReactDOMClient.createPortal(
+    <div className={cnx(overlayClassNames)}>
+      <div
         role={ovrRole}
         aria-modal="true"
-        // NOTE: lets the focus trap fall back to the container when content has no focusable nodes
+        // NOTE: lets the focus trap fall back to the panel when it has nothing focusable
         tabIndex={-1}
-        {...ariaProps}
-        {...FLEX_PROPS__BY_OVERLAY_PLACEMENT[ovrPlacement]}
+        data-state={state}
+        {...panelProps}
+        ref={setPanelRef}
       >
         {children}
-      </Flex>
-    );
-
-    return ReactDOMClient.createPortal(wrappedChildren, overlayRoot);
-  }, [
-    children,
-    ovrPlacement,
-    ovrRole,
-    ariaProps['aria-label'],
-    ariaProps['aria-labelledby'],
-    ariaProps['aria-describedby'],
-  ]);
-
-  return <Presence prsIsMounted={ovrIsOpen}>{portalNode}</Presence>;
-};
+      </div>
+    </div>,
+    document.getElementById(OVERLAY_CONTAINER_ID) || document.body,
+  );
+}
 
 export { OverlayContent };
+export type { OverlayContentProps };

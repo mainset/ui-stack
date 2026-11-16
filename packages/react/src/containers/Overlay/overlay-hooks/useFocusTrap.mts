@@ -26,6 +26,16 @@ const getFocusableNodes = (rootNode: HTMLElement) =>
       !node.closest('[inert]'),
   );
 
+// An element that asks for the initial focus (`autoFocus` / `data-autofocus`)
+const getAutoFocusNode = (rootNode: HTMLElement) =>
+  rootNode.querySelector<HTMLElement>('[autofocus], [data-autofocus]');
+
+/**
+ * Keeps Tab / Shift+Tab inside {ref} while active. On activation it focuses the element marked
+ * `autoFocus` / `data-autofocus`, else the first focusable one, else the container.
+ * NOTE: it doesn't give the focus back when deactivated (a stacked dialog on top deactivates it
+ * too): that's `useFocusReturn`, on close.
+ */
 const useFocusTrap = (
   ref: React.RefObject<HTMLElement | null>,
   isActive: boolean,
@@ -34,8 +44,6 @@ const useFocusTrap = (
     if (!isActive || !ref.current) return;
 
     const rootNode = ref.current;
-    // Remember what had focus before the overlay opened, to restore it on close (WAI-ARIA dialog pattern)
-    const previouslyFocusedNode = document.activeElement as HTMLElement | null;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       // We only care about the Tab key
@@ -67,21 +75,40 @@ const useFocusTrap = (
       }
     };
 
-    // Auto-focus the first element when the trap activates
-    // Use requestAnimationFrame to ensure DOM is fully painted after Presence mounts
+    // Initial focus once the content is painted.
+    // NOTE: kept when it's inside already: `autoFocus`, or a stacked dialog on top just closed
+    // and gave the focus back to its trigger in this one
     const frameId = requestAnimationFrame(() => {
+      if (rootNode.contains(document.activeElement)) return;
+
       const [firstFocusableNode] = getFocusableNodes(rootNode);
       // Fall back to the container itself so focus never stays behind the overlay
-      (firstFocusableNode || rootNode).focus();
+      (getAutoFocusNode(rootNode) || firstFocusableNode || rootNode).focus();
     });
 
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       cancelAnimationFrame(frameId);
       document.removeEventListener('keydown', handleKeyDown);
-      previouslyFocusedNode?.focus?.();
     };
   }, [isActive, ref]);
 };
 
-export { useFocusTrap };
+/**
+ * Gives the focus back on close to what had it when {isOpen} turned true (the trigger), as the
+ * WAI-ARIA dialog pattern asks.
+ */
+const useFocusReturn = (isOpen: boolean) => {
+  React.useEffect(() => {
+    if (!isOpen) return;
+
+    const previouslyFocusedNode = document.activeElement as HTMLElement | null;
+
+    return () => {
+      // NOTE: not when the node is gone, or focus would jump to <body>
+      if (previouslyFocusedNode?.isConnected) previouslyFocusedNode.focus();
+    };
+  }, [isOpen]);
+};
+
+export { getFocusableNodes, useFocusReturn, useFocusTrap };

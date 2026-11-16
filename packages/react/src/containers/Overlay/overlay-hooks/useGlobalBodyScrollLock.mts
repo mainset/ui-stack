@@ -1,17 +1,28 @@
 import React from 'react';
 
+/**
+ * Stops the page behind an overlay from scrolling. The scrollbar's width is kept as padding at the
+ * inline end, so the page doesn't shift sideways (`scrollbar-gutter` is newer than the baseline).
+ */
 const useGlobalBodyScrollLock = (isLocked: boolean) => {
   React.useEffect(() => {
-    if (typeof document === 'undefined') return;
+    if (!isLocked || typeof document === 'undefined') return;
 
-    if (isLocked) {
-      const originalOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
+    const { body, documentElement } = document;
+    const scrollbarWidth = window.innerWidth - documentElement.clientWidth;
+    const { overflow, paddingInlineEnd } = body.style;
+    const computedPadding =
+      parseFloat(getComputedStyle(body).paddingInlineEnd) || 0;
 
-      return () => {
-        document.body.style.overflow = originalOverflow;
-      };
+    body.style.overflow = 'hidden';
+    if (scrollbarWidth > 0) {
+      body.style.paddingInlineEnd = `${computedPadding + scrollbarWidth}px`;
     }
+
+    return () => {
+      body.style.overflow = overflow;
+      body.style.paddingInlineEnd = paddingInlineEnd;
+    };
   }, [isLocked]);
 };
 
