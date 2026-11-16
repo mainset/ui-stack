@@ -34,6 +34,13 @@ export type {
   MainSetTheme,
   MainSetThemeContextValue,
 } from './MainSetContext/index.mjs';
+export { Menu } from './Menu/index.mjs';
+export type {
+  MenuGroupProps,
+  MenuItemProps,
+  MenuListProps,
+  MenuProps,
+} from './Menu/index.mjs';
 export { OverlayContent } from './Overlay/index.mjs';
 export type { OverlayContentProps } from './Overlay/index.mjs';
 export { Popover } from './Popover/index.mjs';
