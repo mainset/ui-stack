@@ -6,5 +6,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export { Alert } from './Alert/index.mjs';
+export type { AlertElementType, AlertProps } from './Alert/index.mjs';
 export { Button } from './Button/index.mjs';
+export { CloseButton } from './CloseButton/index.mjs';
+export type { CloseButtonProps } from './CloseButton/index.mjs';
 export { Field } from './Field/index.mjs';

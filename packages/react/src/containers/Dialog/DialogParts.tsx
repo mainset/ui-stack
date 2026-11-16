@@ -3,8 +3,8 @@
 import { DIALOG__CLASS_NAME_CONFIG, cnx } from '@mainset/ui-core';
 import React from 'react';
 
-import { Button } from '../../components/Button/index.mjs';
-import type { ButtonProps } from '../../components/Button/index.mjs';
+import type { CloseButtonProps } from '../../components/CloseButton/index.mjs';
+import { CloseButton } from '../../components/CloseButton/index.mjs';
 import { useDialog } from './DialogContext.mjs';
 
 const { baseClass: DIALOG } = DIALOG__CLASS_NAME_CONFIG;
@@ -37,44 +37,19 @@ function DialogTitle({ hAs = 'h2', className, ...props }: DialogTitleProps) {
   });
 }
 
-/**
- * An icon button (×) that closes the dialog; `aria-label` defaults to "Close", `children`
- * replace the icon
- */
-function DialogCloseButton({
-  children,
-  onClick,
-  ...props
-}: Omit<ButtonProps<'button'>, 'btnAs'>) {
+/** An icon button (×) that closes the dialog; `aria-label` defaults to "Close" */
+function DialogCloseButton({ onClick, ...props }: CloseButtonProps) {
   const { dismiss } = useDialog();
 
   return (
-    <Button
-      aria-label="Close"
-      btnIsIcon
+    <CloseButton
       srfTheme="base"
-      srfVariant="ghost"
       {...props}
       onClick={(event) => {
         onClick?.(event);
         if (!event.defaultPrevented) dismiss();
       }}
-    >
-      {children ?? (
-        // NOTE: the same icon as `CLOSE_ICON__SVG` (ui-core, for markup by hand)
-        <svg
-          viewBox="0 0 16 16"
-          aria-hidden="true"
-          focusable="false"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        >
-          <path d="M4 4l8 8M12 4l-8 8" />
-        </svg>
-      )}
-    </Button>
+    />
   );
 }
 
