@@ -75,6 +75,11 @@ Each utility paints one property with one role of a named tone, and overrides th
 | `txtColor` | `ms-text--color-*`       | `--ms-color-{tone}-text`   |
 | `brdColor` | `ms-border--color-*`     | `--ms-color-{tone}-border` |
 
+They also take the color scheme's neutrals, which follow light / dark and no tone: `bgColor`
+`canvas` · `surface` · `subtle` (`--ms-color-bg-*`: the page, a card, a raised band),
+`txtColor="subtle"` (`--ms-color-text-subtle`, captions) and `brdColor` `subtle` · `default` ·
+`strong` (`--ms-color-border-*`, hairlines).
+
 Utilities read the named tone directly, not the inherited `--ms-tone-*` contract, so
 `txtColor="error"` is red inside any `.ms-tone-*` subtree.
 

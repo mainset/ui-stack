@@ -7,6 +7,10 @@ $border-modifier-map: (
       theme.tone-token-map('border'),
       (
         'transparent': transparent,
+        // the scheme's neutral hairlines
+        'subtle': var(--ms-color-border-subtle),
+        'default': var(--ms-color-border-default),
+        'strong': var(--ms-color-border-strong),
       )
     ),
   radius: (

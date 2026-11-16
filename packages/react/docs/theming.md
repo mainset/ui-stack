@@ -92,14 +92,14 @@ To avoid a light flash before React hydrates, set the attribute from a tiny inli
 
 ## 2. Tones and variants via props
 
-| Prop         | On                                                       | Does                                                         |
-| ------------ | -------------------------------------------------------- | ------------------------------------------------------------ |
-| `srfTheme`   | `Surface`, `Button`, `ButtonBasic`, `Badge`, `CardBasic` | sets the tone (`.ms-tone-*`) for the element and its subtree |
-| `srfVariant` | same                                                     | `solid` · `soft` · `outlined` · `ghost`                      |
-| `srfHover`   | same                                                     | which roles change on hover: `bg` · `border` · `all`         |
-| `bgColor`    | `Surface` (and the components above), `Section`          | background = `--ms-color-{tone}-solid`                       |
-| `brdColor`   | `Surface` (and the components above)                     | border color = `--ms-color-{tone}-border`                    |
-| `txtColor`   | `Heading`, `Paragraph`, `TextSection`, `SVGIcon`         | text color = `--ms-color-{tone}-text`                        |
+| Prop         | On                                                       | Does                                                                                  |
+| ------------ | -------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `srfTheme`   | `Surface`, `Button`, `ButtonBasic`, `Badge`, `CardBasic` | sets the tone (`.ms-tone-*`) for the element and its subtree                          |
+| `srfVariant` | same                                                     | `solid` · `soft` · `outlined` · `ghost`                                               |
+| `srfHover`   | same                                                     | which roles change on hover: `bg` · `border` · `all`                                  |
+| `bgColor`    | `Surface` (and the components above), `Section`          | background = `--ms-color-{tone}-solid`; `canvas` · `surface` · `subtle`: the scheme's |
+| `brdColor`   | `Surface` (and the components above)                     | border color = `--ms-color-{tone}-border`; `subtle` · `default` · `strong`            |
+| `txtColor`   | `Heading`, `Paragraph`, `TextSection`, `SVGIcon`         | text color = `--ms-color-{tone}-text`                                                 |
 
 ```tsx
 import { Button } from '@mainset/react/components';
@@ -182,7 +182,7 @@ function BrandColorPicker() {
   return (
     <input
       type="color"
-      value={typeof current === 'string' ? current : '#9013fe'}
+      value={typeof current === 'string' ? current : '#8b14fd'}
       onChange={(event) => {
         const primary = event.target.value;
         setTheme((current) => ({
