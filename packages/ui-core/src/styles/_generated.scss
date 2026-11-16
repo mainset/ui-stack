@@ -577,6 +577,31 @@ $class-name-config-map: (
       ),
     ),
   ),
+  'ms-container': (
+    'composed': false,
+    'props': (
+      'ctnSize': (
+        'modifier': 'size',
+        'options': (
+          'xs',
+          'sm',
+          'base',
+          'lg',
+          'xl',
+          'full',
+        ),
+        'responsive': false,
+      ),
+      'ctnIsGutterless': (
+        'modifier': 'gutterless',
+        'options': (
+          true,
+          false,
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-control': (
     'composed': false,
     'props': (
