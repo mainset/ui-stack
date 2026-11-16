@@ -23,11 +23,25 @@ export { Label } from './Label/index.mjs';
 export { Link } from './Link/index.mjs';
 export { ListBasic } from './ListBasic/index.mjs';
 export { Popper } from './Popper/index.mjs';
+export { Progress } from './Progress/index.mjs';
+export type { ProgressProps } from './Progress/index.mjs';
 export { Section } from './Section/index.mjs';
+export { Skeleton } from './Skeleton/index.mjs';
+export type { SkeletonProps } from './Skeleton/index.mjs';
 export { Spacing } from './Spacing/index.mjs';
 export { Spinner } from './Spinner/index.mjs';
 export { Cluster, HStack, Stack } from './Stack/index.mjs';
 export { Surface } from './Surface/index.mjs';
+export { Table } from './Table/index.mjs';
+export type {
+  TableCaptionProps,
+  TableCellProps,
+  TableHeaderCellProps,
+  TableProps,
+  TableRowProps,
+  TableSectionProps,
+  TableSortableHeaderCellProps,
+} from './Table/index.mjs';
 export { Heading, Paragraph, Text, TextSection } from './Typography/index.mjs';
 export { VisuallyHidden } from './VisuallyHidden/index.mjs';
 // utils
