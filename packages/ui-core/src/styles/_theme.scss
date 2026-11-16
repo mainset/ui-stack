@@ -1,6 +1,4 @@
-@use 'sass:color';
 @use 'sass:map';
-@use 'sass:math';
 @use './variables' as msVariable;
 
 $tone-contract: (
@@ -13,62 +11,6 @@ $tone-contract: (
   text
 );
 
-// How derived tone tokens are mixed, per color scheme
-$derive-map: (
-  light: (
-    hover-target: black,
-    hover-amount: 85%,
-    subtle-amount: 12%,
-    subtle-hover-amount: 20%,
-    // `null` keeps text / border equal to `solid`
-    text-amount: null,
-    border-amount: null,
-    // `transparent` tone: a hint of the text color on hover
-    transparent-hover-alpha: 0.1,
-    shadow-color: rgb(3 7 18 / 10%),
-  ),
-  dark: (
-    hover-target: white,
-    hover-amount: 85%,
-    subtle-amount: 18%,
-    subtle-hover-amount: 28%,
-    // lighten toward white, so tinted text / borders keep contrast on dark surfaces
-    text-amount: 55%,
-    border-amount: 70%,
-    transparent-hover-alpha: 0.1,
-    shadow-color: rgb(0 0 0 / 50%),
-  ),
-);
-
-@function palette($name) {
-  @return var(--ms-palette-#{$name});
-}
-
-@function -palette-color($name) {
-  @return map.get(msVariable.$palette-map, $name);
-}
-
-// Rounds a color into plain sRGB `rgb()` / `rgba()`, understood by every browser
-@function -legacy-rgb($color) {
-  $color: color.to-gamut(color.to-space($color, rgb), $method: local-minde);
-  $red: math.round(color.channel($color, 'red', $space: rgb));
-  $green: math.round(color.channel($color, 'green', $space: rgb));
-  $blue: math.round(color.channel($color, 'blue', $space: rgb));
-  $alpha: color.alpha($color);
-
-  @if $alpha < 1 {
-    @return rgba($red, $green, $blue, $alpha);
-  }
-
-  @return rgb($red, $green, $blue);
-}
-
-// Mixes at build time, in the same `oklab` space the browser's `color-mix()` would use,
-// so derived tokens are plain colors: no runtime `color-mix()` (Safari < 16.2 / Chrome < 111)
-@function -mix($color, $amount, $target) {
-  @return -legacy-rgb(color.mix($color, $target, $amount, $method: oklab));
-}
-
 // Points the inheritable `--ms-tone-*` contract at a tone.
 // Elements only ever read `--ms-tone-*`, so any subtree can be re-toned by one class.
 @mixin tone-vars($tone) {
@@ -77,80 +19,13 @@ $derive-map: (
   }
 }
 
-// Every color *value* of a color scheme, as `(token name: value)`. Nothing here references
-// another semantic token, so a theme block is values only.
-// NOTE: derived roles (hover / subtle / tinted border & text) are precomputed literals: a runtime
-// override of `--ms-color-{tone}-solid` doesn't re-derive them, override those roles as well.
+// Every color *value* of a color scheme, as `(token name: value)`, generated from TS
+// (`scripts/codegen.mts`): derived roles (hover / subtle / tinted border & text) are computed by
+// `deriveToneRoles()` in `src/theme`, the same function `createTheme()` runs in the browser.
+// NOTE: they are literals, so a runtime override of `--ms-color-{tone}-solid` doesn't re-derive
+// them; override those roles as well, or use `createTheme()`.
 @function scheme-token-map($scheme) {
-  $derive: map.get($derive-map, $scheme);
-  $canvas: -palette-color(
-    map.get(msVariable.$scheme-map, $scheme, 'bg-canvas')
-  );
-  $text-base: -palette-color(
-    map.get(msVariable.$scheme-map, $scheme, 'text-base')
-  );
-  $tokens: ();
-
-  // ----- Neutral semantic tokens -----
-  @each $name, $ref in map.get(msVariable.$scheme-map, $scheme) {
-    $tokens: map.set($tokens, 'color-#{$name}', palette($ref));
-  }
-
-  // ----- Tone tokens -----
-  @each $tone, $schemes in msVariable.$tone-map {
-    $def: map.get($schemes, $scheme);
-    $solid: -palette-color(map.get($def, solid));
-    $prefix: 'color-#{$tone}';
-    $tokens: map.merge(
-      $tokens,
-      (
-        '#{$prefix}-solid': palette(map.get($def, solid)),
-        '#{$prefix}-solid-hover': -mix(
-            $solid,
-            map.get($derive, hover-amount),
-            map.get($derive, hover-target)
-          ),
-        '#{$prefix}-on-solid': palette(map.get($def, on-solid)),
-        '#{$prefix}-subtle': -mix(
-            $solid,
-            map.get($derive, subtle-amount),
-            $canvas
-          ),
-        '#{$prefix}-subtle-hover': -mix(
-            $solid,
-            map.get($derive, subtle-hover-amount),
-            $canvas
-          ),
-      )
-    );
-
-    @each $role in (border, text) {
-      $value: palette(map.get($def, solid));
-
-      @if map.has-key($def, $role) {
-        $value: palette(map.get($def, $role));
-      } @else if map.get($derive, '#{$role}-amount') {
-        $value: -mix($solid, map.get($derive, '#{$role}-amount'), white);
-      }
-
-      $tokens: map.set($tokens, '#{$prefix}-#{$role}', $value);
-    }
-  }
-
-  // ----- `transparent` tone hover: the text color, barely visible -----
-  $tokens: map.set(
-    $tokens,
-    'color-transparent-solid-hover',
-    -legacy-rgb(
-        color.change(
-          $text-base,
-          $alpha: map.get($derive, transparent-hover-alpha)
-        )
-      )
-  );
-
-  // ----- Elevation (shadow strength depends on the scheme) -----
-  @return map.set($tokens, 'shadow-color', map.get($derive, shadow-color));
+  @return map.get(msVariable.$scheme-token-map, $scheme);
 }
 
 // Declares a scheme's values. With `$base-scheme`, only the values that differ from it:
