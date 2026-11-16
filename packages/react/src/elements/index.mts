@@ -12,6 +12,7 @@ export { Badge } from './Badge/index.mjs';
 export { Box } from './Box/index.mjs';
 export { ButtonBasic } from './ButtonBasic/index.mjs';
 export { CardBasic } from './CardBasic/index.mjs';
+export { Container } from './Container/index.mjs';
 export { Flex } from './Flex/index.mjs';
 export { FloatingBox } from './FloatingBox/index.mjs';
 export { Grid } from './Grid/index.mjs';

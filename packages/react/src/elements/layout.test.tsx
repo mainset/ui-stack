@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
 import { Box } from './Box/index.mjs';
+import { Container } from './Container/index.mjs';
 import { Cluster, HStack, Stack } from './Stack/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
@@ -69,5 +70,30 @@ describe('Stack / HStack / Cluster', () => {
   it('HStack centers a row, Cluster wraps it', () => {
     expect(html(<HStack />)).toContain('ms-layout--align-items-center');
     expect(html(<Cluster />)).toContain('ms-flex--flex-wrap-wrap');
+  });
+});
+
+describe('Container', () => {
+  it('defaults to the xl size', () => {
+    expect(html(<Container />)).toBe(
+      '<div class="ms-container ms-container--size-xl"></div>',
+    );
+  });
+
+  it('takes a size, gutterless, a tag and spacing', () => {
+    expect(
+      html(
+        <Container
+          ctnAs="main"
+          ctnSize="full"
+          ctnIsGutterless
+          spcType="pv"
+          spcScale="section"
+          spcSize="sm"
+        />,
+      ),
+    ).toBe(
+      '<main class="ms-container ms-container--size-full ms-container--gutterless ms-spacing--pv-section-sm"></main>',
+    );
   });
 });

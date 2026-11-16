@@ -1,0 +1,36 @@
+@use '../../styles/mixins' as msMixin;
+@use '../../styles/options';
+
+$base-class: 'ms-container';
+$container: '.#{$base-class}';
+
+// Component tokens (Tier 3)
+:where(:root) {
+  --ms-container-gutter: var(--ms-spacing-scale-component-sm);
+
+  @include msMixin.media-up(md) {
+    --ms-container-gutter: var(--ms-spacing-scale-component-lg);
+  }
+}
+
+// NOTE: `box-sizing: border-box`, so the max width includes the gutters
+#{options.where($container)} {
+  box-sizing: border-box;
+  inline-size: 100%;
+  // NOTE: the fallback is the `ctnSize` default, for a bare `.ms-container` in plain HTML
+  max-inline-size: var(--ms-container-max-width, var(--ms-container-xl));
+  margin-inline: auto;
+  padding-inline: var(--ms-container-gutter);
+}
+
+@include options.each-class($base-class, 'ctnSize') using ($size, $value) {
+  @if $size == 'full' {
+    --ms-container-max-width: none;
+  } @else {
+    --ms-container-max-width: var(--ms-container-#{$size});
+  }
+}
+
+#{options.where('#{$container}--gutterless')} {
+  padding-inline: 0;
+}
