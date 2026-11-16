@@ -39,3 +39,5 @@ export type { OverlayContentProps } from './Overlay/index.mjs';
 export { Presence } from './Presence/index.mjs';
 export { SVGIcon } from './SVGIcon/index.mjs';
 export { Tabs } from './Tabs/index.mjs';
+export { useToast } from './Toast/index.mjs';
+export type { ToastContextValue, ToastOptions } from './Toast/index.mjs';
