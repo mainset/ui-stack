@@ -61,11 +61,9 @@ const useFocusTrap = (
         }
       }
       // If not holding shift (tabbing forwards)
-      else {
-        if (document.activeElement === lastNode) {
-          firstNode.focus();
-          e.preventDefault();
-        }
+      else if (document.activeElement === lastNode) {
+        firstNode.focus();
+        e.preventDefault();
       }
     };
 

@@ -24,7 +24,7 @@ const CardBasic: React.FC<CardBasicProps> = ({
   return React.createElement(
     Surface,
     {
-      className: cnx(className, spacingRecipe(PROPS__BY_CARD_SIZE['base'])),
+      className: cnx(className, spacingRecipe(PROPS__BY_CARD_SIZE.base)),
       ...props,
     },
     children,

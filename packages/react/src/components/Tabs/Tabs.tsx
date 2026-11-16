@@ -29,6 +29,7 @@ function TabsComponent({
     if (!isControlled) {
       setUncontrolledId(newId);
     }
+
     tbsOnBtnTabChangeClick?.(newId);
   };
 

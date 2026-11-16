@@ -40,7 +40,7 @@ const PopoverWrapper: React.FC<PopoverWrapperProps> = ({
 };
 
 // Content
-interface PopoverContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+type PopoverContentProps = React.HTMLAttributes<HTMLDivElement>;
 
 const PopoverContent: React.FC<PopoverContentProps> = ({
   children,

@@ -30,7 +30,7 @@ const FloatingBoxWrapper: React.FC<FloatingBoxWrapperProps> = ({
   );
 };
 
-interface FloatingBoxContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+type FloatingBoxContentProps = React.HTMLAttributes<HTMLDivElement>;
 
 const FloatingBoxContent: React.FC<FloatingBoxContentProps> = ({
   children,

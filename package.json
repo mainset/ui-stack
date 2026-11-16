@@ -9,7 +9,10 @@
     "dev:packages": "pnpm --filter \"./packages/**\" dev",
     "build:packages": "pnpm --filter \"./packages/**\" build",
     "codegen:check": "pnpm --filter \"./packages/**\" --if-present codegen:check",
-    "check:browser-support": "pnpm --filter \"./packages/**\" --if-present check:browser-support"
+    "check:browser-support": "pnpm --filter \"./packages/**\" --if-present check:browser-support",
+    "lint": "pnpm run lint:js && pnpm run lint:css",
+    "lint:js": "eslint packages",
+    "lint:css": "stylelint \"packages/**/*.scss\""
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.4",

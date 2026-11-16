@@ -12,6 +12,7 @@ import { warnDroppedResponsiveStyle } from './responsive.mjs';
  */
 function composeClassNames(
   configs: ClassNameFromPropConfig[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- props are interfaces (no index signature), which `Record<string, unknown>` rejects
   props: Record<string, any>,
 ): string {
   const [className, style] = composeClassNameString(configs, props);
@@ -29,6 +30,7 @@ function composeClassNames(
  */
 function composeStyleProps(
   configs: ClassNameFromPropConfig[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- props are interfaces (no index signature), which `Record<string, unknown>` rejects
   props: Record<string, any>,
 ): { className: string; style: ResponsiveStyle } {
   const [className, style] = composeClassNameString(configs, props);

@@ -23,6 +23,7 @@ const useTabsContext = () => {
   if (!context) {
     throw new Error('Tabs components must be used within a <Tabs> provider');
   }
+
   return context;
 };
 

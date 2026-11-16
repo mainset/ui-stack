@@ -10,8 +10,10 @@ const injectedIconIds = new Set<string>();
 const hashString = (str: string) => {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
+    // eslint-disable-next-line no-bitwise -- `| 0` keeps the hash a 32-bit integer
     hash = (Math.imul(31, hash) + str.charCodeAt(i)) | 0;
   }
+
   return `ms-icon--${Math.abs(hash)}`;
 };
 

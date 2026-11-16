@@ -33,7 +33,7 @@ const ListWrapper: React.FC<ListWrapperProps> = ({
   );
 };
 
-interface ListItemProps extends React.ComponentPropsWithRef<'li'> {}
+type ListItemProps = React.ComponentPropsWithRef<'li'>;
 
 const ListSpaceBetween: React.FC<ListItemProps> = ({
   children,
