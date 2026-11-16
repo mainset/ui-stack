@@ -4,6 +4,7 @@ import { spacingRecipe, spacingStyleProps } from '../elements/index.mjs';
 import { LAYOUT__CLASS_NAME_CONFIG } from '../elements/index.mjs';
 import { composeStyleProps } from '../utils/index.mjs';
 import {
+  boxStyleProps,
   buttonRecipe,
   controlRecipe,
   surfaceRecipe,
@@ -93,5 +94,27 @@ describe('composeStyleProps', () => {
 
     expect(className).toContain('ms-layout--gap-size@md');
     expect(Object.keys(style)).toEqual(['--ms-layout-gap-size-at-md']);
+  });
+});
+
+describe('boxStyleProps', () => {
+  it('combines background, border and responsive spacing', () => {
+    const { className, style } = boxStyleProps({
+      bgColor: 'muted',
+      brdRadius: 'sm',
+      spcType: 'p',
+      spcScale: 'block',
+      spcSize: { base: 'sm', md: 'lg' },
+    });
+
+    expect(classes(className)).toEqual(
+      classes(
+        'ms-background ms-background--color-muted ms-border ms-border--radius-sm ' +
+          'ms-spacing--p-block-sm ms-spacing--p@md',
+      ),
+    );
+    expect(style).toEqual({
+      '--ms-spacing-p-at-md': 'var(--ms-spacing-scale-block-lg)',
+    });
   });
 });

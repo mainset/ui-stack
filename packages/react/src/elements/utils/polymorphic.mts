@@ -7,6 +7,23 @@ import type React from 'react';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- what `React.ElementType` requires
 type AnyComponent = React.JSXElementConstructor<any>;
 
+/** Block-level tags a layout primitive (Box, Flex, Stack…) may render as */
+type BlockElementType =
+  | 'div'
+  | 'span'
+  | 'section'
+  | 'article'
+  | 'aside'
+  | 'header'
+  | 'footer'
+  | 'main'
+  | 'nav'
+  | 'form'
+  | 'fieldset'
+  | 'ul'
+  | 'ol'
+  | 'li';
+
 /**
  * Props of a component that renders as {C}, chosen with its own prefixed `*As` prop {K}
  * (`btnAs`, `srfAs`, `hAs` … — one prefix per component, like every other prop).
@@ -26,4 +43,4 @@ type PolymorphicProps<
     keyof OwnProps | K
   >;
 
-export type { AnyComponent, PolymorphicProps };
+export type { AnyComponent, BlockElementType, PolymorphicProps };

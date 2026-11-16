@@ -62,6 +62,8 @@ export type {
   TextStyleProps,
 } from './elements/index.mjs';
 export {
+  BOX__RECIPE_CONFIGS,
+  boxStyleProps,
   BUTTON__RECIPE_CONFIGS,
   buttonRecipe,
   controlRecipe,
@@ -70,6 +72,7 @@ export {
   toneRecipe,
 } from './recipes/index.mjs';
 export type {
+  BoxRecipeProps,
   ButtonRecipeProps,
   SurfaceRecipeProps,
 } from './recipes/index.mjs';
@@ -79,5 +82,8 @@ export {
   composeStyleProps,
   extractClassNamesFromProps,
 } from './utils/index.mjs';
-export type { ResponsiveStyle } from './utils/index.mjs';
+export type {
+  ClassNameFromPropConfig,
+  ResponsiveStyle,
+} from './utils/index.mjs';
 export * from './tokens/index.mjs';
