@@ -1,0 +1,24 @@
+@use '../../styles/options';
+@use './avatar.variables' as avatarVars;
+
+// Theme layer (mainset look) on top of `avatar-normalize.scss`: a round, soft-toned avatar;
+// in a group, a ring in the page color separates them
+$avatar: avatarVars.$class-selector;
+
+#{options.where($avatar)} {
+  font-size: calc(var(--ms-avatar-font-scale) * var(--ms-avatar-size));
+  font-weight: var(--ms-font-weight-medium);
+  line-height: 1;
+  color: var(--ms-tone-text);
+  background-color: var(--ms-tone-subtle);
+  border-radius: var(--ms-border-radius-circle);
+}
+
+#{options.where('#{$avatar}--shape-square')} {
+  border-radius: var(--ms-avatar-radius-square);
+}
+
+#{options.where('.ms-avatar-group > *')} {
+  box-shadow: 0 0 0 var(--ms-avatar-group-ring-width)
+    var(--ms-avatar-group-ring-color);
+}
