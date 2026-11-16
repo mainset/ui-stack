@@ -3,10 +3,10 @@
 import React from 'react';
 import ReactDOMClient from 'react-dom';
 
-import { Presence } from '../../components/Presence/index.mjs';
 import { Flex } from '../../elements/Flex/index.mjs';
 // NOTE: avoid loop dependency as MainSetProvider uses OverlayContainer
 import { useMainSet } from '../MainSetContext/MainSetContext.mjs';
+import { Presence } from '../Presence/index.mjs';
 import { OVERLAY_CONTAINER_ID } from './OverlayContainer.js';
 import { useFocusTrap } from './overlay-hooks/index.mjs';
 import './overlay-normalize.scss';

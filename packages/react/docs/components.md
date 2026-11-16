@@ -25,8 +25,14 @@ behaviour. For customizing the looks (tokens, tones, dark mode), see [Theming in
 - **Forms are uncontrolled**: native inputs with `name` / `defaultValue`. Read them on submit
   (`FormData`) or with `useFormHandler`.
 
-Imports: `@mainset/react/elements` (stateless), `@mainset/react/components` (with behaviour),
-`@mainset/react/containers` (providers), `@mainset/react/hooks`.
+Where things live:
+
+| Import                      | Holds                                                                                                          |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@mainset/react/elements`   | one ui-core element each, stateless                                                                            |
+| `@mainset/react/components` | elements combined into one component; may use `useId`, refs and `cloneElement`, but no state                   |
+| `@mainset/react/containers` | anything with its own state or JS logic: `useState`, effects, timers, context, DOM side effects, the providers |
+| `@mainset/react/hooks`      | hooks with no markup                                                                                           |
 
 ## Layout (`elements`)
 

@@ -20,3 +20,6 @@ export type {
   MainSetThemeContextValue,
 } from './MainSetContext/index.mjs';
 export { OverlayContent } from './Overlay/index.mjs';
+export { Presence } from './Presence/index.mjs';
+export { SVGIcon } from './SVGIcon/index.mjs';
+export { Tabs } from './Tabs/index.mjs';
