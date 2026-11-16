@@ -7,3 +7,5 @@ Rule of thumb:
 
 Theming (light / dark, tones and variants via props, runtime brand colors with
 `<MainSetProvider theme>` and `useTheme()`): see [`docs/`](./docs/README.md).
+
+Component reference (layout, typography, forms, feedback; the `*As` props): [`docs/components.md`](./docs/components.md).

@@ -10,6 +10,7 @@ with ui-core's tokens, plus a few React APIs:
 | Guide                            | Read it when you want to…                                                                                                                                                       |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Theming in React](./theming.md) | switch light / dark, set tones and variants via props, theme a subtree, set brand colors at runtime (`<MainSetProvider theme>`, `useTheme()`), build your own themed components |
+| [Components](./components.md)    | find a component and its props: layout, typography, forms (`Field`, uncontrolled inputs), feedback; the `*As` and prefix conventions                                            |
 
 The underlying model and the CSS-level options live in ui-core's docs:
 
