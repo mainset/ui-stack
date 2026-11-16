@@ -1,0 +1,38 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './breadcrumb.tokens';
+@use '../../styles/options';
+
+// Normalize layer: a wrapping row of links and separators
+$breadcrumb: '.ms-breadcrumb';
+
+#{options.where('#{$breadcrumb}__list')} {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-breadcrumb-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#{options.where('#{$breadcrumb}__item')} {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ms-breadcrumb-gap);
+  min-inline-size: 0;
+}
+
+#{options.where('#{$breadcrumb}__link')} {
+  color: inherit;
+  text-decoration: none;
+}
+
+#{options.where('#{$breadcrumb}__separator')} {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+#{options.where('#{$breadcrumb}__separator > svg')} {
+  inline-size: 1em;
+  block-size: 1em;
+}

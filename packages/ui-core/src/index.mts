@@ -64,6 +64,7 @@ export {
   AVATAR_GROUP__CLASS_NAME_CONFIG,
   PAGINATION__CLASS_NAME_CONFIG,
   paginationRange,
+  BREADCRUMB__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,

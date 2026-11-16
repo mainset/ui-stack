@@ -8,6 +8,7 @@ export { BACKDROP__CLASS_NAME_CONFIG } from './backdrop/index.mjs';
 export type { BackdropStyleProps } from './backdrop/index.mjs';
 export { BACKGROUND__CLASS_NAME_CONFIG } from './background/index.mjs';
 export type { BackgroundStyleProps } from './background/index.mjs';
+export { BREADCRUMB__CLASS_NAME_CONFIG } from './breadcrumb/index.mjs';
 export { BORDER__CLASS_NAME_CONFIG } from './border/index.mjs';
 export type { BorderStyleProps } from './border/index.mjs';
 export { BUTTON__CLASS_NAME_CONFIG } from './button/index.mjs';
