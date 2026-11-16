@@ -14,6 +14,29 @@
   white-space: nowrap;
 }
 
+// Variants are presets of size, family, weight and tracking; declared before the single-purpose
+// utilities, so `txtWeight` / `txtSize` / … on the same element still win (same specificity)
+#{vars.$class-selector}--variant-overline {
+  font-family: var(--ms-overline-font-family);
+  font-size: var(--ms-overline-font-size);
+  font-weight: var(--ms-overline-font-weight);
+  line-height: var(--ms-line-height-tight);
+  letter-spacing: var(--ms-overline-letter-spacing);
+  text-transform: uppercase;
+}
+
+#{vars.$class-selector}--variant-lead {
+  font-size: var(--ms-font-size-text-lg);
+  letter-spacing: var(--ms-letter-spacing-text-lg);
+  line-height: var(--ms-line-height-relaxed);
+}
+
+@include options.assert-options(
+  vars.$base-class,
+  'txtVariant',
+  (overline, lead)
+);
+
 @include options.each-class(vars.$base-class, 'txtAlign', $tier: utility) using
   ($option, $value) {
   text-align: $value;
@@ -57,11 +80,32 @@
 @include options.each-class(
     vars.$base-class,
     'txtColor',
-    vars.$color-map,
+    vars.$text-color-map,
     $tier: utility
   )
   using ($option, $value) {
   color: $value;
+}
+
+// After `txtSize`: a leading overrides the line height the size brings
+@include options.each-class(
+    vars.$base-class,
+    'txtLeading',
+    vars.$leading-map,
+    $tier: utility
+  )
+  using ($option, $value) {
+  line-height: $value;
+}
+
+@include options.each-class(
+    vars.$base-class,
+    'txtWrap',
+    vars.$wrap-map-as-style,
+    $tier: utility
+  )
+  using ($option, $value) {
+  @include msMixin.map-to-style($value);
 }
 
 // One media query for every hover color, instead of one per class

@@ -26,7 +26,9 @@ const TEXT_BASE__CLASS_NAME_CONFIG = {
     },
     txtColor: {
       modifier: 'color',
-      options: COLOR__ELEMENT_OPTIONS,
+      // `subtle`: the faintest text that still reads (WCAG AA on the canvas and surfaces),
+      // for captions and meta data; a scheme color, not a tone
+      options: [...COLOR__ELEMENT_OPTIONS, 'subtle'],
       // NOTE: no default — text inherits its color (e.g. `on-solid` inside a solid surface)
     },
     txtColorHover: {
@@ -43,6 +45,11 @@ const TEXT_BASE__CLASS_NAME_CONFIG = {
       ],
       // NOTE: no default — the font family is inherited from the theme root
     },
+    txtLeading: {
+      modifier: 'leading',
+      // overrides the line height of the size: `tight` for headlines, `relaxed` for long copy
+      options: ['tight', 'relaxed'],
+    },
     txtSize: {
       modifier: 'size',
       options: [
@@ -55,6 +62,10 @@ const TEXT_BASE__CLASS_NAME_CONFIG = {
         'larger',
         // absolute
         ...SIZE_EXTENDED__ELEMENT_OPTIONS,
+        // fluid: grow with the viewport between a floor and a ceiling (headlines)
+        'display-sm',
+        'display-base',
+        'display-lg',
       ],
     },
     txtTransform: {
@@ -80,7 +91,29 @@ const TEXT_BASE__CLASS_NAME_CONFIG = {
         'lighter',
         'bolder',
         // absolute
+        'medium',
+        'semibold',
         'bold',
+      ],
+    },
+    txtVariant: {
+      modifier: 'variant',
+      options: [
+        // the small label above a heading: mono, uppercase, widely tracked
+        'overline',
+        // the intro paragraph under a heading: larger, relaxed lines
+        'lead',
+      ],
+    },
+    txtWrap: {
+      modifier: 'wrap',
+      options: [
+        // even lines (headings); newer browsers only, the others wrap as usual
+        'balance',
+        // no lone last word (paragraphs); newer browsers only, the others wrap as usual
+        'pretty',
+        // a single line
+        'nowrap',
       ],
     },
     // boolean

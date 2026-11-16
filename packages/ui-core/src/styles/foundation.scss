@@ -75,6 +75,38 @@
   --ms-letter-spacing-text-xxl: -0.02em;
   --ms-line-height-text-xxl: 1.25; // 45px
 
+  // ----- Display size tokens (fluid) -----
+  // Hero and landing headlines: they grow with the viewport between a floor and a ceiling, so a
+  // headline needs no per-breakpoint size. The `rem` part keeps them zoomable (WCAG 1.4.4).
+  // display-sm (Section headlines): 30px → 36px
+  --ms-font-size-display-sm: clamp(1.875rem, 1.5rem + 1.25vw, 2.25rem);
+  --ms-letter-spacing-display-sm: -0.025em;
+  --ms-line-height-display-sm: 1.15;
+
+  // display-base (Page headlines): 36px → 60px
+  --ms-font-size-display-base: clamp(2.25rem, 1.25rem + 4vw, 3.75rem);
+  --ms-letter-spacing-display-base: -0.03em;
+  --ms-line-height-display-base: 1.08;
+
+  // display-lg (Hero statements, wordmarks): 48px → 72px
+  --ms-font-size-display-lg: clamp(3rem, 1.75rem + 5vw, 4.5rem);
+  --ms-letter-spacing-display-lg: -0.035em;
+  --ms-line-height-display-lg: 1;
+
+  // ----- Line height tokens (overrides of the size's own line height) -----
+  --ms-line-height-tight: 1.2; // Headlines, labels
+  --ms-line-height-relaxed: 1.625; // Long-form copy, lead paragraphs
+
+  // ----- Overline tokens (the small label above a heading) -----
+  --ms-overline-font-family: var(--ms-font-family-text-mono);
+  --ms-overline-font-size: var(--ms-font-size-text-xs);
+  --ms-overline-font-weight: var(--ms-font-weight-medium);
+  --ms-overline-letter-spacing: 0.16em;
+
+  // ----- Scroll offset -----
+  // Room kept above an in-page anchor target, e.g. a fixed header's height: `--ms-scroll-offset: 4rem`
+  --ms-scroll-offset: 0;
+
   // ----- Border radius tokens -----
   @each $name, $value in msVariable.$border-radius-map {
     --ms-border-radius-#{$name}: #{$value};

@@ -23,6 +23,7 @@ const PALETTE__TOKENS = {
   'gray-200': 'rgb(229 231 235)',
   'gray-300': 'rgb(209 213 219)',
   'gray-400': 'rgb(156 163 175)',
+  'gray-450': 'rgb(138 145 158)', // dark-scheme `text-subtle`: AA on gray-950 / -900 / -800
   'gray-500': 'rgb(107 114 128)',
   'gray-600': 'rgb(75 85 99)',
   'gray-700': 'rgb(55 65 81)',
@@ -148,6 +149,7 @@ const SCHEME__TOKENS = {
     'bg-subtle': 'gray-50',
     'text-base': 'gray-800',
     'text-muted': 'gray-600',
+    'text-subtle': 'gray-500',
     'text-disabled': 'gray-400',
     'text-inverse': 'gray-50',
     'border-subtle': 'gray-200',
@@ -161,6 +163,7 @@ const SCHEME__TOKENS = {
     'bg-subtle': 'gray-800',
     'text-base': 'gray-100',
     'text-muted': 'gray-400',
+    'text-subtle': 'gray-450',
     'text-disabled': 'gray-600',
     'text-inverse': 'gray-900',
     'border-subtle': 'gray-800',

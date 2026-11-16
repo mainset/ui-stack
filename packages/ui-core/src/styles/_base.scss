@@ -9,6 +9,12 @@
     font-family: var(--ms-font-family-text-sans);
   }
 
+  // In-page anchors land below a fixed header: set `--ms-scroll-offset` to its height.
+  // NOTE: physical `scroll-padding-top`, the logical `scroll-padding-block-start` needs Safari 15
+  :where(:root) {
+    scroll-padding-top: var(--ms-scroll-offset);
+  }
+
   // Keyboard focus is always visible (resets commonly strip outlines / button borders).
   // NOTE: Safari < 15.4 has no `:focus-visible` and drops this rule, keeping its native ring.
   :where(:focus-visible) {
