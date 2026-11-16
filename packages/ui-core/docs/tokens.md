@@ -121,10 +121,11 @@ that uses it.
 | `--ms-container-{size}`    | xs 320px · sm 576 · base 768 · lg 992 · xl 1200 (max widths)                                                                 |
 | `--ms-breakpoint-{name}`   | sm 36rem · md 48rem · lg 62rem · xl 75rem. **Read-only**: media queries are compiled in, so overriding these changes nothing |
 | `--ms-grid-columns-number` | 12                                                                                                                           |
+| `--ms-container-gutter`    | side padding of `.ms-container`: 16px, 24px from `md`                                                                        |
 
 ## Component tokens (Tier 3): global
 
-### Control (buttons today; inputs, selects next)
+### Control (buttons, inputs, textareas, selects)
 
 | Token                                                                            | Default                                               |
 | -------------------------------------------------------------------------------- | ----------------------------------------------------- |
@@ -139,3 +140,44 @@ that uses it.
 | Token                 | Default                         | Note                                                           |
 | --------------------- | ------------------------------- | -------------------------------------------------------------- |
 | `--ms-surface-radius` | unset → `--ms-border-radius-sm` | set by `.ms-control`; set it on a surface to change its radius |
+
+### Input (inputs, textareas, selects): per scheme
+
+Declared on every theme root, because they point at scheme colors: override them with the
+[scheme-aware pattern](./css-overrides.md#scheme-aware-overrides).
+
+| Token                            | Default                          |
+| -------------------------------- | -------------------------------- |
+| `--ms-input-border-color`        | `var(--ms-color-border-default)` |
+| `--ms-input-border-color-hover`  | `var(--ms-color-border-strong)`  |
+| `--ms-input-background`          | `var(--ms-color-bg-surface)`     |
+| `--ms-input-background-readonly` | `var(--ms-color-bg-subtle)`      |
+| `--ms-input-placeholder-color`   | `var(--ms-color-text-muted)`     |
+
+Focus uses `--ms-color-focus-ring`, the invalid state `--ms-color-error-border`.
+
+### Checkbox, radio, switch
+
+Checked colors follow the current tone (`--ms-tone-solid`, `--ms-tone-on-solid`), so
+`.ms-tone-success` on a wrapper re-colors them.
+
+| Token                      | Default                         | Scope      |
+| -------------------------- | ------------------------------- | ---------- |
+| `--ms-choice-size`         | 1rem (checkbox / radio box)     | global     |
+| `--ms-switch-width`        | 2.25rem                         | global     |
+| `--ms-switch-height`       | 1.25rem                         | global     |
+| `--ms-choice-border-color` | `var(--ms-color-border-strong)` | per scheme |
+| `--ms-switch-track-color`  | `var(--ms-color-border-strong)` | per scheme |
+| `--ms-switch-thumb-color`  | `var(--ms-color-bg-surface)`    | per scheme |
+
+### Spinner
+
+| Token                      | Default                                           |
+| -------------------------- | ------------------------------------------------- |
+| `--ms-spinner-size-{size}` | xs 12px · sm 16 · base 20 · lg 24 · xl 32         |
+| `--ms-spinner-duration`    | 0.75s (×3 under `prefers-reduced-motion: reduce`) |
+
+### Heading
+
+`h1`–`h6` with `.ms-heading` take the text size of their level (h1 `xxl`, h2 `xl`, h3 `lg`,
+h4 `base`, h5 `sm`, h6 `xs`) and `--ms-font-weight-semibold`. Any `txtSize` class overrides it.
