@@ -256,3 +256,60 @@ The selected tab uses the current tone (`--ms-tone-text`, `--ms-tone-solid`).
 | `--ms-toast-enter-distance`            | `var(--ms-space-8)`                      |
 
 Colors come from the surface + tone of the alert.
+
+### Table
+
+| Token                                                     | Default                                                                                              | Scope      |
+| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------- |
+| `--ms-table-cell-padding-block-{size}` / `-inline-{size}` | sm `element-sm` / `element-lg` · base `element-lg` / `element-xl` · lg `element-xl` / `component-xs` | global     |
+| `--ms-table-border-width`                                 | `var(--ms-border-width-base)`                                                                        | global     |
+| `--ms-table-radius`                                       | `var(--ms-border-radius-base)` (`--bordered`)                                                        | global     |
+| `--ms-table-sort-icon-size`                               | 0.5em                                                                                                | global     |
+| `--ms-table-border-color`                                 | `var(--ms-color-border-subtle)`                                                                      | per scheme |
+| `--ms-table-header-background`                            | `var(--ms-color-bg-surface)` (opaque, for sticky)                                                    | per scheme |
+| `--ms-table-header-color`                                 | `var(--ms-color-text-muted)`                                                                         | per scheme |
+| `--ms-table-stripe-background`                            | `var(--ms-color-bg-subtle)`                                                                          | per scheme |
+| `--ms-table-row-background-hover`                         | `var(--ms-color-bg-subtle)`                                                                          | per scheme |
+
+A selected row reads `--ms-tone-subtle` directly, so `ms-tone-*` on the table or the row re-colors it.
+
+### Avatar
+
+| Token                          | Default                                    | Scope      |
+| ------------------------------ | ------------------------------------------ | ---------- |
+| `--ms-avatar-size-{size}`      | xs 24px · sm 32 · base 40 · lg 48 · xl 64  | global     |
+| `--ms-avatar-radius-square`    | `var(--ms-border-radius-base)`             | global     |
+| `--ms-avatar-font-scale`       | 0.4 (initials, × the avatar size)          | global     |
+| `--ms-avatar-group-overlap`    | 0.25 (share hidden under the previous one) | global     |
+| `--ms-avatar-group-ring-width` | `var(--ms-border-width-lg)`                | global     |
+| `--ms-avatar-group-ring-color` | `var(--ms-color-bg-canvas)`                | per scheme |
+
+### Skeleton and progress
+
+| Token                                  | Default                             | Scope      |
+| -------------------------------------- | ----------------------------------- | ---------- |
+| `--ms-skeleton-text-height`            | 0.75em                              | global     |
+| `--ms-skeleton-text-gap`               | 0.375em (above and below a line)    | global     |
+| `--ms-skeleton-text-last-width`        | 60%                                 | global     |
+| `--ms-skeleton-rect-min-height`        | 1rem                                | global     |
+| `--ms-skeleton-circle-size`            | 2.5rem                              | global     |
+| `--ms-skeleton-radius`                 | `var(--ms-border-radius-sm)`        | global     |
+| `--ms-skeleton-duration`               | 1.5s (stopped under reduced motion) | global     |
+| `--ms-skeleton-background`             | `var(--ms-color-border-subtle)`     | per scheme |
+| `--ms-progress-height-{size}`          | sm 4px · base 8 · lg 12             | global     |
+| `--ms-progress-indeterminate-width`    | 40%                                 | global     |
+| `--ms-progress-indeterminate-duration` | 1.5s (×3 under reduced motion)      | global     |
+| `--ms-progress-track-background`       | `var(--ms-color-border-subtle)`     | per scheme |
+
+### Pagination and breadcrumb
+
+| Token                                 | Default                      | Scope      |
+| ------------------------------------- | ---------------------------- | ---------- |
+| `--ms-pagination-gap`                 | `element-sm`                 | global     |
+| `--ms-pagination-page-padding-inline` | `element-base`               | global     |
+| `--ms-pagination-ellipsis-color`      | `var(--ms-color-text-muted)` | per scheme |
+| `--ms-breadcrumb-gap`                 | `element-lg`                 | global     |
+| `--ms-breadcrumb-color`               | `var(--ms-color-text-muted)` | per scheme |
+| `--ms-breadcrumb-color-hover`         | `var(--ms-color-text-base)`  | per scheme |
+| `--ms-breadcrumb-color-current`       | `var(--ms-color-text-base)`  | per scheme |
+| `--ms-breadcrumb-separator-color`     | `var(--ms-color-text-muted)` | per scheme |

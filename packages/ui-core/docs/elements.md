@@ -446,3 +446,167 @@ Colors come from the surface + tone (`surfaceRecipe({ srfTheme, srfVariant })`).
 Toasts are alerts with `ms-toast` (a shadow, enter / exit animations) in an
 `<ol class="ms-toast-region">`, fixed in the block-end / inline-end corner. Announce them through
 a live region that is already in the page: one added together with its content may not be read.
+
+## Data display
+
+### Table
+
+```html
+<div class="ms-table-wrapper" tabindex="0" role="region" aria-label="Invoices">
+  <table class="ms-table ms-table--hoverable ms-table--size-sm">
+    <thead>
+      <tr>
+        <th class="ms-table__cell" scope="col" aria-sort="ascending">
+          <button class="ms-table__sort" type="button">
+            Invoice<span class="ms-table__sort-icon" aria-hidden="true"></span>
+          </button>
+        </th>
+        <th class="ms-table__cell ms-table__cell--align-end" scope="col">
+          Amount
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr aria-selected="true">
+        <th class="ms-table__cell" scope="row">INV-001</th>
+        <td class="ms-table__cell ms-table__cell--align-end">1,250.00</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+The wrapper scrolls a table wider than its container (and, with a `max-block-size`, taller: then
+`ms-table--sticky-header` keeps the header row in view). Modifiers: `--size-{sm|base|lg}`
+(density), `--striped`, `--hoverable`, `--bordered` (a frame and lines between columns).
+`ms-table__cell--align-{start|center|end}` aligns a column; numbers use tabular figures.
+A selected row is `tr[aria-selected="true"]`, in the current tone.
+
+Sorting: the header label is a `__sort` button; only the sorted column has `aria-sort`, which
+turns its `__sort-icon` into a chevron up (`ascending`) or down (`descending`). Sorting the rows
+is yours.
+
+### Avatar
+
+```html
+<span
+  class="ms-avatar ms-avatar--size-sm ms-tone-info"
+  role="img"
+  aria-label="Ada Lovelace"
+>
+  AL
+  <img src="/ada.png" alt="" />
+</span>
+
+<div class="ms-avatar-group" role="group" aria-label="Members">
+  <span class="ms-avatar">…</span>
+  <span class="ms-avatar">…</span>
+</div>
+```
+
+A box of `--size-{xs…xl}`, `--shape-circle` (default) or `--shape-square`. The `img` lies over
+the fallback (initials, an `svg`), so the fallback shows until the picture loads; remove the
+`img` if it fails. Fallback colors are the current tone's `subtle` / `text`. In a group, each
+avatar slides under the previous one (`--ms-avatar-group-overlap`) with a ring in the page color.
+
+### Skeleton
+
+```html
+<div aria-busy="true">
+  <span
+    class="ms-skeleton ms-skeleton--variant-circle"
+    aria-hidden="true"
+  ></span>
+  <span class="ms-skeleton-lines" aria-hidden="true">
+    <span class="ms-skeleton ms-skeleton--variant-text"></span>
+    <span class="ms-skeleton ms-skeleton--variant-text"></span>
+  </span>
+  <span class="ms-skeleton ms-skeleton--variant-rect" aria-hidden="true">
+    <h2>Content to load</h2>
+  </span>
+</div>
+```
+
+`text` (a line), `rect` (size it yourself) or `circle`. With content inside, it takes the
+content's size and hides it. In `ms-skeleton-lines`, the last line is shorter. It pulses, and
+stops under reduced motion. Skeletons are decorative: mark the loading region `aria-busy`.
+
+### Progress
+
+```html
+<div
+  class="ms-progress ms-progress--size-sm ms-tone-success"
+  role="progressbar"
+  aria-label="Upload"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuenow="40"
+  style="--ms-progress-value: 0.4"
+>
+  <span class="ms-progress__bar"></span>
+</div>
+```
+
+The bar fills from the inline start to `--ms-progress-value` (0–1), in the current tone.
+`ms-progress--indeterminate` (no `aria-valuenow`) runs a bar across instead; slower under reduced
+motion.
+
+## Navigation
+
+### Pagination
+
+```html
+<nav class="ms-pagination ms-pagination--size-sm" aria-label="Pagination">
+  <ul class="ms-pagination__list">
+    <li>
+      <button class="ms-button ms-button--icon …" aria-label="Previous page">
+        <span class="ms-pagination__arrow" aria-hidden="true">‹</span>
+      </button>
+    </li>
+    <li>
+      <button class="ms-button ms-pagination__page …" aria-label="Page 1">
+        1
+      </button>
+    </li>
+    <li><span class="ms-pagination__ellipsis" aria-hidden="true">…</span></li>
+    <li>
+      <button
+        class="ms-button ms-pagination__page …"
+        aria-current="page"
+        aria-label="Page 6"
+      >
+        6
+      </button>
+    </li>
+    …
+  </ul>
+</nav>
+```
+
+Pages are buttons (`buttonRecipe()`, or links with `btnAs="a"`) at least as wide as they are
+tall; give them the `ctlSize` of `ms-pagination--size-*`, which sizes the ellipses.
+`paginationRange({ page, pageCount, siblingCount, boundaryCount })` returns which pages to show,
+with `'ellipsis'` for the gaps, for any template. Its length doesn't change between pages, so the
+buttons don't move under the pointer.
+
+### Breadcrumb
+
+```html
+<nav class="ms-breadcrumb" aria-label="Breadcrumb">
+  <ol class="ms-breadcrumb__list">
+    <li class="ms-breadcrumb__item">
+      <a class="ms-breadcrumb__link" href="/">Home</a>
+      <span class="ms-breadcrumb__separator" aria-hidden="true">/</span>
+    </li>
+    <li class="ms-breadcrumb__item">
+      <span class="ms-breadcrumb__link" aria-current="page">Install</span>
+    </li>
+  </ol>
+</nav>
+```
+
+The separators are in the markup (`aria-hidden`), so a screen reader doesn't read them.
+
+NOTE on direction: `‹` `›` (U+2039 / U+203A) are mirrored by the browser in RTL text, so the
+pagination arrows and a `›` breadcrumb separator point the right way in an RTL section without
+any CSS. An icon separator would need mirroring.

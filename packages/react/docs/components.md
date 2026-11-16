@@ -373,3 +373,129 @@ Props: `accType` (`single` default · `multiple`), `accIsCollapsible` (single: w
 close, default `true`), `accHeadingAs` (the triggers' heading level, default `h3`, to fit the
 page outline), `accOpenIds` + `accOnOpenChange` (controlled); item `accIsDisabled`. Collapsed
 panels stay in the DOM (`hidden`), ↑ / ↓ / Home / End move between triggers.
+
+## Data display
+
+`Table`, `Skeleton` and `Progress` are in `elements`, `AvatarGroup` in `components`, `Avatar`
+in `containers` (it keeps the state of its picture).
+
+### Table
+
+```tsx
+<Table tblIsHoverable tblSize="sm" aria-label="Invoices">
+  <Table.Head>
+    <Table.Row>
+      <Table.SortableHeaderCell
+        tblSortDirection={sort.column === 'id' ? sort.direction : null}
+        tblOnSort={() => sortBy('id')}
+      >
+        Invoice
+      </Table.SortableHeaderCell>
+      <Table.HeaderCell tblAlign="end">Amount</Table.HeaderCell>
+    </Table.Row>
+  </Table.Head>
+  <Table.Body>
+    {rows.map((row) => (
+      <Table.Row key={row.id} tblIsSelected={row.id === selectedId}>
+        <Table.HeaderCell scope="row">{row.id}</Table.HeaderCell>
+        <Table.Cell tblAlign="end">{row.amount}</Table.Cell>
+      </Table.Row>
+    ))}
+  </Table.Body>
+</Table>
+```
+
+Props: `tblSize` (`sm` · `base` · `lg`), `tblIsStriped`, `tblIsHoverable`, `tblIsBordered`,
+`tblIsStickyHeader`, `tblWrapperProps` (the scrolling wrapper: a `style={{ maxBlockSize }}` for
+the sticky header, `tabIndex={0}` + `role="region"` + `aria-label` so a keyboard can scroll it);
+everything else goes to the `table`. Parts: `Caption`, `Head`, `Body`, `Foot`, `Row`
+(`tblIsSelected`), `HeaderCell` (`scope="col"` by default) and `Cell` (`tblAlign`).
+`SortableHeaderCell` takes `tblSortDirection` (`ascending` · `descending` · `null`) and
+`tblOnSort`. The sort state and the sorting are yours: only the sorted column gets `aria-sort`.
+
+### Avatar and AvatarGroup
+
+```tsx
+<Avatar avtSrc={user.photoUrl} avtName={user.name} avtSize="sm" />
+
+<AvatarGroup aria-label="Members" avtSize="sm" avtMax={3}>
+  {members.map((member) => (
+    <Avatar key={member.id} avtName={member.name} avtSrc={member.photoUrl} />
+  ))}
+</AvatarGroup>
+```
+
+`Avatar`: `avtSrc`, `avtName` (its accessible name and the initials of the fallback; without
+it the avatar is decorative), `avtSize`, `avtShape` (`circle` · `square`), `avtTone`,
+`avtImgProps` (`srcSet`, `loading`…), `children` (a fallback instead of the initials). The
+fallback shows while the picture loads and if it fails, including a failure before hydration.
+
+`AvatarGroup`: `avtSize` / `avtShape` for every avatar that doesn't set its own, `avtMax` (the
+rest are counted in a "+N" avatar), `avtGetMoreLabel` (default `` (count) => `${count} more` ``).
+
+### Skeleton
+
+```tsx
+<div aria-busy={!user}>
+  <Skeleton sklVariant="circle" sklIsLoading={!user}>
+    <Avatar avtName={user?.name} />
+  </Skeleton>
+  <Skeleton sklVariant="text" sklLines={3} />
+</div>
+```
+
+Props: `sklVariant` (`text` · `rect` default · `circle`), `sklLines` (several `text` lines, the
+last one shorter), `sklIsLoading` (default `true`; `false` renders the children as they are).
+With children, it takes their size. Size an empty `rect` with `style` or a class. Skeletons are
+`aria-hidden`: put `aria-busy` on the loading region.
+
+### Progress
+
+```tsx
+<Progress aria-label="Upload" prgValue={uploaded} prgMax={total} prgTone="success" />
+<Progress aria-label="Loading results" />
+```
+
+Props: `prgValue` (unset / `null`: indeterminate), `prgMin` (0), `prgMax` (100),
+`prgValueText` (read instead of the percentage, e.g. "3 of 8 files"), `prgSize` (`sm` · `base` ·
+`lg`), `prgTone`. It's a `role="progressbar"`: give it a name.
+
+## Navigation (`components`)
+
+### Pagination
+
+```tsx
+<Pagination pgnPage={page} pgnPageCount={20} pgnOnPageChange={setPage} />
+
+<Pagination
+  pgnPage={page}
+  pgnPageCount={20}
+  pgnGetHref={(page) => `?page=${page}`}
+  pgnLinkAs={NextLink}
+/>
+```
+
+Props: `pgnPage` (from 1), `pgnPageCount`, `pgnOnPageChange` (page buttons) or `pgnGetHref`
+(page links; `pgnLinkAs` is the link component, given `href`), `pgnSiblingCount` (1),
+`pgnBoundaryCount` (1), `pgnSize`, and the labels `pgnLabel` ("Pagination"),
+`pgnPreviousLabel` ("Previous page"), `pgnNextLabel` ("Next page"), `pgnGetPageLabel`
+(`` (page) => `Page ${page}` ``). The current page is a solid button in the inherited tone
+(`aria-current="page"`), the others are neutral. Previous / next are disabled at the ends.
+For a router whose link takes `to`, wrap it: `({ href, ...props }) => <Link to={href} {...props} />`.
+
+### Breadcrumb
+
+```tsx
+<Breadcrumb>
+  <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+  <Breadcrumb.Item brcAs={RouterLink} to="/docs">
+    Docs
+  </Breadcrumb.Item>
+  <Breadcrumb.Item brcIsCurrent>Install</Breadcrumb.Item>
+</Breadcrumb>
+```
+
+Props: `brcSeparator` (default `/`; `›` is mirrored in RTL text, an icon may need mirroring),
+`brcLabel` ("Breadcrumb"). Each child becomes a list item, so pass items directly, not in a
+fragment. `Breadcrumb.Item`: `brcAs` (a router link), `brcIsCurrent` (`aria-current="page"`);
+it's a `span` unless it has an `href` or a `brcAs`.

@@ -4,9 +4,13 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, it } from 'vitest';
 
 import { Alert } from './components/Alert/index.mjs';
+import { AvatarGroup } from './components/AvatarGroup/index.mjs';
+import { Breadcrumb } from './components/Breadcrumb/index.mjs';
 import { Button } from './components/Button/index.mjs';
 import { Field } from './components/Field/index.mjs';
+import { Pagination } from './components/Pagination/index.mjs';
 import { Accordion } from './containers/Accordion/index.mjs';
+import { Avatar } from './containers/Avatar/index.mjs';
 import { Dialog } from './containers/Dialog/index.mjs';
 import { useOverlay } from './containers/MainSetContext/MainSetContext.mjs';
 import { MainSetProvider } from './containers/MainSetContext/MainSetProvider.js';
@@ -18,8 +22,11 @@ import { Tooltip } from './containers/Tooltip/index.mjs';
 import { Checkbox } from './elements/Choice/index.mjs';
 import { Container } from './elements/Container/index.mjs';
 import { Input, Select } from './elements/Input/index.mjs';
+import { Progress } from './elements/Progress/index.mjs';
 import { Section } from './elements/Section/index.mjs';
+import { Skeleton } from './elements/Skeleton/index.mjs';
 import { Stack } from './elements/Stack/index.mjs';
+import { Table } from './elements/Table/index.mjs';
 import { Heading } from './elements/Typography/index.mjs';
 import { VisuallyHidden } from './elements/VisuallyHidden/index.mjs';
 import { useFormHandler } from './hooks/index.mjs';
@@ -177,6 +184,119 @@ function Overlays() {
     </>
   );
 }
+
+type Invoice = { id: string; amount: string };
+type Member = { id: string; name: string; photoUrl?: string };
+
+const NextLink = (props: React.ComponentProps<'a'>) => <a {...props} />;
+
+function DataDisplay({
+  rows,
+  members,
+  user,
+}: {
+  rows: Invoice[];
+  members: Member[];
+  user?: Member;
+}) {
+  const [sort, setSort] = React.useState<{
+    column: string;
+    direction: 'ascending' | 'descending';
+  }>({ column: 'id', direction: 'ascending' });
+  const sortBy = (column: string) =>
+    setSort({
+      column,
+      direction:
+        sort.column === column && sort.direction === 'ascending'
+          ? 'descending'
+          : 'ascending',
+    });
+  const selectedId = 'INV-2';
+  const [page, setPage] = React.useState(1);
+
+  return (
+    <>
+      <Table tblIsHoverable tblSize="sm" aria-label="Invoices">
+        <Table.Head>
+          <Table.Row>
+            <Table.SortableHeaderCell
+              tblSortDirection={sort.column === 'id' ? sort.direction : null}
+              tblOnSort={() => sortBy('id')}
+            >
+              Invoice
+            </Table.SortableHeaderCell>
+            <Table.HeaderCell tblAlign="end">Amount</Table.HeaderCell>
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
+          {rows.map((row) => (
+            <Table.Row key={row.id} tblIsSelected={row.id === selectedId}>
+              <Table.HeaderCell scope="row">{row.id}</Table.HeaderCell>
+              <Table.Cell tblAlign="end">{row.amount}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
+      <Avatar avtSrc={user?.photoUrl} avtName={user?.name} avtSize="sm" />
+      <AvatarGroup aria-label="Members" avtSize="sm" avtMax={3}>
+        {members.map((member) => (
+          <Avatar
+            key={member.id}
+            avtName={member.name}
+            avtSrc={member.photoUrl}
+          />
+        ))}
+      </AvatarGroup>
+      <div aria-busy={!user}>
+        <Skeleton sklVariant="circle" sklIsLoading={!user}>
+          <Avatar avtName={user?.name} />
+        </Skeleton>
+        <Skeleton sklVariant="text" sklLines={3} />
+      </div>
+      <Progress aria-label="Upload" prgValue={3} prgMax={8} prgTone="success" />
+      <Progress aria-label="Loading results" />
+      <Pagination pgnPage={page} pgnPageCount={20} pgnOnPageChange={setPage} />
+      <Pagination
+        pgnPage={page}
+        pgnPageCount={20}
+        pgnGetHref={(page) => `?page=${page}`}
+        pgnLinkAs={NextLink}
+      />
+      <Breadcrumb>
+        <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+        <Breadcrumb.Item brcAs={RouterLink} to="/docs">
+          Docs
+        </Breadcrumb.Item>
+        <Breadcrumb.Item brcIsCurrent>Install</Breadcrumb.Item>
+      </Breadcrumb>
+    </>
+  );
+}
+
+it('the data display and navigation examples compile and render', () => {
+  const markup = renderToStaticMarkup(
+    <DataDisplay
+      rows={[
+        { id: 'INV-1', amount: '12.00' },
+        { id: 'INV-2', amount: '980.50' },
+      ]}
+      members={[
+        'Ada Lovelace',
+        'Grace Hopper',
+        'Linus Torvalds',
+        'Alan Kay',
+      ].map((name, index) => ({ id: String(index), name }))}
+    />,
+  );
+
+  expect(markup).toContain('aria-sort="ascending"');
+  expect(markup).toContain('aria-label="1 more"');
+  expect(markup).toContain('ms-progress--indeterminate');
+  expect(markup).toContain('href="?page=2"');
+  expect(markup).toContain(
+    '<a href="/docs" class="ms-breadcrumb__link">Docs</a>',
+  );
+});
 
 it('the overlay, disclosure and feedback examples compile and render', () => {
   const markup = renderToStaticMarkup(
