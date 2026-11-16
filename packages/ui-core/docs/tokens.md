@@ -166,6 +166,8 @@ Checked colors follow the current tone (`--ms-tone-solid`, `--ms-tone-on-solid`)
 | `--ms-choice-size`         | 1rem (checkbox / radio box)     | global     |
 | `--ms-switch-width`        | 2.25rem                         | global     |
 | `--ms-switch-height`       | 1.25rem                         | global     |
+| `--ms-switch-thumb-offset` | 0.1875rem (track ↔ thumb gap)   | global     |
+| `--ms-switch-thumb-size`   | height − 2 × offset             | global     |
 | `--ms-choice-border-color` | `var(--ms-color-border-strong)` | per scheme |
 | `--ms-switch-track-color`  | `var(--ms-color-border-strong)` | per scheme |
 | `--ms-switch-thumb-color`  | `var(--ms-color-bg-surface)`    | per scheme |

@@ -80,7 +80,7 @@ Imports: `@mainset/react/elements` (stateless), `@mainset/react/components` (wit
 | `Input`                         | `elements`   | `ctlSize`, `type` (text-like types), native attributes                                   |
 | `Textarea`                      | `elements`   | `ctlSize`, `rows` (default 3)                                                            |
 | `Select`                        | `elements`   | `ctlSize`, `<option>` children; `className` on the select                                |
-| `Checkbox` / `Radio` / `Switch` | `elements`   | native attributes; `children` become the label                                           |
+| `Checkbox` / `Radio` / `Switch` | `elements`   | native attributes; `children` become the label; `Checkbox` also `chkIsIndeterminate`     |
 | `Label`                         | `elements`   | `lblIsRequired`                                                                          |
 | `Field`                         | `components` | `fldLabel`, `fldHint`, `fldError`, `fldIsRequired`, `fldControlId`; one control as child |
 
@@ -146,6 +146,9 @@ function SignupForm({
 
 `useFormHandler` stores `checked` for checkboxes and switches, `value` for everything else, and
 supports nested names (`address.city`, `items[0].name`).
+
+Every control follows the `dir` of its section: `<Box boxAs="section" dir="rtl">` mirrors the
+fields, switches and labels inside, on an LTR page too.
 
 Checked colors follow the tone: `<Box className={toneRecipe('success')}>` around a group, or
 `ms-tone-*` on any ancestor.

@@ -8,6 +8,52 @@ All element rules have 0 specificity (`:where()`), or `(0,0,1)` where a tag is p
 selector (`h2:where(.ms-heading)`). So utility classes and your own CSS always win, in any load
 order. Customize through the [tokens](./tokens.md), not by copying rules.
 
+## Two layers per component
+
+Each component's CSS comes in two files, applied together:
+
+| Layer                      | Holds                                                                                     | Changes when…       |
+| -------------------------- | ----------------------------------------------------------------------------------------- | ------------------- |
+| `{element}-normalize.scss` | resets (`appearance`, margins), box model, layout mechanics, states' mechanics, direction | never, written once |
+| `{element}.scss` (theme)   | the mainset look: colors, borders, radius, typography, shadows, opacity, motion           | the design changes  |
+
+- A test keeps normalize layers free of colors, typography, radius, shadows and motion.
+- Some elements have one layer only: mechanics only (`container`, `list`, `popper`,
+  `floating-box`, React's overlay) or look only (`surface`). Utilities (spacing, flex, grid,
+  text, background, border, section) are a single file: they only apply token values.
+- Component tokens (`_{element}.tokens.scss`) load with the normalize layer: both layers read
+  them, and you override them like any token.
+
+Bundles for use without a bundler:
+
+| File                       | Contents                                                        |
+| -------------------------- | --------------------------------------------------------------- |
+| `styles/index.min.css`     | tokens, base, utilities, every component: normalize + theme     |
+| `styles/normalize.min.css` | tokens, base, utilities, every component's normalize layer only |
+
+`normalize.css` is the headless option: mainset's structure, behaviour and direction handling
+under a completely different visual language, written as your own theme layer. Components then
+work but look like the browser's defaults until you style them.
+
+## Direction (LTR / RTL)
+
+Layout never assumes a direction: only logical properties (`margin-inline-start`,
+`inset-inline-end`, `inline-size`, `text-align: start`) and flex / grid alignment
+(`start` / `end`). No `[dir]` selectors, no physical sides. So the direction comes from the
+nearest `dir` attribute: a whole page, or just one section:
+
+```html
+<html dir="ltr">
+  …
+  <section dir="rtl" lang="ar">…</section>
+  <!-- inputs, selects, switches, labels… mirror inside it -->
+</html>
+```
+
+A test fails on physical properties in any stylesheet. A symmetric glyph that needs physical
+sides (the select chevron) is marked `rtl-safe:` on the line above. Your own CSS on top should
+follow the same rule.
+
 Props with a prefix (`spc*`, `flx*`, `lay*`, `grd*`, `ctn*`, `txt*`, `lnk*`, `ctl*`, `spn*`) map
 to modifier classes: `ctlSize: 'lg'` → `ms-control--size-lg`. Props marked _responsive_ also take
 a per-breakpoint object, see [Responsive props](../README.md#responsive-props).
@@ -156,23 +202,26 @@ inputRecipe({ ctlSize: 'lg' }); // → "ms-control ms-control--size-lg ms-input"
   <span>I accept the terms</span>
 </label>
 
-<label class="ms-choice"
-  ><input type="radio" class="ms-radio" name="plan" value="pro" /><span
-    >Pro</span
-  ></label
->
+<label class="ms-choice">
+  <input type="radio" class="ms-radio" name="plan" value="pro" />
+  <span>Pro</span>
+</label>
 
-<label class="ms-choice"
-  ><input type="checkbox" role="switch" class="ms-switch" /><span
-    >Notifications</span
-  ></label
->
+<label class="ms-choice">
+  <span class="ms-switch">
+    <input type="checkbox" role="switch" class="ms-switch__input" />
+    <span class="ms-switch__thumb" aria-hidden="true"></span>
+  </span>
+  <span>Notifications</span>
+</label>
 ```
 
 - Checked in the current tone: put `ms-tone-success` on the label (or any ancestor) to re-color.
-- The checkbox icon is an svg after the input (`CHECKBOX_ICON__SVG`). Checkboxes and radios
-  draw nothing with pseudo-elements, which Firefox 78 can't render on inputs.
-- Indeterminate: set the DOM property `input.indeterminate = true`.
+- The checkbox icon is an svg after the input (`CHECKBOX_ICON__SVG`), the switch thumb a span
+  after it: nothing is drawn with pseudo-elements on inputs, which Firefox 78 can't render.
+- The switch thumb moves along the inline axis (`margin-inline-start`), so "on" is at the inline
+  end in LTR and RTL sections alike.
+- Indeterminate: set the DOM property `input.indeterminate = true` (React: `chkIsIndeterminate`).
 
 ### Label and field
 
