@@ -74,7 +74,7 @@ precomputed, so **override every role you want changed**, in each scheme:
 [data-theme='system'] {
   --ms-color-primary-solid: #0f766e;
   --ms-color-primary-solid-hover: #0a5e57;
-  --ms-color-primary-on-solid: #f9fafb;
+  --ms-color-primary-on-solid: #fbfaf8;
   --ms-color-primary-subtle: #e4eeed;
   --ms-color-primary-subtle-hover: #d3e3e0;
   --ms-color-primary-border: #0f766e;
@@ -84,11 +84,11 @@ precomputed, so **override every role you want changed**, in each scheme:
 [data-theme='dark'] {
   --ms-color-primary-solid: #0f766e;
   --ms-color-primary-solid-hover: #428a82;
-  --ms-color-primary-on-solid: #f9fafb;
-  --ms-color-primary-subtle: #061821;
-  --ms-color-primary-subtle-hover: #08222a;
-  --ms-color-primary-border: #659e97;
-  --ms-color-primary-text: #87b2ad;
+  --ms-color-primary-on-solid: #fbfaf8;
+  --ms-color-primary-subtle: #0f1815;
+  --ms-color-primary-subtle-hover: #12221f;
+  --ms-color-primary-border: #287e76;
+  --ms-color-primary-text: #5e9992;
 }
 
 @media (prefers-color-scheme: dark) {

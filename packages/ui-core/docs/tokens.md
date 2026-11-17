@@ -15,33 +15,33 @@ overridden on `:root` alone.
 Literal colors. Elements never read them directly; semantic tokens point at them. `violet-600`
 (`#8b14fd`) is the mainset brand purple, the default `primary`.
 
-| Token                                       | Value                                                             |
-| ------------------------------------------- | ----------------------------------------------------------------- |
-| `--ms-palette-white` / `-black`             | `rgb(255 255 255)` / `rgb(0 0 0)`                                 |
-| `--ms-palette-violet-400` / `-600` / `-800` | `rgb(181 89 255)` / `rgb(139 20 253)` / `rgb(92 11 186)`          |
-| `--ms-palette-red-600`                      | `rgb(215 34 38)`                                                  |
-| `--ms-palette-blue-600`                     | `rgb(37 99 235)`                                                  |
-| `--ms-palette-green-600`                    | `rgb(22 163 74)`                                                  |
-| `--ms-palette-yellow-500`                   | `rgb(234 179 8)`                                                  |
-| `--ms-palette-gray-{50…950}`                | gray scale: 50, 100, 200 … 900, 950, and 450 (dark `text-subtle`) |
+| Token                                       | Value                                                                  |
+| ------------------------------------------- | ---------------------------------------------------------------------- |
+| `--ms-palette-white` / `-black`             | `rgb(255 255 255)` / `rgb(0 0 0)`                                      |
+| `--ms-palette-violet-400` / `-600` / `-800` | `rgb(181 89 255)` / `rgb(139 20 253)` / `rgb(92 11 186)`               |
+| `--ms-palette-red-600`                      | `rgb(215 34 38)`                                                       |
+| `--ms-palette-blue-600`                     | `rgb(37 99 235)`                                                       |
+| `--ms-palette-green-600`                    | `rgb(22 163 74)`                                                       |
+| `--ms-palette-yellow-500`                   | `rgb(234 179 8)`                                                       |
+| `--ms-palette-gray-{50…950}`                | warm gray scale: 50, 100, 200 … 900, 950, and 450 (dark `text-subtle`) |
 
 ### Neutral semantic tokens: per scheme
 
-| Token                       | Light               | Dark               | Used for                     |
-| --------------------------- | ------------------- | ------------------ | ---------------------------- |
-| `--ms-color-bg-canvas`      | white               | gray-950           | page / theme-root background |
-| `--ms-color-bg-surface`     | white               | gray-900           | cards, popovers              |
-| `--ms-color-bg-subtle`      | gray-50             | gray-800           | quiet fills                  |
-| `--ms-color-text-base`      | gray-800            | gray-100           | body text                    |
-| `--ms-color-text-muted`     | gray-600            | gray-400           | secondary text               |
-| `--ms-color-text-subtle`    | gray-500            | gray-450           | captions, meta (still AA)    |
-| `--ms-color-text-disabled`  | gray-400            | gray-600           |                              |
-| `--ms-color-text-inverse`   | gray-50             | gray-900           | text on inverted fills       |
-| `--ms-color-border-subtle`  | gray-200            | gray-800           | dividers                     |
-| `--ms-color-border-default` | gray-300            | gray-700           | inputs, cards                |
-| `--ms-color-border-strong`  | gray-500            | gray-500           |                              |
-| `--ms-color-focus-ring`     | violet-600          | violet-400         | `:focus-visible` outline     |
-| `--ms-shadow-color`         | `rgb(3 7 18 / 10%)` | `rgb(0 0 0 / 50%)` | used by `--ms-shadow-*`      |
+| Token                       | Light              | Dark               | Used for                     |
+| --------------------------- | ------------------ | ------------------ | ---------------------------- |
+| `--ms-color-bg-canvas`      | white              | gray-950           | page / theme-root background |
+| `--ms-color-bg-surface`     | white              | gray-900           | cards, popovers              |
+| `--ms-color-bg-subtle`      | gray-50            | gray-800           | quiet fills                  |
+| `--ms-color-text-base`      | gray-800           | gray-100           | body text                    |
+| `--ms-color-text-muted`     | gray-600           | gray-400           | secondary text               |
+| `--ms-color-text-subtle`    | gray-500           | gray-450           | captions, meta (still AA)    |
+| `--ms-color-text-disabled`  | gray-400           | gray-600           |                              |
+| `--ms-color-text-inverse`   | gray-50            | gray-900           | text on inverted fills       |
+| `--ms-color-border-subtle`  | gray-200           | gray-800           | dividers                     |
+| `--ms-color-border-default` | gray-300           | gray-700           | inputs, cards                |
+| `--ms-color-border-strong`  | gray-500           | gray-500           |                              |
+| `--ms-color-focus-ring`     | violet-600         | violet-400         | `:focus-visible` outline     |
+| `--ms-shadow-color`         | `rgb(8 7 6 / 10%)` | `rgb(0 0 0 / 50%)` | used by `--ms-shadow-*`      |
 
 ### Tone roles: per scheme
 
@@ -76,18 +76,18 @@ read them, and so can your CSS. Override them only together with a tone class
 
 ## Typography: global
 
-| Token                                                              | Values                                                              |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------- |
-| `--ms-font-family-text-{sans,serif,mono}`                          | system-ui stack / georgia stack / ui-monospace stack                |
-| `--ms-font-weight-{regular,medium,semibold,bold}`                  | 400 / 500 / 600 / 700                                               |
-| `--ms-font-size-text-{size}`                                       | xxs 10px · xs 12 · sm 14 · base 16 · lg 20 · xl 24 · xxl 36         |
-| `--ms-line-height-text-{size}`                                     | paired with each font size                                          |
-| `--ms-letter-spacing-text-{size}`                                  | paired with each font size                                          |
-| `--ms-font-size-display-{sm,base,lg}`                              | fluid: 30→36px · 36→60px · 48→72px (`clamp()`)                      |
-| `--ms-line-height-display-*` / `--ms-letter-spacing-display-*`     | paired with each display size                                       |
-| `--ms-line-height-{tight,relaxed}`                                 | 1.2 / 1.625 (`txtLeading`)                                          |
-| `--ms-overline-{font-family,font-size,font-weight,letter-spacing}` | mono · xs · medium · 0.16em (`txtVariant="overline"`)               |
-| `--ms-scroll-offset`                                               | 0: room kept above in-page anchor targets (a fixed header's height) |
+| Token                                                              | Values                                                                                              |
+| ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| `--ms-font-family-text-{sans,serif,mono}`                          | Geist + system-ui / georgia stack / JetBrains Mono + ui-monospace ([fonts](../README.md#typefaces)) |
+| `--ms-font-weight-{regular,medium,semibold,bold}`                  | 400 / 500 / 600 / 700                                                                               |
+| `--ms-font-size-text-{size}`                                       | xxs 10px · xs 12 · sm 14 · base 16 · lg 20 · xl 24 · xxl 36                                         |
+| `--ms-line-height-text-{size}`                                     | paired with each font size                                                                          |
+| `--ms-letter-spacing-text-{size}`                                  | paired with each font size                                                                          |
+| `--ms-font-size-display-{sm,base,lg}`                              | fluid: 30→36px · 36→60px · 48→72px (`clamp()`)                                                      |
+| `--ms-line-height-display-*` / `--ms-letter-spacing-display-*`     | paired with each display size                                                                       |
+| `--ms-line-height-{tight,relaxed}`                                 | 1.2 / 1.625 (`txtLeading`)                                                                          |
+| `--ms-overline-{font-family,font-size,font-weight,letter-spacing}` | mono · xs · medium · 0.16em (`txtVariant="overline"`)                                               |
+| `--ms-scroll-offset`                                               | 0: room kept above in-page anchor targets (a fixed header's height)                                 |
 
 ## Spacing: global
 

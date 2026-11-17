@@ -17,19 +17,20 @@ const PALETTE__TOKENS = {
   'blue-600': 'rgb(37 99 235)',
   'green-600': 'rgb(22 163 74)',
   'yellow-500': 'rgb(234 179 8)',
-  // neutrals
-  'gray-50': 'rgb(249 250 251)',
-  'gray-100': 'rgb(243 244 246)',
-  'gray-200': 'rgb(229 231 235)',
-  'gray-300': 'rgb(209 213 219)',
-  'gray-400': 'rgb(156 163 175)',
-  'gray-450': 'rgb(138 145 158)', // dark-scheme `text-subtle`: AA on gray-950 / -900 / -800
-  'gray-500': 'rgb(107 114 128)',
-  'gray-600': 'rgb(75 85 99)',
-  'gray-700': 'rgb(55 65 81)',
-  'gray-800': 'rgb(31 41 55)',
-  'gray-900': 'rgb(17 24 39)',
-  'gray-950': 'rgb(3 7 18)',
+  // neutrals: warm, generated in OKLCH at hue 75° with a low chroma (0.003 at the ends → 0.011 in
+  // the middle). Each step keeps the lightness of the cool gray it replaced, so contrast holds.
+  'gray-50': 'rgb(251 250 248)',
+  'gray-100': 'rgb(246 244 241)',
+  'gray-200': 'rgb(233 230 227)',
+  'gray-300': 'rgb(216 212 207)',
+  'gray-400': 'rgb(166 162 156)',
+  'gray-450': 'rgb(149 144 137)', // dark-scheme `text-subtle`: AA on gray-950 / -900 / -800
+  'gray-500': 'rgb(118 113 107)',
+  'gray-600': 'rgb(88 83 78)',
+  'gray-700': 'rgb(68 64 59)',
+  'gray-800': 'rgb(43 40 36)',
+  'gray-900': 'rgb(26 24 21)',
+  'gray-950': 'rgb(8 7 6)',
 } as const;
 
 type PaletteColor = keyof typeof PALETTE__TOKENS;
@@ -192,16 +193,23 @@ type ToneDerivation = {
   /** `subtle` / `subtle-hover` = this amount of `solid` mixed with the page canvas */
   subtleAmount: number;
   subtleHoverAmount: number;
-  /** amount of `solid` mixed with white; `null` keeps the role equal to `solid` */
-  textAmount: number | null;
-  borderAmount: number | null;
+  /**
+   * `text` / `border` = the mix of `solid` toward `tintTarget` closest to `solid` that still has
+   * this WCAG contrast on the scheme's `bg-subtle` (its least contrasting surface) and on the tone's
+   * own `subtle` fill. A `solid` that already has it stays itself, so a brand color is only tinted
+   * where contrast needs it.
+   */
+  tintTarget: PaletteColor;
+  textContrast: number;
+  borderContrast: number;
   /** `transparent` tone: a hint of the text color on hover */
   transparentHoverAlpha: number;
   shadowColor: string;
 };
 
 /**
- * How derived tone roles are mixed (in `oklab`), per color scheme. Amounts are 0..1 of `solid`.
+ * How derived tone roles are mixed (in `oklab`), per color scheme. Amounts are 0..1 of `solid`;
+ * contrasts are WCAG ratios.
  * Shared by the build (codegen) and the runtime (`createTheme()`), so both always agree.
  */
 const TONE_DERIVATION__TOKENS = {
@@ -210,10 +218,11 @@ const TONE_DERIVATION__TOKENS = {
     hoverAmount: 0.85,
     subtleAmount: 0.12,
     subtleHoverAmount: 0.2,
-    textAmount: null,
-    borderAmount: null,
+    tintTarget: 'black',
+    textContrast: 4.5, // WCAG AA, normal text
+    borderContrast: 3, // WCAG non-text contrast (UI components)
     transparentHoverAlpha: 0.1,
-    shadowColor: 'rgb(3 7 18 / 10%)',
+    shadowColor: 'rgb(8 7 6 / 10%)', // gray-950
   },
   dark: {
     hoverTarget: 'white',
@@ -221,8 +230,9 @@ const TONE_DERIVATION__TOKENS = {
     subtleAmount: 0.18,
     subtleHoverAmount: 0.28,
     // lighten toward white, so tinted text / borders keep contrast on dark surfaces
-    textAmount: 0.55,
-    borderAmount: 0.7,
+    tintTarget: 'white',
+    textContrast: 4.5,
+    borderContrast: 3,
     transparentHoverAlpha: 0.1,
     shadowColor: 'rgb(0 0 0 / 50%)',
   },

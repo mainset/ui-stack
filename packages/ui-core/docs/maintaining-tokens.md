@@ -15,6 +15,7 @@ default. Product teams should override tokens instead, see
 | how derived tone roles are mixed (hover, subtle…) | `TONE_DERIVATION__TOKENS` in `color.tokens.mts`              | yes               |
 | the derivation itself (oklab mixing)              | `packages/ui-core/src/theme/derive.mts`, `color.mts`         | shipped as JS too |
 | fonts, motion, focus ring, opacity                | `packages/ui-core/src/styles/foundation.scss`                | no (Sass)         |
+| typeface files (`@font-face`)                     | `packages/ui-core/src/styles/fonts.scss`, `styles/fonts/`    | no (Sass)         |
 | control sizes and radius                          | `packages/ui-core/src/elements/control/_control.tokens.scss` | no (Sass)         |
 
 TS tokens are the single source of truth: `pnpm codegen` (run by `build` and `dev`) writes
@@ -81,7 +82,10 @@ Add a key to both schemes in `SCHEME__TOKENS` (e.g. `'bg-overlay': 'gray-900'`).
 ### Change the derivation
 
 `TONE_DERIVATION__TOKENS` in `color.tokens.mts` sets how far `solid` is mixed toward
-black/white/canvas for each role, per scheme. The mixing runs in `deriveToneRoles()`
+black/white/canvas for each role, per scheme. `text` and `border` aren't set by an amount but by
+a WCAG contrast target (4.5 and 3): each is the mix closest to `solid` that reaches it on the
+scheme's `bg-subtle` and on the tone's own `subtle` fill, so a brand color stays itself wherever
+it already has the contrast (`#8b14fd` text in light) and is tinted only as far as needed. The mixing runs in `deriveToneRoles()`
 (`src/theme/derive.mts`), which both codegen (the shipped CSS) and `createTheme()` (runtime
 themes) call, so the two can't drift. Codegen writes the computed values into
 `$scheme-token-map` in `_generated.scss`; Sass only prints them.

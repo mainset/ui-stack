@@ -10,7 +10,7 @@ describe('createThemeTokens', () => {
     expect(teal.light).toMatchObject({
       '--ms-color-primary-solid': '#0f766e',
       '--ms-color-primary-solid-hover': '#0a5e57',
-      '--ms-color-primary-on-solid': '#f9fafb',
+      '--ms-color-primary-on-solid': '#fbfaf8',
       '--ms-color-primary-subtle': '#e4eeed',
       '--ms-color-primary-subtle-hover': '#d3e3e0',
       '--ms-color-primary-border': '#0f766e',
@@ -18,16 +18,16 @@ describe('createThemeTokens', () => {
     });
     expect(teal.dark).toMatchObject({
       '--ms-color-primary-solid-hover': '#428a82',
-      '--ms-color-primary-subtle': '#061821',
-      '--ms-color-primary-subtle-hover': '#08222a',
-      '--ms-color-primary-border': '#659e97',
-      '--ms-color-primary-text': '#87b2ad',
+      '--ms-color-primary-subtle': '#0f1815',
+      '--ms-color-primary-subtle-hover': '#12221f',
+      '--ms-color-primary-border': '#287e76',
+      '--ms-color-primary-text': '#5e9992',
     });
   });
 
   it('the focus ring follows primary unless set', () => {
     expect(teal.light['--ms-color-focus-ring']).toBe('#0f766e');
-    expect(teal.dark['--ms-color-focus-ring']).toBe('#87b2ad');
+    expect(teal.dark['--ms-color-focus-ring']).toBe('#5e9992');
     expect(
       createThemeTokens({
         tones: { primary: '#0f766e' },
@@ -41,7 +41,7 @@ describe('createThemeTokens', () => {
       createThemeTokens({ tones: { warning: '#eab308' } }).light[
         '--ms-color-warning-on-solid'
       ],
-    ).toBe('#111827');
+    ).toBe('#1a1815');
   });
 
   it('accepts per-scheme and explicit roles', () => {
