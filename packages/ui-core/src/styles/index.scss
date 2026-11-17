@@ -4,8 +4,10 @@
 //   <link rel="stylesheet" href="@mainset/ui-core/styles/index.min.css" />
 // (`index.min.css` is this file minified, written after the build by `scripts/minify-css.mjs`).
 // The reset is opt-in and shipped separately: `@mainset/ui-core/styles/reset.css`.
+// The typefaces are bundled here, and shipped separately for bundlers: `styles/fonts.css`.
 // Each component is its normalize layer (`*-normalize`, mechanics) followed by its theme layer
 // (the mainset look); `normalize.scss` bundles the normalize layers alone.
+@use './fonts';
 @use './foundation';
 @use '../elements/alert/alert-normalize';
 @use '../elements/alert/alert';

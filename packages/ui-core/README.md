@@ -8,13 +8,15 @@ any other framework (or plain HTML) can use the same classes.
 
 **With a JS bundler** (React adapter, Vite, rspack, webpack…) — nothing to configure:
 every element module imports its own CSS (plus the shared foundation), so the bundle
-contains only the CSS of the elements in use.
+contains only the CSS of the elements in use. Import the [typefaces](#typefaces) once, at the
+app root.
 
 **Without a bundler** (plain HTML, server templates, Vue/Svelte/…):
 
 ```html
 <!-- the reset is optional; when used, load it first -->
 <link rel="stylesheet" href="@mainset/ui-core/styles/reset.css" />
+<!-- includes the typefaces -->
 <link rel="stylesheet" href="@mainset/ui-core/styles/index.min.css" />
 
 <button
@@ -37,12 +39,31 @@ buttonRecipe({ srfVariant: 'outlined', srfTheme: 'error', ctlSize: 'sm' });
 | Entry                                       | Contents                                                                                                             |
 | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `@mainset/ui-core`                          | class-name configs, recipes, types, utils                                                                            |
-| `@mainset/ui-core/styles/index.css`         | foundation + every element                                                                                           |
+| `@mainset/ui-core/styles/index.css`         | typefaces + foundation + every element                                                                               |
 | `@mainset/ui-core/styles/index.min.css`     | the same, minified (for use without a bundler)                                                                       |
 | `@mainset/ui-core/styles/normalize.min.css` | headless: every component's normalize layer, no mainset look ([layers](./docs/elements.md#two-layers-per-component)) |
 | `@mainset/ui-core/styles/foundation.css`    | all design tokens + base styles + tone classes                                                                       |
 | `@mainset/ui-core/styles/reset.css`         | opt-in modern reset (`normalize.css` is an alias)                                                                    |
+| `@mainset/ui-core/styles/fonts.css`         | the mainset typefaces, `@font-face` only ([typefaces](#typefaces))                                                   |
 | `@mainset/ui-core/scss/mixins`              | `media-up()`, `responsive-variants`, helpers                                                                         |
+
+### Typefaces
+
+mainset text is set in [Geist](https://vercel.com/font) and technical labels (overlines, code,
+data) in [JetBrains Mono](https://www.jetbrains.com/lp/mono/): variable, Latin + Cyrillic, both
+SIL OFL 1.1 (licences ship beside the files). The font tokens name them by default, with system
+fallbacks; the files load from one stylesheet, **imported once per page**:
+
+```ts
+// app root, or the micro-frontend shell (not in each remote)
+import '@mainset/ui-core/styles/fonts.css';
+```
+
+It isn't part of the per-element CSS on purpose: every bundle importing it emits its own copy of
+the files, so remotes of one shell would each download the same fonts. Fonts are split by script
+(`unicode-range`): a page fetches only the files its text uses. Without the stylesheet, the
+system fallbacks render. Another typeface is one token away:
+`:root { --ms-font-family-text-sans: 'Inter', system-ui, sans-serif; }`.
 
 ## Single source of truth (codegen)
 

@@ -22,8 +22,9 @@
   }
 
   // ----- Font family tokens -----
-  // The default UI font
-  --ms-font-family-text-sans: system-ui, -apple-system, sans-serif;
+  // The default UI font. Geist / JetBrains Mono load from `@mainset/ui-core/styles/fonts.css`
+  // (imported once per page); until then, and without it, the system fallbacks render.
+  --ms-font-family-text-sans: 'Geist', system-ui, -apple-system, sans-serif;
 
   // Used for editorial content, articles, or specific brand headings
   --ms-font-family-text-serif:
@@ -31,7 +32,8 @@
 
   // Used for code snippets, tabular data, numbers, or technical info.
   --ms-font-family-text-mono:
-    ui-monospace, sfmono-regular, menlo, monaco, consolas, monospace;
+    'JetBrains Mono', ui-monospace, sfmono-regular, menlo, monaco, consolas,
+    monospace;
 
   // ----- Font weight tokens -----
   --ms-font-weight-regular: 400;

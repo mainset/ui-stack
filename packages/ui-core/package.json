@@ -30,6 +30,7 @@
     "./styles/normalize.css": "./dist/esm/styles/normalize.css",
     "./styles/normalize.min.css": "./dist/esm/styles/normalize.min.css",
     "./styles/foundation.css": "./dist/esm/styles/foundation.css",
+    "./styles/fonts.css": "./dist/esm/styles/fonts.css",
     "./styles/reset.css": "./dist/esm/styles/reset.css",
     "./scss/mixins": "./src/styles/_mixins.scss"
   },
