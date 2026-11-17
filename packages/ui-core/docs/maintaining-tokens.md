@@ -60,6 +60,12 @@ const SCALE__SOURCES = {
 };
 ```
 
+### Check contrast
+
+`src/theme/contrast.test.mts` fails when a built-in text or UI color drops below WCAG 2 (4.5 text,
+3 borders and focus rings) on any surface it sits on. `pnpm contrast:report` prints every pair
+with its WCAG ratio and APCA Lc (advisory, a perceptual second opinion) after a palette change.
+
 ### Point a tone at another color
 
 ```ts
