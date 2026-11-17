@@ -12,36 +12,42 @@ overridden on `:root` alone.
 
 ### Palette (Tier 1): global
 
-Literal colors. Elements never read them directly; semantic tokens point at them. `violet-600`
+Literal colors. Elements never read them directly; semantic tokens point at them. `violet-500`
 (`#8b14fd`) is the mainset brand purple, the default `primary`.
 
-| Token                                       | Value                                                                  |
-| ------------------------------------------- | ---------------------------------------------------------------------- |
-| `--ms-palette-white` / `-black`             | `rgb(255 255 255)` / `rgb(0 0 0)`                                      |
-| `--ms-palette-violet-400` / `-600` / `-800` | `rgb(181 89 255)` / `rgb(139 20 253)` / `rgb(92 11 186)`               |
-| `--ms-palette-red-600`                      | `rgb(215 34 38)`                                                       |
-| `--ms-palette-blue-600`                     | `rgb(37 99 235)`                                                       |
-| `--ms-palette-green-600`                    | `rgb(22 163 74)`                                                       |
-| `--ms-palette-yellow-500`                   | `rgb(234 179 8)`                                                       |
-| `--ms-palette-gray-{50…950}`                | warm gray scale: 50, 100, 200 … 900, 950, and 450 (dark `text-subtle`) |
+The four scales are generated in OKLCH from one lightness ramp (so step N contrasts about alike in
+every hue) and emitted as `rgb()`; see [Maintaining tokens](./maintaining-tokens.md#the-palette-generator).
+Steps: `25 50 100 200 300 400 450 500 600 700 800 900 950`.
+
+| Token                           | Value                                                         |
+| ------------------------------- | ------------------------------------------------------------- |
+| `--ms-palette-white` / `-black` | `rgb(255 255 255)` / `rgb(0 0 0)`                             |
+| `--ms-palette-gray-{step}`      | warm neutral (hue 75°): warm paper (25) → warm charcoal (950) |
+| `--ms-palette-ink-{step}`       | violet-tinted neutral: the `secondary` tone                   |
+| `--ms-palette-violet-{step}`    | the brand scale, `#8b14fd` exactly at 500                     |
+| `--ms-palette-orange-{step}`    | the warm accent: the `tertiary` tone                          |
+| `--ms-palette-red-600`          | `rgb(215 34 38)`                                              |
+| `--ms-palette-blue-600`         | `rgb(37 99 235)`                                              |
+| `--ms-palette-green-600`        | `rgb(22 163 74)`                                              |
+| `--ms-palette-yellow-500`       | `rgb(234 179 8)`                                              |
 
 ### Neutral semantic tokens: per scheme
 
-| Token                       | Light              | Dark               | Used for                     |
-| --------------------------- | ------------------ | ------------------ | ---------------------------- |
-| `--ms-color-bg-canvas`      | white              | gray-950           | page / theme-root background |
-| `--ms-color-bg-surface`     | white              | gray-900           | cards, popovers              |
-| `--ms-color-bg-subtle`      | gray-50            | gray-800           | quiet fills                  |
-| `--ms-color-text-base`      | gray-800           | gray-100           | body text                    |
-| `--ms-color-text-muted`     | gray-600           | gray-400           | secondary text               |
-| `--ms-color-text-subtle`    | gray-500           | gray-450           | captions, meta (still AA)    |
-| `--ms-color-text-disabled`  | gray-400           | gray-600           |                              |
-| `--ms-color-text-inverse`   | gray-50            | gray-900           | text on inverted fills       |
-| `--ms-color-border-subtle`  | gray-200           | gray-800           | dividers                     |
-| `--ms-color-border-default` | gray-300           | gray-700           | inputs, cards                |
-| `--ms-color-border-strong`  | gray-500           | gray-500           |                              |
-| `--ms-color-focus-ring`     | violet-600         | violet-400         | `:focus-visible` outline     |
-| `--ms-shadow-color`         | `rgb(8 7 6 / 10%)` | `rgb(0 0 0 / 50%)` | used by `--ms-shadow-*`      |
+| Token                       | Light              | Dark               | Used for                                                           |
+| --------------------------- | ------------------ | ------------------ | ------------------------------------------------------------------ |
+| `--ms-color-bg-canvas`      | gray-25            | gray-950           | page / theme-root background (light: warm paper, a hair off white) |
+| `--ms-color-bg-surface`     | white              | gray-900           | cards, popovers                                                    |
+| `--ms-color-bg-subtle`      | gray-50            | gray-800           | quiet fills                                                        |
+| `--ms-color-text-base`      | gray-800           | gray-100           | body text                                                          |
+| `--ms-color-text-muted`     | gray-600           | gray-400           | secondary text                                                     |
+| `--ms-color-text-subtle`    | gray-500           | gray-450           | captions, meta (still AA)                                          |
+| `--ms-color-text-disabled`  | gray-400           | gray-600           |                                                                    |
+| `--ms-color-text-inverse`   | gray-50            | gray-900           | text on inverted fills                                             |
+| `--ms-color-border-subtle`  | gray-200           | gray-800           | dividers                                                           |
+| `--ms-color-border-default` | gray-300           | gray-700           | inputs, cards                                                      |
+| `--ms-color-border-strong`  | gray-500           | gray-500           |                                                                    |
+| `--ms-color-focus-ring`     | violet-500         | violet-400         | `:focus-visible` outline                                           |
+| `--ms-shadow-color`         | `rgb(8 7 6 / 10%)` | `rgb(0 0 0 / 50%)` | used by `--ms-shadow-*`                                            |
 
 ### Tone roles: per scheme
 
@@ -53,9 +59,9 @@ Literal colors. Elements never read them directly; semantic tokens point at them
 
 | Tone      | `solid` (light / dark) | `on-solid` (light / dark) |
 | --------- | ---------------------- | ------------------------- |
-| primary   | violet-600             | gray-50                   |
-| secondary | violet-800             | gray-50                   |
-| tertiary  | violet-400             | gray-50 / gray-950        |
+| primary   | violet-500             | gray-50                   |
+| secondary | ink-800 / ink-200      | gray-50 / ink-900         |
+| tertiary  | orange-400             | gray-950                  |
 | error     | red-600                | gray-50                   |
 | info      | blue-600               | gray-50                   |
 | success   | green-600              | gray-50                   |

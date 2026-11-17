@@ -11,8 +11,8 @@ describe('createThemeTokens', () => {
       '--ms-color-primary-solid': '#0f766e',
       '--ms-color-primary-solid-hover': '#0a5e57',
       '--ms-color-primary-on-solid': '#fbfaf8',
-      '--ms-color-primary-subtle': '#e4eeed',
-      '--ms-color-primary-subtle-hover': '#d3e3e0',
+      '--ms-color-primary-subtle': '#e4ece9',
+      '--ms-color-primary-subtle-hover': '#d2e1dd',
       '--ms-color-primary-border': '#0f766e',
       '--ms-color-primary-text': '#0f766e',
     });

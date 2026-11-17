@@ -4,34 +4,75 @@
  * Tier 1: {PALETTE__TOKENS} literal colors (never used by elements directly)
  * Tier 2: {TONE__TOKENS} / {SCHEME__TOKENS} semantic intent per color scheme
  */
+import {
+  type ScaleRamp,
+  type ScaleSource,
+  generatePalette,
+} from '../theme/palette.mjs';
+
+/**
+ * The lightness ramp every generated scale shares (OKLCH L per step), so step N has about the same
+ * contrast in every hue, and the share of each scale's peak chroma per step (low at the ends).
+ * The neutral steps keep the lightness of the cool grays they replaced, so contrast held.
+ */
+const SCALE_RAMP__TOKENS = {
+  lightness: {
+    25: 0.994,
+    50: 0.985,
+    100: 0.967,
+    200: 0.928,
+    300: 0.872,
+    400: 0.714,
+    450: 0.655,
+    500: 0.551,
+    600: 0.446,
+    700: 0.373,
+    800: 0.278,
+    900: 0.21,
+    950: 0.13,
+  },
+  chromaShare: {
+    25: 0.2,
+    50: 0.27,
+    100: 0.36,
+    200: 0.55,
+    300: 0.73,
+    400: 0.91,
+    450: 1,
+    500: 1,
+    600: 1,
+    700: 0.91,
+    800: 0.82,
+    900: 0.64,
+    950: 0.45,
+  },
+} as const satisfies ScaleRamp;
+
+/**
+ * Generated scales (`{name}-{25…950}`), from a hue + peak chroma or from one exact color.
+ * Generated in OKLCH and emitted as `rgb()` (the 2021 browser baseline has no `oklch()`).
+ */
+const SCALE__SOURCES = {
+  // neutrals: warm paper → warm charcoal, a faint hue so surfaces never read cold
+  gray: { hue: 75, chroma: 0.011 },
+  // violet-tinted neutral: the `secondary` tone's calm ink
+  ink: { hue: 300, chroma: 0.07 },
+  // brand: #8b14fd exactly at step 500, its hue and chroma carried across the scale
+  violet: { anchor: 'rgb(139 20 253)', step: 500 },
+  // warm accent: the `tertiary` tone, the human highlight next to the brand violet
+  orange: { hue: 52, chroma: 0.17 },
+} as const satisfies Record<string, ScaleSource>;
 
 const PALETTE__TOKENS = {
   white: 'rgb(255 255 255)',
   black: 'rgb(0 0 0)',
-  // brand
-  'violet-400': 'rgb(181 89 255)',
-  'violet-600': 'rgb(139 20 253)', // #8b14fd: the mainset brand purple
-  'violet-800': 'rgb(92 11 186)',
-  // feedback
+  ...generatePalette(SCALE__SOURCES, SCALE_RAMP__TOKENS),
+  // feedback (hand-picked for now; to be regenerated with on-solid contrast in mind)
   'red-600': 'rgb(215 34 38)',
   'blue-600': 'rgb(37 99 235)',
   'green-600': 'rgb(22 163 74)',
   'yellow-500': 'rgb(234 179 8)',
-  // neutrals: warm, generated in OKLCH at hue 75° with a low chroma (0.003 at the ends → 0.011 in
-  // the middle). Each step keeps the lightness of the cool gray it replaced, so contrast holds.
-  'gray-50': 'rgb(251 250 248)',
-  'gray-100': 'rgb(246 244 241)',
-  'gray-200': 'rgb(233 230 227)',
-  'gray-300': 'rgb(216 212 207)',
-  'gray-400': 'rgb(166 162 156)',
-  'gray-450': 'rgb(149 144 137)', // dark-scheme `text-subtle`: AA on gray-950 / -900 / -800
-  'gray-500': 'rgb(118 113 107)',
-  'gray-600': 'rgb(88 83 78)',
-  'gray-700': 'rgb(68 64 59)',
-  'gray-800': 'rgb(43 40 36)',
-  'gray-900': 'rgb(26 24 21)',
-  'gray-950': 'rgb(8 7 6)',
-} as const;
+};
 
 type PaletteColor = keyof typeof PALETTE__TOKENS;
 
@@ -68,17 +109,20 @@ type ToneDefinition = {
 };
 
 const TONE__TOKENS = {
+  // the brand: #8b14fd, the one accent (calls to action)
   primary: {
-    light: { solid: 'violet-600', 'on-solid': 'gray-50' },
-    dark: { solid: 'violet-600', 'on-solid': 'gray-50' },
+    light: { solid: 'violet-500', 'on-solid': 'gray-50' },
+    dark: { solid: 'violet-500', 'on-solid': 'gray-50' },
   },
+  // calm emphasis in the brand's family: deep ink on light, pale ink on dark
   secondary: {
-    light: { solid: 'violet-800', 'on-solid': 'gray-50' },
-    dark: { solid: 'violet-800', 'on-solid': 'gray-50' },
+    light: { solid: 'ink-800', 'on-solid': 'gray-50' },
+    dark: { solid: 'ink-200', 'on-solid': 'ink-900' },
   },
+  // the warm accent, for human highlights ("new", notes), never a second call to action
   tertiary: {
-    light: { solid: 'violet-400', 'on-solid': 'gray-50' },
-    dark: { solid: 'violet-400', 'on-solid': 'gray-950' },
+    light: { solid: 'orange-400', 'on-solid': 'gray-950' },
+    dark: { solid: 'orange-400', 'on-solid': 'gray-950' },
   },
   error: {
     light: { solid: 'red-600', 'on-solid': 'gray-50' },
@@ -145,7 +189,8 @@ const TONE__TOKENS = {
 /** Neutral semantic tokens that are not tone-shaped (page, text, borders, focus) */
 const SCHEME__TOKENS = {
   light: {
-    'bg-canvas': 'white',
+    // warm paper, as close to white as a tint can be; cards and popovers stay white on it
+    'bg-canvas': 'gray-25',
     'bg-surface': 'white',
     'bg-subtle': 'gray-50',
     'text-base': 'gray-800',
@@ -156,7 +201,7 @@ const SCHEME__TOKENS = {
     'border-subtle': 'gray-200',
     'border-default': 'gray-300',
     'border-strong': 'gray-500',
-    'focus-ring': 'violet-600',
+    'focus-ring': 'violet-500',
   },
   dark: {
     'bg-canvas': 'gray-950',
@@ -241,6 +286,8 @@ const TONE_DERIVATION__TOKENS = {
 export {
   COLOR_SCHEME__OPTIONS,
   PALETTE__TOKENS,
+  SCALE__SOURCES,
+  SCALE_RAMP__TOKENS,
   SCHEME__TOKENS,
   TONE__OPTIONS,
   TONE__TOKENS,

@@ -35,14 +35,27 @@ Commit the regenerated `_generated.scss` together with the token change.
 
 ## Recipes
 
+### The palette generator
+
+`SCALE__SOURCES` in `color.tokens.mts` generates every scale (`gray`, `ink`, `violet`, `orange`)
+in OKLCH, through `generatePalette()` (`src/theme/palette.mts`):
+
+- **`SCALE_RAMP__TOKENS`**: one lightness per step for every hue, so step N has about the same
+  contrast everywhere, and the share of the scale's peak chroma per step (low at the ends).
+- **A source** is a `hue` + peak `chroma`, or an `anchor` color pinned exactly at a `step` (its
+  hue and chroma carry across the scale): `violet: { anchor: 'rgb(139 20 253)', step: 500 }`.
+- **Output** is `rgb()` (the 2021 baseline has no `oklch()`); a too-vivid step is reduced to
+  the most vivid sRGB color of its lightness and hue.
+
 ### Change a brand color
 
-Edit the palette value. Every tone pointing at it, including its derived roles, is recomputed:
+Change the scale's anchor (or hue / chroma). The whole scale and every tone on it, derived roles
+included, are recomputed:
 
 ```ts
 // color.tokens.mts
-const PALETTE__TOKENS = {
-  'violet-600': 'rgb(124 58 237)',
+const SCALE__SOURCES = {
+  violet: { anchor: 'rgb(124 58 237)', step: 500 },
   …
 };
 ```
@@ -59,7 +72,7 @@ const TONE__TOKENS = {
 };
 ```
 
-Add the palette color first (`'teal-700': 'rgb(15 118 110)'`). Only `solid` and `on-solid` are
+Add the palette color first (a scale in `SCALE__SOURCES`, or a literal in `PALETTE__TOKENS`). Only `solid` and `on-solid` are
 required; `text` and `border` are optional and default to `solid` (light) or a tint toward
 white (dark). Check `on-solid` contrast: at least 4.5:1 for small text.
 

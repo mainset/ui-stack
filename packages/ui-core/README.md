@@ -117,7 +117,7 @@ custom properties instead (e.g. `.ms-control` sets `--ms-surface-radius` for `.m
 
 | Tier         | Prefix                     | Example                                         |
 | ------------ | -------------------------- | ----------------------------------------------- |
-| 1. Palette   | `--ms-palette-*`           | `--ms-palette-violet-600`                       |
+| 1. Palette   | `--ms-palette-*`           | `--ms-palette-violet-500`                       |
 | 2. Semantic  | `--ms-color-*`             | `--ms-color-text-muted`, `--ms-color-bg-canvas` |
 | 2. Tone      | `--ms-color-{tone}-{role}` | `--ms-color-error-subtle`                       |
 | 3. Component | `--ms-{component}-*`       | `--ms-control-height-base`                      |
@@ -202,7 +202,7 @@ Overrides are plain custom properties in app CSS:
 ```css
 /* 1. re-brand: change a palette value */
 :root {
-  --ms-palette-violet-600: #7c3aed;
+  --ms-palette-violet-500: #7c3aed;
 }
 
 /* 2. re-color one tone everywhere */

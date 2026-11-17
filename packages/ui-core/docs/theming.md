@@ -7,7 +7,7 @@ property values, and you can declare it in a stylesheet, in an inline `style`, o
 ## The model in one picture
 
 ```
-Tier 1  palette        --ms-palette-violet-600: rgb(139 20 253)        literal colors
+Tier 1  palette        --ms-palette-violet-500: rgb(139 20 253)        literal colors
           │
 Tier 2  semantic       --ms-color-bg-canvas, --ms-color-text-muted     meaning, per color scheme
         tone roles     --ms-color-primary-solid, …-subtle, …-text      one set per tone, per scheme

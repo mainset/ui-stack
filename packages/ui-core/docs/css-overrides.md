@@ -75,8 +75,8 @@ precomputed, so **override every role you want changed**, in each scheme:
   --ms-color-primary-solid: #0f766e;
   --ms-color-primary-solid-hover: #0a5e57;
   --ms-color-primary-on-solid: #fbfaf8;
-  --ms-color-primary-subtle: #e4eeed;
-  --ms-color-primary-subtle-hover: #d3e3e0;
+  --ms-color-primary-subtle: #e4ece9;
+  --ms-color-primary-subtle-hover: #d2e1dd;
   --ms-color-primary-border: #0f766e;
   --ms-color-primary-text: #0f766e;
 }
@@ -110,9 +110,9 @@ this whole stylesheet (focus ring included). Run it once in a
 [runtime](./live-theming.md).
 
 **Shortcut:** to change only the base hue and accept stale hover/soft shades for a quick
-prototype, override the palette color: `:root { --ms-palette-violet-600: #0f766e; }`. That changes
-`solid`, `border` and `text` of every tone built on violet-600 (and the light focus ring), but not
-the precomputed roles.
+prototype, override the palette color: `:root { --ms-palette-violet-500: #0f766e; }`. That changes
+`solid` of every tone built on violet-500 (and the light focus ring), but not the precomputed
+roles.
 
 ## Scheme-aware overrides
 

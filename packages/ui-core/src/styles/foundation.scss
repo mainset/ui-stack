@@ -8,7 +8,7 @@
 //                    --ms-tone-*               the *current* tone, inherited; `.ms-tone-{tone}` re-points it
 // Tier 3 (component) --ms-{component}-*        declared next to each element (e.g. `_control.tokens.scss`)
 // Theming: set `data-theme="light" | "dark" | "system"` on any element (nesting is supported),
-// or override tokens from app CSS, e.g. `:root { --ms-palette-violet-600: #7c3aed; }`.
+// or override tokens from app CSS, e.g. `:root { --ms-palette-violet-500: #7c3aed; }`.
 // Every token rule is `:where()` (0 specificity), so such an override always wins, in any order.
 @use 'sass:map';
 @use './variables' as msVariable;
