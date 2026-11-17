@@ -31,10 +31,18 @@
   line-height: var(--ms-line-height-relaxed);
 }
 
+#{vars.$class-selector}--variant-data {
+  font-family: var(--ms-data-font-family);
+
+  // NOTE: digits of one width line up in columns and don't jitter as a live number changes
+  font-variant-numeric: tabular-nums slashed-zero;
+  letter-spacing: 0;
+}
+
 @include options.assert-options(
   vars.$base-class,
   'txtVariant',
-  (overline, lead)
+  (overline, lead, data)
 );
 
 @include options.each-class(vars.$base-class, 'txtAlign', $tier: utility) using

@@ -82,7 +82,7 @@ gutters) > `Stack` (the gap between children).
 `txt*` props (on `Heading`, `Text`, `Paragraph`, `Link`): `txtSize` (`xxs`–`xxl`, fluid
 `display-sm` / `display-base` / `display-lg` for headlines), `txtWeight` (`normal` `medium`
 `semibold` `bold`…), `txtLeading` (`tight` · `relaxed`), `txtWrap` (`balance` · `pretty` ·
-`nowrap`), `txtVariant` (`overline`: the label above a heading · `lead`: the intro under it),
+`nowrap`), `txtVariant` (`overline`: the label above a heading · `lead`: the intro under it · `data`: mono, tabular digits for versions, sizes, scores),
 `txtColor` (any tone, or `subtle` for captions), `txtColorHover`, `txtAlign`, `txtFamily`,
 `txtTransform`, `txtIsTruncated`. See [ui-core Text](../../ui-core/docs/elements.md#text).
 

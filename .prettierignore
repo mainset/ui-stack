@@ -18,6 +18,7 @@ pnpm-lock.yaml
 
 # files
 *.sh
+*.py
 *.toml
 *.env*
 

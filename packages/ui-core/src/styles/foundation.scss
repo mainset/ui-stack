@@ -22,9 +22,11 @@
   }
 
   // ----- Font family tokens -----
-  // The default UI font. Geist / JetBrains Mono load from `@mainset/ui-core/styles/fonts.css`
-  // (imported once per page); until then, and without it, the system fallbacks render.
-  --ms-font-family-text-sans: 'Geist', system-ui, -apple-system, sans-serif;
+  // The default UI font. Onest / JetBrains Mono load from `@mainset/ui-core/styles/fonts.css`
+  // (imported once per page); until then their metric-matched `* Fallback` faces render (no layout
+  // shift on swap), and without that file, the system fonts.
+  --ms-font-family-text-sans:
+    'Onest', 'Onest Fallback', system-ui, -apple-system, sans-serif;
 
   // Used for editorial content, articles, or specific brand headings
   --ms-font-family-text-serif:
@@ -32,8 +34,8 @@
 
   // Used for code snippets, tabular data, numbers, or technical info.
   --ms-font-family-text-mono:
-    'JetBrains Mono', ui-monospace, sfmono-regular, menlo, monaco, consolas,
-    monospace;
+    'JetBrains Mono', 'JetBrains Mono Fallback', ui-monospace, sfmono-regular,
+    menlo, monaco, consolas, monospace;
 
   // ----- Font weight tokens -----
   --ms-font-weight-regular: 400;
@@ -104,6 +106,9 @@
   --ms-overline-font-size: var(--ms-font-size-text-xs);
   --ms-overline-font-weight: var(--ms-font-weight-medium);
   --ms-overline-letter-spacing: 0.16em;
+
+  // ----- Data tokens (versions, sizes, scores, ids: `txtVariant="data"`) -----
+  --ms-data-font-family: var(--ms-font-family-text-mono);
 
   // ----- Scroll offset -----
   // Room kept above an in-page anchor target, e.g. a fixed header's height: `--ms-scroll-offset: 4rem`

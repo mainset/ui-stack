@@ -103,6 +103,8 @@ const TEXT_BASE__CLASS_NAME_CONFIG = {
         'overline',
         // the intro paragraph under a heading: larger, relaxed lines
         'lead',
+        // real data (versions, sizes, scores, ids): mono, even-width digits, the size it is given
+        'data',
       ],
     },
     txtWrap: {

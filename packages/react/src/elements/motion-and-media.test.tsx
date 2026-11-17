@@ -61,6 +61,9 @@ describe('typography', () => {
     expect(html(<Text txtColor="subtle">meta</Text>)).toContain(
       'ms-text--color-subtle',
     );
+    expect(html(<Text txtVariant="data">v0.2.0</Text>)).toContain(
+      'ms-text--variant-data',
+    );
   });
 });
 

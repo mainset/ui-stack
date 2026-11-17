@@ -192,15 +192,15 @@ The tag sets the level and its default size; `txtSize` changes the looks only.
 
 The `txt*` utilities on any text element:
 
-| Prop                                                                       | Values                                                                                        |
-| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `txtSize`                                                                  | `xxs`–`xxl`; fluid `display-sm` (30→36px) · `display-base` (36→60px) · `display-lg` (48→72px) |
-| `txtWeight`                                                                | `normal` `medium` `semibold` `bold` · `lighter` `bolder`                                      |
-| `txtLeading`                                                               | `tight` · `relaxed`: overrides the line height the size brings                                |
-| `txtWrap`                                                                  | `balance` (headings) · `pretty` (paragraphs) · `nowrap`                                       |
-| `txtVariant`                                                               | `overline` (the label above a heading: mono, uppercase, tracked) · `lead` (intro text)        |
-| `txtColor`                                                                 | any tone, or `subtle`: the faintest text that still passes WCAG AA                            |
-| `txtColorHover`, `txtAlign`, `txtFamily`, `txtTransform`, `txtIsTruncated` | as their names say                                                                            |
+| Prop                                                                       | Values                                                                                                                 |
+| -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `txtSize`                                                                  | `xxs`–`xxl`; fluid `display-sm` (30→36px) · `display-base` (36→60px) · `display-lg` (48→72px)                          |
+| `txtWeight`                                                                | `normal` `medium` `semibold` `bold` · `lighter` `bolder`                                                               |
+| `txtLeading`                                                               | `tight` · `relaxed`: overrides the line height the size brings                                                         |
+| `txtWrap`                                                                  | `balance` (headings) · `pretty` (paragraphs) · `nowrap`                                                                |
+| `txtVariant`                                                               | `overline` (the label above a heading: mono, uppercase, tracked) · `lead` (intro text) · `data` (mono, tabular digits) |
+| `txtColor`                                                                 | any tone, or `subtle`: the faintest text that still passes WCAG AA                                                     |
+| `txtColorHover`, `txtAlign`, `txtFamily`, `txtTransform`, `txtIsTruncated` | as their names say                                                                                                     |
 
 Display sizes grow with the viewport between a floor and a ceiling (`clamp()` with a `rem` part,
 so they still zoom), so a headline needs no size per breakpoint. `balance` / `pretty` are

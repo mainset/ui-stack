@@ -76,18 +76,19 @@ read them, and so can your CSS. Override them only together with a tone class
 
 ## Typography: global
 
-| Token                                                              | Values                                                                                              |
-| ------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
-| `--ms-font-family-text-{sans,serif,mono}`                          | Geist + system-ui / georgia stack / JetBrains Mono + ui-monospace ([fonts](../README.md#typefaces)) |
-| `--ms-font-weight-{regular,medium,semibold,bold}`                  | 400 / 500 / 600 / 700                                                                               |
-| `--ms-font-size-text-{size}`                                       | xxs 10px · xs 12 · sm 14 · base 16 · lg 20 · xl 24 · xxl 36                                         |
-| `--ms-line-height-text-{size}`                                     | paired with each font size                                                                          |
-| `--ms-letter-spacing-text-{size}`                                  | paired with each font size                                                                          |
-| `--ms-font-size-display-{sm,base,lg}`                              | fluid: 30→36px · 36→60px · 48→72px (`clamp()`)                                                      |
-| `--ms-line-height-display-*` / `--ms-letter-spacing-display-*`     | paired with each display size                                                                       |
-| `--ms-line-height-{tight,relaxed}`                                 | 1.2 / 1.625 (`txtLeading`)                                                                          |
-| `--ms-overline-{font-family,font-size,font-weight,letter-spacing}` | mono · xs · medium · 0.16em (`txtVariant="overline"`)                                               |
-| `--ms-scroll-offset`                                               | 0: room kept above in-page anchor targets (a fixed header's height)                                 |
+| Token                                                              | Values                                                                                                        |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| `--ms-font-family-text-{sans,serif,mono}`                          | Onest / georgia stack / JetBrains Mono, each with a metric-matched fallback ([fonts](../README.md#typefaces)) |
+| `--ms-font-weight-{regular,medium,semibold,bold}`                  | 400 / 500 / 600 / 700                                                                                         |
+| `--ms-font-size-text-{size}`                                       | xxs 10px · xs 12 · sm 14 · base 16 · lg 20 · xl 24 · xxl 36                                                   |
+| `--ms-line-height-text-{size}`                                     | paired with each font size                                                                                    |
+| `--ms-letter-spacing-text-{size}`                                  | paired with each font size                                                                                    |
+| `--ms-font-size-display-{sm,base,lg}`                              | fluid: 30→36px · 36→60px · 48→72px (`clamp()`)                                                                |
+| `--ms-line-height-display-*` / `--ms-letter-spacing-display-*`     | paired with each display size                                                                                 |
+| `--ms-line-height-{tight,relaxed}`                                 | 1.2 / 1.625 (`txtLeading`)                                                                                    |
+| `--ms-overline-{font-family,font-size,font-weight,letter-spacing}` | mono · xs · medium · 0.16em (`txtVariant="overline"`)                                                         |
+| `--ms-data-font-family`                                            | mono (`txtVariant="data"`: versions, sizes, scores; tabular, slashed-zero digits)                             |
+| `--ms-scroll-offset`                                               | 0: room kept above in-page anchor targets (a fixed header's height)                                           |
 
 ## Spacing: global
 

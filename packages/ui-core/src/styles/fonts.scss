@@ -1,4 +1,4 @@
-// mainset typefaces: Geist for text, JetBrains Mono for technical voice (overlines, code, data).
+// mainset typefaces: Onest for text, JetBrains Mono for technical voice (overlines, code, data).
 // Both SIL OFL 1.1, licences beside the files in `./fonts`. Variable fonts: one file per script
 // covers every weight.
 
@@ -12,6 +12,7 @@
 // Split by script like Google Fonts' own CSS: `unicode-range` makes the browser fetch only the
 // files a page's text needs (Ukrainian adds `cyrillic`), and nothing at all for an unused face.
 
+@use 'sass:list';
 @use 'sass:map';
 @use 'sass:string';
 
@@ -25,15 +26,40 @@ $unicode-range-map: (
   cyrillic: 'U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116',
 );
 
-// family → (file prefix, weight axis)
+// family → (file prefix, weight axis, its metric-matched fallback)
+// `fallback`: a local font resized to the web font's metrics (`size-adjust` = the average letter
+// width ratio, overrides = its vertical metrics), so text keeps its layout when the web font swaps
+// in (no layout shift). Measured at the default weight (400) by `scripts/font-fallback-metrics.py`.
+// NOTE: Chrome 92 / Firefox 92 / Safari 17; older browsers ignore the descriptors and show the
+// local font as is, exactly what they did before.
 $font-face-map: (
-  'Geist': (
-    file: 'geist',
+  'Onest': (
+    file: 'onest',
     weight: 100 900,
+    fallback: (
+      local: (
+        'Arial',
+        'Liberation Sans',
+      ),
+      size-adjust: 105.92%,
+      ascent-override: 91.58%,
+      descent-override: 28.8%,
+      line-gap-override: 0%,
+    ),
   ),
   'JetBrains Mono': (
     file: 'jetbrains-mono',
     weight: 100 800,
+    fallback: (
+      local: (
+        'Courier New',
+        'Liberation Mono',
+      ),
+      size-adjust: 99.98%,
+      ascent-override: 102.02%,
+      descent-override: 30%,
+      line-gap-override: 0%,
+    ),
   ),
 );
 
@@ -50,5 +76,22 @@ $font-face-map: (
         format('woff2');
       unicode-range: string.unquote($range);
     }
+  }
+
+  $fallback: map.get($face, fallback);
+  $sources: ();
+
+  @each $name in map.get($fallback, local) {
+    $sources: list.append($sources, local($name), $separator: comma);
+  }
+
+  // e.g. `'Onest Fallback'`, listed right after the web font in `--ms-font-family-text-*`
+  @font-face {
+    font-family: '#{$family} Fallback';
+    src: $sources;
+    size-adjust: map.get($fallback, size-adjust);
+    ascent-override: map.get($fallback, ascent-override);
+    descent-override: map.get($fallback, descent-override);
+    line-gap-override: map.get($fallback, line-gap-override);
   }
 }

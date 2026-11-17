@@ -15,7 +15,7 @@ default. Product teams should override tokens instead, see
 | how derived tone roles are mixed (hover, subtle…) | `TONE_DERIVATION__TOKENS` in `color.tokens.mts`              | yes               |
 | the derivation itself (oklab mixing)              | `packages/ui-core/src/theme/derive.mts`, `color.mts`         | shipped as JS too |
 | fonts, motion, focus ring, opacity                | `packages/ui-core/src/styles/foundation.scss`                | no (Sass)         |
-| typeface files (`@font-face`)                     | `packages/ui-core/src/styles/fonts.scss`, `styles/fonts/`    | no (Sass)         |
+| typeface files (`@font-face`) and fallbacks       | `packages/ui-core/src/styles/fonts.scss`, `styles/fonts/`    | no (Sass)         |
 | control sizes and radius                          | `packages/ui-core/src/elements/control/_control.tokens.scss` | no (Sass)         |
 
 TS tokens are the single source of truth: `pnpm codegen` (run by `build` and `dev`) writes

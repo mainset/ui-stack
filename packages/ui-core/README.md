@@ -49,10 +49,10 @@ buttonRecipe({ srfVariant: 'outlined', srfTheme: 'error', ctlSize: 'sm' });
 
 ### Typefaces
 
-mainset text is set in [Geist](https://vercel.com/font) and technical labels (overlines, code,
-data) in [JetBrains Mono](https://www.jetbrains.com/lp/mono/): variable, Latin + Cyrillic, both
-SIL OFL 1.1 (licences ship beside the files). The font tokens name them by default, with system
-fallbacks; the files load from one stylesheet, **imported once per page**:
+mainset text is set in [Onest](https://fonts.google.com/specimen/Onest) and technical labels
+(overlines, code, data) in [JetBrains Mono](https://www.jetbrains.com/lp/mono/): variable,
+Latin + Cyrillic, both SIL OFL 1.1 (licences ship beside the files). The font tokens name them by
+default; the files load from one stylesheet, **imported once per page**:
 
 ```ts
 // app root, or the micro-frontend shell (not in each remote)
@@ -61,8 +61,10 @@ import '@mainset/ui-core/styles/fonts.css';
 
 It isn't part of the per-element CSS on purpose: every bundle importing it emits its own copy of
 the files, so remotes of one shell would each download the same fonts. Fonts are split by script
-(`unicode-range`): a page fetches only the files its text uses. Without the stylesheet, the
-system fallbacks render. Another typeface is one token away:
+(`unicode-range`): a page fetches only the files its text uses. Until a file lands, a local
+font resized to its metrics stands in (`Onest Fallback`: Arial; `JetBrains Mono Fallback`: Courier
+New), so text doesn't shift when the web font swaps in. Without the stylesheet, the system fonts
+render. Another typeface is one token away:
 `:root { --ms-font-family-text-sans: 'Inter', system-ui, sans-serif; }`.
 
 ## Single source of truth (codegen)
