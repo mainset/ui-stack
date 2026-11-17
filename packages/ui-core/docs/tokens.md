@@ -126,7 +126,7 @@ that uses it.
 | `--ms-duration-{fast,base,slow,slower,slowest}` | 120 / 200 / 300 / 500 / 800 ms (0 under `prefers-reduced-motion`)     |
 | `--ms-easing-{standard,enter,exit,emphasized}`  | cubic-bezier curves; `emphasized` is a long, soft landing (entrances) |
 | `--ms-focus-ring-width` / `-offset`             | 2px / 2px                                                             |
-| `--ms-opacity-{disabled,pressed,backdrop}`      | 0.7 / 0.8 / 0.6                                                       |
+| `--ms-opacity-{disabled,backdrop}`              | 0.7 / 0.6                                                             |
 
 ## Layout: global
 
@@ -148,6 +148,15 @@ that uses it.
 | `--ms-control-height-{size}`                                                     | xs 24px · sm 28 · base 32 · lg 40 · xl 48             |
 | `--ms-control-padding-inline-{size}`                                             | from the spacing scales                               |
 | `--ms-control-font-size-{size}`, `-line-height-{size}`, `-letter-spacing-{size}` | from the typography tokens                            |
+
+### Button
+
+| Token                        | Default                              | Note                                      |
+| ---------------------------- | ------------------------------------ | ----------------------------------------- |
+| `--ms-button-press-offset`   | 1px                                  | how far a pressed button moves down       |
+| `--ms-button-press-scale`    | 0.98                                 | how much it shrinks (1: no shrink)        |
+| `--ms-button-edge-shadow`    | inset 1px lower edge, black 14%      | solid buttons at rest (sit a hair raised) |
+| `--ms-button-pressed-shadow` | inset 1px / 2px top shade, black 22% | solid buttons pressed (recessed)          |
 
 ### Surface
 
