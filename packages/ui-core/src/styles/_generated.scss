@@ -1560,7 +1560,7 @@ $class-name-config-map: (
           'display-base',
           'display-lg',
         ),
-        'responsive': false,
+        'responsive': 'class',
       ),
       'txtTransform': (
         'modifier': 'transform',

@@ -22,6 +22,12 @@ describe('Text', () => {
     );
   });
 
+  it('takes a size per breakpoint', () => {
+    expect(html(<Text txtSize={{ base: 'base', md: 'lg' }} />)).toBe(
+      '<span class="ms-text ms-text--size-base ms-text--size-lg@md"></span>',
+    );
+  });
+
   it('TextSection is the same component', () => {
     expect(TextSection).toBe(Text);
   });

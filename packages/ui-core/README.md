@@ -246,19 +246,23 @@ Chakra / Panda / Tailwind: `base` 0 = default · `sm` 36rem · `md` 48rem · `lg
 A breakpoint's value applies from that width up, until a larger breakpoint sets its own.
 
 **Only props that change the layout are responsive** — direction, display, wrap, justify, align,
-gap, padding / margin (and, later, columns). Props that only change the look — tone, color,
-radius, font weight, control size — never are: a button doesn't change color on a phone.
+gap, padding / margin, columns, and text size (`txtSize`: how much copy fits the screen). Props
+that only change the look — tone, color, radius, font weight, control size — never are: a button
+doesn't change color on a phone.
 
 How a prop scales depends on its number of options (`responsive` in its TS config):
 
-| `responsive` | For                                                                                                         | Per breakpoint                     | CSS cost              |
-| ------------ | ----------------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------- |
-| `'class'`    | few options: `flxDisplay`, `flxDirection`, `flxWrap`, `grdDisplay`, `grdAutoFlow`, `layJustify`, `layAlign` | a class per option                 | options × breakpoints |
-| `'css-var'`  | many options: `layGapSize`, spacing (`spcSize`, `spcSizes`)                                                 | one class + an inline CSS variable | 1 rule per breakpoint |
+| `responsive` | For                                                                                                                                                   | Per breakpoint                     | CSS cost              |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------- |
+| `'class'`    | few options: `flxDisplay`, `flxDirection`, `flxWrap`, `grdDisplay`, `grdAutoFlow`, `layJustify`, `layAlign`; `txtSize` (a size sets three properties) | a class per option                 | options × breakpoints |
+| `'css-var'`  | many options: `layGapSize`, spacing (`spcSize`, `spcSizes`)                                                                                           | one class + an inline CSS variable | 1 rule per breakpoint |
 
 ```ts
 flxDirection={{ base: 'column', md: 'row' }}
 // → class "ms-flex--flex-direction-column ms-flex--flex-direction-row@md"
+
+txtSize={{ base: 'base', md: 'lg' }}
+// → class "ms-text--size-base ms-text--size-lg@md"
 
 layGapSize={{ base: 'xs', md: 'xl' }}
 // → class "ms-layout--gap-size-xs ms-layout--gap-size@md"

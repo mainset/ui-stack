@@ -20,7 +20,7 @@ behaviour. For customizing the looks (tokens, tones, dark mode), see [Theming in
   ```
 
 - **Responsive props** take a per-breakpoint object: `layGapSize={{ base: 'sm', md: 'lg' }}`.
-  Only layout props are responsive, never colors or control sizes.
+  Only layout props and `txtSize` are responsive, never colors or control sizes.
 - **`ref`** is a regular prop (React 19) and reaches the rendered element.
 - **Forms are uncontrolled**: native inputs with `name` / `defaultValue`. Read them on submit
   (`FormData`) or with `useFormHandler`.
@@ -80,7 +80,7 @@ gutters) > `Stack` (the gap between children).
 ```
 
 `txt*` props (on `Heading`, `Text`, `Paragraph`, `Link`): `txtSize` (`xxs`–`xxl`, fluid
-`display-sm` / `display-base` / `display-lg` for headlines), `txtWeight` (`normal` `medium`
+`display-sm` / `display-base` / `display-lg` for headlines; responsive: `{ base: 'base', md: 'lg' }`), `txtWeight` (`normal` `medium`
 `semibold` `bold`…), `txtLeading` (`tight` · `relaxed`), `txtWrap` (`balance` · `pretty` ·
 `nowrap`), `txtVariant` (`overline`: the label above a heading · `lead`: the intro under it · `data`: mono, tabular digits for versions, sizes, scores),
 `txtColor` (any tone, or `subtle` for captions), `txtColorHover`, `txtAlign`, `txtFamily`,

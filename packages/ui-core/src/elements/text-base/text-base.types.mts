@@ -1,5 +1,5 @@
 import type { ExtractClassNameFromPropOptions } from '../../utils/index.mjs';
-import type { ElementColor } from '../elements.types.mjs';
+import type { ElementColor, ResponsiveValue } from '../elements.types.mjs';
 import { TEXT_BASE__CLASS_NAME_CONFIG } from './text-base.constants.mjs';
 
 interface TextStyleProps {
@@ -21,9 +21,12 @@ interface TextStyleProps {
     typeof TEXT_BASE__CLASS_NAME_CONFIG,
     'txtLeading'
   > | null;
-  txtSize?: ExtractClassNameFromPropOptions<
-    typeof TEXT_BASE__CLASS_NAME_CONFIG,
-    'txtSize'
+  // responsive, e.g. `{ base: 'base', md: 'lg' }`
+  txtSize?: ResponsiveValue<
+    ExtractClassNameFromPropOptions<
+      typeof TEXT_BASE__CLASS_NAME_CONFIG,
+      'txtSize'
+    >
   > | null;
   txtTransform?: ExtractClassNameFromPropOptions<
     typeof TEXT_BASE__CLASS_NAME_CONFIG,

@@ -67,6 +67,8 @@ const TEXT_BASE__CLASS_NAME_CONFIG = {
         'display-base',
         'display-lg',
       ],
+      // e.g. `{ base: 'base', md: 'lg' }`: one class per breakpoint, as a size sets three properties
+      responsive: 'class',
     },
     txtTransform: {
       modifier: 'transform',

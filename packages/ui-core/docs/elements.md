@@ -194,7 +194,7 @@ The `txt*` utilities on any text element:
 
 | Prop                                                                       | Values                                                                                                                 |
 | -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `txtSize`                                                                  | `xxs`–`xxl`; fluid `display-sm` (30→36px) · `display-base` (36→60px) · `display-lg` (48→72px)                          |
+| `txtSize` (responsive)                                                     | `xxs`–`xxl`; fluid `display-sm` (30→36px) · `display-base` (36→60px) · `display-lg` (48→72px)                          |
 | `txtWeight`                                                                | `normal` `medium` `semibold` `bold` · `lighter` `bolder`                                                               |
 | `txtLeading`                                                               | `tight` · `relaxed`: overrides the line height the size brings                                                         |
 | `txtWrap`                                                                  | `balance` (headings) · `pretty` (paragraphs) · `nowrap`                                                                |
