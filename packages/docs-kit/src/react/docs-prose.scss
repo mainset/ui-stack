@@ -1,0 +1,231 @@
+// The compiled markdown. It carries ui-core classes where an element exists (tables, links,
+// callouts are `ms-table`, `ms-link`, `ms-alert`), the rest is styled here from the tokens.
+
+.msd-prose {
+  color: var(--ms-color-text-base);
+  font-size: var(--ms-font-size-text-base);
+  line-height: var(--ms-line-height-relaxed);
+  overflow-wrap: break-word;
+
+  > * + * {
+    margin-block-start: var(--ms-space-4);
+  }
+
+  > h2 {
+    margin-block-start: var(--ms-space-12);
+    font-size: var(--ms-font-size-text-xl);
+    font-weight: var(--ms-font-weight-semibold);
+    line-height: var(--ms-line-height-text-xl);
+    letter-spacing: var(--ms-letter-spacing-text-xl);
+  }
+
+  > h3 {
+    margin-block-start: var(--ms-space-8);
+    font-size: var(--ms-font-size-text-lg);
+    font-weight: var(--ms-font-weight-semibold);
+    line-height: var(--ms-line-height-text-lg);
+  }
+
+  > h4 {
+    margin-block-start: var(--ms-space-6);
+    font-size: var(--ms-font-size-text-base);
+    font-weight: var(--ms-font-weight-semibold);
+  }
+
+  > h2 + *,
+  > h3 + *,
+  > h4 + * {
+    margin-block-start: var(--ms-space-3);
+  }
+
+  // NOTE: markdown lists carry no class. Scoped to those, so the lists of live examples
+  // (`ms-pagination__list`, …) keep their element's own styles
+  :where(ul, ol):not([class]) {
+    padding-inline-start: var(--ms-space-6);
+  }
+
+  ul:not([class]) {
+    list-style: disc;
+  }
+
+  ol:not([class]) {
+    list-style: decimal;
+  }
+
+  :where(ul, ol):not([class]) > li + li,
+  li > :where(ul, ol):not([class]) {
+    margin-block-start: var(--ms-space-1);
+  }
+
+  strong {
+    font-weight: var(--ms-font-weight-semibold);
+  }
+
+  :not(pre) > code {
+    padding: 0.125em 0.375em;
+    border: var(--ms-border-width-base) solid var(--ms-color-border-subtle);
+    border-radius: var(--ms-border-radius-xs);
+    background-color: var(--ms-color-bg-subtle);
+    font-family: var(--ms-font-family-text-mono);
+    font-size: 0.875em;
+  }
+
+  blockquote {
+    padding-inline-start: var(--ms-space-4);
+    border-inline-start: var(--ms-border-width-xl) solid
+      var(--ms-color-border-default);
+    color: var(--ms-color-text-muted);
+  }
+
+  hr {
+    margin-block: var(--ms-space-8);
+    border: 0;
+    border-block-start: var(--ms-border-width-base) solid
+      var(--ms-color-border-subtle);
+  }
+
+  img {
+    border-radius: var(--ms-border-radius-base);
+  }
+
+  // NOTE: tables are mostly props and tokens: code in a cell stays on one line, the wrapper
+  // scrolls a table wider than the page
+  .ms-table code {
+    white-space: nowrap;
+  }
+}
+
+// ========== Heading anchors ==========
+
+.msd-heading-anchor {
+  margin-inline-start: 0.375em;
+  color: var(--ms-color-text-subtle);
+  font-weight: var(--ms-font-weight-regular);
+  opacity: 0;
+  transition: opacity var(--ms-duration-fast) var(--ms-easing-standard);
+
+  :hover > & {
+    opacity: 1;
+  }
+}
+
+// ========== Callouts (`> [!NOTE]`) ==========
+
+.msd-callout {
+  .ms-alert__description > * + * {
+    margin-block-start: var(--ms-space-2);
+  }
+}
+
+// ========== Code blocks ==========
+
+.msd-code {
+  position: relative;
+  overflow: hidden;
+  border: var(--ms-border-width-base) solid var(--ms-color-border-subtle);
+  border-radius: var(--ms-border-radius-base);
+  background-color: var(--ms-color-bg-subtle);
+
+  pre {
+    margin: 0;
+    padding: var(--ms-space-4);
+    overflow-x: auto;
+    font-family: var(--ms-font-family-text-mono);
+    font-size: var(--ms-font-size-text-sm);
+    line-height: 1.7;
+    tab-size: 2;
+  }
+
+  code {
+    font: inherit;
+  }
+}
+
+// NOTE: every token carries both themes' colors (build time), the scheme picks one
+.msd-code .shiki,
+.msd-code .shiki span {
+  color: var(--shiki-light);
+}
+
+:where([data-theme='dark']) .msd-code .shiki,
+:where([data-theme='dark']) .msd-code .shiki span {
+  color: var(--shiki-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :where([data-theme='system']) .msd-code .shiki,
+  :where([data-theme='system']) .msd-code .shiki span {
+    color: var(--shiki-dark);
+  }
+}
+
+.msd-code__copy {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: var(--ms-space-2);
+  inset-inline-end: var(--ms-space-2);
+  padding: var(--ms-spacing-scale-element-xs) var(--ms-space-2);
+  border: var(--ms-border-width-base) solid var(--ms-color-border-default);
+  border-radius: var(--ms-border-radius-sm);
+  background-color: var(--ms-color-bg-surface);
+  color: var(--ms-color-text-muted);
+  font-size: var(--ms-font-size-text-xs);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity var(--ms-duration-fast) var(--ms-easing-standard);
+
+  .msd-code:hover > &,
+  &:focus {
+    opacity: 1;
+  }
+
+  // NOTE: no hover on touch screens, so always shown there
+  @media (hover: none) {
+    opacity: 1;
+  }
+}
+
+// ========== Live examples (```html preview) ==========
+
+.msd-preview {
+  overflow: hidden;
+  border: var(--ms-border-width-base) solid var(--ms-color-border-subtle);
+  border-radius: var(--ms-border-radius-base);
+
+  .msd-code {
+    border: 0;
+    border-block-start: var(--ms-border-width-base) solid
+      var(--ms-color-border-subtle);
+    border-radius: 0;
+  }
+}
+
+.msd-preview__canvas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ms-space-3);
+  padding: var(--ms-space-8) var(--ms-space-6);
+  background-color: var(--ms-color-bg-surface);
+  line-height: var(--ms-line-height-text-base);
+
+  // NOTE: inline things (buttons, links, inputs) sit in a row, blocks take the whole width
+  > :where(
+    div,
+    p,
+    table,
+    section,
+    nav,
+    form,
+    ul,
+    ol,
+    article,
+    header,
+    h1,
+    h2,
+    h3,
+    h4
+  ) {
+    flex: 1 1 100%;
+  }
+}
