@@ -1,5 +1,6 @@
 import { runtimePathById } from '@mainset/cli/runtime';
 import type { SSRConfigParams } from '@mainset/cli/ssr-server';
+import { applyDocumentHead } from '@mainset/docs-kit';
 import fs from 'fs';
 import path from 'path';
 import ReactDOMServer from 'react-dom/server';
@@ -9,6 +10,8 @@ import provideServerReactApp from '../src/app.server';
 // @ts-ignore
 import proxyConfigByPath from './proxy.config.mjs';
 
+const APP_ROOT__PLACEHOLDER = '<div id="ui-stack--docs"></div>';
+
 const ssrServerConfig: SSRConfigParams = {
   serveStatics: [
     {
@@ -17,40 +20,26 @@ const ssrServerConfig: SSRConfigParams = {
   ],
   proxyConfigByPath,
   renderSSRContentByPath: {
-    '/{*any}': ({ reqUrl, fullUrl }) =>
-      new Promise((resolve, reject) => {
-        fs.readFile(
-          path.join(runtimePathById.dist, 'public', 'server.html'),
-          'utf8',
-          async (err, htmlData) => {
-            if (err) {
-              return reject(err);
-            }
+    // NOTE: also what `ms-docs export` calls for every page of the static site
+    '/{*any}': async ({ fullUrl }) => {
+      const template = await fs.promises.readFile(
+        path.join(runtimePathById.dist, 'public', 'server.html'),
+        'utf8',
+      );
+      const { element, head, status } = await provideServerReactApp({
+        fullUrl,
+      });
+      // NOTE: rendered first: the page's <head> is collected while it renders
+      const appHtml = ReactDOMServer.renderToString(element);
 
-            // Const context = {}; // Context to track SSR rendering information
-
-            try {
-              // Pass both requestUrl (relative) and fullUrl to provider of React App for server-side rendering
-              const appHtml = await provideServerReactApp({
-                reqUrl,
-                fullUrl,
-                // Context
-              });
-
-              const content = htmlData.replace(
-                '<div id="ui-stack--docs"></div>',
-                `<div id="ui-stack--docs">${ReactDOMServer.renderToString(
-                  appHtml,
-                )}</div>`,
-              );
-
-              return resolve({ html: content });
-            } catch (error) {
-              return reject(error);
-            }
-          },
-        );
-      }),
+      return {
+        html: applyDocumentHead(template, head).replace(
+          APP_ROOT__PLACEHOLDER,
+          `<div id="ui-stack--docs">${appHtml}</div>`,
+        ),
+        status,
+      };
+    },
   },
 };
 

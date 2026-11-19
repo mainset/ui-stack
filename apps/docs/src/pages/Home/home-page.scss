@@ -1,0 +1,7 @@
+// The welcome message, centered in the screen below the header
+.docs-home {
+  display: flex;
+  align-items: center;
+  min-block-size: calc(100vh - var(--msd-header-height));
+  padding-block: var(--ms-space-16);
+}
