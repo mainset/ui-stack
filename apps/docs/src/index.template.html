@@ -9,7 +9,22 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
-    <title>mainset UI stack</title>
+    <title>mainset UI</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="<%= htmlWebpackPlugin.files.publicPath %>favicon.svg"
+    />
+
+    <!-- NOTE: the stored color scheme before the first paint, so a dark page never flashes
+         light. Same key as `COLOR_SCHEME__INLINE_SCRIPT` of @mainset/docs-kit -->
+    <script>
+      try {
+        var scheme = localStorage.getItem('msd-color-scheme');
+        if (scheme === 'light' || scheme === 'dark' || scheme === 'system')
+          document.documentElement.dataset.theme = scheme;
+      } catch (e) {}
+    </script>
 
     <!-- styles -->
   </head>

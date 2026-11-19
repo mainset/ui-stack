@@ -1,1 +1,1 @@
-export { Layout } from './Layout';
+export { MainSetLogo } from './mainset-logo';
