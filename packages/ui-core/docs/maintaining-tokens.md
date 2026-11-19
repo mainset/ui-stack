@@ -15,6 +15,7 @@ default. Product teams should override tokens instead, see
 | how derived tone roles are mixed (hover, subtle…) | `TONE_DERIVATION__TOKENS` in `color.tokens.mts`              | yes               |
 | the derivation itself (oklab mixing)              | `packages/ui-core/src/theme/derive.mts`, `color.mts`         | shipped as JS too |
 | fonts, motion, focus ring, opacity                | `packages/ui-core/src/styles/foundation.scss`                | no (Sass)         |
+| typeface files (`@font-face`) and fallbacks       | `packages/ui-core/src/styles/fonts.scss`, `styles/fonts/`    | no (Sass)         |
 | control sizes and radius                          | `packages/ui-core/src/elements/control/_control.tokens.scss` | no (Sass)         |
 
 TS tokens are the single source of truth: `pnpm codegen` (run by `build` and `dev`) writes
@@ -34,17 +35,36 @@ Commit the regenerated `_generated.scss` together with the token change.
 
 ## Recipes
 
+### The palette generator
+
+`SCALE__SOURCES` in `color.tokens.mts` generates every scale (`gray`, `ink`, `violet`, `orange`)
+in OKLCH, through `generatePalette()` (`src/theme/palette.mts`):
+
+- **`SCALE_RAMP__TOKENS`**: one lightness per step for every hue, so step N has about the same
+  contrast everywhere, and the share of the scale's peak chroma per step (low at the ends).
+- **A source** is a `hue` + peak `chroma`, or an `anchor` color pinned exactly at a `step` (its
+  hue and chroma carry across the scale): `violet: { anchor: 'rgb(139 20 253)', step: 500 }`.
+- **Output** is `rgb()` (the 2021 baseline has no `oklch()`); a too-vivid step is reduced to
+  the most vivid sRGB color of its lightness and hue.
+
 ### Change a brand color
 
-Edit the palette value. Every tone pointing at it, including its derived roles, is recomputed:
+Change the scale's anchor (or hue / chroma). The whole scale and every tone on it, derived roles
+included, are recomputed:
 
 ```ts
 // color.tokens.mts
-const PALETTE__TOKENS = {
-  'violet-600': 'rgb(124 58 237)',
+const SCALE__SOURCES = {
+  violet: { anchor: 'rgb(124 58 237)', step: 500 },
   …
 };
 ```
+
+### Check contrast
+
+`src/theme/contrast.test.mts` fails when a built-in text or UI color drops below WCAG 2 (4.5 text,
+3 borders and focus rings) on any surface it sits on. `pnpm contrast:report` prints every pair
+with its WCAG ratio and APCA Lc (advisory, a perceptual second opinion) after a palette change.
 
 ### Point a tone at another color
 
@@ -58,7 +78,7 @@ const TONE__TOKENS = {
 };
 ```
 
-Add the palette color first (`'teal-700': 'rgb(15 118 110)'`). Only `solid` and `on-solid` are
+Add the palette color first (a scale in `SCALE__SOURCES`, or a literal in `PALETTE__TOKENS`). Only `solid` and `on-solid` are
 required; `text` and `border` are optional and default to `solid` (light) or a tint toward
 white (dark). Check `on-solid` contrast: at least 4.5:1 for small text.
 
@@ -81,7 +101,10 @@ Add a key to both schemes in `SCHEME__TOKENS` (e.g. `'bg-overlay': 'gray-900'`).
 ### Change the derivation
 
 `TONE_DERIVATION__TOKENS` in `color.tokens.mts` sets how far `solid` is mixed toward
-black/white/canvas for each role, per scheme. The mixing runs in `deriveToneRoles()`
+black/white/canvas for each role, per scheme. `text` and `border` aren't set by an amount but by
+a WCAG contrast target (4.5 and 3): each is the mix closest to `solid` that reaches it on the
+scheme's `bg-subtle` and on the tone's own `subtle` fill, so a brand color stays itself wherever
+it already has the contrast (`#8b14fd` text in light) and is tinted only as far as needed. The mixing runs in `deriveToneRoles()`
 (`src/theme/derive.mts`), which both codegen (the shipped CSS) and `createTheme()` (runtime
 themes) call, so the two can't drift. Codegen writes the computed values into
 `$scheme-token-map` in `_generated.scss`; Sass only prints them.

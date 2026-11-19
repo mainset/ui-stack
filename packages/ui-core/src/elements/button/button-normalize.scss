@@ -5,7 +5,12 @@
 // `.ms-surface` + tone — see `buttonRecipe()`.
 $button: buttonVars.$class-selector;
 
+// NOTE: the row layout is here, not only on `.ms-control`, so an unsized button (`ButtonBasic`)
+// keeps an icon beside its label too
 #{options.where($button)} {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   text-decoration: none;
   user-select: none;
@@ -26,6 +31,17 @@ $button: buttonVars.$class-selector;
   flex-shrink: 0;
   inline-size: 1.25em;
   block-size: 1.25em;
+}
+
+// Icon slots (`btnIconStart` / `btnIconEnd`): an icon sized to the label's text
+#{options.where('#{$button}__icon')} {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+#{options.where('#{$button}__icon > svg')} {
+  inline-size: 1.15em;
+  block-size: 1.15em;
 }
 
 #{options.where('#{$button}:disabled, #{$button}[aria-disabled="true"], #{$button}--disabled')} {

@@ -11,7 +11,7 @@ $link: '.ms-link';
   transition: color var(--ms-duration-fast) var(--ms-easing-standard);
 }
 
-@media (hover: hover) {
+@media (any-hover: hover) {
   #{options.where('#{$link}:hover')} {
     color: var(--ms-tone-solid-hover);
   }
@@ -19,4 +19,15 @@ $link: '.ms-link';
 
 #{options.where('#{$link}[aria-disabled="true"]')} {
   opacity: var(--ms-opacity-disabled);
+}
+
+// Component tokens (Tier 3): round the ring like the area it surrounds
+:where(:root) {
+  --ms-link-stretched-radius: var(--ms-border-radius-lg);
+}
+
+#{options.where('#{$link}--stretched:focus-visible')}::after {
+  border-radius: var(--ms-link-stretched-radius);
+  outline: var(--ms-focus-ring-width) solid var(--ms-color-focus-ring);
+  outline-offset: var(--ms-focus-ring-offset);
 }

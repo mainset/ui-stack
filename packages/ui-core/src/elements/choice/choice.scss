@@ -21,7 +21,7 @@ input:where(.ms-radio) {
   border-radius: 50%;
 }
 
-@media (hover: hover) {
+@media (any-hover: hover) {
   input:where(.ms-checkbox__input, .ms-radio):where(:hover:not(:disabled)) {
     border-color: var(--ms-tone-border);
   }

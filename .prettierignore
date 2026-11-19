@@ -18,9 +18,13 @@ pnpm-lock.yaml
 
 # files
 *.sh
+*.py
 *.toml
 *.env*
 
 # images
 *.ico
 *.svg
+
+# Font files and their licences: binaries and verbatim legal text
+packages/ui-core/src/styles/fonts/

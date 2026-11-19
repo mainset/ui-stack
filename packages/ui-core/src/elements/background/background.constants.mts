@@ -12,7 +12,9 @@ const BACKGROUND__CLASS_NAME_CONFIG = {
     // value-mapped
     bgColor: {
       modifier: 'color',
-      options: COLOR__ELEMENT_OPTIONS,
+      // `canvas` / `surface` / `subtle`: the color scheme's own backgrounds (page, card, raised
+      // band), not tones: they follow light / dark and never take a tone's tint
+      options: [...COLOR__ELEMENT_OPTIONS, 'canvas', 'surface', 'subtle'],
       // defaultValue: 'transparent',
     },
   },

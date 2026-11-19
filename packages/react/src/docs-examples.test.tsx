@@ -1,4 +1,5 @@
 // Compiles and renders the examples of docs/components.md, so the docs can't drift from the API
+import { hoverRecipe } from '@mainset/ui-core';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, it } from 'vitest';
@@ -10,6 +11,7 @@ import { Button } from './components/Button/index.mjs';
 import { Field } from './components/Field/index.mjs';
 import { Pagination } from './components/Pagination/index.mjs';
 import { Accordion } from './containers/Accordion/index.mjs';
+import { Animate } from './containers/Animate/index.mjs';
 import { Avatar } from './containers/Avatar/index.mjs';
 import { Dialog } from './containers/Dialog/index.mjs';
 import { useOverlay } from './containers/MainSetContext/MainSetContext.mjs';
@@ -19,17 +21,20 @@ import { Popover } from './containers/Popover/index.mjs';
 import { Tabs } from './containers/Tabs/index.mjs';
 import { useToast } from './containers/Toast/index.mjs';
 import { Tooltip } from './containers/Tooltip/index.mjs';
+import { CardBasic } from './elements/CardBasic/index.mjs';
 import { Checkbox } from './elements/Choice/index.mjs';
 import { Container } from './elements/Container/index.mjs';
+import { IconTile } from './elements/IconTile/index.mjs';
 import { Input, Select } from './elements/Input/index.mjs';
+import { Link } from './elements/Link/index.mjs';
 import { Progress } from './elements/Progress/index.mjs';
 import { Section } from './elements/Section/index.mjs';
 import { Skeleton } from './elements/Skeleton/index.mjs';
 import { Stack } from './elements/Stack/index.mjs';
 import { Table } from './elements/Table/index.mjs';
-import { Heading } from './elements/Typography/index.mjs';
+import { Heading, Text } from './elements/Typography/index.mjs';
 import { VisuallyHidden } from './elements/VisuallyHidden/index.mjs';
-import { useFormHandler } from './hooks/index.mjs';
+import { useActiveSectionId, useFormHandler } from './hooks/index.mjs';
 
 type SignupValues = { email: string; plan: string; news: boolean };
 
@@ -343,4 +348,131 @@ it('the docs examples compile and render', () => {
 
   expect(markup).toContain('<form class="ms-flex');
   expect(markup).toContain('<footer class="ms-section');
+});
+
+const ArrowRight = (props: React.ComponentProps<'svg'>) => <svg {...props} />;
+const SearchIcon = () => <svg aria-hidden="true" />;
+const features = [{ id: 'offline' }, { id: 'typos' }];
+const SECTION_IDS = ['data', 'rights'];
+const titles: Record<string, string> = { data: 'Data', rights: 'Rights' };
+
+function Language() {
+  const [locale, changeLanguage] = React.useState('en');
+
+  return (
+    <Menu mnuAlign="end">
+      <Menu.Trigger>
+        <Button srfVariant="ghost">EN</Button>
+      </Menu.Trigger>
+      <Menu.List aria-label="Language">
+        <Menu.RadioGroup mnuValue={locale} mnuOnValueChange={changeLanguage}>
+          <Menu.RadioItem mnuValue="en" lang="en">
+            English
+          </Menu.RadioItem>
+          <Menu.RadioItem mnuValue="uk" lang="uk">
+            Українська
+          </Menu.RadioItem>
+        </Menu.RadioGroup>
+      </Menu.List>
+    </Menu>
+  );
+}
+
+function Contents() {
+  const activeId = useActiveSectionId(SECTION_IDS);
+
+  return (
+    <nav aria-label="Contents">
+      {SECTION_IDS.map((id) => (
+        <Link
+          key={id}
+          href={`#${id}`}
+          lnkUnderline="hover"
+          aria-current={id === activeId ? 'location' : undefined}
+        >
+          {titles[id]}
+        </Link>
+      ))}
+    </nav>
+  );
+}
+
+it('the landing-page examples compile and render', () => {
+  const markup = renderToStaticMarkup(
+    <MainSetProvider>
+      <Text txtAs="p" txtVariant="overline" txtColor="primary">
+        Products
+      </Text>
+      <Heading hAs="h2" txtSize="display-sm" txtWrap="balance">
+        Find any document
+      </Heading>
+      <Text txtAs="p" txtVariant="lead" txtColor="muted" txtWrap="pretty">
+        …
+      </Text>
+      <Button
+        btnAs={RouterLink}
+        to="/docninja"
+        srfVariant="solid"
+        brdRadius="pill"
+        hvrIsGroup
+        btnIconEnd={
+          <ArrowRight
+            aria-hidden
+            className={hoverRecipe({ hvrEffect: 'nudge-end' })}
+          />
+        }
+      >
+        Explore DocNinja
+      </Button>
+      <CardBasic
+        srfVariant="outlined"
+        srfHover="border"
+        crdIsInteractive
+        hvrEffect="lift"
+      >
+        <IconTile>
+          <SearchIcon />
+        </IconTile>
+        <Heading hAs="h3" txtSize="lg">
+          <Link
+            lnkAs={RouterLink}
+            to="/docninja"
+            lnkIsStretched
+            lnkUnderline="none"
+            txtColor="base"
+          >
+            DocNinja
+          </Link>
+        </Heading>
+        <Text txtAs="p" txtColor="muted">
+          Offline search through your documents.
+        </Text>
+      </CardBasic>
+      <Animate anmSlide="up" anmFade={false}>
+        <Heading hAs="h1" txtSize="display-base">
+          Software users love
+        </Heading>
+      </Animate>
+      <Stack stkAs="ul">
+        {features.map((feature, index) => (
+          <Animate
+            key={feature.id}
+            anmAs="li"
+            anmTrigger="visible"
+            anmSlide="up"
+            anmDelay={index * 80}
+          >
+            …
+          </Animate>
+        ))}
+      </Stack>
+      <Language />
+      <Contents />
+    </MainSetProvider>,
+  );
+
+  expect(markup).toContain('ms-link--stretched');
+  expect(markup).toContain('ms-animate--state-enter');
+  expect(markup).toContain('ms-hover--nudge-end');
+  expect(markup).toContain('aria-haspopup="menu"');
 });

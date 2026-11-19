@@ -8,13 +8,15 @@ any other framework (or plain HTML) can use the same classes.
 
 **With a JS bundler** (React adapter, Vite, rspack, webpack…) — nothing to configure:
 every element module imports its own CSS (plus the shared foundation), so the bundle
-contains only the CSS of the elements in use.
+contains only the CSS of the elements in use. Import the [typefaces](#typefaces) once, at the
+app root.
 
 **Without a bundler** (plain HTML, server templates, Vue/Svelte/…):
 
 ```html
 <!-- the reset is optional; when used, load it first -->
 <link rel="stylesheet" href="@mainset/ui-core/styles/reset.css" />
+<!-- includes the typefaces -->
 <link rel="stylesheet" href="@mainset/ui-core/styles/index.min.css" />
 
 <button
@@ -37,12 +39,33 @@ buttonRecipe({ srfVariant: 'outlined', srfTheme: 'error', ctlSize: 'sm' });
 | Entry                                       | Contents                                                                                                             |
 | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `@mainset/ui-core`                          | class-name configs, recipes, types, utils                                                                            |
-| `@mainset/ui-core/styles/index.css`         | foundation + every element                                                                                           |
+| `@mainset/ui-core/styles/index.css`         | typefaces + foundation + every element                                                                               |
 | `@mainset/ui-core/styles/index.min.css`     | the same, minified (for use without a bundler)                                                                       |
 | `@mainset/ui-core/styles/normalize.min.css` | headless: every component's normalize layer, no mainset look ([layers](./docs/elements.md#two-layers-per-component)) |
 | `@mainset/ui-core/styles/foundation.css`    | all design tokens + base styles + tone classes                                                                       |
 | `@mainset/ui-core/styles/reset.css`         | opt-in modern reset (`normalize.css` is an alias)                                                                    |
+| `@mainset/ui-core/styles/fonts.css`         | the mainset typefaces, `@font-face` only ([typefaces](#typefaces))                                                   |
 | `@mainset/ui-core/scss/mixins`              | `media-up()`, `responsive-variants`, helpers                                                                         |
+
+### Typefaces
+
+mainset text is set in [Onest](https://fonts.google.com/specimen/Onest) and technical labels
+(overlines, code, data) in [JetBrains Mono](https://www.jetbrains.com/lp/mono/): variable,
+Latin + Cyrillic, both SIL OFL 1.1 (licences ship beside the files). The font tokens name them by
+default; the files load from one stylesheet, **imported once per page**:
+
+```ts
+// app root, or the micro-frontend shell (not in each remote)
+import '@mainset/ui-core/styles/fonts.css';
+```
+
+It isn't part of the per-element CSS on purpose: every bundle importing it emits its own copy of
+the files, so remotes of one shell would each download the same fonts. Fonts are split by script
+(`unicode-range`): a page fetches only the files its text uses. Until a file lands, a local
+font resized to its metrics stands in (`Onest Fallback`: Arial; `JetBrains Mono Fallback`: Courier
+New), so text doesn't shift when the web font swaps in. Without the stylesheet, the system fonts
+render. Another typeface is one token away:
+`:root { --ms-font-family-text-sans: 'Inter', system-ui, sans-serif; }`.
 
 ## Single source of truth (codegen)
 
@@ -94,7 +117,7 @@ custom properties instead (e.g. `.ms-control` sets `--ms-surface-radius` for `.m
 
 | Tier         | Prefix                     | Example                                         |
 | ------------ | -------------------------- | ----------------------------------------------- |
-| 1. Palette   | `--ms-palette-*`           | `--ms-palette-violet-600`                       |
+| 1. Palette   | `--ms-palette-*`           | `--ms-palette-violet-500`                       |
 | 2. Semantic  | `--ms-color-*`             | `--ms-color-text-muted`, `--ms-color-bg-canvas` |
 | 2. Tone      | `--ms-color-{tone}-{role}` | `--ms-color-error-subtle`                       |
 | 3. Component | `--ms-{component}-*`       | `--ms-control-height-base`                      |
@@ -179,7 +202,7 @@ Overrides are plain custom properties in app CSS:
 ```css
 /* 1. re-brand: change a palette value */
 :root {
-  --ms-palette-violet-600: #7c3aed;
+  --ms-palette-violet-500: #7c3aed;
 }
 
 /* 2. re-color one tone everywhere */
@@ -223,19 +246,23 @@ Chakra / Panda / Tailwind: `base` 0 = default · `sm` 36rem · `md` 48rem · `lg
 A breakpoint's value applies from that width up, until a larger breakpoint sets its own.
 
 **Only props that change the layout are responsive** — direction, display, wrap, justify, align,
-gap, padding / margin (and, later, columns). Props that only change the look — tone, color,
-radius, font weight, control size — never are: a button doesn't change color on a phone.
+gap, padding / margin, columns, and text size (`txtSize`: how much copy fits the screen). Props
+that only change the look — tone, color, radius, font weight, control size — never are: a button
+doesn't change color on a phone.
 
 How a prop scales depends on its number of options (`responsive` in its TS config):
 
-| `responsive` | For                                                                                                         | Per breakpoint                     | CSS cost              |
-| ------------ | ----------------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------- |
-| `'class'`    | few options: `flxDisplay`, `flxDirection`, `flxWrap`, `grdDisplay`, `grdAutoFlow`, `layJustify`, `layAlign` | a class per option                 | options × breakpoints |
-| `'css-var'`  | many options: `layGapSize`, spacing (`spcSize`, `spcSizes`)                                                 | one class + an inline CSS variable | 1 rule per breakpoint |
+| `responsive` | For                                                                                                                                                   | Per breakpoint                     | CSS cost              |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------- |
+| `'class'`    | few options: `flxDisplay`, `flxDirection`, `flxWrap`, `grdDisplay`, `grdAutoFlow`, `layJustify`, `layAlign`; `txtSize` (a size sets three properties) | a class per option                 | options × breakpoints |
+| `'css-var'`  | many options: `layGapSize`, spacing (`spcSize`, `spcSizes`)                                                                                           | one class + an inline CSS variable | 1 rule per breakpoint |
 
 ```ts
 flxDirection={{ base: 'column', md: 'row' }}
 // → class "ms-flex--flex-direction-column ms-flex--flex-direction-row@md"
+
+txtSize={{ base: 'base', md: 'lg' }}
+// → class "ms-text--size-base ms-text--size-lg@md"
 
 layGapSize={{ base: 'xs', md: 'xl' }}
 // → class "ms-layout--gap-size-xs ms-layout--gap-size@md"

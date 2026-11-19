@@ -6,6 +6,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+export { useActiveSectionId } from './useActiveSectionId.mjs';
+export type { UseActiveSectionIdOptions } from './useActiveSectionId.mjs';
 export { useCallbackDebounce } from './useCallbackDebounce.mjs';
 export { useFormHandler } from './useFormHandler.mjs';
 export { useIsClient } from './useIsClient.mjs';

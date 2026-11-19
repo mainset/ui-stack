@@ -164,4 +164,44 @@ describe('Menu', () => {
     press(document.activeElement!, ' ');
     expect(onExport).toHaveBeenCalledTimes(1);
   });
+
+  it('radio items: one checked, focused on open, selecting checks and closes', () => {
+    function Language() {
+      const [locale, setLocale] = React.useState('uk');
+
+      return (
+        <Menu>
+          <Menu.Trigger>
+            <Button>Language</Button>
+          </Menu.Trigger>
+          <Menu.List>
+            <Menu.RadioGroup mnuValue={locale} mnuOnValueChange={setLocale}>
+              <Menu.RadioItem mnuValue="en">English</Menu.RadioItem>
+              <Menu.RadioItem mnuValue="uk">Українська</Menu.RadioItem>
+            </Menu.RadioGroup>
+          </Menu.List>
+        </Menu>
+      );
+    }
+
+    ({ unmount } = render(<Language />));
+    const languageTrigger = () => byText('Language').closest('button')!;
+
+    click(languageTrigger());
+    const items = allByRole('menuitemradio');
+    expect(items.map((item) => item.getAttribute('aria-checked'))).toEqual([
+      'false',
+      'true',
+    ]);
+    expect(focused()).toBe('Українська');
+
+    press(document.activeElement!, 'ArrowUp');
+    expect(focused()).toBe('English');
+
+    click(items[0]);
+    expect(byRole('menu')).toBeNull();
+
+    click(languageTrigger());
+    expect(focused()).toBe('English');
+  });
 });

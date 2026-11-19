@@ -7,6 +7,8 @@
  */
 
 // elements
+export { AspectRatio } from './AspectRatio/index.mjs';
+export type { AspectRatioProps } from './AspectRatio/index.mjs';
 export { Backdrop } from './Backdrop/index.mjs';
 export { Badge } from './Badge/index.mjs';
 export { Box } from './Box/index.mjs';
@@ -18,6 +20,8 @@ export { Flex } from './Flex/index.mjs';
 export { FloatingBox } from './FloatingBox/index.mjs';
 export { Grid } from './Grid/index.mjs';
 export { Hr } from './Hr/index.mjs';
+export { IconTile } from './IconTile/index.mjs';
+export type { IconTileProps } from './IconTile/index.mjs';
 export { Input, Select, Textarea } from './Input/index.mjs';
 export { Label } from './Label/index.mjs';
 export { Link } from './Link/index.mjs';

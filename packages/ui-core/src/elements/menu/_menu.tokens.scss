@@ -7,6 +7,7 @@
   --ms-menu-item-padding-block: var(--ms-spacing-scale-element-base);
   --ms-menu-item-padding-inline: var(--ms-spacing-scale-element-lg);
   --ms-menu-item-radius: var(--ms-border-radius-xs);
+  --ms-menu-item-indicator-size: 1rem;
 }
 
 // NOTE: on every theme root: they point at scheme colors
@@ -14,4 +15,5 @@
   --ms-menu-item-background-highlight: var(--ms-color-bg-subtle);
   --ms-menu-separator-color: var(--ms-color-border-subtle);
   --ms-menu-group-label-color: var(--ms-color-text-muted);
+  --ms-menu-item-indicator-color: var(--ms-tone-text);
 }

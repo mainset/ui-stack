@@ -1,11 +1,49 @@
 @use '../../styles/options';
+@use '../surface/surface.variables' as surfaceVars;
 @use './button.variables' as buttonVars;
 
 // Theme layer (mainset look) on top of `button-normalize.scss`
 $button: buttonVars.$class-selector;
+$surface: surfaceVars.$class-selector;
 
-#{options.where('#{$button}:active')} {
-  opacity: var(--ms-opacity-pressed);
+// NOTE: one selector per `:not()`: a selector list in it is Firefox 84+ (the baseline is 78)
+$pressed: '#{$button}:active:not(:disabled):not([aria-disabled="true"]):not(#{$button}--disabled)';
+
+// Component tokens (Tier 3): the tactile press
+// A button sits a hair raised (solid ones show a soft lower edge) and recesses when pressed: it
+// moves down, shrinks a touch and its edge turns into an inner shadow. Set the offset to 0 and the
+// scale to 1 for a flat press.
+:where(:root) {
+  --ms-button-press-offset: 0.0625rem; // 1px
+  --ms-button-press-scale: 0.98;
+  --ms-button-edge-shadow: inset 0 -0.0625rem 0 0 rgb(0 0 0 / 14%);
+  --ms-button-pressed-shadow: inset 0 0.0625rem 0.125rem 0 rgb(0 0 0 / 22%);
+}
+
+#{options.where('#{$button}#{$surface}--variant-solid')} {
+  box-shadow: var(--ms-button-edge-shadow);
+}
+
+// NOTE: fast both ways, so a press feels immediate and the release springs back
+#{options.where($pressed)} {
+  transform: translateY(var(--ms-button-press-offset))
+    scale(var(--ms-button-press-scale));
+  transition-duration: var(--ms-duration-fast);
+}
+
+// The hover colors while pressed, on every device: touch screens never hover, so this is their
+// only color feedback (mirrors `surface.scss`'s hover rules, without `any-hover`)
+#{options.where('#{$pressed}#{$surface}--variant-solid')} {
+  box-shadow: var(--ms-button-pressed-shadow);
+  background-color: var(--ms-tone-solid-hover);
+}
+
+#{options.where('#{$pressed}#{$surface}--variant-soft')} {
+  background-color: var(--ms-tone-subtle-hover);
+}
+
+#{options.where('#{$pressed}:is(#{$surface}--variant-outlined, #{$surface}--variant-ghost)')} {
+  background-color: var(--ms-tone-subtle);
 }
 
 #{options.where('#{$button}:disabled, #{$button}[aria-disabled="true"], #{$button}--disabled')} {

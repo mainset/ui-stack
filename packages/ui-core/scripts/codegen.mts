@@ -129,11 +129,12 @@ function schemeTokenMap(scheme: tokens.ColorScheme): Map<string, SassData> {
       onSolid: paletteColor(definition['on-solid']),
       canvas: paletteColor(neutrals['bg-canvas']),
     });
-    // NOTE: a role that isn't mixed stays a palette reference, so palette overrides reach it
+    // NOTE: a role that isn't mixed (`solid` already has the contrast) stays a palette reference,
+    // so palette overrides reach it
     const roleValue = (role: 'border' | 'text') => {
       const explicit = definition[role];
       if (explicit) return paletteVar(explicit);
-      return derivation[`${role}Amount`] === null
+      return derived[role] === derived.solid
         ? paletteVar(definition.solid)
         : new Raw(derived[role]);
     };

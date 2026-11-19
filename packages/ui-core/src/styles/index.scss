@@ -4,11 +4,15 @@
 //   <link rel="stylesheet" href="@mainset/ui-core/styles/index.min.css" />
 // (`index.min.css` is this file minified, written after the build by `scripts/minify-css.mjs`).
 // The reset is opt-in and shipped separately: `@mainset/ui-core/styles/reset.css`.
+// The typefaces are bundled here, and shipped separately for bundlers: `styles/fonts.css`.
 // Each component is its normalize layer (`*-normalize`, mechanics) followed by its theme layer
 // (the mainset look); `normalize.scss` bundles the normalize layers alone.
+@use './fonts';
 @use './foundation';
 @use '../elements/alert/alert-normalize';
 @use '../elements/alert/alert';
+@use '../elements/animate/animate';
+@use '../elements/aspect-ratio/aspect-ratio-normalize';
 @use '../elements/avatar/avatar-normalize';
 @use '../elements/avatar/avatar';
 @use '../elements/backdrop/backdrop-normalize';
@@ -37,12 +41,16 @@
 @use '../elements/heading/heading';
 @use '../elements/hr/hr-normalize';
 @use '../elements/hr/hr';
+@use '../elements/hover/hover';
+@use '../elements/icon-tile/icon-tile-normalize';
+@use '../elements/icon-tile/icon-tile';
 @use '../elements/input/input-normalize';
 @use '../elements/input/input';
 @use '../elements/layout/layout';
 @use '../elements/link/link-normalize';
 @use '../elements/link/link';
 @use '../elements/list/list-normalize';
+@use '../elements/list/list';
 @use '../elements/menu/menu-normalize';
 @use '../elements/menu/menu';
 @use '../elements/overlay/overlay-normalize';

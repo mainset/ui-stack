@@ -13,6 +13,8 @@ export type {
   AccordionProps,
   AccordionTriggerProps,
 } from './Accordion/index.mjs';
+export { Animate } from './Animate/index.mjs';
+export type { AnimateProps } from './Animate/index.mjs';
 export { Avatar, avatarInitials } from './Avatar/index.mjs';
 export type { AvatarProps } from './Avatar/index.mjs';
 export { Dialog, Drawer, useDialog } from './Dialog/index.mjs';
@@ -42,6 +44,8 @@ export type {
   MenuItemProps,
   MenuListProps,
   MenuProps,
+  MenuRadioGroupProps,
+  MenuRadioItemProps,
 } from './Menu/index.mjs';
 export { OverlayContent } from './Overlay/index.mjs';
 export type { OverlayContentProps } from './Overlay/index.mjs';

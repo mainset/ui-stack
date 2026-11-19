@@ -12,7 +12,7 @@ $link: '.ms-link';
   text-decoration-line: underline;
 }
 
-@media (hover: hover) {
+@media (any-hover: hover) {
   #{options.where('#{$link}--underline-hover:hover')} {
     text-decoration-line: underline;
   }
@@ -21,4 +21,23 @@ $link: '.ms-link';
 #{options.where('#{$link}[aria-disabled="true"]')} {
   cursor: not-allowed;
   pointer-events: none;
+}
+
+// ----- Stretched link: a card whose whole area is the link -----
+// NOTE: one real link inside, so a screen reader reads it once, by its own text
+:where(.ms-link-area) {
+  position: relative;
+}
+
+// NOTE: a pseudo-element can't be inside `:where()`
+#{options.where('#{$link}--stretched')}::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+// The focus ring goes around the area (the `::after`), not around the link's text
+#{options.where('#{$link}--stretched:focus-visible')} {
+  outline: none;
 }

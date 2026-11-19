@@ -46,11 +46,14 @@ describe('Accordion', () => {
     expect(shipping.parentElement!.tagName).toBe('H2');
     expect(panel.getAttribute('role')).toBe('region');
     expect(panel.getAttribute('aria-labelledby')).toBe(shipping.id);
-    expect(panel.hidden).toBe(false);
-    expect(
-      document.getElementById(triggers()[1].getAttribute('aria-controls')!)!
-        .hidden,
-    ).toBe(true);
+    expect(panel.dataset.state).toBe('open');
+    expect(panel.hasAttribute('inert')).toBe(false);
+
+    const collapsed = document.getElementById(
+      triggers()[1].getAttribute('aria-controls')!,
+    )!;
+    expect(collapsed.dataset.state).toBe('closed');
+    expect(collapsed.hasAttribute('inert')).toBe(true);
   });
 
   it('single: one open at a time, collapsible by default', () => {

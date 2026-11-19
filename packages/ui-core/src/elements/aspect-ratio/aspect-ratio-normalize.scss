@@ -1,0 +1,47 @@
+@use '../../styles/options';
+
+// Normalize layer only: a ratio is mechanics, it has no look (round it with `brdRadius`).
+// NOTE: the padding technique, not `aspect-ratio`, which needs Safari 15 and Firefox 89: a
+// percentage `padding-top` is relative to the box's width, so `height / width × 100%` of it is
+// the height of the ratio. The child is laid over it.
+$aspect-ratio: '.ms-aspect-ratio';
+$ratio-map: (
+  '1-1': 1,
+  '4-3': 0.75,
+  '3-2': 0.6667,
+  '16-10': 0.625,
+  '16-9': 0.5625,
+  '21-9': 0.4286,
+);
+
+#{options.where($aspect-ratio)} {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+// NOTE: a pseudo-element can't be inside `:where()`
+#{options.where($aspect-ratio)}::before {
+  content: '';
+  display: block;
+  padding-top: calc(var(--ms-aspect-ratio-value) * 100%);
+}
+
+#{options.where('#{$aspect-ratio} > *')} {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@include options.each-class('ms-aspect-ratio', 'aspRatio', $ratio-map) using
+  ($option, $value) {
+  --ms-aspect-ratio-value: #{$value};
+}
+
+@include options.each-class('ms-aspect-ratio', 'aspFit') using ($option, $value) {
+  // stylelint-disable-next-line nesting-selector-no-missing-scoping-root -- scoped by the generated class
+  > * {
+    object-fit: $value;
+  }
+}

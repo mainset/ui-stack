@@ -1,4 +1,8 @@
 export { ALERT__CLASS_NAME_CONFIG } from './alert/index.mjs';
+export { ANIMATE__CLASS_NAME_CONFIG } from './animate/index.mjs';
+export type { AnimateStyleProps } from './animate/index.mjs';
+export { ASPECT_RATIO__CLASS_NAME_CONFIG } from './aspect-ratio/index.mjs';
+export type { AspectRatioStyleProps } from './aspect-ratio/index.mjs';
 export {
   AVATAR__CLASS_NAME_CONFIG,
   AVATAR_GROUP__CLASS_NAME_CONFIG,
@@ -69,8 +73,12 @@ export {
   HEADING_LEVEL__SIZES,
 } from './heading/index.mjs';
 export type { HeadingLevel } from './heading/index.mjs';
+export { HOVER__CLASS_NAME_CONFIG } from './hover/index.mjs';
+export type { HoverStyleProps } from './hover/index.mjs';
 export { HR__CLASS_NAME_CONFIG } from './hr/index.mjs';
 export type { HrStyleProps } from './hr/index.mjs';
+export { ICON_TILE__CLASS_NAME_CONFIG } from './icon-tile/index.mjs';
+export type { IconTileStyleProps } from './icon-tile/index.mjs';
 export {
   INPUT__CLASS_NAME_CONFIG,
   SELECT__CLASS_NAME_CONFIG,

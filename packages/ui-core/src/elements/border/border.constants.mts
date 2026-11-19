@@ -16,7 +16,9 @@ const BORDER__CLASS_NAME_CONFIG = {
     // value-mapped
     brdColor: {
       modifier: 'color',
-      options: COLOR__ELEMENT_OPTIONS,
+      // `subtle` / `default` / `strong`: the color scheme's neutral hairlines (dividers, card
+      // edges), not tones
+      options: [...COLOR__ELEMENT_OPTIONS, 'subtle', 'default', 'strong'],
       // defaultValue: 'transparent',
     },
     brdRadius: {

@@ -1,0 +1,107 @@
+@use '../../styles/options';
+
+// One entrance and one exit keyframe, driven by variables: the props only set where the element
+// comes from (`--ms-animate-from-*`), so fade / slide / zoom combine without a keyframe per pair.
+// NOTE: `transform`, not the `translate` / `scale` properties, which need Chrome 104
+$animate: '.ms-animate';
+
+@include options.assert-options(
+  'ms-animate',
+  'anmState',
+  (hidden, enter, exit)
+);
+
+// Component tokens (Tier 3)
+:where(:root) {
+  --ms-animate-duration: var(--ms-duration-slower);
+  --ms-animate-easing-enter: var(--ms-easing-emphasized);
+  --ms-animate-easing-exit: var(--ms-easing-exit);
+  --ms-animate-slide-distance: 1.5rem;
+  --ms-animate-zoom-in-scale: 0.95;
+  --ms-animate-zoom-out-scale: 1.05;
+}
+
+@keyframes ms-animate-enter {
+  from {
+    opacity: var(--ms-animate-from-opacity);
+    transform: translate3d(0, var(--ms-animate-from-y), 0)
+      scale(var(--ms-animate-from-scale));
+  }
+}
+
+@keyframes ms-animate-exit {
+  to {
+    opacity: var(--ms-animate-from-opacity);
+    transform: translate3d(0, var(--ms-animate-from-y), 0)
+      scale(var(--ms-animate-from-scale));
+  }
+}
+
+#{options.where($animate)} {
+  --ms-animate-from-opacity: 1;
+  --ms-animate-from-y: 0;
+  --ms-animate-from-scale: 1;
+
+  animation-duration: var(--ms-animate-duration);
+  animation-delay: var(--ms-animate-delay, 0ms);
+}
+
+// ----- Where it comes from -----
+#{options.where('#{$animate}--fade')} {
+  --ms-animate-from-opacity: 0;
+}
+
+#{options.where('#{$animate}--slide-up')} {
+  --ms-animate-from-y: var(--ms-animate-slide-distance);
+}
+
+#{options.where('#{$animate}--slide-down')} {
+  --ms-animate-from-y: calc(-1 * var(--ms-animate-slide-distance));
+}
+
+#{options.where('#{$animate}--zoom-in')} {
+  --ms-animate-from-scale: var(--ms-animate-zoom-in-scale);
+}
+
+#{options.where('#{$animate}--zoom-out')} {
+  --ms-animate-from-scale: var(--ms-animate-zoom-out-scale);
+}
+
+@include options.each-class('ms-animate', 'anmDuration') using ($option, $value) {
+  --ms-animate-duration: var(--ms-duration-#{$option});
+}
+
+// ----- When it moves -----
+// Held at the start, without an animation (it can't be cut short)
+#{options.where('#{$animate}--state-hidden')} {
+  opacity: var(--ms-animate-from-opacity);
+  transform: translate3d(0, var(--ms-animate-from-y), 0)
+    scale(var(--ms-animate-from-scale));
+}
+
+// `backwards`: the start state covers the delay; once it ends, the animation holds nothing, so a
+// hover effect on the same element (`ms-hover--lift`) moves it as usual
+#{options.where('#{$animate}--state-enter')} {
+  animation-name: ms-animate-enter;
+  animation-fill-mode: backwards;
+  animation-timing-function: var(--ms-animate-easing-enter);
+}
+
+// `forwards`: it stays out until it's unmounted
+#{options.where('#{$animate}--state-exit')} {
+  animation-name: ms-animate-exit;
+  animation-fill-mode: forwards;
+  animation-timing-function: var(--ms-animate-easing-exit);
+}
+
+// The duration tokens are 0ms already; no delay and no hidden wait either: it's simply there
+@media (prefers-reduced-motion: reduce) {
+  #{options.where($animate)} {
+    animation-delay: 0ms;
+  }
+
+  #{options.where('#{$animate}--state-hidden')} {
+    opacity: 1;
+    transform: none;
+  }
+}

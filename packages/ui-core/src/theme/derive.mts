@@ -17,13 +17,50 @@ import {
 const paletteColor = (name: PaletteColor): RgbaColor =>
   parseColorOrThrow(PALETTE__TOKENS[name], `palette color ${name}`);
 
-const WHITE = paletteColor('white');
 const LIGHT_ON_SOLID = paletteColor('gray-50');
 const DARK_ON_SOLID = paletteColor('gray-900');
 
 /** The built-in page background of a scheme, which `subtle` roles are mixed against */
 const defaultCanvas = (scheme: ColorScheme) =>
   paletteColor(SCHEME__TOKENS[scheme]['bg-canvas']);
+
+/** The scheme's least contrasting surface (`bg-subtle`), which `text` / `border` are checked on */
+const defaultContrastSurface = (scheme: ColorScheme) =>
+  paletteColor(SCHEME__TOKENS[scheme]['bg-subtle']);
+
+/** As shipped: rounded to `#rrggbb`, so a contrast check sees the color the CSS will have */
+const rounded = (color: RgbaColor) => parseColorOrThrow(formatHex(color));
+
+// Halvings of the search: 2^-16 of a mix is far below one 8-bit channel step
+const CONTRAST_SEARCH__STEPS = 16;
+
+/**
+ * The mix of `color` toward `target` closest to `color` (the most of it) with at least `minContrast`
+ * on every one of `surfaces`; `color` itself when it already has it.
+ */
+function reachContrast(
+  color: RgbaColor,
+  target: RgbaColor,
+  surfaces: readonly RgbaColor[],
+  minContrast: number,
+): RgbaColor {
+  const passes = (candidate: RgbaColor) =>
+    surfaces.every(
+      (surface) => contrastRatio(candidate, surface) >= minContrast,
+    );
+  if (passes(rounded(color))) return color;
+
+  // NOTE: contrast grows steadily as `color` moves toward `target` (white on dark, black on light)
+  let low = 0; // amount of `color` known to pass (all `target`)
+  let high = 1; // amount known to fail
+  for (let step = 0; step < CONTRAST_SEARCH__STEPS; step += 1) {
+    const amount = (low + high) / 2;
+    if (passes(rounded(mixOklab(color, amount, target)))) low = amount;
+    else high = amount;
+  }
+
+  return mixOklab(color, low, target);
+}
 
 /** Light text on `solid` (`gray-50`), unless dark text (`gray-900`) has more WCAG contrast */
 function pickOnSolid(solid: RgbaColor): RgbaColor {
@@ -42,6 +79,8 @@ type DeriveToneRolesInput = {
   border?: RgbaColor;
   /** default: the scheme's built-in `bg-canvas` */
   canvas?: RgbaColor;
+  /** the surface `text` / `border` must contrast with; default: the scheme's built-in `bg-subtle` */
+  contrastSurface?: RgbaColor;
 };
 
 /**
@@ -56,12 +95,23 @@ function deriveToneRoles(
     text,
     border,
     canvas = defaultCanvas(scheme),
+    contrastSurface = defaultContrastSurface(scheme),
   }: DeriveToneRolesInput,
 ): Record<ToneRole, string> {
   const derive = TONE_DERIVATION__TOKENS[scheme];
-  const tint = (explicit: RgbaColor | undefined, amount: number | null) =>
+  const subtle = mixOklab(solid, derive.subtleAmount, canvas);
+  // NOTE: the surfaces tinted text / borders sit on at rest: the scheme's quiet fill and the tone's
+  // own `subtle` fill (a subtle badge / alert)
+  const tintSurfaces = [contrastSurface, rounded(subtle)];
+  const tint = (explicit: RgbaColor | undefined, minContrast: number) =>
     formatHex(
-      explicit ?? (amount === null ? solid : mixOklab(solid, amount, WHITE)),
+      explicit ??
+        reachContrast(
+          solid,
+          paletteColor(derive.tintTarget),
+          tintSurfaces,
+          minContrast,
+        ),
     );
 
   return {
@@ -70,12 +120,12 @@ function deriveToneRoles(
       mixOklab(solid, derive.hoverAmount, paletteColor(derive.hoverTarget)),
     ),
     'on-solid': formatHex(onSolid),
-    subtle: formatHex(mixOklab(solid, derive.subtleAmount, canvas)),
+    subtle: formatHex(subtle),
     'subtle-hover': formatHex(
       mixOklab(solid, derive.subtleHoverAmount, canvas),
     ),
-    border: tint(border, derive.borderAmount),
-    text: tint(text, derive.textAmount),
+    border: tint(border, derive.borderContrast),
+    text: tint(text, derive.textContrast),
   };
 }
 
@@ -89,9 +139,11 @@ function deriveTransparentHover(scheme: ColorScheme, textBase: RgbaColor) {
 
 export {
   defaultCanvas,
+  defaultContrastSurface,
   deriveToneRoles,
   deriveTransparentHover,
   paletteColor,
   pickOnSolid,
+  reachContrast,
 };
 export type { DeriveToneRolesInput };

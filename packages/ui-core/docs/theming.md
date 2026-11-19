@@ -7,7 +7,7 @@ property values, and you can declare it in a stylesheet, in an inline `style`, o
 ## The model in one picture
 
 ```
-Tier 1  palette        --ms-palette-violet-600: rgb(144 19 254)        literal colors
+Tier 1  palette        --ms-palette-violet-500: rgb(139 20 253)        literal colors
           │
 Tier 2  semantic       --ms-color-bg-canvas, --ms-color-text-muted     meaning, per color scheme
         tone roles     --ms-color-primary-solid, …-subtle, …-text      one set per tone, per scheme
@@ -74,6 +74,11 @@ Each utility paints one property with one role of a named tone, and overrides th
 | `bgColor`  | `ms-background--color-*` | `--ms-color-{tone}-solid`  |
 | `txtColor` | `ms-text--color-*`       | `--ms-color-{tone}-text`   |
 | `brdColor` | `ms-border--color-*`     | `--ms-color-{tone}-border` |
+
+They also take the color scheme's neutrals, which follow light / dark and no tone: `bgColor`
+`canvas` · `surface` · `subtle` (`--ms-color-bg-*`: the page, a card, a raised band),
+`txtColor="subtle"` (`--ms-color-text-subtle`, captions) and `brdColor` `subtle` · `default` ·
+`strong` (`--ms-color-border-*`, hairlines).
 
 Utilities read the named tone directly, not the inherited `--ms-tone-*` contract, so
 `txtColor="error"` is red inside any `.ms-tone-*` subtree.

@@ -1,0 +1,8 @@
+// Component tokens (Tier 3) of lists
+:where(:root) {
+  --ms-list-item-gap: var(--ms-spacing-scale-element-xl);
+  --ms-list-item-icon-size: 1em;
+
+  // The height of the item's first line, which the icon is centered on: its line height in `em`
+  --ms-list-item-icon-line: 1.5em;
+}

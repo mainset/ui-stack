@@ -1,4 +1,8 @@
-import type { LinkStyleProps, TextStyleProps } from '@mainset/ui-core';
+import type {
+  HoverStyleProps,
+  LinkStyleProps,
+  TextStyleProps,
+} from '@mainset/ui-core';
 import {
   LINK__CLASS_NAME_CONFIG,
   TEXT_BASE__CLASS_NAME_CONFIG,
@@ -14,7 +18,7 @@ type LinkElementType = 'a' | AnyComponent;
 type LinkProps<C extends LinkElementType = 'a'> = PolymorphicProps<
   'lnkAs',
   C,
-  LinkStyleProps & TextStyleProps
+  LinkStyleProps & TextStyleProps & HoverStyleProps
 >;
 
 /**

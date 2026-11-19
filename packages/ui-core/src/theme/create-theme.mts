@@ -30,7 +30,8 @@ interface CreateThemeOptions {
   /**
    * Any other `--ms-*` values per scheme (canvas, text, borders, focus ring…). They are applied
    * after the tones, so they win. A `--ms-color-bg-canvas` color here is also used as the
-   * background the tone's `subtle` roles are mixed against.
+   * background the tone's `subtle` roles are mixed against, and a `--ms-color-bg-subtle` one as
+   * the surface their `text` / `border` keep WCAG contrast on.
    */
   light?: ThemeCustomProperties;
   dark?: ThemeCustomProperties;
@@ -74,21 +75,24 @@ function toneTokensForScheme(
   tone: Tone,
   input: ToneColorInput,
   scheme: ColorScheme,
-  canvas: string | undefined,
+  surfaces: { canvas?: string; subtle?: string },
 ): ThemeCustomProperties {
   const definition = typeof input === 'string' ? { solid: input } : input;
   const parse = (value: string | undefined, role: string) =>
     value === undefined
       ? undefined
       : parseColorOrThrow(value, `${tone} ${role} color`);
-  const canvasColor = canvas === undefined ? null : parseColor(canvas);
+  // NOTE: an override that isn't a parseable color (e.g. a `var()`) keeps the built-in surface
+  const surface = (value: string | undefined) =>
+    (value === undefined ? null : parseColor(value)) ?? undefined;
 
   const roles = deriveToneRoles(scheme, {
     solid: parseColorOrThrow(definition.solid, `${tone} color`),
     onSolid: parse(definition.onSolid, 'onSolid'),
     text: parse(definition.text, 'text'),
     border: parse(definition.border, 'border'),
-    canvas: canvasColor ?? undefined,
+    canvas: surface(surfaces.canvas),
+    contrastSurface: surface(surfaces.subtle),
   });
 
   return Object.fromEntries(
@@ -132,7 +136,10 @@ function createThemeTokens(options: CreateThemeOptions = {}): ThemeTokens {
           tone,
           isPerScheme(input) ? input[scheme] : input,
           scheme,
-          overrides['--ms-color-bg-canvas'],
+          {
+            canvas: overrides['--ms-color-bg-canvas'],
+            subtle: overrides['--ms-color-bg-subtle'],
+          },
         ),
       );
     }

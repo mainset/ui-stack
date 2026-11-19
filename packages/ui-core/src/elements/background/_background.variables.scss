@@ -8,5 +8,9 @@ $color-map: map.merge(
   theme.tone-token-map('solid'),
   (
     'transparent': transparent,
+    // the scheme's own backgrounds
+    'canvas': var(--ms-color-bg-canvas),
+    'surface': var(--ms-color-bg-surface),
+    'subtle': var(--ms-color-bg-subtle),
   )
 );

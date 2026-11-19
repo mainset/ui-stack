@@ -1,0 +1,35 @@
+@use '../../styles/options';
+
+// Theme layer (mainset look) on top of `icon-tile-normalize.scss`: painted from the current tone
+$icon-tile: '.ms-icon-tile';
+
+@include options.assert-options(
+  'ms-icon-tile',
+  'ictVariant',
+  (outlined, soft, solid)
+);
+@include options.assert-options('ms-icon-tile', 'ictShape', (square, circle));
+
+#{options.where('#{$icon-tile}--shape-square')} {
+  border-radius: var(--ms-icon-tile-radius);
+}
+
+#{options.where('#{$icon-tile}--shape-circle')} {
+  border-radius: var(--ms-border-radius-circle);
+}
+
+#{options.where('#{$icon-tile}--variant-outlined')} {
+  color: var(--ms-tone-text);
+  background-color: var(--ms-icon-tile-outlined-background);
+  border-color: var(--ms-icon-tile-outlined-border-color);
+}
+
+#{options.where('#{$icon-tile}--variant-soft')} {
+  color: var(--ms-tone-text);
+  background-color: var(--ms-tone-subtle);
+}
+
+#{options.where('#{$icon-tile}--variant-solid')} {
+  color: var(--ms-tone-on-solid);
+  background-color: var(--ms-tone-solid);
+}

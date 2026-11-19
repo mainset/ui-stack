@@ -11,6 +11,14 @@ $color-map: map.merge(
     'transparent': transparent,
   )
 );
+
+// `txtColor` also has `subtle`, a scheme color (not a tone, so no hover variant)
+$text-color-map: map.merge(
+  $color-map,
+  (
+    'subtle': var(--ms-color-text-subtle),
+  )
+);
 $family-map: (
   sans: var(--ms-font-family-text-sans),
   serif: var(--ms-font-family-text-serif),
@@ -80,6 +88,22 @@ $size-map-as-style: (
     letter-spacing: var(--ms-letter-spacing-text-xxl),
     line-height: var(--ms-line-height-text-xxl),
   ),
+  // fluid
+  display-sm: (
+    font-size: var(--ms-font-size-display-sm),
+    letter-spacing: var(--ms-letter-spacing-display-sm),
+    line-height: var(--ms-line-height-display-sm),
+  ),
+  display-base: (
+    font-size: var(--ms-font-size-display-base),
+    letter-spacing: var(--ms-letter-spacing-display-base),
+    line-height: var(--ms-line-height-display-base),
+  ),
+  display-lg: (
+    font-size: var(--ms-font-size-display-lg),
+    letter-spacing: var(--ms-letter-spacing-display-lg),
+    line-height: var(--ms-line-height-display-lg),
+  ),
 );
 $weight-map: (
   // css basic
@@ -89,5 +113,22 @@ $weight-map: (
   lighter: lighter,
   bolder: bolder,
   // absolute
-  bold: bold,
+  medium: var(--ms-font-weight-medium),
+  semibold: var(--ms-font-weight-semibold),
+  bold: var(--ms-font-weight-bold),
+);
+$leading-map: (
+  tight: var(--ms-line-height-tight),
+  relaxed: var(--ms-line-height-relaxed),
+);
+$wrap-map-as-style: (
+  balance: (
+    text-wrap: balance,
+  ),
+  pretty: (
+    text-wrap: pretty,
+  ),
+  nowrap: (
+    white-space: nowrap,
+  ),
 );
