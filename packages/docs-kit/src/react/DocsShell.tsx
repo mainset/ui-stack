@@ -2,7 +2,15 @@
 
 import { Button } from '@mainset/react/components';
 import { Drawer } from '@mainset/react/containers';
-import { VisuallyHidden } from '@mainset/react/elements';
+import {
+  Container,
+  Flex,
+  HStack,
+  Hr,
+  Stack,
+  Link as TextLink,
+  VisuallyHidden,
+} from '@mainset/react/elements';
 import React from 'react';
 import { Link, useLocation } from 'react-router';
 
@@ -22,32 +30,43 @@ import { GitHubIcon, MenuIcon } from './icons.js';
 const DOCS_MAIN__ID = 'msd-main';
 
 /** Links to every section, the current one marked */
-function DocsSectionLinks({ className }: { className?: string }) {
+function DocsSectionLinks({
+  isVertical,
+}: {
+  /** In the menu drawer: a column */
+  isVertical?: boolean;
+}) {
   const { site, locale, ui } = useDocs();
   const { pathname } = useLocation();
 
   return (
-    <nav aria-label={ui.sectionNavigation} className={className}>
-      <ul className="msd-section-links">
-        {site.sections.map((section) => {
-          const sectionPath = sectionPagePath(site, section, locale);
-          const isCurrent =
-            pathname === sectionPath || pathname.startsWith(`${sectionPath}/`);
+    <Stack
+      stkAs="nav"
+      aria-label={ui.sectionNavigation}
+      flxDirection={isVertical ? 'column' : 'row'}
+      layAlign={isVertical ? 'flex-start' : 'center'}
+      layGapSize="xs"
+    >
+      {site.sections.map((section) => {
+        const sectionPath = sectionPagePath(site, section, locale);
+        const isCurrent =
+          pathname === sectionPath || pathname.startsWith(`${sectionPath}/`);
 
-          return (
-            <li key={section.id}>
-              <Link
-                to={sectionPath}
-                className="msd-section-links__link"
-                aria-current={isCurrent ? 'true' : undefined}
-              >
-                {resolveLocalized(section.label, locale, site.defaultLocale)}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+        return (
+          <Button
+            key={section.id}
+            btnAs={Link}
+            to={sectionPath}
+            btnSize="sm"
+            srfTheme={isCurrent ? 'primary' : 'muted'}
+            srfVariant={isCurrent ? 'soft' : 'ghost'}
+            aria-current={isCurrent ? 'true' : undefined}
+          >
+            {resolveLocalized(section.label, locale, site.defaultLocale)}
+          </Button>
+        );
+      })}
+    </Stack>
   );
 }
 
@@ -60,46 +79,63 @@ function DocsHeader({ onOpenNavigation }: DocsHeaderProps) {
   const { site, locale, ui, siteTitle, chrome } = useDocs();
 
   return (
-    <header className="msd-header">
-      <div className="msd-header__inner">
-        {onOpenNavigation && (
-          <Button
-            className="msd-header__menu"
-            btnIsIcon
-            srfTheme="muted"
-            srfVariant="ghost"
-            aria-label={ui.openMenu}
-            onClick={onOpenNavigation}
-          >
-            <MenuIcon />
-          </Button>
-        )}
+    // NOTE: the bar is sticky (no position utility in ui-core yet), its row is plain layout
+    <HStack stkAs="header" className="msd-header">
+      <Container className="msd-header__container">
+        <HStack layJustify="space-between" layGapSize="xs">
+          <HStack layGapSize="xs">
+            {onOpenNavigation && (
+              <Flex flxDisplay={{ base: 'flex', md: 'none' }}>
+                <Button
+                  btnIsIcon
+                  srfTheme="muted"
+                  srfVariant="ghost"
+                  aria-label={ui.openMenu}
+                  onClick={onOpenNavigation}
+                >
+                  <MenuIcon />
+                </Button>
+              </Flex>
+            )}
 
-        <Link to={localeHomePath(site, locale)} className="msd-header__brand">
-          {chrome.logo ?? siteTitle}
-        </Link>
+            <HStack layGapSize="base">
+              <TextLink
+                lnkAs={Link}
+                to={localeHomePath(site, locale)}
+                lnkUnderline="none"
+                txtColor="base"
+                txtSize="lg"
+                txtWeight="semibold"
+              >
+                {chrome.logo ?? siteTitle}
+              </TextLink>
 
-        <DocsSectionLinks className="msd-header__sections" />
+              <Flex flxDisplay={{ base: 'none', md: 'flex' }}>
+                <DocsSectionLinks />
+              </Flex>
+            </HStack>
+          </HStack>
 
-        <div className="msd-header__actions">
-          <DocsSearch />
-          <DocsLocaleMenu />
-          <DocsColorSchemeMenu />
-          {site.repositoryUrl && (
-            <Button
-              btnAs="a"
-              href={site.repositoryUrl}
-              btnIsIcon
-              srfTheme="muted"
-              srfVariant="ghost"
-              aria-label={ui.repository}
-            >
-              <GitHubIcon />
-            </Button>
-          )}
-        </div>
-      </div>
-    </header>
+          <HStack layGapSize="xs">
+            <DocsSearch />
+            <DocsLocaleMenu />
+            <DocsColorSchemeMenu />
+            {site.repositoryUrl && (
+              <Button
+                btnAs="a"
+                href={site.repositoryUrl}
+                btnIsIcon
+                srfTheme="muted"
+                srfVariant="ghost"
+                aria-label={ui.repository}
+              >
+                <GitHubIcon />
+              </Button>
+            )}
+          </HStack>
+        </HStack>
+      </Container>
+    </HStack>
   );
 }
 
@@ -149,8 +185,15 @@ function DocsShell({ navigation, children }: DocsShellProps) {
           <Drawer.CloseButton />
         </Drawer.Header>
         <Drawer.Body>
-          <DocsSectionLinks className="msd-shell__drawer-sections" />
-          {navigation}
+          <Stack layGapSize="sm">
+            <DocsSectionLinks isVertical />
+            {navigation && (
+              <>
+                <Hr className="msd-divider" />
+                {navigation}
+              </>
+            )}
+          </Stack>
         </Drawer.Body>
       </Drawer>
     </div>

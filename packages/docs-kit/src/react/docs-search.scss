@@ -53,25 +53,3 @@
     background-color: var(--ms-color-primary-subtle);
   }
 }
-
-.msd-search__result-title {
-  color: var(--ms-color-text-base);
-  font-weight: var(--ms-font-weight-medium);
-}
-
-.msd-search__result-hash {
-  margin-inline-end: var(--ms-space-1);
-  color: var(--ms-color-text-subtle);
-}
-
-.msd-search__result-context {
-  color: var(--ms-color-text-muted);
-  font-size: var(--ms-font-size-text-xs);
-}
-
-.msd-search__empty {
-  padding-block: var(--ms-space-6);
-  color: var(--ms-color-text-muted);
-  font-size: var(--ms-font-size-text-sm);
-  text-align: center;
-}

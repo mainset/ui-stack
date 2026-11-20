@@ -2,7 +2,7 @@
 
 import { Button } from '@mainset/react/components';
 import { Dialog } from '@mainset/react/containers';
-import { Input } from '@mainset/react/elements';
+import { Input, Text } from '@mainset/react/elements';
 import { useIsClient } from '@mainset/react/hooks';
 import React from 'react';
 import { useNavigate } from 'react-router';
@@ -230,31 +230,53 @@ function DocsSearch() {
                 onClick={() => openResult(entry)}
                 onMouseMove={() => setActiveIndex(index)}
               >
-                <span className="msd-search__result-title">
+                <Text txtColor="base" txtWeight="medium">
                   {entry.isHeading && (
-                    <span
-                      className="msd-search__result-hash"
+                    <Text
+                      txtColor="subtle"
+                      spcType="me"
+                      spcScale="element"
+                      spcSize="sm"
                       aria-hidden="true"
                     >
                       #
-                    </span>
+                    </Text>
                   )}
                   {entry.title}
-                </span>
-                <span className="msd-search__result-context">
+                </Text>
+                <Text txtSize="xs" txtColor="muted">
                   {entry.context}
-                </span>
+                </Text>
               </li>
             ))}
           </ul>
 
           {query.trim() && results.length === 0 && (
-            <p className="msd-search__empty" role="status">
+            <Text
+              txtAs="p"
+              txtSize="sm"
+              txtColor="muted"
+              txtAlign="center"
+              spcType="pv"
+              spcScale="component"
+              spcSize="lg"
+              role="status"
+            >
               {ui.searchNoResults}
-            </p>
+            </Text>
           )}
           {!query.trim() && (
-            <p className="msd-search__empty">{ui.searchHint}</p>
+            <Text
+              txtAs="p"
+              txtSize="sm"
+              txtColor="muted"
+              txtAlign="center"
+              spcType="pv"
+              spcScale="component"
+              spcSize="lg"
+            >
+              {ui.searchHint}
+            </Text>
           )}
         </Dialog.Body>
       </Dialog>
