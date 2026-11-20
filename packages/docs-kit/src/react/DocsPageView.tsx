@@ -1,7 +1,17 @@
 'use client';
 
 import { Alert, Breadcrumb } from '@mainset/react/components';
-import { Heading, Text, Link as TextLink } from '@mainset/react/elements';
+import {
+  CardBasic,
+  Flex,
+  Grid,
+  Heading,
+  Hr,
+  Stack,
+  Text,
+  Link as TextLink,
+} from '@mainset/react/elements';
+import { spacingRecipe } from '@mainset/ui-core';
 import React from 'react';
 import { Link, useHref } from 'react-router';
 
@@ -13,6 +23,46 @@ import { useDocs } from './docs-context.js';
 import { DocsHead } from './docs-head.js';
 import { useDocsPage } from './docs-routes.js';
 import { PencilIcon } from './icons.js';
+
+interface PagerCardProps {
+  to: string;
+  rel: 'prev' | 'next';
+  direction: React.ReactNode;
+  title: string;
+}
+
+/** Previous / next: a card that is a link as a whole (one real link inside, its title) */
+function PagerCard({ to, rel, direction, title }: PagerCardProps) {
+  const isNext = rel === 'next';
+
+  return (
+    <CardBasic
+      srfTheme="muted"
+      srfVariant="outlined"
+      srfHover="border"
+      crdIsInteractive
+    >
+      <Stack layGapSize="xs" layAlign={isNext ? 'flex-end' : 'flex-start'}>
+        <Text txtSize="sm" txtColor="muted">
+          {direction}
+        </Text>
+        <TextLink
+          lnkAs={Link}
+          to={to}
+          rel={rel}
+          lnkIsStretched
+          lnkUnderline="none"
+          txtColor="primary"
+          txtWeight="semibold"
+          // NOTE: a flex item is a block, so a long title wraps aligned to its side
+          txtAlign={isNext ? 'end' : undefined}
+        >
+          {title}
+        </TextLink>
+      </Stack>
+    </CardBasic>
+  );
+}
 
 /** A docs page: breadcrumb, title, the compiled content, edit link, previous / next */
 function DocsPageView() {
@@ -47,7 +97,14 @@ function DocsPageView() {
         description={description}
       />
 
-      <Breadcrumb brcLabel={ui.breadcrumb} className="msd-article__breadcrumb">
+      <Breadcrumb
+        brcLabel={ui.breadcrumb}
+        className={spacingRecipe({
+          spcType: 'mb',
+          spcScale: 'component',
+          spcSize: 'sm',
+        })}
+      >
         <Breadcrumb.Item brcAs={Link} to={sectionPath}>
           {sectionLabel}
         </Breadcrumb.Item>
@@ -69,7 +126,13 @@ function DocsPageView() {
         <Breadcrumb.Item brcIsCurrent>{page.label}</Breadcrumb.Item>
       </Breadcrumb>
 
-      <header className="msd-article__header">
+      <Stack
+        stkAs="header"
+        layGapSize="xs"
+        spcType="mb"
+        spcScale="block"
+        spcSize="xs"
+      >
         <Heading hAs="h1" txtSize="display-sm" txtWrap="balance">
           {title}
         </Heading>
@@ -78,10 +141,17 @@ function DocsPageView() {
             {frontmatter.description}
           </Text>
         )}
-      </header>
+      </Stack>
 
       {page.isFallback && (
-        <Alert srfTheme="info" className="msd-article__notice">
+        <Alert
+          srfTheme="info"
+          className={spacingRecipe({
+            spcType: 'mb',
+            spcScale: 'component',
+            spcSize: 'lg',
+          })}
+        >
           {ui.notTranslated}
         </Alert>
       )}
@@ -97,7 +167,15 @@ function DocsPageView() {
         <p role="status">{ui.loading}</p>
       )}
 
-      <footer className="msd-article__footer">
+      <Stack
+        stkAs="footer"
+        layGapSize="base"
+        spcType="mt"
+        spcScale="block"
+        spcSize="base"
+      >
+        <Hr className="msd-divider" />
+
         {section.editUrl && (
           <TextLink
             href={`${section.editUrl}${page.filePath}`}
@@ -110,36 +188,41 @@ function DocsPageView() {
         )}
 
         {(previous || next) && (
-          <nav aria-label={ui.pageNavigation} className="msd-pager">
-            {previous && (
-              <Link
-                to={pagePath(previous.key)}
-                rel="prev"
-                className="msd-pager__link msd-pager__link--previous"
-              >
-                <span className="msd-pager__direction">
-                  {/* NOTE: ‹ › are mirrored by the bidi algorithm, so they point the right
-                      way in right-to-left sections too */}
-                  <span aria-hidden="true">‹</span> {ui.previousPage}
-                </span>
-                <span className="msd-pager__title">{previous.meta.title}</span>
-              </Link>
-            )}
-            {next && (
-              <Link
-                to={pagePath(next.key)}
-                rel="next"
-                className="msd-pager__link msd-pager__link--next"
-              >
-                <span className="msd-pager__direction">
-                  {ui.nextPage} <span aria-hidden="true">›</span>
-                </span>
-                <span className="msd-pager__title">{next.meta.title}</span>
-              </Link>
-            )}
+          <nav aria-label={ui.pageNavigation}>
+            <Grid grdColumns={{ base: 1, sm: 2 }} layGapSize="sm">
+              {previous ? (
+                <PagerCard
+                  to={pagePath(previous.key)}
+                  rel="prev"
+                  // NOTE: ‹ › are mirrored by the bidi algorithm, so they point the right way
+                  // in right-to-left sections too
+                  direction={
+                    <>
+                      <span aria-hidden="true">‹</span> {ui.previousPage}
+                    </>
+                  }
+                  title={previous.meta.title}
+                />
+              ) : (
+                // NOTE: holds the first column, so "next" stays on the end side
+                <Flex flxDisplay={{ base: 'none', sm: 'flex' }} aria-hidden />
+              )}
+              {next && (
+                <PagerCard
+                  to={pagePath(next.key)}
+                  rel="next"
+                  direction={
+                    <>
+                      {ui.nextPage} <span aria-hidden="true">›</span>
+                    </>
+                  }
+                  title={next.meta.title}
+                />
+              )}
+            </Grid>
           </nav>
         )}
-      </footer>
+      </Stack>
     </article>
   );
 }

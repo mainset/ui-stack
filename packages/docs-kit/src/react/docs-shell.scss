@@ -34,6 +34,8 @@
 
 // ========== Header ==========
 
+// NOTE: the row inside is ui-core layout (HStack, Container); this is what ui-core has no
+// utility for yet: a sticky bar with a hairline under it
 .msd-header {
   position: sticky;
   z-index: var(--ms-z-index-sticky);
@@ -44,91 +46,13 @@
   background-color: var(--ms-color-bg-canvas);
 }
 
-.msd-header__inner {
-  display: flex;
-  align-items: center;
-  gap: var(--ms-space-2);
-  block-size: 100%;
-  max-inline-size: var(--msd-page-max-width);
-  margin-inline: auto;
-  padding-inline: var(--ms-space-3);
-
-  @include ms.media-up(md) {
-    padding-inline: var(--ms-space-6);
-  }
+// NOTE: as wide as the three columns below it (a container size of its own)
+.msd-header__container {
+  --ms-container-max-width: var(--msd-page-max-width);
 }
 
-.msd-header__menu {
-  @include ms.media-up(md) {
-    display: none;
-  }
-}
-
-.msd-header__brand {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  margin-inline-end: var(--ms-space-4);
-  font-size: var(--ms-font-size-text-lg);
-  font-weight: var(--ms-font-weight-semibold);
-}
-
-.msd-header__sections {
-  display: none;
-
-  @include ms.media-up(md) {
-    display: block;
-  }
-}
-
-.msd-header__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--ms-space-1);
-  margin-inline-start: auto;
-}
-
-.msd-header__locale-code {
-  font-size: var(--ms-font-size-text-sm);
-  font-weight: var(--ms-font-weight-medium);
-}
-
-// ========== Section links (header, menu drawer) ==========
-
-.msd-section-links {
-  display: flex;
-  gap: var(--ms-space-1);
-  padding: 0;
-  list-style: none;
-}
-
-.msd-section-links__link {
-  display: block;
-  padding: var(--ms-spacing-scale-element-base) var(--ms-space-3);
-  border-radius: var(--ms-border-radius-sm);
-  color: var(--ms-color-text-muted);
-  font-size: var(--ms-font-size-text-sm);
-  font-weight: var(--ms-font-weight-medium);
-  transition: color var(--ms-duration-fast) var(--ms-easing-standard);
-
-  &:hover {
-    background-color: var(--ms-color-bg-subtle);
-    color: var(--ms-color-text-base);
-  }
-
-  &[aria-current] {
-    background-color: var(--ms-color-primary-subtle);
-    color: var(--ms-color-primary-text);
-  }
-}
-
-.msd-shell__drawer-sections {
-  margin-block-end: var(--ms-space-4);
-  padding-block-end: var(--ms-space-4);
-  border-block-end: var(--ms-border-width-base) solid
-    var(--ms-color-border-subtle);
-
-  .msd-section-links {
-    flex-direction: column;
-  }
+// NOTE: `Hr` takes tone colors only, whose borders are solid for the neutral tones; dividers in
+// the chrome are the color scheme's hairline, like the borders around them
+.msd-divider {
+  background-color: var(--ms-color-border-subtle);
 }

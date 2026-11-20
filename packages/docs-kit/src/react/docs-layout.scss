@@ -181,16 +181,6 @@
   }
 }
 
-.msd-toc__title {
-  margin-block-end: var(--ms-space-3);
-  color: var(--ms-color-text-subtle);
-  font-family: var(--ms-overline-font-family);
-  font-size: var(--ms-overline-font-size);
-  font-weight: var(--ms-overline-font-weight);
-  letter-spacing: var(--ms-overline-letter-spacing);
-  text-transform: uppercase;
-}
-
 .msd-toc__list {
   padding: 0;
   border-inline-start: var(--ms-border-width-base) solid
@@ -238,20 +228,6 @@
   }
 }
 
-.msd-toc-disclosure__label {
-  flex-shrink: 0;
-  font-weight: var(--ms-font-weight-semibold);
-}
-
-.msd-toc-disclosure__current {
-  flex: 1 1 auto;
-  min-inline-size: 0;
-  overflow: hidden;
-  color: var(--ms-color-text-muted);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .msd-toc-disclosure__chevron {
   flex-shrink: 0;
   margin-inline-start: auto;
@@ -270,77 +246,10 @@
   margin-inline: auto;
 }
 
-.msd-article__breadcrumb {
-  margin-block-end: var(--ms-space-4);
-}
-
-.msd-article__header {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ms-space-3);
-  margin-block-end: var(--ms-space-8);
-}
-
-.msd-article__notice {
-  margin-block-end: var(--ms-space-6);
-}
-
-.msd-article__footer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ms-space-6);
-  margin-block-start: var(--ms-space-12);
-  padding-block-start: var(--ms-space-6);
-  border-block-start: var(--ms-border-width-base) solid
-    var(--ms-color-border-subtle);
-}
-
 .msd-article__edit {
   display: inline-flex;
   align-items: center;
   align-self: flex-start;
   gap: var(--ms-spacing-scale-element-base);
   font-size: var(--ms-font-size-text-sm);
-}
-
-.msd-pager {
-  display: grid;
-  gap: var(--ms-space-4);
-
-  @include ms.media-up(sm) {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.msd-pager__link {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ms-space-1);
-  padding: var(--ms-space-4);
-  border: var(--ms-border-width-base) solid var(--ms-color-border-default);
-  border-radius: var(--ms-border-radius-base);
-  transition: border-color var(--ms-duration-fast) var(--ms-easing-standard);
-
-  &:hover {
-    border-color: var(--ms-color-primary-border);
-  }
-}
-
-.msd-pager__link--next {
-  align-items: flex-end;
-  text-align: end;
-
-  @include ms.media-up(sm) {
-    grid-column: 2;
-  }
-}
-
-.msd-pager__direction {
-  color: var(--ms-color-text-muted);
-  font-size: var(--ms-font-size-text-sm);
-}
-
-.msd-pager__title {
-  color: var(--ms-color-primary-text);
-  font-weight: var(--ms-font-weight-semibold);
 }

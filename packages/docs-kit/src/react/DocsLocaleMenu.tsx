@@ -2,6 +2,7 @@
 
 import { Button } from '@mainset/react/components';
 import { Menu } from '@mainset/react/containers';
+import { Text } from '@mainset/react/elements';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -27,9 +28,9 @@ function DocsLocaleMenu() {
           btnIconStart={<GlobeIcon />}
           aria-label={`${ui.language}: ${site.locales[locale].label}`}
         >
-          <span className="msd-header__locale-code">
+          <Text txtSize="sm" txtWeight="medium">
             {locale.toUpperCase()}
-          </span>
+          </Text>
         </Button>
       </Menu.Trigger>
       <Menu.List aria-label={ui.language}>

@@ -1,5 +1,6 @@
 'use client';
 
+import { Heading, Stack, Text } from '@mainset/react/elements';
 import React from 'react';
 
 import type { DocsHeading } from '../core/docs.types.mjs';
@@ -40,12 +41,12 @@ function DocsToc({ headings, activeHeadingId, label }: DocsTocProps) {
   const titleId = React.useId();
 
   return (
-    <nav aria-labelledby={titleId} className="msd-toc">
-      <h2 id={titleId} className="msd-toc__title">
+    <Stack stkAs="nav" aria-labelledby={titleId} layGapSize="xs">
+      <Heading hAs="h2" id={titleId} txtVariant="overline" txtColor="subtle">
         {label}
-      </h2>
+      </Heading>
       <TocList headings={headings} activeHeadingId={activeHeadingId} />
-    </nav>
+    </Stack>
   );
 }
 
@@ -66,11 +67,11 @@ function DocsTocDisclosure({ headings, activeHeadingId, label }: DocsTocProps) {
         }}
       >
         <summary className="msd-toc-disclosure__summary">
-          <span className="msd-toc-disclosure__label">{label}</span>
+          <Text txtWeight="semibold">{label}</Text>
           {activeHeading && (
-            <span className="msd-toc-disclosure__current">
+            <Text txtColor="muted" txtIsTruncated>
               {activeHeading.text}
-            </span>
+            </Text>
           )}
           <ChevronIcon className="msd-toc-disclosure__chevron" />
         </summary>
