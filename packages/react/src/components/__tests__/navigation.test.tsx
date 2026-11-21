@@ -3,9 +3,9 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { click, render } from '../../test/dom.js';
-import { Breadcrumb } from './Breadcrumb/index.mjs';
-import { Pagination } from './Pagination/index.mjs';
+import { click, render } from '../../../test/dom.js';
+import { Breadcrumb } from '../Breadcrumb/index.mjs';
+import { Pagination } from '../Pagination/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
 

@@ -2,8 +2,8 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
-import { Spinner } from './Spinner/index.mjs';
-import { VisuallyHidden } from './VisuallyHidden/index.mjs';
+import { Spinner } from '../Spinner/index.mjs';
+import { VisuallyHidden } from '../VisuallyHidden/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
 

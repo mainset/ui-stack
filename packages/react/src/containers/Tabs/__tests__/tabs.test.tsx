@@ -2,8 +2,14 @@
 import React from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { allByRole, byRole, click, press, render } from '../../../test/dom.js';
-import { Tabs } from './Tabs.js';
+import {
+  allByRole,
+  byRole,
+  click,
+  press,
+  render,
+} from '../../../../test/dom.js';
+import { Tabs } from '../Tabs.js';
 
 function AccountTabs(props: Partial<React.ComponentProps<typeof Tabs>>) {
   return (

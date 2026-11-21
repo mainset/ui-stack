@@ -2,14 +2,14 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
-import { Button } from '../components/Button/index.mjs';
-import { ButtonBasic } from './ButtonBasic/index.mjs';
-import { Flex } from './Flex/index.mjs';
-import { Grid } from './Grid/index.mjs';
-import { Section } from './Section/index.mjs';
-import { Spacing } from './Spacing/index.mjs';
-import { Surface } from './Surface/index.mjs';
-import { Heading } from './Typography/index.mjs';
+import { Button } from '../../components/Button/index.mjs';
+import { ButtonBasic } from '../ButtonBasic/index.mjs';
+import { Flex } from '../Flex/index.mjs';
+import { Grid } from '../Grid/index.mjs';
+import { Section } from '../Section/index.mjs';
+import { Spacing } from '../Spacing/index.mjs';
+import { Surface } from '../Surface/index.mjs';
+import { Heading } from '../Typography/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
 

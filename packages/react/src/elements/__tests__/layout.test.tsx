@@ -2,10 +2,10 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
-import { Box } from './Box/index.mjs';
-import { Container } from './Container/index.mjs';
-import { Grid } from './Grid/index.mjs';
-import { Cluster, HStack, Stack } from './Stack/index.mjs';
+import { Box } from '../Box/index.mjs';
+import { Container } from '../Container/index.mjs';
+import { Grid } from '../Grid/index.mjs';
+import { Cluster, HStack, Stack } from '../Stack/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
 

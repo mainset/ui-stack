@@ -10,11 +10,11 @@ import {
   pointerDown,
   press,
   render,
-} from '../../../test/dom.js';
-import { Button } from '../../components/Button/index.mjs';
-import { Dialog } from '../Dialog/index.mjs';
-import { MainSetProvider } from '../MainSetContext/MainSetProvider.js';
-import { Menu } from './Menu.js';
+} from '../../../../test/dom.js';
+import { Button } from '../../../components/Button/index.mjs';
+import { Dialog } from '../../Dialog/index.mjs';
+import { MainSetProvider } from '../../MainSetContext/MainSetProvider.js';
+import { Menu } from '../Menu.js';
 
 const onRename = vi.fn();
 const onDelete = vi.fn();

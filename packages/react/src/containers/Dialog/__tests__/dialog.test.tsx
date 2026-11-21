@@ -10,12 +10,12 @@ import {
   nextFrame,
   press,
   render,
-} from '../../../test/dom.js';
-import { Button } from '../../components/Button/index.mjs';
-import { useOverlay } from '../MainSetContext/MainSetContext.mjs';
-import { MainSetProvider } from '../MainSetContext/MainSetProvider.js';
-import { Dialog, Drawer } from './Dialog.js';
-import { useDialog } from './DialogContext.mjs';
+} from '../../../../test/dom.js';
+import { Button } from '../../../components/Button/index.mjs';
+import { useOverlay } from '../../MainSetContext/MainSetContext.mjs';
+import { MainSetProvider } from '../../MainSetContext/MainSetProvider.js';
+import { Dialog, Drawer } from '../Dialog.js';
+import { useDialog } from '../DialogContext.mjs';
 
 function OpenButton({
   id,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { createTheme, createThemeTokens, parseColor } from './index.mjs';
+import { createTheme, createThemeTokens, parseColor } from '../index.mjs';
 
 describe('createThemeTokens', () => {
   // NOTE: the built-in derivation for #0f766e, also documented in docs/css-overrides.md

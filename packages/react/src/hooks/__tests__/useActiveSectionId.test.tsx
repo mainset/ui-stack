@@ -2,8 +2,8 @@
 import React from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { nextFrame, render } from '../../test/dom.js';
-import { useActiveSectionId } from './useActiveSectionId.mjs';
+import { nextFrame, render } from '../../../test/dom.js';
+import { useActiveSectionId } from '../useActiveSectionId.mjs';
 
 const SECTION_TOPS: Record<string, number> = {
   intro: -400,

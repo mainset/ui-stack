@@ -2,8 +2,8 @@
 import React from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { click, press, render } from '../../../test/dom.js';
-import { Accordion } from './Accordion.js';
+import { click, press, render } from '../../../../test/dom.js';
+import { Accordion } from '../Accordion.js';
 
 function Faq(props: Partial<React.ComponentProps<typeof Accordion>>) {
   return (

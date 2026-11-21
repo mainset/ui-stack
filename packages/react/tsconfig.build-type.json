@@ -7,5 +7,5 @@
     "rootDir": ".",
     "outDir": "./dist/types"
   },
-  "exclude": ["src/**/*.test.*"]
+  "exclude": ["src/**/__tests__/**"]
 }

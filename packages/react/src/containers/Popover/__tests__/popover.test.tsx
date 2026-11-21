@@ -10,12 +10,12 @@ import {
   pointerDown,
   press,
   render,
-} from '../../../test/dom.js';
-import { Button } from '../../components/Button/index.mjs';
-import { Dialog } from '../Dialog/index.mjs';
-import { MainSetProvider } from '../MainSetContext/MainSetProvider.js';
-import { Tooltip } from '../Tooltip/index.mjs';
-import { Popover } from './Popover.js';
+} from '../../../../test/dom.js';
+import { Button } from '../../../components/Button/index.mjs';
+import { Dialog } from '../../Dialog/index.mjs';
+import { MainSetProvider } from '../../MainSetContext/MainSetProvider.js';
+import { Tooltip } from '../../Tooltip/index.mjs';
+import { Popover } from '../Popover.js';
 
 function Filters() {
   return (

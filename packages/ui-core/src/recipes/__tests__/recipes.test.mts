@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import { spacingRecipe, spacingStyleProps } from '../elements/index.mjs';
-import { LAYOUT__CLASS_NAME_CONFIG } from '../elements/index.mjs';
-import { composeStyleProps } from '../utils/index.mjs';
+import { spacingRecipe, spacingStyleProps } from '../../elements/index.mjs';
+import { LAYOUT__CLASS_NAME_CONFIG } from '../../elements/index.mjs';
+import { composeStyleProps } from '../../utils/index.mjs';
 import {
   boxStyleProps,
   buttonRecipe,
@@ -13,7 +13,7 @@ import {
   selectWrapperRecipe,
   surfaceRecipe,
   toneRecipe,
-} from './index.mjs';
+} from '../index.mjs';
 
 const classes = (className: string) => className.split(' ').sort();
 

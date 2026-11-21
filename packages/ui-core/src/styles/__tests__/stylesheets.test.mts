@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-const stylesDir = import.meta.dirname;
+const stylesDir = path.join(import.meta.dirname, '..');
 const elementsDir = path.join(stylesDir, '../elements');
 const reactDir = path.join(stylesDir, '../../../react/src');
 

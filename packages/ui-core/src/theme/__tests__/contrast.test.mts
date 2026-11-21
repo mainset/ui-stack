@@ -4,7 +4,7 @@ import {
   type ContrastPair,
   contrastPairs,
   passesWcag,
-} from '../../scripts/contrast-pairs.mjs';
+} from '../../../scripts/contrast-pairs.mjs';
 
 // NOTE: the feedback hues are hand-picked and due to be regenerated; until then light text on their
 // solids is short of AA. Listed so a new gap still fails, and an entry that passes must be removed.

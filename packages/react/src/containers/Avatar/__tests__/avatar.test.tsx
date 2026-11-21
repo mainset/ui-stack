@@ -3,10 +3,10 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { render } from '../../../test/dom.js';
-import { AvatarGroup } from '../../components/AvatarGroup/index.mjs';
-import { Avatar } from './Avatar.js';
-import { avatarInitials } from './avatar-initials.mjs';
+import { render } from '../../../../test/dom.js';
+import { AvatarGroup } from '../../../components/AvatarGroup/index.mjs';
+import { Avatar } from '../Avatar.js';
+import { avatarInitials } from '../avatar-initials.mjs';
 
 let unmount: () => void = () => undefined;
 

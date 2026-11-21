@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { readFieldValue } from './useFormHandler.mjs';
+import { readFieldValue } from '../useFormHandler.mjs';
 
 describe('readFieldValue', () => {
   it('reads checked for checkboxes and switches', () => {

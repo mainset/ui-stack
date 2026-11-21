@@ -3,17 +3,17 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { render } from '../../test/dom.js';
-import { Button } from '../components/Button/index.mjs';
-import { Animate } from '../containers/Animate/index.mjs';
-import { AspectRatio } from './AspectRatio/index.mjs';
-import { Badge } from './Badge/index.mjs';
-import { Box } from './Box/index.mjs';
-import { CardBasic } from './CardBasic/index.mjs';
-import { IconTile } from './IconTile/index.mjs';
-import { Link } from './Link/index.mjs';
-import { ListBasic } from './ListBasic/index.mjs';
-import { Heading, Text } from './Typography/index.mjs';
+import { render } from '../../../test/dom.js';
+import { Button } from '../../components/Button/index.mjs';
+import { Animate } from '../../containers/Animate/index.mjs';
+import { AspectRatio } from '../AspectRatio/index.mjs';
+import { Badge } from '../Badge/index.mjs';
+import { Box } from '../Box/index.mjs';
+import { CardBasic } from '../CardBasic/index.mjs';
+import { IconTile } from '../IconTile/index.mjs';
+import { Link } from '../Link/index.mjs';
+import { ListBasic } from '../ListBasic/index.mjs';
+import { Heading, Text } from '../Typography/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
 const classes = (markup: string) =>

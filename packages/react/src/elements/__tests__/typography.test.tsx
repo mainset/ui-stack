@@ -2,8 +2,8 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
-import { Link } from './Link/index.mjs';
-import { Text, TextSection } from './Typography/index.mjs';
+import { Link } from '../Link/index.mjs';
+import { Text, TextSection } from '../Typography/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
 

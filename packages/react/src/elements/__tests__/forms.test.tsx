@@ -2,9 +2,9 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
-import { Field } from '../components/Field/index.mjs';
-import { Checkbox, Radio, Switch } from './Choice/index.mjs';
-import { Input, Select, Textarea } from './Input/index.mjs';
+import { Field } from '../../components/Field/index.mjs';
+import { Checkbox, Radio, Switch } from '../Choice/index.mjs';
+import { Input, Select, Textarea } from '../Input/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
 

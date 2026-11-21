@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { paginationRange } from './pagination-range.mjs';
+import { paginationRange } from '../pagination-range.mjs';
 
 const pages = (page: number, pageCount: number, extra = {}) =>
   paginationRange({ page, pageCount, ...extra });

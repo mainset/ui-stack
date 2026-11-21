@@ -3,10 +3,10 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { click, render } from '../../test/dom.js';
-import { Progress } from './Progress/index.mjs';
-import { Skeleton } from './Skeleton/index.mjs';
-import { Table } from './Table/index.mjs';
+import { click, render } from '../../../test/dom.js';
+import { Progress } from '../Progress/index.mjs';
+import { Skeleton } from '../Skeleton/index.mjs';
+import { Table } from '../Table/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
 

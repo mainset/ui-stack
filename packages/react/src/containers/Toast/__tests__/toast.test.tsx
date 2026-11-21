@@ -3,11 +3,11 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { byText, click, render } from '../../../test/dom.js';
-import { Alert } from '../../components/Alert/index.mjs';
-import { MainSetProvider } from '../MainSetContext/MainSetProvider.js';
-import type { ToastContextValue } from './ToastContext.mjs';
-import { useToast } from './ToastContext.mjs';
+import { byText, click, render } from '../../../../test/dom.js';
+import { Alert } from '../../../components/Alert/index.mjs';
+import { MainSetProvider } from '../../MainSetContext/MainSetProvider.js';
+import type { ToastContextValue } from '../ToastContext.mjs';
+import { useToast } from '../ToastContext.mjs';
 
 let api: ToastContextValue;
 function Capture() {
