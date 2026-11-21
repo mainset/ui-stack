@@ -8,7 +8,9 @@ import { Alert } from '../components/Alert/index.mjs';
 import { AvatarGroup } from '../components/AvatarGroup/index.mjs';
 import { Breadcrumb } from '../components/Breadcrumb/index.mjs';
 import { Button } from '../components/Button/index.mjs';
+import { Disclosure } from '../components/Disclosure/index.mjs';
 import { Field } from '../components/Field/index.mjs';
+import { NavList } from '../components/NavList/index.mjs';
 import { Pagination } from '../components/Pagination/index.mjs';
 import { Accordion } from '../containers/Accordion/index.mjs';
 import { Animate } from '../containers/Animate/index.mjs';
@@ -23,11 +25,14 @@ import { useToast } from '../containers/Toast/index.mjs';
 import { Tooltip } from '../containers/Tooltip/index.mjs';
 import { CardBasic } from '../elements/CardBasic/index.mjs';
 import { Checkbox } from '../elements/Choice/index.mjs';
+import { Code } from '../elements/Code/index.mjs';
 import { Container } from '../elements/Container/index.mjs';
 import { IconTile } from '../elements/IconTile/index.mjs';
 import { Input, Select } from '../elements/Input/index.mjs';
+import { KeyboardKey } from '../elements/KeyboardKey/index.mjs';
 import { Link } from '../elements/Link/index.mjs';
 import { Progress } from '../elements/Progress/index.mjs';
+import { Prose } from '../elements/Prose/index.mjs';
 import { Section } from '../elements/Section/index.mjs';
 import { Skeleton } from '../elements/Skeleton/index.mjs';
 import { Stack } from '../elements/Stack/index.mjs';
@@ -383,16 +388,18 @@ function Contents() {
 
   return (
     <nav aria-label="Contents">
-      {SECTION_IDS.map((id) => (
-        <Link
-          key={id}
-          href={`#${id}`}
-          lnkUnderline="hover"
-          aria-current={id === activeId ? 'location' : undefined}
-        >
-          {titles[id]}
-        </Link>
-      ))}
+      <NavList navVariant="line">
+        {SECTION_IDS.map((id) => (
+          <NavList.Item key={id}>
+            <NavList.Link
+              href={`#${id}`}
+              aria-current={id === activeId ? 'location' : undefined}
+            >
+              {titles[id]}
+            </NavList.Link>
+          </NavList.Item>
+        ))}
+      </NavList>
     </nav>
   );
 }
@@ -475,4 +482,46 @@ it('the landing-page examples compile and render', () => {
   expect(markup).toContain('ms-animate--state-enter');
   expect(markup).toContain('ms-hover--nudge-end');
   expect(markup).toContain('aria-haspopup="menu"');
+});
+
+it('the code, prose, disclosure and nav list examples compile and render', () => {
+  const markdownHtml = '<h2>Install</h2>';
+  const markup = renderToStaticMarkup(
+    <>
+      <Text txtAs="p">
+        Run <Code>pnpm build</Code>, or press <KeyboardKey>⌘K</KeyboardKey>.
+      </Text>
+      <Prose
+        prsAs="article"
+        dangerouslySetInnerHTML={{ __html: markdownHtml }}
+      />
+      <Disclosure dscSummary="Shipping">Free over 50 €.</Disclosure>
+      <nav aria-label="Docs">
+        <NavList>
+          <NavList.Item>
+            <NavList.Link navAs={RouterLink} to="/docs" aria-current="page">
+              Introduction
+            </NavList.Link>
+          </NavList.Item>
+          <NavList.Item>
+            <NavList.Group navLabel="Elements" open>
+              <NavList>
+                <NavList.Item>
+                  <NavList.Link href="/docs/button">Button</NavList.Link>
+                </NavList.Item>
+              </NavList>
+            </NavList.Group>
+          </NavList.Item>
+        </NavList>
+      </nav>
+    </>,
+  );
+
+  expect(markup).toContain('<code class="ms-code">pnpm build</code>');
+  expect(markup).toContain(
+    '<article class="ms-prose"><h2>Install</h2></article>',
+  );
+  expect(markup).toContain('<details class="ms-disclosure">');
+  expect(markup).toContain('<details class="ms-nav-list__group" open="">');
+  expect(markup).toContain('aria-current="page">Introduction</a>');
 });

@@ -2,7 +2,10 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 
+import { Code } from '../Code/index.mjs';
+import { KeyboardKey } from '../KeyboardKey/index.mjs';
 import { Link } from '../Link/index.mjs';
+import { Prose } from '../Prose/index.mjs';
 import { Text, TextSection } from '../Typography/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
@@ -50,5 +53,27 @@ describe('Link', () => {
     ).toBe(
       '<a href="/pricing" class="ms-link ms-link--underline-hover ms-text">Pricing</a>',
     );
+  });
+});
+
+describe('Code, KeyboardKey, Prose', () => {
+  it('render their tag with the element class', () => {
+    expect(html(<Code>pnpm build</Code>)).toBe(
+      '<code class="ms-code">pnpm build</code>',
+    );
+    expect(html(<KeyboardKey className="x">⌘K</KeyboardKey>)).toBe(
+      '<kbd class="x ms-keyboard-key">⌘K</kbd>',
+    );
+  });
+
+  it('Prose renders any block tag, with raw html', () => {
+    expect(
+      html(
+        <Prose
+          prsAs="article"
+          dangerouslySetInnerHTML={{ __html: '<p>a</p>' }}
+        />,
+      ),
+    ).toBe('<article class="ms-prose"><p>a</p></article>');
   });
 });

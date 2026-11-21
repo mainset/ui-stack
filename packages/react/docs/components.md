@@ -68,12 +68,15 @@ gutters) > `Stack` (the gap between children).
 
 ## Typography (`elements`)
 
-| Component   | Props                                                         | Notes                                                 |
-| ----------- | ------------------------------------------------------------- | ----------------------------------------------------- |
-| `Heading`   | `hAs` (`h1`–`h6`, default `h1`), `txt*`                       | the level sets a default size; `txtSize` overrides it |
-| `Text`      | `txtAs` (span, p, small, strong, code…), `txt*`, spacing      | `TextSection` is an alias                             |
-| `Paragraph` | `txt*`, spacing                                               | a `<p>`                                               |
-| `Link`      | `lnkAs`, `lnkUnderline` (`always` · `hover` · `none`), `txt*` | current tone's text color                             |
+| Component     | Props                                                         | Notes                                                 |
+| ------------- | ------------------------------------------------------------- | ----------------------------------------------------- |
+| `Heading`     | `hAs` (`h1`–`h6`, default `h1`), `txt*`                       | the level sets a default size; `txtSize` overrides it |
+| `Text`        | `txtAs` (span, p, small, strong, code…), `txt*`, spacing      | `TextSection` is an alias                             |
+| `Paragraph`   | `txt*`, spacing                                               | a `<p>`                                               |
+| `Link`        | `lnkAs`, `lnkUnderline` (`always` · `hover` · `none`), `txt*` | current tone's text color                             |
+| `Code`        | `<code>` props                                                | a code span in running text (`ms-code`)               |
+| `KeyboardKey` | `<kbd>` props                                                 | a key or a shortcut (`ms-keyboard-key`), one per key  |
+| `Prose`       | `prsAs` (`div` · `article` · `section`)                       | rich text without classes: markdown, CMS (`ms-prose`) |
 
 ```tsx
 <Heading hAs="h1" txtSize="lg">Settings</Heading> {/* the page's h1, toolbar-sized */}
@@ -91,6 +94,15 @@ gutters) > `Stack` (the gap between children).
 <Heading hAs="h2" txtSize="display-sm" txtWrap="balance">Find any document</Heading>
 <Text txtAs="p" txtVariant="lead" txtColor="muted" txtWrap="pretty">…</Text>
 ```
+
+```tsx
+<Text txtAs="p">Run <Code>pnpm build</Code>, or press <KeyboardKey>⌘K</KeyboardKey>.</Text>
+<Prose prsAs="article" dangerouslySetInnerHTML={{ __html: markdownHtml }} />
+```
+
+`Prose` styles headings, lists, quotes, inline code, keys and links of markup you don't write
+(class-less elements only, so a component inside keeps its own look). See
+[ui-core Prose](../../ui-core/docs/elements.md#prose).
 
 ## Actions (`components` / `elements`)
 
@@ -466,7 +478,7 @@ toast({
 `toast()` returns the id, `dismissToast(id)` closes it. At most 5 are shown. Name the list in
 your language with `<MainSetProvider toastRegionLabel="Сповіщення">`.
 
-## Disclosure (`containers`)
+## Disclosure (`containers` / `components`)
 
 ### Tabs
 
@@ -506,6 +518,17 @@ close, default `true`), `accHeadingAs` (the triggers' heading level, default `h3
 page outline), `accOpenIds` + `accOnOpenChange` (controlled); item `accIsDisabled`. Panels open
 and close with a height animation; collapsed ones stay in the DOM (`inert`, hidden from
 assistive tech). ↑ / ↓ / Home / End move between triggers.
+
+### Disclosure (`components`)
+
+```tsx
+<Disclosure dscSummary="Shipping">Free over 50 €.</Disclosure>
+```
+
+A native `<details>` in the disclosure look: opens and closes without script (static pages,
+before hydration). Props: `dscSummary` (always shown, opens and closes the rest),
+`dscSummaryProps`; `open` / `onToggle` are the element's own. For sections that open one at a
+time, or a height animation, use `Accordion`.
 
 ## Data display
 
@@ -633,6 +656,35 @@ Props: `brcSeparator` (default `/`; `›` is mirrored in RTL text, an icon may n
 fragment. `Breadcrumb.Item`: `brcAs` (a router link), `brcIsCurrent` (`aria-current="page"`);
 it's a `span` unless it has an `href` or a `brcAs`.
 
+### NavList
+
+```tsx
+<nav aria-label="Docs">
+  <NavList>
+    <NavList.Item>
+      <NavList.Link navAs={RouterLink} to="/docs" aria-current="page">
+        Introduction
+      </NavList.Link>
+    </NavList.Item>
+    <NavList.Item>
+      <NavList.Group navLabel="Elements" open>
+        <NavList>
+          <NavList.Item>
+            <NavList.Link href="/docs/button">Button</NavList.Link>
+          </NavList.Item>
+        </NavList>
+      </NavList.Group>
+    </NavList.Item>
+  </NavList>
+</nav>
+```
+
+A vertical list of links (a sidebar, the contents of a page). The current link is the one with
+`aria-current` (`page`, `location`, …). Props: `navVariant` (`soft` default: the current row
+tinted · `line`: marked on a guide line, for "On this page"). `NavList.Link`: `navAs` (a router
+link). `NavList.Group`: `navLabel`; a native `<details>` (`open` / `onToggle`), so it opens
+without script; put the group's own `NavList` inside. Nested lists are indented on a guide line.
+
 ### Table of contents (`useActiveSectionId`, `hooks`)
 
 Scroll-spy: the id of the section being read, the last one whose top passed the reading line
@@ -643,15 +695,17 @@ on the server and in the first render. Mark its link `aria-current="location"`.
 const activeId = useActiveSectionId(SECTION_IDS);
 
 <nav aria-label="Contents">
-  {SECTION_IDS.map((id) => (
-    <Link
-      key={id}
-      href={`#${id}`}
-      lnkUnderline="hover"
-      aria-current={id === activeId ? 'location' : undefined}
-    >
-      {titles[id]}
-    </Link>
-  ))}
+  <NavList navVariant="line">
+    {SECTION_IDS.map((id) => (
+      <NavList.Item key={id}>
+        <NavList.Link
+          href={`#${id}`}
+          aria-current={id === activeId ? 'location' : undefined}
+        >
+          {titles[id]}
+        </NavList.Link>
+      </NavList.Item>
+    ))}
+  </NavList>
 </nav>;
 ```

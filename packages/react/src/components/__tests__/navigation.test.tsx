@@ -5,6 +5,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { click, render } from '../../../test/dom.js';
 import { Breadcrumb } from '../Breadcrumb/index.mjs';
+import { Disclosure } from '../Disclosure/index.mjs';
+import { NavList } from '../NavList/index.mjs';
 import { Pagination } from '../Pagination/index.mjs';
 
 const html = (element: React.ReactElement) => renderToStaticMarkup(element);
@@ -113,6 +115,79 @@ describe('Breadcrumb', () => {
       ),
     ).toContain(
       '<a href="/docs" data-router="" class="ms-breadcrumb__link">Docs</a>',
+    );
+  });
+});
+
+describe('NavList', () => {
+  it('renders a list of whole-row links, soft by default', () => {
+    expect(
+      html(
+        <NavList>
+          <NavList.Item>
+            <NavList.Link href="/a" aria-current="page">
+              A
+            </NavList.Link>
+          </NavList.Item>
+        </NavList>,
+      ),
+    ).toBe(
+      '<ul class="ms-nav-list ms-nav-list--variant-soft"><li class="ms-nav-list__item">' +
+        '<a class="ms-nav-list__link" href="/a" aria-current="page">A</a></li></ul>',
+    );
+  });
+
+  it('keeps a router link and its props, and takes the line variant', () => {
+    const RouterLink = ({
+      to,
+      ...props
+    }: { to: string } & React.ComponentProps<'a'>) => (
+      <a href={to} data-router="" {...props} />
+    );
+
+    const markup = html(
+      <NavList navVariant="line">
+        <NavList.Item>
+          <NavList.Link navAs={RouterLink} to="/b">
+            B
+          </NavList.Link>
+        </NavList.Item>
+      </NavList>,
+    );
+
+    expect(markup).toContain('class="ms-nav-list ms-nav-list--variant-line"');
+    expect(markup).toContain(
+      '<a href="/b" data-router="" class="ms-nav-list__link">B</a>',
+    );
+  });
+
+  it('groups a nested list in a native details with a chevron', () => {
+    expect(
+      html(
+        <NavList.Group navLabel="Elements" open>
+          <NavList />
+        </NavList.Group>,
+      ),
+    ).toBe(
+      '<details class="ms-nav-list__group" open=""><summary class="ms-nav-list__group-label">' +
+        '<span>Elements</span><span class="ms-disclosure__icon" aria-hidden="true"></span></summary>' +
+        '<ul class="ms-nav-list ms-nav-list--variant-soft"></ul></details>',
+    );
+  });
+});
+
+describe('Disclosure', () => {
+  it('is a native details: summary trigger with the icon, then the content', () => {
+    expect(
+      html(
+        <Disclosure dscSummary="Shipping" dscSummaryProps={{ id: 's' }}>
+          Free over 50 €.
+        </Disclosure>,
+      ),
+    ).toBe(
+      '<details class="ms-disclosure"><summary id="s" class="ms-disclosure__trigger">Shipping' +
+        '<span class="ms-disclosure__icon" aria-hidden="true"></span></summary>' +
+        '<div class="ms-disclosure__panel-content">Free over 50 €.</div></details>',
     );
   });
 });
