@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { extractInternalLinks } from './static-export.mjs';
+import { extractInternalLinks } from '../static-export.mjs';
 
 describe('extractInternalLinks', () => {
   it('follows the pages a page links to, under the base path only', () => {

@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { defineDocsSection, defineDocsSite } from './define-docs.mjs';
+import { defineDocsSection, defineDocsSite } from '../define-docs.mjs';
 import type {
   DocsContentContext,
   DocsMarkdownModule,
   DocsNavCategory,
   DocsPageFrontmatter,
-} from './docs.types.mjs';
-import { findNavTrail, findSiblingPages } from './nav-tree.mjs';
+} from '../docs.types.mjs';
+import { findNavTrail, findSiblingPages } from '../nav-tree.mjs';
 
 const page = (
   title: string,

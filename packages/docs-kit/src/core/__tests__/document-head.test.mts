@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { applyDocumentHead } from './document-head.mjs';
+import { applyDocumentHead } from '../document-head.mjs';
 
 const TEMPLATE = `<!doctype html>
 <html lang="en" data-theme="system">

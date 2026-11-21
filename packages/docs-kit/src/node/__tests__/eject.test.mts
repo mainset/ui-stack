@@ -7,8 +7,8 @@ import {
   ENGINE_FILE_TARGETS,
   ejectDocsApp,
   toProjectSource,
-} from './eject.mjs';
-import { ENGINE_SOURCE__PATH } from './engine-paths.mjs';
+} from '../eject.mjs';
+import { ENGINE_SOURCE__PATH } from '../engine-paths.mjs';
 
 describe('toProjectSource', () => {
   it("imports the kit by its name, and the engine's files at their new places", () => {

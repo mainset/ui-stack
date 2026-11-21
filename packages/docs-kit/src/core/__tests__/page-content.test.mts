@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import type { DocsPage } from './docs.types.mjs';
+import type { DocsPage } from '../docs.types.mjs';
 import {
   loadPageContent,
   readPageContent,
   resolvePageLinks,
-} from './page-content.mjs';
+} from '../page-content.mjs';
 
 const fakePage = (filePath: string, loadContent: DocsPage['loadContent']) =>
   ({ sectionId: 'test', filePath, loadContent }) as DocsPage;

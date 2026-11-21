@@ -4,7 +4,7 @@ import {
   FrontmatterError,
   checkFrontmatter,
   parseFrontmatter,
-} from './frontmatter.mjs';
+} from '../frontmatter.mjs';
 
 const lineOf = (source: string) => {
   try {

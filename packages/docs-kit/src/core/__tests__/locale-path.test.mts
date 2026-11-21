@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { defineDocsSite } from './define-docs.mjs';
+import { defineDocsSite } from '../define-docs.mjs';
 import {
   localeHomePath,
   sectionPagePath,
   splitLocalePath,
   switchLocalePath,
-} from './locale-path.mjs';
+} from '../locale-path.mjs';
 
 const SITE = defineDocsSite({
   title: 'Docs',

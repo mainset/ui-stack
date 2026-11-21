@@ -3,7 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { checkCategoriesConfig } from './categories-loader.mjs';
+import { checkCategoriesConfig } from '../categories-loader.mjs';
 
 describe('checkCategoriesConfig', () => {
   let contentDir: string;

@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import type { DocsContentContext } from '../core/docs.types.mjs';
+import type { DocsContentContext } from '../../core/docs.types.mjs';
 import {
   createDocsAppI18n,
   createDocsAppRoutes,
   createDocsAppSite,
   readTranslations,
   splitSectionContents,
-} from './docs-app.js';
+} from '../docs-app.js';
 
 const page = (title: string) => ({
   meta: { title, description: '', headings: [], frontmatter: {} },

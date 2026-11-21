@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { compileMarkdown } from './compile-markdown.mjs';
+import { compileMarkdown } from '../compile-markdown.mjs';
 
 const FILE_PATH = '/repo/src/pages/ui-core/content/en/03-elements/01-box.md';
 

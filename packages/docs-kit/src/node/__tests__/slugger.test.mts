@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { createSlugger, slugify } from './slugger.mjs';
+import { createSlugger, slugify } from '../slugger.mjs';
 
 describe('slugify', () => {
   it.each([

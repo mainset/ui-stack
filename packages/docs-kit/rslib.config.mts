@@ -18,11 +18,11 @@ const generatedConfig = generateReactRslibConfig({
   },
   source: {
     entry: {
-      // NOTE: tests run from source (vitest), they don't ship
+      // NOTE: tests (`__tests__/`) run from source (vitest), they don't ship
       // NOTE: the engine's HTML template ships as a source file, html-webpack-plugin reads it
       index: [
         srcGlob('/**/*'),
-        `!${srcGlob('/**/*.test.*')}`,
+        `!${srcGlob('/**/__tests__/**')}`,
         `!${srcGlob('/**/*.html')}`,
       ],
     },
