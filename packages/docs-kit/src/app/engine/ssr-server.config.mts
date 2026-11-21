@@ -1,16 +1,14 @@
 import { runtimePathById } from '@mainset/cli/runtime';
 import type { SSRConfigParams } from '@mainset/cli/ssr-server';
-import { applyDocumentHead } from '@mainset/docs-kit';
 import fs from 'fs';
 import path from 'path';
 import ReactDOMServer from 'react-dom/server';
 
-import provideServerReactApp from '../src/app.server';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import proxyConfigByPath from './proxy.config.mjs';
+import { applyDocumentHead } from '../../index.mjs';
+import { APP_ROOT__ID } from './app.constants.js';
+import provideServerReactApp from './app.server.js';
 
-const APP_ROOT__PLACEHOLDER = '<div id="ui-stack--docs"></div>';
+const APP_ROOT__PLACEHOLDER = `<div id="${APP_ROOT__ID}"></div>`;
 
 const ssrServerConfig: SSRConfigParams = {
   serveStatics: [
@@ -18,10 +16,9 @@ const ssrServerConfig: SSRConfigParams = {
       rootPath: path.join(runtimePathById.dist, 'public'),
     },
   ],
-  proxyConfigByPath,
   renderSSRContentByPath: {
     // NOTE: also what `ms-docs export` calls for every page of the static site
-    '/{*any}': async ({ fullUrl }) => {
+    async '/{*any}'({ fullUrl }) {
       const template = await fs.promises.readFile(
         path.join(runtimePathById.dist, 'public', 'server.html'),
         'utf8',
@@ -35,7 +32,7 @@ const ssrServerConfig: SSRConfigParams = {
       return {
         html: applyDocumentHead(template, head).replace(
           APP_ROOT__PLACEHOLDER,
-          `<div id="ui-stack--docs">${appHtml}</div>`,
+          `<div id="${APP_ROOT__ID}">${appHtml}</div>`,
         ),
         status,
       };

@@ -1,5 +1,3 @@
-import type { DocsDocumentHead } from '@mainset/docs-kit';
-import { DocsHeadContext } from '@mainset/docs-kit';
 import { MainSetProvider } from '@mainset/react/containers';
 import React from 'react';
 import {
@@ -8,16 +6,13 @@ import {
   createStaticRouter,
 } from 'react-router';
 
-import { ROUTER_BASENAME } from './router.constants';
-import { ROUTES } from './routes';
+import type { DocsDocumentHead } from '../../index.mjs';
+import { DocsHeadContext } from '../../index.mjs';
+import { ROUTER_BASENAME } from './app.constants.js';
+import { ROUTES } from './app.routes.js';
 
-type ProvideServerReactAppParams = {
-  fullUrl: string;
-};
-
-const provideServerReactApp = async ({
-  fullUrl,
-}: ProvideServerReactAppParams) => {
+/** The page at {fullUrl}: its element, its `<head>` (filled while it renders) and its status */
+async function provideServerReactApp({ fullUrl }: { fullUrl: string }) {
   const { query, dataRoutes } = createStaticHandler(ROUTES, {
     basename: ROUTER_BASENAME,
   });
@@ -31,7 +26,7 @@ const provideServerReactApp = async ({
   }
 
   const staticRouter = createStaticRouter(dataRoutes, routerContext);
-  // NOTE: filled while the element renders (title, description, lang, dir)
+  // NOTE: filled while the element renders (title, description, lang, dir, links)
   const head: DocsDocumentHead = {};
 
   return {
@@ -46,6 +41,6 @@ const provideServerReactApp = async ({
     // NOTE: 404 from the not-found route's loader
     status: routerContext.statusCode,
   };
-};
+}
 
 export default provideServerReactApp;

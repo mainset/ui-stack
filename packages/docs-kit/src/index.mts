@@ -15,3 +15,5 @@ export {
   findSiblingPages,
 } from './core/nav-tree.mjs';
 export * from './react/index.mjs';
+// The docs app: `defineDocsApp`, and what the engine builds the app with
+export * from './app/index.mjs';

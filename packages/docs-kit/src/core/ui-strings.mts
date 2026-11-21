@@ -29,6 +29,11 @@ const UI_STRINGS__EN = {
   copiedCode: 'Copied',
   previewLabel: 'Preview',
   loading: 'Loading',
+  readTheDocs: 'Read the docs',
+  viewSource: 'View on GitHub',
+  notFoundTitle: 'Page not found',
+  notFoundText: "The page you are looking for doesn't exist, or it has moved.",
+  backHome: 'Back to the home page',
 };
 
 type DocsUiStrings = typeof UI_STRINGS__EN;
@@ -62,6 +67,11 @@ const UI_STRINGS__UK: DocsUiStrings = {
   copiedCode: 'Скопійовано',
   previewLabel: 'Приклад',
   loading: 'Завантаження',
+  readTheDocs: 'Читати документацію',
+  viewSource: 'Відкрити на GitHub',
+  notFoundTitle: 'Сторінку не знайдено',
+  notFoundText: 'Сторінки, яку ви шукаєте, не існує, або її перенесено.',
+  backHome: 'На головну',
 };
 
 const UI_STRINGS__BY_LOCALE: Record<string, DocsUiStrings> = {

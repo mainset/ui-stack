@@ -1,11 +1,11 @@
-import { preloadDocsRoute } from '@mainset/docs-kit';
 import ReactDOMClient from 'react-dom/client';
 
-import BrowserReactApp from './app.browser';
-import { ROUTER_BASENAME } from './router.constants';
-import { ROUTES } from './routes';
+import { preloadDocsRoute } from '../../index.mjs';
+import BrowserReactApp from './app.browser.js';
+import { APP_ROOT__ID, ROUTER_BASENAME } from './app.constants.js';
+import { ROUTES } from './app.routes.js';
 
-const targetContainer = document.getElementById('ui-stack--docs');
+const targetContainer = document.getElementById(APP_ROOT__ID);
 
 if (targetContainer) {
   // NOTE: the server rendered the page's HTML (its own chunk), the first client render needs it

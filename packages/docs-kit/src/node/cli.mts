@@ -2,14 +2,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
+import { ejectDocsApp } from './eject.mjs';
 import { exportStaticSite } from './static-export.mjs';
 import { previewStaticSite } from './static-preview.mjs';
 
-const USAGE = `Usage: ms-docs <export | preview> [options]
+const USAGE = `Usage: ms-docs <export | preview | eject> [options]
 
 export   renders every page of an ms-cli SSR build (run \`ms-cli web-app --exec build\` first)
          into static HTML, following the site's links from the entries
 preview  serves the export like a static host would (GitHub Pages), to check it locally
+eject    copies the app engine (entries, server render, routes, HTML template) into the
+         project, to change it; the project's copies are built instead of the kit's
 
 Options:
   --out <dir>          output folder (default: dist/static)
@@ -37,7 +40,10 @@ async function runDocsCli(argv: string[]) {
 
   const [command] = positionals;
 
-  if (values.help || (command !== 'export' && command !== 'preview')) {
+  if (
+    values.help ||
+    (command !== 'export' && command !== 'preview' && command !== 'eject')
+  ) {
     process.stdout.write(USAGE);
     process.exit(values.help ? 0 : 1);
   }
@@ -46,6 +52,22 @@ async function runDocsCli(argv: string[]) {
   const envFile = path.join(process.cwd(), '.env');
 
   if (fs.existsSync(envFile)) process.loadEnvFile(envFile);
+
+  if (command === 'eject') {
+    try {
+      const { files } = ejectDocsApp();
+
+      console.log(
+        `\n✅ [ms-docs] the engine is in the project now:\n${files.map((file) => `   ${file}`).join('\n')}\n\n` +
+          "   config/webpack.config.mjs (docsWebpackConfig) builds these instead of the kit's.\n",
+      );
+    } catch (error) {
+      console.error(error instanceof Error ? error.message : error);
+      process.exit(1);
+    }
+
+    return;
+  }
 
   if (command === 'preview') {
     previewStaticSite({

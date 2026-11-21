@@ -1,5 +1,5 @@
-// The welcome message, centered in the screen below the header
-.docs-home {
+// The home and not-found pages: their message centered in the screen, below the header
+.msd-centered-page {
   display: flex;
   align-items: center;
   min-block-size: calc(100vh - var(--msd-header-height));
