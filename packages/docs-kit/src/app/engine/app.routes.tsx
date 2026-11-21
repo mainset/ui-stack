@@ -1,6 +1,5 @@
 import config from '@docs-app/config';
 import content from '@docs-app/content';
-import Home from '@docs-app/home';
 import NotFound from '@docs-app/not-found';
 import Providers from '@docs-app/providers';
 import routes from '@docs-app/routes';
@@ -22,9 +21,8 @@ const DOCS_SITE = createDocsAppSite(config, { content, translations });
 const ROUTES = createDocsAppRoutes(DOCS_SITE, {
   i18n: createDocsAppI18n(DOCS_SITE, translations),
   logo: config.logo,
-  Home,
-  NotFound,
   routes,
+  NotFound,
   Providers,
 });
 

@@ -14,9 +14,11 @@ const SITE = defineDocsSite({
   locales: { en: { label: 'English' }, uk: { label: 'Українська' } },
   sections: [],
 });
-const SECTION = { id: 'ui-core', path: 'ui-core' } as Parameters<
-  typeof sectionPagePath
->[1];
+const SECTION = {
+  id: 'ui-core',
+  path: 'ui-core',
+  pagePath: (pageKey: string) => pageKey,
+} as Parameters<typeof sectionPagePath>[1];
 
 describe('locale paths', () => {
   it('leaves the default locale unprefixed', () => {

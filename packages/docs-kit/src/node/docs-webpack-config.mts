@@ -14,8 +14,9 @@ import type { DocsMarkdownLoaderOptions } from './webpack-loader.mjs';
 
 // The whole docs app, as one `ms-cli` webpack config: the project's `config/webpack.config.mjs`
 // is `export default docsWebpackConfig()`. The engine (entries, server render, HTML template)
-// is the kit's; the project brings its config, pages and translations, and the optional files
-// below. A project file of the engine (after `ms-docs eject`) takes the place of the kit's.
+// is the kit's; the project brings its config, routes (its home page among them), pages and
+// translations, and the optional files below. A project file of the engine (after
+// `ms-docs eject`) takes the place of the kit's.
 
 type WebpackConfig = NonNullable<
   Parameters<typeof generateEnvBasedWebpackConfig>[0]
@@ -50,25 +51,34 @@ function findProjectFile(root: string, filePath: string): string | undefined {
   return fs.existsSync(projectPath) ? projectPath : undefined;
 }
 
-/** `@docs-app/*`: the project's files, the kit's defaults where the project has none */
+/** `@docs-app/*`: the project's files, the kit's defaults for the optional ones it lacks */
 function resolveAppAliases(root: string): Record<string, string> {
-  const config = findProjectModule(root, 'docs.config');
+  const required = (name: string, hint: string) => {
+    const filePath = findProjectModule(root, name);
 
-  if (!config) {
-    throw new Error(
-      `[docs-kit] no src/docs.config.tsx in ${root}: export default defineDocsApp({ … }) from it`,
-    );
-  }
+    if (!filePath) {
+      throw new Error(
+        `[docs-kit] no src/${name}.tsx in ${root}: ${hint} (\`ms-docs init\` creates a project)`,
+      );
+    }
+
+    return filePath;
+  };
 
   const optional = (name: string, defaultModule: string) =>
     findProjectModule(root, name) ??
     path.join(APP_DIST__PATH, 'defaults', defaultModule);
 
   return {
-    '@docs-app/config$': config,
-    '@docs-app/home$': optional('home', 'home.mjs'),
+    '@docs-app/config$': required(
+      'docs.config',
+      'export default defineDocsApp({ … }) from it',
+    ),
+    '@docs-app/routes$': required(
+      'routes',
+      'export default its pages, the home page among them',
+    ),
     '@docs-app/not-found$': optional('not-found', 'not-found.mjs'),
-    '@docs-app/routes$': optional('routes', 'routes.mjs'),
     '@docs-app/providers$': optional('providers', 'providers.mjs'),
     '@docs-app/content$': path.join(APP_DIST__PATH, 'generated', 'content.mjs'),
     '@docs-app/translations$': path.join(

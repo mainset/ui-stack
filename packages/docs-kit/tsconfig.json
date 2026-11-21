@@ -7,5 +7,7 @@
     "rootDir": ".",
     "outDir": "./dist/esm",
     "types": ["node"]
-  }
+  },
+  // NOTE: the files of `ms-docs init` are a project's, not the kit's (they import the kit by name)
+  "exclude": ["node_modules", "dist", "templates"]
 }

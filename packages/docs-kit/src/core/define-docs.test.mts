@@ -29,10 +29,14 @@ const SECTION = defineDocsSection({
   label: 'UI Core',
   content: fakeContext({
     './en/index.md': page('Introduction'),
-    './en/01-getting-started/_category.json': {
-      label: 'Getting started',
-      collapsed: false,
+    './_categories.json': {
+      'getting-started': { collapsed: false },
+      // NOTE: no such folder: left out (the loader warns at build time)
+      'no-such-folder': { collapsed: false },
     },
+    './en/_categories.json': { 'getting-started': 'Getting started' },
+    // NOTE: only a locale's own file is read
+    './en/02-elements/_categories.json': { elements: 'Ignored' },
     './en/01-getting-started/02-browser-support.md': page('Browser support'),
     './en/01-getting-started/01-installation.md': page('Installation'),
     './en/02-elements/index.md': page('Elements'),
@@ -40,8 +44,8 @@ const SECTION = defineDocsSection({
     './en/02-elements/alpha.md': page('Alpha'),
     './en/02-elements/first.md': page('First', { sidebar: { order: 1 } }),
     './en/02-elements/hidden.md': page('Hidden', { sidebar: { hidden: true } }),
-    './uk/01-getting-started/_category.json': {
-      default: { label: 'Початок роботи' },
+    './uk/_categories.json': {
+      default: { 'getting-started': 'Початок роботи' },
     },
     './uk/01-getting-started/01-installation.md': page('Встановлення'),
     // NOTE: webpack also lists files by module path when `resolve.modules` holds the folder
@@ -135,9 +139,49 @@ describe('defineDocsSection / defineDocsSite', () => {
       contentLocale: 'en',
       filePath: 'en/01-getting-started/02-browser-support.md',
     });
-    // a category label per locale (`{ default }` JSON modules too), the built-in Overview label
+    // a category label per locale (`{ default }` JSON modules too), the section's
+    // `collapsed` in every locale, the built-in Overview label
     expect(labels(nav)).toEqual(['Introduction', 'Початок роботи', 'Elements']);
+    expect((nav[1] as DocsNavCategory).isCollapsed).toBe(false);
     expect((nav[2] as DocsNavCategory).items[0].label).toBe('Огляд');
+  });
+
+  it("gives a category its `path` in the URL, the folder's name without one", () => {
+    const pathSection = defineDocsSite({
+      title: 'Docs',
+      defaultLocale: 'en',
+      locales: { en: { label: 'English' }, uk: { label: 'Українська' } },
+      sections: [
+        defineDocsSection({
+          id: 'ui-core',
+          label: 'UI Core',
+          content: fakeContext({
+            './_categories.json': {
+              elements: { path: 'components' },
+              'elements/data-display': { path: 'data' },
+            },
+            './en/index.md': page('Introduction'),
+            './en/01-start/01-install.md': page('Install'),
+            './en/02-elements/index.md': page('Elements'),
+            './en/02-elements/01-data-display/01-table.md': page('Table'),
+          }),
+        }),
+      ],
+    }).sections[0];
+    const { pageByKey } = pathSection.getLocaleIndex('uk');
+
+    expect(
+      Array.from(pageByKey.values()).map(({ key, path }) => [key, path]),
+    ).toEqual([
+      ['', ''],
+      ['start/install', 'start/install'],
+      ['elements', 'components'],
+      ['elements/data-display/table', 'components/data/table'],
+    ]);
+    // NOTE: also a key with no page (a link to a heading of a category without an index)
+    expect(pathSection.pagePath('elements/data-display')).toBe(
+      'components/data',
+    );
   });
 
   it('finds the categories above a page', () => {

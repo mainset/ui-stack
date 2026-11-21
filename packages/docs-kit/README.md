@@ -1,8 +1,9 @@
 # @mainset/docs-kit
 
 A documentation site from a folder of localized markdown pages: install the kit, write the
-pages, run `ms-cli`. The app itself (entries, server render, routes, HTML template) is the kit's,
-so it updates with the package; the project holds only its config, pages and translations.
+pages, run `ms-cli`. The app engine (entries, server render, HTML template) is the kit's, so it
+updates with the package; the project holds its config, its own pages (the home page among
+them), the markdown pages and translations.
 Server-rendered while you write, exported as static HTML for any static host (GitHub Pages).
 
 - **Two sidebars.** The pages on the start side, folders as collapsible categories; "On this
@@ -18,6 +19,15 @@ Server-rendered while you write, exported as static HTML for any static host (Gi
 
 ## A docs project
 
+```sh
+npx -p @mainset/docs-kit ms-docs init my-docs   # or, in a project: ms-docs init
+cd my-docs && pnpm install && pnpm run dev
+```
+
+`ms-docs init [dir]` creates the project below: the config, the home page and its route, a first
+section, the scripts and dependencies. It never overwrites a file: in an existing project it adds
+only the files it lacks, and only the scripts and dependencies `package.json` lacks.
+
 ```
 my-docs/
 ├── package.json                  @mainset/docs-kit, @mainset/cli (+ the kit's peers)
@@ -25,12 +35,12 @@ my-docs/
 ├── public/favicon.svg
 └── src/
     ├── docs.config.tsx           export default defineDocsApp({ … })
+    ├── routes.tsx                your pages: the home page (index route), any others
     ├── pages/
+    │   ├── home/home.page.tsx    the home page (any folder outside `*/content` is yours)
     │   └── ui-core/content/      ← a section: `src/pages/<section>/content/<locale>/**`
     ├── i18n/locales/             optional: <locale>/translation.json
-    ├── home.tsx                  optional: replaces the home page
     ├── not-found.tsx             optional: replaces the not-found page
-    ├── routes.tsx                optional: your own routes, next to the docs
     ├── providers.tsx             optional: wraps every page (analytics, contexts…)
     └── styles/global.scss        optional: after ui-core's reset (theme tokens)
 ```
@@ -74,27 +84,28 @@ export default defineDocsApp({
 });
 ```
 
-**Translations**, `src/i18n/locales/<locale>/translation.json`: your components' strings
-(`useTranslation()` from `react-i18next`, one instance per locale), the default home page's texts
-and rewordings of the interface:
+**Translations**, `src/i18n/locales/<locale>/translation.json`: your pages' strings
+(`useTranslation()` from `@mainset/docs-kit`, the kit's `react-i18next`, one instance per
+locale) and rewordings of the interface:
 
 ```json
 {
   "home": {
     "overline": "mainset UI stack",
     "title": "One design system, any framework",
-    "lead": "CSS elements, tokens and themes…",
-    "description": "The page's <meta> description (default: the lead)"
+    "lead": "CSS elements, tokens and themes…"
   },
   "ui": { "search": "Find" }
 }
 ```
 
-**Optional files**, each a default export:
+**`src/routes.tsx`**, your pages, in every locale (relative paths: `/about`, `/uk/about`). The
+home page is the index route: the kit has none, the app fails to start without it. The docs pages and
+the not-found page come after these routes:
 
 ```tsx
-// src/routes.tsx: the paths are relative, in every locale (`/about`, `/uk/about`)
 const routes: DocsAppRoutes = (locale) => [
+  { index: true, element: <HomePage /> },
   {
     path: 'about',
     element: (
@@ -105,17 +116,22 @@ const routes: DocsAppRoutes = (locale) => [
   },
 ];
 export default routes;
+```
 
+**Optional files**, each a default export:
+
+```tsx
 // src/providers.tsx
 const Providers: DocsAppProviders = ({ locale, children }) => (
   <Analytics>{children}</Analytics>
 );
 export default Providers;
 
-// src/home.tsx, src/not-found.tsx: a component; `DocsHomePage` / `DocsNotFoundPage` are the defaults
+// src/not-found.tsx: a component; `DocsNotFoundPage` is the default
 ```
 
-Your pages use the same frame: `<DocsShell><main id={DOCS_MAIN__ID}>…</main></DocsShell>`, and
+Your pages use the same frame: `<DocsShell><main id={DOCS_MAIN__ID}>…</main></DocsShell>`
+(`<DocsCenteredMain>` for a message centered below the header, like the home page's), and
 `useDocs()` for the site, the locale and the interface strings.
 
 ### `ms-docs eject`
@@ -131,21 +147,46 @@ It never overwrites a file. The engine is the kit's until then: don't add those 
 
 ```
 src/pages/ui-core/content/          ← a section (any name)
+├── _categories.json                ← optional: the categories' order, collapsed
 ├── en/                             ← a locale: the default one defines the pages
 │   ├── index.md                    → /ui-core
-│   ├── 01-getting-started/         ← a category (the `01-` orders it, it's not in the URL)
-│   │   ├── _category.json          ← { "label": "Getting started", "collapsed": false }
+│   ├── 01-getting-started/         ← a category "Getting started" (the `01-` orders it,
+│   │   │                             it's not in the URL)
 │   │   └── 01-installation.md      → /ui-core/getting-started/installation
 │   └── 02-elements/
 │       ├── index.md                → /ui-core/elements (the category's "Overview")
 │       └── 01-layout/…             ← categories nest
 └── uk/                             → /uk/ui-core/…, same file names
-    ├── 01-getting-started/_category.json   ← { "label": "Початок роботи" }
+    ├── _categories.json            ← optional: the categories' labels
     └── 01-getting-started/01-installation.md
 ```
 
 Order: `sidebar.order` in the frontmatter, else the `01-` prefix, else alphabetical; a folder's
 `index.md` comes first.
+
+A category is named after its folder (`02-data-display` → "Data display"). What the folders
+don't give is in two kinds of `_categories.json`, each for every category of the section at
+once, keyed by the folder's path without the `01-` prefixes (the path of its URL):
+
+```jsonc
+// content/_categories.json: the structure, the same in every locale
+{
+  "getting-started": { "collapsed": false },
+  "elements": { "path": "components" } // /ui-core/components/…
+}
+
+// content/uk/_categories.json: a locale's labels, any of them
+{ "getting-started": "Початок роботи", "elements/layout": "Макет" }
+```
+
+`path` (default: the folder's name), its segment of the URL, the same in every locale: the
+keys stay the folders', and so do the links between pages (`../03-elements/….md`), the kit
+points them at the URL. `collapsed` (default `true`: closed until it holds the current page),
+`order` (default: the `01-` prefix). A category without a label in the locale gets the default locale's, else its
+folder's name: the default locale needs a file only to rename a folder (`{ "api": "API" }`). A
+key that names no folder, a label in the structure, a setting among the labels, a `path` that
+isn't one URL segment or two folders at one URL is a build warning. A changed `path` is a new
+URL: the old one isn't redirected.
 
 ## Writing pages
 
@@ -209,12 +250,12 @@ export with the same base path: `PUBLIC_PATH=/repo/`.
 
 ## Entries
 
-| Import                           | Holds                                                                       |
-| -------------------------------- | --------------------------------------------------------------------------- |
-| `@mainset/docs-kit`              | `defineDocsApp`, routes, React components and hooks (browser and server)    |
-| `@mainset/docs-kit/node`         | `docsWebpackConfig`, `ejectDocsApp`, `compileMarkdown`, `exportStaticSite`… |
-| `@mainset/docs-kit/global-types` | types for `*.md` modules and `import.meta.webpackContext`                   |
-| `ms-docs` (bin)                  | `export`, `preview`, `eject`                                                |
+| Import                           | Holds                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------ |
+| `@mainset/docs-kit`              | `defineDocsApp`, routes, React components and hooks (browser and server) |
+| `@mainset/docs-kit/node`         | `docsWebpackConfig`, `initDocsApp`, `ejectDocsApp`, `exportStaticSite`…  |
+| `@mainset/docs-kit/global-types` | types for `*.md` modules and `import.meta.webpackContext`                |
+| `ms-docs` (bin)                  | `init`, `export`, `preview`, `eject`                                     |
 
 The pure model (`src/core`: content registry, sidebar tree, locale paths) has no React and no
 Node; the markdown compiler (`src/node`) is a plain function with a thin webpack loader around it,

@@ -20,7 +20,9 @@ function sectionPagePath(
   locale: string,
   pageKey = '',
 ): string {
-  return `${localePrefix(site, locale)}/${section.path}${pageKey ? `/${pageKey}` : ''}`;
+  const pagePath = section.pagePath(pageKey);
+
+  return `${localePrefix(site, locale)}/${section.path}${pagePath ? `/${pagePath}` : ''}`;
 }
 
 /** The locale a path is in, and the path without its locale prefix */

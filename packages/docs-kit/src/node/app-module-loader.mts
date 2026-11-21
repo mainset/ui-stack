@@ -22,10 +22,11 @@ const APP_FOLDER_MODULE__BY_NAME: Record<
   Exclude<DocsAppModule, 'public-path'>,
   { dir: string[]; regExp: string }
 > = {
-  // `src/pages/<section>/content/<locale>/**`: the pages and the categories' `_category.json`
+  // `src/pages/<section>/content/<locale>/**`: the pages, the section's and each locale's
+  // `_categories.json`
   content: {
     dir: ['src', 'pages'],
-    regExp: String.raw`/^\.\/[^/]+\/content\/.+\.(md|json)$/`,
+    regExp: String.raw`/^\.\/[^/]+\/content\/(.+\.md|([^/]+\/)?_categories\.json)$/`,
   },
   // `src/i18n/locales/<locale>/translation.json`
   translations: {

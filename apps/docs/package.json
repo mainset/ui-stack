@@ -17,14 +17,12 @@
     "@mainset/docs-kit": "workspace:^",
     "@mainset/react": "workspace:^",
     "@mainset/ui-core": "workspace:^",
-    "i18next": "26.7.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "react-i18next": "17.1.13",
     "react-router": "8.5.1"
   },
   "devDependencies": {
-    "@mainset/bundler-webpack": "^0.5.0",
+    "@mainset/bundler-webpack": "^0.5.1",
     "@mainset/cli": "0.7.6",
     "@mainset/dev-stack-fe": "^0.2.4",
     "@types/react": "^19.3.0",

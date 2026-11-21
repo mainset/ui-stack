@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 
 import type { DocsContentContext } from '../core/docs.types.mjs';
 import {
+  createDocsAppI18n,
+  createDocsAppRoutes,
   createDocsAppSite,
   readTranslations,
   splitSectionContents,
@@ -21,7 +23,7 @@ const fakeContext = (modules: Record<string, unknown>): DocsContentContext =>
 const CONTENT = fakeContext({
   './zeta/content/en/index.md': page('Zeta'),
   './ui-core/content/en/index.md': page('Introduction'),
-  './ui-core/content/en/01-start/_category.json': { label: 'Start' },
+  './ui-core/content/en/_categories.json': { start: 'Start' },
   './ui-core/content/en/01-start/01-install.md': page('Install'),
   './ui-core/content/uk/index.md': page('Вступ'),
   './Home/HomePage.md': page('not a section'),
@@ -45,12 +47,12 @@ describe('splitSectionContents', () => {
     expect(Array.from(sections.keys())).toEqual(['zeta', 'ui-core']);
     expect(sections.get('ui-core')!.keys()).toEqual([
       './en/index.md',
-      './en/01-start/_category.json',
+      './en/_categories.json',
       './en/01-start/01-install.md',
       './uk/index.md',
     ]);
-    expect(sections.get('ui-core')!('./en/01-start/_category.json')).toEqual({
-      label: 'Start',
+    expect(sections.get('ui-core')!('./en/_categories.json')).toEqual({
+      start: 'Start',
     });
   });
 });
@@ -113,5 +115,50 @@ describe('createDocsAppSite', () => {
         { content: CONTENT, translations: null },
       ),
     ).toThrow('sections.react: there is no src/pages/react/content folder');
+  });
+});
+
+describe('createDocsAppRoutes', () => {
+  const site = createDocsAppSite(CONFIG, {
+    content: CONTENT,
+    translations: null,
+  });
+  const options = {
+    i18n: createDocsAppI18n(site, null),
+    NotFound: () => null,
+  };
+
+  it("puts the project's routes, its home page among them, before the docs pages", () => {
+    const [enRoot] = createDocsAppRoutes(site, {
+      ...options,
+      routes: (locale) => [
+        { index: true, element: locale },
+        { path: 'about', element: locale },
+      ],
+    });
+    const [layout] = enRoot.children!;
+
+    expect(layout.children!.slice(0, 2)).toEqual([
+      { index: true, element: 'en' },
+      { path: 'about', element: 'en' },
+    ]);
+  });
+
+  it('takes a home page inside a pathless layout route', () => {
+    expect(() =>
+      createDocsAppRoutes(site, {
+        ...options,
+        routes: [{ children: [{ index: true, element: null }] }],
+      }),
+    ).not.toThrow();
+  });
+
+  it('fails without a home page', () => {
+    expect(() =>
+      createDocsAppRoutes(site, {
+        ...options,
+        routes: [{ path: 'about', element: null }],
+      }),
+    ).toThrow('src/routes.tsx has no home page for the locale "en"');
   });
 });

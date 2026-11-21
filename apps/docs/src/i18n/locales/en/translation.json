@@ -1,19 +1,8 @@
 {
-  "page": {
-    "home": {
-      "meta": {
-        "description": "Docs of the mainset UI: framework-agnostic CSS elements, tokens and themes, and their React components."
-      },
-      "overline": "mainset UI stack",
-      "title": "One design system, any framework",
-      "lead": "CSS elements, design tokens and live themes that work in plain HTML, React or any template, in any language and direction.",
-      "readTheDocs": "Read the docs",
-      "sourceCode": "View on GitHub"
-    },
-    "notFound": {
-      "title": "Page not found",
-      "text": "The page you are looking for doesn't exist, or it has moved.",
-      "backHome": "Back to the home page"
-    }
+  "home": {
+    "overline": "mainset UI stack",
+    "title": "One design system, any framework",
+    "lead": "CSS elements, design tokens and live themes that work in plain HTML, React or any template, in any language and direction.",
+    "description": "Docs of the mainset UI: framework-agnostic CSS elements, tokens and themes, and their React components."
   }
 }

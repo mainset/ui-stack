@@ -1,5 +1,5 @@
 // The project's files, as the engine imports them. `docsWebpackConfig()` resolves each name to
-// the project's file, or to the kit's default when the project has none.
+// the project's file; an optional one (not-found, providers) to the kit's default without it.
 
 declare module '@docs-app/config' {
   import type { DocsAppConfig } from '../../index.mjs';
@@ -7,14 +7,6 @@ declare module '@docs-app/config' {
   /** `src/docs.config.tsx` */
   const config: DocsAppConfig;
   export default config;
-}
-
-declare module '@docs-app/home' {
-  import type { ComponentType } from 'react';
-
-  /** `src/home.tsx`, else the kit's `DocsHomePage` */
-  const Home: ComponentType;
-  export default Home;
 }
 
 declare module '@docs-app/not-found' {
@@ -28,7 +20,7 @@ declare module '@docs-app/not-found' {
 declare module '@docs-app/routes' {
   import type { DocsAppRoutes } from '../../index.mjs';
 
-  /** `src/routes.tsx`, else none */
+  /** `src/routes.tsx`: the project's pages, its home page among them */
   const routes: DocsAppRoutes;
   export default routes;
 }

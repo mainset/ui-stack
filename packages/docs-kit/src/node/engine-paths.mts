@@ -31,4 +31,12 @@ const APP_DIST__PATH = path.join(PACKAGE_ROOT, 'dist', 'esm', 'app');
  */
 const ENGINE_SOURCE__PATH = path.join(PACKAGE_ROOT, 'src', 'app', 'engine');
 
-export { APP_DIST__PATH, ENGINE_SOURCE__PATH };
+/** The files `ms-docs init` creates a project from (`templates/init/`) */
+const INIT_TEMPLATE__PATH = path.join(PACKAGE_ROOT, 'templates', 'init');
+
+export {
+  APP_DIST__PATH,
+  ENGINE_SOURCE__PATH,
+  INIT_TEMPLATE__PATH,
+  PACKAGE_ROOT,
+};

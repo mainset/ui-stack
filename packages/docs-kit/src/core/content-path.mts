@@ -36,7 +36,7 @@ function contentPathToPageKey(relativePath: string): string {
   return segments.join('/');
 }
 
-/** `layout`, `layout/box` → `Layout`, `Box` (a folder without a `_category.json` label) */
+/** `layout`, `layout/box` → `Layout`, `Box` (a folder without a label in `_categories.json`) */
 function humanizeSegment(name: string): string {
   const words = name.replace(/[-_]+/g, ' ').trim();
 

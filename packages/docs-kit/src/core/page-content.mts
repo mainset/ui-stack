@@ -50,13 +50,21 @@ const PAGE_LINK__REGEX = new RegExp(
 
 /**
  * Points the compiled links between pages (`msd:layout/box#props`) at their URLs in this
- * section and locale. {sectionHref} is a real href, basename included: `/uk/ui-core`.
+ * section and locale. {sectionHref} is a real href, basename included: `/uk/ui-core`;
+ * {toPagePath} turns a page key into its URL inside the section (`DocsSection.pagePath`).
  */
-function resolvePageLinks(html: string, sectionHref: string): string {
+function resolvePageLinks(
+  html: string,
+  sectionHref: string,
+  toPagePath: (pageKey: string) => string = (pageKey) => pageKey,
+): string {
   return html.replace(
     PAGE_LINK__REGEX,
-    (_match, pageKey: string, hash = '') =>
-      `href="${sectionHref}${pageKey ? `/${pageKey}` : ''}${hash}"`,
+    (_match, pageKey: string, hash = '') => {
+      const pagePath = toPagePath(pageKey);
+
+      return `href="${sectionHref}${pagePath ? `/${pagePath}` : ''}${hash}"`;
+    },
   );
 }
 

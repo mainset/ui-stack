@@ -57,7 +57,10 @@ type DocsAppTranslation = Record<string, unknown> & {
   ui?: Partial<DocsUiStrings>;
 };
 
-/** `src/routes.tsx`: the project's own routes, next to the docs, in every locale */
+/**
+ * `src/routes.tsx`: the project's pages, in every locale, its home page (the index route)
+ * among them; the docs pages and the not-found page come after them
+ */
 type DocsAppRoutes = RouteObject[] | ((locale: string) => RouteObject[]);
 
 /** `src/providers.tsx`: wraps every page (inside the router and the locale's translations) */
@@ -210,16 +213,27 @@ function createDocsAppI18n(
 interface DocsAppRoutesOptions {
   i18n: Record<string, I18nInstance>;
   logo?: React.ReactNode;
-  Home: React.ComponentType;
+  /** The project's pages, its home page among them */
+  routes: DocsAppRoutes;
   NotFound: React.ComponentType;
-  routes?: DocsAppRoutes;
   Providers?: DocsAppProviders;
 }
 
 const PassThroughProviders: DocsAppProviders = ({ children }) => children;
 
+/** A route of the locale's home (`/`, `/uk`): an index route, or one inside a pathless layout */
+function hasHomeRoute(routes: RouteObject[]): boolean {
+  return routes.some(
+    (route) =>
+      route.index ||
+      route.path === '' ||
+      route.path === '/' ||
+      (route.path === undefined && hasHomeRoute(route.children ?? [])),
+  );
+}
+
 /**
- * Every locale's routes: the home page, the project's routes, the docs pages and the
+ * Every locale's routes: the project's (its home page among them), the docs pages and the
  * not-found page (a real 404), each wrapped in the locale's translations and the providers
  */
 function createDocsAppRoutes(
@@ -227,12 +241,24 @@ function createDocsAppRoutes(
   {
     i18n,
     logo,
-    Home,
+    routes,
     NotFound,
-    routes = [],
     Providers = PassThroughProviders,
   }: DocsAppRoutesOptions,
 ): RouteObject[] {
+  const projectRoutes = (locale: string) => {
+    const localeRoutes = typeof routes === 'function' ? routes(locale) : routes;
+
+    if (!hasHomeRoute(localeRoutes)) {
+      throw new Error(
+        `[docs-kit] src/routes.tsx has no home page for the locale "${locale}": ` +
+          'add { index: true, element: <HomePage /> } to its routes',
+      );
+    }
+
+    return localeRoutes;
+  };
+
   return createLocalizedRoutes(
     site,
     (locale) => [
@@ -245,8 +271,7 @@ function createDocsAppRoutes(
           </I18nextProvider>
         ),
         children: [
-          { index: true, element: <Home /> },
-          ...(typeof routes === 'function' ? routes(locale) : routes),
+          ...projectRoutes(locale),
           ...createDocsRoutes(site, locale),
           createNotFoundRoute(<NotFound />),
         ],

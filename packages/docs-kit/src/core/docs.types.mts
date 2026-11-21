@@ -48,14 +48,28 @@ interface DocsMarkdownModule {
   loadContent: () => Promise<DocsPageContent>;
 }
 
-/** `_category.json` beside the pages of a folder (per locale) */
+/** A folder's entry in `content/_categories.json`: its structure, the same in every locale */
 interface DocsCategoryConfig {
-  label?: string;
+  /** The folder's segment of the URL @default the folder's name (`03-data-display` → `data-display`) */
+  path?: string;
   /** Defaults to the folder's `01-` prefix */
   order?: number;
   /** Closed until it holds the current page @default true */
   collapsed?: boolean;
 }
+
+/**
+ * `content/_categories.json`, beside the locale folders: the section's folders, keyed by their
+ * path without the `01-` prefixes (`elements/layout`, the path of their URL)
+ */
+type DocsCategoriesConfig = Record<string, DocsCategoryConfig>;
+
+/**
+ * `content/<locale>/_categories.json`: the locale's labels of the folders, any of them, keyed
+ * like `content/_categories.json` (a folder without one: the default locale's label, else its
+ * name, `data-display` → "Data display")
+ */
+type DocsCategoryLabels = Record<string, string>;
 
 /** What `import.meta.webpackContext()` / `require.context()` return */
 interface DocsContentContext {
@@ -109,8 +123,13 @@ interface DocsSiteOptions {
 
 interface DocsPage {
   sectionId: string;
-  /** Path inside the section, without locale and order prefixes: `layout/box`, `''` = index */
+  /**
+   * The page's identity inside the section: its file's path without locale and order
+   * prefixes (`layout/box`, `''` = index). Links between pages and `_categories.json` use it.
+   */
   key: string;
+  /** Its URL inside the section: {key}, the categories' `path` applied (`components/box`) */
+  path: string;
   /** The locale of the route the page is shown in */
   locale: string;
   /** The locale of the file shown: differs from {locale} when the page isn't translated */
@@ -155,6 +174,8 @@ interface DocsSection {
   path: string;
   label: DocsLocalized<string>;
   editUrl?: string;
+  /** A page key's URL inside the section: the categories' `path` applied (the same in every locale) */
+  pagePath: (pageKey: string) => string;
   /** Built on first use and cached: the sidebar and pages of the section in one locale */
   getLocaleIndex: (locale: string) => DocsSectionLocaleIndex;
 }
@@ -170,7 +191,9 @@ interface DocsSite {
 }
 
 export type {
+  DocsCategoriesConfig,
   DocsCategoryConfig,
+  DocsCategoryLabels,
   DocsContentContext,
   DocsHeading,
   DocsLocaleConfig,

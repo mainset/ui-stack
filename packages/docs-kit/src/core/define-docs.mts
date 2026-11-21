@@ -4,7 +4,9 @@ import {
   parsePathSegment,
 } from './content-path.mjs';
 import type {
+  DocsCategoriesConfig,
   DocsCategoryConfig,
+  DocsCategoryLabels,
   DocsContentContext,
   DocsMarkdownModule,
   DocsNavCategory,
@@ -18,7 +20,7 @@ import type {
 } from './docs.types.mjs';
 import { resolveUiStrings } from './ui-strings.mjs';
 
-const CATEGORY_CONFIG__FILE_NAME = '_category.json';
+const CATEGORIES_CONFIG__FILE_NAME = '_categories.json';
 
 interface ContentFile {
   key: string;
@@ -35,7 +37,10 @@ interface ContentCategory {
   key: string;
   name: string;
   order: number | undefined;
-  configByLocale: Record<string, DocsCategoryConfig>;
+  /** From `content/_categories.json`, every locale's */
+  config: DocsCategoryConfig;
+  /** From each locale's `content/<locale>/_categories.json` */
+  labelByLocale: Record<string, string>;
 }
 
 interface DocsSectionDefinition {
@@ -52,6 +57,8 @@ function unwrapModule<T>(value: unknown): T {
 function readContent(context: DocsContentContext) {
   const filesByLocale = new Map<string, Map<string, ContentFile>>();
   const categoryByKey = new Map<string, ContentCategory>();
+  let categoriesConfig: DocsCategoriesConfig = {};
+  const categoryLabelsByLocale = new Map<string, DocsCategoryLabels>();
 
   // NOTE: webpack lists each file twice when a `resolve.modules` entry contains the folder
   // (`./en/x.md` and `pages/…/en/x.md`), the relative keys are the ones to read
@@ -62,10 +69,32 @@ function readContent(context: DocsContentContext) {
 
   contextKeys.forEach((contextKey) => {
     const filePath = contextKey.slice(2);
+
+    // NOTE: the section's structure (order, collapsed), beside the locale folders
+    if (filePath === CATEGORIES_CONFIG__FILE_NAME) {
+      categoriesConfig = unwrapModule<DocsCategoriesConfig>(
+        context(contextKey),
+      );
+
+      return;
+    }
+
     const [locale, ...segments] = filePath.split('/');
     const fileName = segments.pop();
 
     if (!fileName) return;
+
+    // NOTE: a locale's labels, beside its top pages; deeper, it's not read
+    if (fileName === CATEGORIES_CONFIG__FILE_NAME) {
+      if (segments.length === 0) {
+        categoryLabelsByLocale.set(
+          locale,
+          unwrapModule<DocsCategoryLabels>(context(contextKey)),
+        );
+      }
+
+      return;
+    }
 
     const parsedFolders = segments.map(parsePathSegment);
     const categoryKey = parsedFolders.map(({ name }) => name).join('/');
@@ -77,21 +106,15 @@ function readContent(context: DocsContentContext) {
         .join('/');
 
       if (!categoryByKey.has(key)) {
-        categoryByKey.set(key, { key, name, order, configByLocale: {} });
+        categoryByKey.set(key, {
+          key,
+          name,
+          order,
+          config: {},
+          labelByLocale: {},
+        });
       }
     });
-
-    if (fileName === CATEGORY_CONFIG__FILE_NAME) {
-      const category = categoryByKey.get(categoryKey);
-
-      if (category) {
-        category.configByLocale[locale] = unwrapModule<DocsCategoryConfig>(
-          context(contextKey),
-        );
-      }
-
-      return;
-    }
 
     if (!fileName.endsWith('.md')) return;
 
@@ -109,13 +132,32 @@ function readContent(context: DocsContentContext) {
     filesByLocale.set(locale, files);
   });
 
+  // NOTE: a key naming no folder, or a value of the wrong kind, is a build warning (the
+  // `_categories.json` loader); here it's left out
+  Object.entries(categoriesConfig).forEach(([key, config]) => {
+    const category = categoryByKey.get(key);
+
+    if (category && config && typeof config === 'object')
+      category.config = config;
+  });
+  categoryLabelsByLocale.forEach((labels, locale) =>
+    Object.entries(labels).forEach(([key, label]) => {
+      const category = categoryByKey.get(key);
+
+      if (category && typeof label === 'string') {
+        category.labelByLocale[locale] = label;
+      }
+    }),
+  );
+
   return { filesByLocale, categoryByKey };
 }
 
 /**
  * A section of the docs: its pages are the markdown files of the `content` context, its first
  * folder level is the locale. Folders become sidebar categories, a `01-` prefix orders a file or a
- * folder (and is not part of the URL), `_category.json` names a folder per locale.
+ * folder (and is not part of the URL). `_categories.json` beside the locales sets the folders'
+ * `order` and `collapsed`, a locale's own `_categories.json` their labels.
  *
  * @example
  * const UI_CORE_DOCS = defineDocsSection({
@@ -141,6 +183,27 @@ function compareNavItems(a: Sortable, b: Sortable): number {
   }
 
   return a.label.localeCompare(b.label);
+}
+
+/**
+ * A page key's URL inside the section: each folder's segment replaced by its category's `path`
+ * (`elements/box` → `components/box`); a key without such folders is its own URL
+ */
+function toPagePath(
+  categoryByKey: Map<string, ContentCategory>,
+  pageKey: string,
+): string {
+  if (!pageKey) return '';
+
+  const segments = pageKey.split('/');
+
+  return segments
+    .map(
+      (segment, index) =>
+        categoryByKey.get(segments.slice(0, index + 1).join('/'))?.config
+          .path ?? segment,
+    )
+    .join('/');
 }
 
 function buildLocaleIndex(
@@ -173,6 +236,7 @@ function buildLocaleIndex(
     return {
       sectionId: options.id,
       key,
+      path: toPagePath(categoryByKey, key),
       locale,
       contentLocale: file.locale,
       isFallback: file.locale !== locale,
@@ -184,12 +248,6 @@ function buildLocaleIndex(
       loadContent: file.module.loadContent,
     };
   });
-
-  const resolveCategoryConfig = (key: string): DocsCategoryConfig => {
-    const configByLocale = categoryByKey.get(key)?.configByLocale ?? {};
-
-    return { ...configByLocale[site.defaultLocale], ...configByLocale[locale] };
-  };
 
   const root: DocsNavCategory = {
     type: 'category',
@@ -209,12 +267,16 @@ function buildLocaleIndex(
     const parentKey = key.includes('/')
       ? key.slice(0, key.lastIndexOf('/'))
       : '';
-    const config = resolveCategoryConfig(key);
     const category = categoryByKey.get(key);
+    const config = category?.config ?? {};
     const navCategory: DocsNavCategory = {
       type: 'category',
       key,
-      label: config.label ?? humanizeSegment(category?.name ?? key),
+      // NOTE: the locale's label, else the default locale's, else the folder's name
+      label:
+        category?.labelByLocale[locale] ??
+        category?.labelByLocale[site.defaultLocale] ??
+        humanizeSegment(category?.name ?? key),
       isCollapsed: config.collapsed ?? true,
       items: [],
     };
@@ -281,6 +343,7 @@ function bindSection(
     path,
     label,
     editUrl,
+    pagePath: (pageKey) => toPagePath(definition.categoryByKey, pageKey),
     getLocaleIndex(locale) {
       let index = indexByLocale.get(locale);
 

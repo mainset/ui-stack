@@ -73,8 +73,11 @@ function DocsPageView() {
   const sectionHref = useHref(sectionPath);
   const content = page ? readPageContent(page) : undefined;
   const html = React.useMemo(
-    () => (content ? resolvePageLinks(content.html, sectionHref) : ''),
-    [content, sectionHref],
+    () =>
+      content && section
+        ? resolvePageLinks(content.html, sectionHref, section.pagePath)
+        : '',
+    [content, sectionHref, section],
   );
 
   if (!page || !section) return null;

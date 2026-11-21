@@ -61,8 +61,8 @@ importers:
         version: 8.5.1(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
     devDependencies:
       '@mainset/bundler-webpack':
-        specifier: ^0.5.0
-        version: 0.5.0(@mainset/cli@0.7.6(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3))))(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3)))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(js-yaml@4.1.1)(json5@2.2.3)(sass-embedded@1.108.2)(typescript@5.9.3)
+        specifier: ^0.5.1
+        version: 0.5.1(@mainset/cli@0.7.6(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3))))(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3)))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(js-yaml@4.1.1)(json5@2.2.3)(sass-embedded@1.108.2)(typescript@5.9.3)
       '@mainset/cli':
         specifier: 0.7.6
         version: 0.7.6(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3)))
@@ -110,8 +110,8 @@ importers:
         specifier: ^0.3.3
         version: 0.3.3(c111c76462b2631fc92c61ccd8b0e76e)
       '@mainset/bundler-webpack':
-        specifier: ^0.5.0
-        version: 0.5.0(@mainset/cli@0.7.6(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3))))(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3)))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(js-yaml@4.1.1)(json5@2.2.3)(sass-embedded@1.108.2)(typescript@5.9.3)
+        specifier: ^0.5.1
+        version: 0.5.1(@mainset/cli@0.7.6(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3))))(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3)))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(js-yaml@4.1.1)(json5@2.2.3)(sass-embedded@1.108.2)(typescript@5.9.3)
       '@mainset/cli':
         specifier: ^0.7.6
         version: 0.7.6(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3)))
@@ -1334,8 +1334,8 @@ packages:
       '@mainset/dev-stack-fe': '>=0.2.0 <1.0.0'
       '@mainset/toolkit-js': '>=0.1.0 <1.0.0'
 
-  '@mainset/bundler-webpack@0.5.0':
-    resolution: {integrity: sha512-JcXYwZDpJ7Ni7p4TjY88v5JH/FiJpZf03AbS0WpQNkhUl8GMj1KXZNQ7/3hvjpDbaI9JDYzm8yjR1/hqWUsT9g==}
+  '@mainset/bundler-webpack@0.5.1':
+    resolution: {integrity: sha512-1fyZfl6UAdMAtfnH36dV6tv7My0ytjjBP3Xe4+uGh8HCrYkBd+oApj6KnRhlpp8LF1nbJQ2NaH/AH+8SNPTM6w==}
     peerDependencies:
       '@mainset/cli': '>=0.5.0 <1.0.0'
       '@mainset/dev-stack-fe': '>=0.2.0 <1.0.0'
@@ -6704,7 +6704,7 @@ snapshots:
       - core-js
       - typescript
 
-  '@mainset/bundler-webpack@0.5.0(@mainset/cli@0.7.6(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3))))(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3)))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(js-yaml@4.1.1)(json5@2.2.3)(sass-embedded@1.108.2)(typescript@5.9.3)':
+  '@mainset/bundler-webpack@0.5.1(@mainset/cli@0.7.6(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3))))(@mainset/dev-stack-fe@0.2.4(@commitlint/cli@21.2.4(conventional-commits-parser@7.1.4)(typescript@5.9.3))(cross-env@10.1.0)(eslint@10.15.0(jiti@2.7.0))(husky@9.1.7)(lint-staged@17.6.1)(postcss@8.5.33)(prettier@3.10.1)(stylelint@17.16.0(typescript@5.9.3)))(@rspack/core@2.1.10(@module-federation/runtime-tools@2.9.3)(@swc/helpers@0.5.24))(js-yaml@4.1.1)(json5@2.2.3)(sass-embedded@1.108.2)(typescript@5.9.3)':
     dependencies:
       '@babel/cli': 8.1.0(@babel/core@8.1.2)
       '@babel/core': 8.1.2

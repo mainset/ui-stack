@@ -6,10 +6,10 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import { localeHomePath } from '../core/locale-path.mjs';
-import { DOCS_MAIN__ID, DocsShell } from '../react/DocsShell.js';
+import { DocsCenteredMain } from '../react/DocsCenteredMain.js';
+import { DocsShell } from '../react/DocsShell.js';
 import { useDocs } from '../react/docs-context.js';
 import { DocsHead } from '../react/docs-head.js';
-import './docs-pages.scss';
 
 /**
  * The default not-found page. Rendered by the not-found route, which answers with a real 404
@@ -23,7 +23,7 @@ function DocsNotFoundPage() {
     <DocsShell>
       <DocsHead title={`${ui.notFoundTitle} | ${siteTitle}`} />
 
-      <main id={DOCS_MAIN__ID} className="msd-centered-page">
+      <DocsCenteredMain>
         <Container ctnSize="sm">
           <Stack layAlign="center" layGapSize="base">
             <Text txtAs="p" txtVariant="overline" txtColor="primary">
@@ -44,7 +44,7 @@ function DocsNotFoundPage() {
             </Button>
           </Stack>
         </Container>
-      </main>
+      </DocsCenteredMain>
     </DocsShell>
   );
 }

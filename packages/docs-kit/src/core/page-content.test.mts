@@ -20,6 +20,16 @@ describe('page content', () => {
     );
   });
 
+  it("points them at the page's URL, the categories' `path` applied", () => {
+    expect(
+      resolvePageLinks(
+        '<a href="msd:elements/box#props">Box</a>',
+        '/ui-core',
+        (pageKey) => pageKey.replace(/^elements/, 'components'),
+      ),
+    ).toBe('<a href="/ui-core/components/box#props">Box</a>');
+  });
+
   it('loads a page once, then reads it synchronously', async () => {
     const loadContent = vi.fn(async () => ({ html: '<p>Box</p>' }));
     const page = fakePage('en/box.md', loadContent);

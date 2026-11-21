@@ -3,11 +3,14 @@ import path from 'node:path';
 import { parseArgs } from 'node:util';
 
 import { ejectDocsApp } from './eject.mjs';
+import { initDocsApp } from './init.mjs';
 import { exportStaticSite } from './static-export.mjs';
 import { previewStaticSite } from './static-preview.mjs';
 
-const USAGE = `Usage: ms-docs <export | preview | eject> [options]
+const USAGE = `Usage: ms-docs <init [dir] | export | preview | eject> [options]
 
+init     creates a docs project in [dir] (default: the current folder): config, home page,
+         routes, a first section; never overwrites a file
 export   renders every page of an ms-cli SSR build (run \`ms-cli web-app --exec build\` first)
          into static HTML, following the site's links from the entries
 preview  serves the export like a static host would (GitHub Pages), to check it locally
@@ -42,7 +45,7 @@ async function runDocsCli(argv: string[]) {
 
   if (
     values.help ||
-    (command !== 'export' && command !== 'preview' && command !== 'eject')
+    !['init', 'export', 'preview', 'eject'].includes(command ?? '')
   ) {
     process.stdout.write(USAGE);
     process.exit(values.help ? 0 : 1);
@@ -52,6 +55,29 @@ async function runDocsCli(argv: string[]) {
   const envFile = path.join(process.cwd(), '.env');
 
   if (fs.existsSync(envFile)) process.loadEnvFile(envFile);
+
+  if (command === 'init') {
+    const root = path.resolve(positionals[1] ?? '.');
+    const { created, updated, skipped } = initDocsApp({ root });
+    const list = (title: string, files: string[]) =>
+      files.length
+        ? `\n   ${title}:\n${files.map((file) => `     ${file}`).join('\n')}\n`
+        : '';
+    const cdStep =
+      root === process.cwd()
+        ? ''
+        : `cd ${path.relative(process.cwd(), root)} && `;
+
+    console.log(
+      `\n✅ [ms-docs] a docs project in ${root}\n` +
+        list('created', created) +
+        list('completed (scripts, dependencies)', updated) +
+        list('already there, left as they were', skipped) +
+        `\n   Next: ${cdStep}pnpm install && pnpm run dev\n`,
+    );
+
+    return;
+  }
 
   if (command === 'eject') {
     try {

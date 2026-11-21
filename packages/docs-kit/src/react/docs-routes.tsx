@@ -65,7 +65,7 @@ function createDocsRoutes(site: DocsSite, locale: string): RouteObject[] {
         ...(indexPage ? [{ index: true, ...pageRoute(indexPage) }] : []),
         ...pages
           .filter((page) => page.key !== '')
-          .map((page) => ({ path: page.key, ...pageRoute(page) })),
+          .map((page) => ({ path: page.path, ...pageRoute(page) })),
       ],
     };
   });

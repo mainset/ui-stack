@@ -2,6 +2,8 @@ export { docsWebpackConfig } from './docs-webpack-config.mjs';
 export type { DocsWebpackConfigOptions } from './docs-webpack-config.mjs';
 export { ejectDocsApp } from './eject.mjs';
 export type { EjectResult } from './eject.mjs';
+export { initDocsApp } from './init.mjs';
+export type { InitResult } from './init.mjs';
 export { compileMarkdown } from './compile-markdown.mjs';
 export type {
   CompileMarkdownOptions,

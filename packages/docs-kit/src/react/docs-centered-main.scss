@@ -1,0 +1,7 @@
+// A page's message centered in the screen, below the header (a home page, the not-found page)
+.msd-centered-main {
+  display: flex;
+  align-items: center;
+  min-block-size: calc(100vh - var(--msd-header-height));
+  padding-block: var(--ms-space-16);
+}

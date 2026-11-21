@@ -4,6 +4,7 @@ export {
   useColorScheme,
 } from './DocsColorSchemeMenu.js';
 export type { ColorScheme } from './DocsColorSchemeMenu.js';
+export { DocsCenteredMain } from './DocsCenteredMain.js';
 export { DocsArticleContent } from './DocsArticleContent.js';
 export type { DocsArticleContentProps } from './DocsArticleContent.js';
 export { DocsContext, DocsLocaleRoute, useDocs } from './docs-context.js';
