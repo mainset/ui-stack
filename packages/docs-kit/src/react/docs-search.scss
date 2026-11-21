@@ -1,0 +1,55 @@
+@use '@mainset/ui-core/scss/mixins' as ms;
+
+.msd-search__trigger-label,
+.msd-search__shortcut {
+  display: none;
+
+  @include ms.media-up(lg) {
+    display: inline;
+  }
+}
+
+.msd-search__trigger {
+  @include ms.media-up(lg) {
+    justify-content: flex-start;
+    min-inline-size: 13rem;
+  }
+}
+
+.msd-search__shortcut {
+  margin-inline-start: auto;
+  padding-inline: var(--ms-spacing-scale-element-base);
+  border: var(--ms-border-width-base) solid var(--ms-color-border-default);
+  border-radius: var(--ms-border-radius-xs);
+  color: var(--ms-color-text-subtle);
+  font-family: var(--ms-font-family-text-mono);
+  font-size: var(--ms-font-size-text-xs);
+}
+
+.msd-search__results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ms-spacing-scale-element-xs);
+  max-block-size: 60vh;
+  margin-block-start: var(--ms-space-3);
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.msd-search__result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ms-spacing-scale-element-xs);
+  padding: var(--ms-space-2) var(--ms-space-3);
+  border-radius: var(--ms-border-radius-sm);
+  cursor: pointer;
+
+  &[aria-selected='true'] {
+    background-color: var(--ms-color-primary-subtle);
+  }
+}

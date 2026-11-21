@@ -1,0 +1,58 @@
+@use '@mainset/ui-core/scss/mixins' as ms;
+
+// Docs chrome tokens. Override any of them on `:root` or a subtree, like ui-core's tokens.
+:root {
+  --msd-header-height: 3.5rem;
+  --msd-sidebar-width: 16rem;
+  --msd-toc-width: 14rem;
+  --msd-content-max-width: 46rem;
+  --msd-page-max-width: 90rem;
+
+  // NOTE: in-page anchors (and the scroll-spy's reading line) land below the sticky header and,
+  // below `xl`, the sticky "On this page" bar
+  --ms-scroll-offset: calc(var(--msd-header-height) + 3.5rem);
+
+  @include ms.media-up(xl) {
+    --ms-scroll-offset: calc(var(--msd-header-height) + var(--ms-space-4));
+  }
+}
+
+.msd-shell {
+  min-block-size: 100%;
+}
+
+.msd-shell__skip-link:focus {
+  position: fixed;
+  z-index: calc(var(--ms-z-index-sticky) + 1);
+  inset-block-start: var(--ms-space-2);
+  inset-inline-start: var(--ms-space-2);
+  padding: var(--ms-space-2) var(--ms-space-4);
+  border-radius: var(--ms-border-radius-sm);
+  background-color: var(--ms-color-bg-surface);
+  box-shadow: var(--ms-shadow-base);
+}
+
+// ========== Header ==========
+
+// NOTE: the row inside is ui-core layout (HStack, Container); this is what ui-core has no
+// utility for yet: a sticky bar with a hairline under it
+.msd-header {
+  position: sticky;
+  z-index: var(--ms-z-index-sticky);
+  inset-block-start: 0;
+  block-size: var(--msd-header-height);
+  border-block-end: var(--ms-border-width-base) solid
+    var(--ms-color-border-subtle);
+  background-color: var(--ms-color-bg-canvas);
+}
+
+// NOTE: as wide as the three columns below it (a container size of its own)
+.msd-header__container {
+  --ms-container-max-width: var(--msd-page-max-width);
+}
+
+// NOTE: `Hr` takes tone colors only, whose borders are solid for the neutral tones; dividers in
+// the chrome are the color scheme's hairline, like the borders around them
+.msd-divider {
+  background-color: var(--ms-color-border-subtle);
+}

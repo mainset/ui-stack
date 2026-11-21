@@ -1,0 +1,67 @@
+{
+  "name": "@mainset/docs-kit",
+  "version": "0.1.0",
+  "description": "Documentation sites from a fixed folder structure of localized markdown pages, built on the mainset UI.",
+  "repository": "https://github.com/mainset/ui-stack/tree/main/packages/docs-kit",
+  "author": "Yevhen Uzhva <yevhen.uzhva@gmail.com>",
+  "license": "CC-BY-NC-4.0",
+  "type": "module",
+  "sideEffects": [
+    "dist/**/*.css"
+  ],
+  "files": [
+    "bin",
+    "dist",
+    "src/@types"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types/src/index.d.mts",
+      "import": "./dist/esm/index.mjs"
+    },
+    "./node": {
+      "types": "./dist/types/src/node/index.d.mts",
+      "import": "./dist/esm/node/index.mjs"
+    },
+    "./global-types": "./src/@types/docs-kit.d.ts"
+  },
+  "bin": {
+    "ms-docs": "./bin/ms-docs.mjs"
+  },
+  "scripts": {
+    "dev": "ms-cli node-sourcer --exec watch --bundless",
+    "build": "ms-cli node-sourcer --exec build --bundless && pnpm run check:browser-support",
+    "check:browser-support": "node ../../scripts/check-browser-support.mjs dist/esm/core dist/esm/react"
+  },
+  "dependencies": {
+    "rehype-stringify": "^10.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "shiki": "4.5.0",
+    "unified": "^11.0.5"
+  },
+  "devDependencies": {
+    "@mainset/builder-rslib": "^0.3.3",
+    "@mainset/cli": "^0.7.6",
+    "@mainset/dev-stack-fe": "^0.2.4",
+    "@mainset/react": "workspace:^",
+    "@mainset/ui-core": "workspace:^",
+    "@types/hast": "^3.0.4",
+    "@types/mdast": "^4.0.4",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router": "8.5.1"
+  },
+  "peerDependencies": {
+    "@mainset/react": "workspace:^",
+    "@mainset/ui-core": "workspace:^",
+    "react": ">=19.2.0 <20.0.0",
+    "react-dom": ">=19.2.0 <20.0.0",
+    "react-router": ">=8.0.0 <9.0.0"
+  },
+  "packageManager": "pnpm@10.33.0"
+}

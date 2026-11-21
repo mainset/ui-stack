@@ -1,0 +1,255 @@
+@use '@mainset/ui-core/scss/mixins' as ms;
+
+// ========== Three columns: sidebar · page · "On this page" ==========
+
+.msd-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  max-inline-size: var(--msd-page-max-width);
+  margin-inline: auto;
+
+  @include ms.media-up(md) {
+    grid-template-columns: var(--msd-sidebar-width) minmax(0, 1fr);
+  }
+
+  @include ms.media-up(xl) {
+    grid-template-columns:
+      var(--msd-sidebar-width) minmax(0, 1fr)
+      var(--msd-toc-width);
+  }
+}
+
+// NOTE: each side panel scrolls on its own, below the sticky header
+.msd-layout__sidebar,
+.msd-layout__toc {
+  position: sticky;
+  inset-block-start: var(--msd-header-height);
+  align-self: start;
+  block-size: calc(100vh - var(--msd-header-height));
+  padding: var(--ms-space-6) var(--ms-space-4);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.msd-layout__sidebar {
+  display: none;
+  border-inline-end: var(--ms-border-width-base) solid
+    var(--ms-color-border-subtle);
+
+  @include ms.media-up(md) {
+    display: block;
+  }
+}
+
+.msd-layout__toc {
+  display: none;
+
+  @include ms.media-up(xl) {
+    display: block;
+  }
+}
+
+.msd-layout__main {
+  // NOTE: one gutter for the padding and the full-bleed "On this page" bar
+  --msd-main-gutter: var(--ms-space-4);
+
+  min-inline-size: 0;
+  padding: var(--ms-space-6) var(--msd-main-gutter) var(--ms-space-16);
+
+  @include ms.media-up(md) {
+    --msd-main-gutter: var(--ms-space-8);
+  }
+
+  @include ms.media-up(lg) {
+    --msd-main-gutter: var(--ms-space-12);
+  }
+
+  // NOTE: focusable only as the skip link's target, which needs no ring
+  &:focus {
+    outline: none;
+  }
+}
+
+// ========== Sidebar ==========
+
+.msd-sidebar {
+  font-size: var(--ms-font-size-text-sm);
+  line-height: var(--ms-line-height-text-sm);
+}
+
+.msd-sidebar__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ms-spacing-scale-element-xs);
+  padding: 0;
+  list-style: none;
+
+  // A category's pages, indented under it
+  .msd-sidebar__list {
+    margin-block: var(--ms-space-1);
+    margin-inline-start: var(--ms-space-3);
+    padding-inline-start: var(--ms-space-2);
+    border-inline-start: var(--ms-border-width-base) solid
+      var(--ms-color-border-subtle);
+  }
+}
+
+.msd-sidebar__category-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ms-space-2);
+  padding: var(--ms-spacing-scale-element-base) var(--ms-space-2);
+  border-radius: var(--ms-border-radius-sm);
+  color: var(--ms-color-text-base);
+  font-weight: var(--ms-font-weight-semibold);
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+
+  // NOTE: Safari draws its own marker unless told not to
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:hover {
+    background-color: var(--ms-color-bg-subtle);
+  }
+}
+
+.msd-sidebar__chevron {
+  flex-shrink: 0;
+  color: var(--ms-color-text-subtle);
+  transition: transform var(--ms-duration-fast) var(--ms-easing-standard);
+
+  details[open] > .msd-sidebar__category-label > & {
+    transform: rotate(180deg);
+  }
+}
+
+.msd-sidebar__link {
+  display: block;
+  padding: var(--ms-spacing-scale-element-base) var(--ms-space-2);
+  border-radius: var(--ms-border-radius-sm);
+  color: var(--ms-color-text-muted);
+  transition: color var(--ms-duration-fast) var(--ms-easing-standard);
+
+  &:hover {
+    background-color: var(--ms-color-bg-subtle);
+    color: var(--ms-color-text-base);
+  }
+
+  &[aria-current='page'] {
+    background-color: var(--ms-color-primary-subtle);
+    color: var(--ms-color-primary-text);
+    font-weight: var(--ms-font-weight-medium);
+  }
+}
+
+// The current page's own headings (pages with `sidebar.anchors`)
+.msd-sidebar__anchors {
+  margin-block: var(--ms-space-1) var(--ms-space-2);
+  margin-inline-start: var(--ms-space-3);
+  padding: 0;
+  border-inline-start: var(--ms-border-width-base) solid
+    var(--ms-color-border-subtle);
+  list-style: none;
+}
+
+// ========== "On this page" (side panel and folded bar share the indicator) ==========
+
+.msd-sidebar__anchor,
+.msd-toc__link {
+  display: block;
+  margin-inline-start: calc(-1 * var(--ms-border-width-base));
+  padding: var(--ms-space-1) var(--ms-space-3);
+  border-inline-start: var(--ms-border-width-lg) solid transparent;
+  color: var(--ms-color-text-muted);
+  font-size: var(--ms-font-size-text-sm);
+  line-height: var(--ms-line-height-text-sm);
+  transition:
+    color var(--ms-duration-fast) var(--ms-easing-standard),
+    border-color var(--ms-duration-fast) var(--ms-easing-standard);
+
+  &:hover {
+    color: var(--ms-color-text-base);
+  }
+
+  &[aria-current='location'] {
+    border-inline-start-color: var(--ms-color-primary-solid);
+    color: var(--ms-color-primary-text);
+  }
+}
+
+.msd-toc__list {
+  padding: 0;
+  border-inline-start: var(--ms-border-width-base) solid
+    var(--ms-color-border-subtle);
+  list-style: none;
+}
+
+.msd-toc__item--depth-3 .msd-toc__link {
+  padding-inline-start: var(--ms-space-6);
+}
+
+// Below `xl` the panel is a bar under the header, folded
+.msd-toc-disclosure {
+  position: sticky;
+  z-index: calc(var(--ms-z-index-sticky) - 1);
+  inset-block-start: var(--msd-header-height);
+  margin: calc(-1 * var(--ms-space-6)) calc(-1 * var(--msd-main-gutter))
+    var(--ms-space-6);
+  border-block-end: var(--ms-border-width-base) solid
+    var(--ms-color-border-subtle);
+  background-color: var(--ms-color-bg-canvas);
+
+  @include ms.media-up(xl) {
+    display: none;
+  }
+
+  .msd-toc__list {
+    max-block-size: 50vh;
+    margin: 0 var(--msd-main-gutter) var(--ms-space-3);
+    overflow-y: auto;
+  }
+}
+
+.msd-toc-disclosure__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--ms-space-2);
+  padding: var(--ms-space-3) var(--msd-main-gutter);
+  font-size: var(--ms-font-size-text-sm);
+  list-style: none;
+  cursor: pointer;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.msd-toc-disclosure__chevron {
+  flex-shrink: 0;
+  margin-inline-start: auto;
+  color: var(--ms-color-text-subtle);
+  transition: transform var(--ms-duration-fast) var(--ms-easing-standard);
+
+  details[open] > .msd-toc-disclosure__summary > & {
+    transform: rotate(180deg);
+  }
+}
+
+// ========== Page ==========
+
+.msd-article {
+  max-inline-size: var(--msd-content-max-width);
+  margin-inline: auto;
+}
+
+.msd-article__edit {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: var(--ms-spacing-scale-element-base);
+  font-size: var(--ms-font-size-text-sm);
+}
