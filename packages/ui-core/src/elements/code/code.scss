@@ -1,0 +1,8 @@
+@use '../../styles/options';
+@use './code.mixins' as codeMixin;
+@use './code.variables' as codeVars;
+
+// Theme layer (mainset look) on top of `code-normalize.scss`: mono text on a tinted chip
+#{options.where(codeVars.$class-selector)} {
+  @include codeMixin.theme;
+}

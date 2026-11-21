@@ -8,6 +8,8 @@
 // from `1fr` to `0fr`, so the theme layer can animate it to the content's own height) and is
 // `visibility: hidden` then: out of the tab order and the accessibility tree. A panel with the
 // `hidden` attribute is simply not displayed.
+// A native `<details class="ms-disclosure">` works too, with no script: its `<summary>` is the
+// trigger (the browser's marker hidden, the icon replaces it), the content follows it.
 $disclosure: disclosureVars.$class-selector;
 
 #{options.where('#{$disclosure}__heading')} {
@@ -32,6 +34,15 @@ $disclosure: disclosureVars.$class-selector;
   background: none;
   border: 0;
   appearance: none;
+}
+
+#{options.where('summary#{$disclosure}__trigger')} {
+  list-style: none;
+}
+
+// NOTE: Safari draws its own marker unless told not to; a pseudo-element can't be in `:where()`
+#{options.where('summary#{$disclosure}__trigger')}::-webkit-details-marker {
+  display: none;
 }
 
 #{options.where('#{$disclosure}__trigger:disabled, #{$disclosure}__trigger[aria-disabled="true"]')} {

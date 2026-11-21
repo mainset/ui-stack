@@ -29,7 +29,8 @@ $disclosure: disclosureVars.$class-selector;
   transition: transform var(--ms-duration-base) var(--ms-easing-standard);
 }
 
-#{options.where('#{$disclosure}__trigger[aria-expanded="true"] > #{$disclosure}__icon')} {
+// NOTE: any `<summary>` of an open `<details>`, so other elements may compose the icon too
+#{options.where('#{$disclosure}__trigger[aria-expanded="true"] > #{$disclosure}__icon, details[open] > summary > #{$disclosure}__icon')} {
   margin-block-start: calc(0.25 * var(--ms-disclosure-icon-size));
   transform: rotate(-135deg);
 }

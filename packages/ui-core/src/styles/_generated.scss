@@ -751,6 +751,10 @@ $class-name-config-map: (
     'composed': false,
     'props': (),
   ),
+  'ms-code': (
+    'composed': false,
+    'props': (),
+  ),
   'ms-container': (
     'composed': false,
     'props': (
@@ -1087,6 +1091,10 @@ $class-name-config-map: (
     'composed': false,
     'props': (),
   ),
+  'ms-keyboard-key': (
+    'composed': false,
+    'props': (),
+  ),
   'ms-label': (
     'composed': false,
     'props': (
@@ -1196,6 +1204,19 @@ $class-name-config-map: (
     'composed': false,
     'props': (),
   ),
+  'ms-nav-list': (
+    'composed': false,
+    'props': (
+      'navVariant': (
+        'modifier': 'variant',
+        'options': (
+          'soft',
+          'line',
+        ),
+        'responsive': false,
+      ),
+    ),
+  ),
   'ms-overlay': (
     'composed': false,
     'props': (
@@ -1266,6 +1287,10 @@ $class-name-config-map: (
         'responsive': false,
       ),
     ),
+  ),
+  'ms-prose': (
+    'composed': false,
+    'props': (),
   ),
   'ms-radio': (
     'composed': false,

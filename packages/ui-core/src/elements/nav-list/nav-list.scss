@@ -1,0 +1,74 @@
+@use '../../styles/options';
+@use './nav-list.variables' as navListVars;
+
+// Theme layer (mainset look) on top of `nav-list-normalize.scss`. The current link
+// (`aria-current`: `page`, `location`, …) is in the current tone: `soft` tints its row (a
+// sidebar), `line` marks it on the list's guide line (contents of a page). Nested lists hang
+// on a guide line.
+// NOTE: logical borders, so the guide line is on the start side in RTL too
+$nav: navListVars.$class-selector;
+$line: '#{$nav}--variant-line';
+$soft-link: '#{$nav}:not(#{$line}) > #{$nav}__item > #{$nav}__link';
+$line-link: '#{$line} > #{$nav}__item > #{$nav}__link';
+$current: '[aria-current]:not([aria-current="false"])';
+
+#{options.where($nav)} {
+  font-size: var(--ms-font-size-text-sm);
+  letter-spacing: var(--ms-letter-spacing-text-sm);
+  line-height: var(--ms-line-height-text-sm);
+}
+
+#{options.where('#{$nav}__link, #{$nav}__group-label')} {
+  color: var(--ms-nav-list-link-color);
+  transition:
+    color var(--ms-duration-fast) var(--ms-easing-standard),
+    background-color var(--ms-duration-fast) var(--ms-easing-standard),
+    border-color var(--ms-duration-fast) var(--ms-easing-standard);
+}
+
+#{options.where('#{$nav}__link:hover, #{$nav}__group-label:hover')} {
+  color: var(--ms-nav-list-link-color-hover);
+}
+
+// ========== soft: rows ==========
+
+#{options.where('#{$soft-link}, #{$nav}__group-label')} {
+  border-radius: var(--ms-nav-list-link-border-radius);
+}
+
+#{options.where('#{$soft-link}:hover, #{$nav}__group-label:hover')} {
+  background-color: var(--ms-nav-list-link-bg-hover);
+}
+
+#{options.where('#{$soft-link}#{$current}')} {
+  font-weight: var(--ms-font-weight-medium);
+  color: var(--ms-tone-text);
+  background-color: var(--ms-tone-subtle);
+}
+
+#{options.where('#{$nav}__group-label')} {
+  font-weight: var(--ms-font-weight-semibold);
+  color: var(--ms-nav-list-group-label-color);
+}
+
+// ========== Nested lists and line: a guide line ==========
+
+#{options.where('#{$nav}__item > #{$nav}, #{$nav}__group > #{$nav}, #{$line}')} {
+  border-inline-start: var(--ms-nav-list-guide-width) solid
+    var(--ms-nav-list-guide-color);
+}
+
+#{options.where('#{$line} > #{$nav}__item > #{$line}')} {
+  border-inline-start: 0;
+}
+
+// The indicator overlaps the guide line
+#{options.where($line-link)} {
+  margin-inline-start: calc(-1 * var(--ms-nav-list-guide-width));
+  border-inline-start: var(--ms-nav-list-indicator-width) solid transparent;
+}
+
+#{options.where('#{$line-link}#{$current}')} {
+  color: var(--ms-tone-text);
+  border-inline-start-color: var(--ms-tone-solid);
+}

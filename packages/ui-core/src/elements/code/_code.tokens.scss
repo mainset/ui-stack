@@ -1,0 +1,14 @@
+// Component tokens (Tier 3) of inline code. In `em`, so it fits the text around it
+:where(:root) {
+  --ms-code-padding-block: 0.125em;
+  --ms-code-padding-inline: 0.375em;
+  --ms-code-font-size: 0.875em;
+  --ms-code-border-width: var(--ms-border-width-base);
+  --ms-code-border-radius: var(--ms-border-radius-xs);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-code-bg: var(--ms-color-bg-subtle);
+  --ms-code-border-color: var(--ms-color-border-subtle);
+}

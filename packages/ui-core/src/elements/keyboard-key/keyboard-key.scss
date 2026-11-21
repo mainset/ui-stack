@@ -1,0 +1,8 @@
+@use '../../styles/options';
+@use './keyboard-key.mixins' as keyboardKeyMixin;
+@use './keyboard-key.variables' as keyboardKeyVars;
+
+// Theme layer (mainset look) on top of `keyboard-key-normalize.scss`: a small outlined key cap
+#{options.where(keyboardKeyVars.$class-selector)} {
+  @include keyboardKeyMixin.theme;
+}

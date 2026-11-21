@@ -1,0 +1,89 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './nav-list.tokens';
+@use '../../styles/options';
+@use './nav-list.variables' as navListVars;
+
+// Normalize layer: a vertical list of links (a sidebar, "On this page"). Links are whole rows,
+// start-aligned and wrapping. A nested list (in an item, or in a `<details>` group) is indented
+// under its parent; a nested `line` list inside a `line` list stays on the parent's guide line,
+// its links indented instead.
+$nav: navListVars.$class-selector;
+$line: '#{$nav}--variant-line';
+$nested: '#{$nav}__item > #{$nav}, #{$nav}__group > #{$nav}';
+
+@include options.assert-options(
+  navListVars.$base-class,
+  'navVariant',
+  (soft, line)
+);
+
+#{options.where($nav)} {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ms-nav-list-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// NOTE: rows of a `line` list touch, so their indicators sit on one unbroken line
+#{options.where($line)} {
+  gap: 0;
+}
+
+#{options.where('#{$nav}__item')} {
+  min-inline-size: 0;
+}
+
+#{options.where('#{$nav}__link, #{$nav}__group-label')} {
+  display: block;
+  padding: var(--ms-nav-list-link-padding-block)
+    var(--ms-nav-list-link-padding-inline);
+  color: inherit;
+  text-align: start;
+  text-decoration: none;
+  overflow-wrap: break-word;
+}
+
+#{options.where('#{$line} > #{$nav}__item > #{$nav}__link')} {
+  padding: var(--ms-nav-list-line-link-padding-block)
+    var(--ms-nav-list-line-link-padding-inline);
+}
+
+#{options.where('#{$line} #{$line} > #{$nav}__item > #{$nav}__link')} {
+  padding-inline-start: calc(
+    var(--ms-nav-list-line-link-padding-inline) + var(--ms-nav-list-indent)
+  );
+}
+
+// A `<details class="ms-nav-list__group">`: its `<summary>` label opens the nested list, with a
+// `ms-disclosure__icon` turning when open (no script needed)
+#{options.where('#{$nav}__group-label')} {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ms-nav-list-link-padding-inline);
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+// NOTE: Safari draws its own marker unless told not to; a pseudo-element can't be in `:where()`
+#{options.where('#{$nav}__group-label')}::-webkit-details-marker {
+  display: none;
+}
+
+#{options.where($nested)} {
+  margin-block: var(--ms-spacing-scale-element-sm);
+  margin-inline-start: var(--ms-nav-list-indent);
+  padding-inline-start: var(--ms-nav-list-link-padding-inline);
+}
+
+// NOTE: a `line` list's links carry the indicator on its guide line, so it has no padding
+#{options.where('#{$nav}__item > #{$line}, #{$nav}__group > #{$line}')} {
+  padding-inline-start: 0;
+}
+
+#{options.where('#{$line} > #{$nav}__item > #{$line}')} {
+  margin: 0;
+}

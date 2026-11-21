@@ -248,6 +248,40 @@ area need `position: relative` and a `z-index` to stay clickable. Round the ring
 </article>
 ```
 
+### Code and keys
+
+```html
+<p>
+  Run <code class="ms-code">pnpm build</code>, or press
+  <kbd class="ms-keyboard-key">⌘K</kbd>.
+</p>
+```
+
+`ms-code`: a code span in running text, mono on a tinted chip, sized in `em` so it fits any
+text size; broken over lines, it keeps its padding on each. `ms-keyboard-key`: a key or a shortcut, never
+broken over lines; one element per key of a combination
+(`<kbd class="ms-keyboard-key">Ctrl</kbd> + <kbd class="ms-keyboard-key">K</kbd>`). Tokens: `--ms-code-*`,
+`--ms-keyboard-key-*`. A code block is left to the app (syntax highlighting differs per app).
+
+### Prose
+
+```html
+<article class="ms-prose">
+  <h2>Install</h2>
+  <p>Add the package, then <a href="/docs/usage">import the styles</a>.</p>
+  <ul>
+    <li>Plain HTML: <code>styles/index.css</code></li>
+    <li>A bundler: nothing to configure</li>
+  </ul>
+</article>
+```
+
+Rich text whose markup has no classes (rendered markdown, a CMS): an even flow of blocks
+(`--ms-prose-flow-space`), headings set apart from the section above, lists, quotes, rules,
+images, and inline `code`, `kbd` and links in the `ms-code`, `ms-keyboard-key` and `ms-link` look. Only
+class-less lists and links are styled, so a component inside (`ms-table`, `ms-pagination`, a
+live example) keeps its own look.
+
 ## Actions
 
 ### Icon button
@@ -547,6 +581,19 @@ animates it to its content's height (`--ms-disclosure-duration`), browsers witho
 transitions open it at once. A panel with the `hidden` attribute is simply not displayed. The
 padding is on the content, so a collapsed panel has no leftover height.
 
+**Native `<details>`**: opens and closes without script (static pages, before hydration) and is
+a disclosure for assistive tech by itself. The `<summary>` is the trigger, its browser marker
+hidden; the chevron turns while `open`. It opens at once (no height animation).
+
+```html
+<details class="ms-disclosure">
+  <summary class="ms-disclosure__trigger">
+    Shipping <span class="ms-disclosure__icon" aria-hidden="true"></span>
+  </summary>
+  <div class="ms-disclosure__panel-content">Free over 50 €.</div>
+</details>
+```
+
 ## Alerts and toasts
 
 ```html
@@ -808,6 +855,40 @@ buttons don't move under the pointer.
 ```
 
 The separators are in the markup (`aria-hidden`), so a screen reader doesn't read them.
+
+### Nav list
+
+```html
+<nav aria-label="Docs">
+  <ul class="ms-nav-list ms-nav-list--variant-soft">
+    <li class="ms-nav-list__item">
+      <a class="ms-nav-list__link" href="/docs" aria-current="page"
+        >Introduction</a
+      >
+    </li>
+    <li class="ms-nav-list__item">
+      <details class="ms-nav-list__group" open>
+        <summary class="ms-nav-list__group-label">
+          <span>Elements</span>
+          <span class="ms-disclosure__icon" aria-hidden="true"></span>
+        </summary>
+        <ul class="ms-nav-list ms-nav-list--variant-soft">
+          <li class="ms-nav-list__item">
+            <a class="ms-nav-list__link" href="/docs/button">Button</a>
+          </li>
+        </ul>
+      </details>
+    </li>
+  </ul>
+</nav>
+```
+
+A vertical list of links (a sidebar, the contents of a page): whole rows, start-aligned, long
+labels wrap. The current link is the one with `aria-current` (`page`, `location`, …), in the
+current tone. `navVariant`: `soft` (default) tints the current row; `line` marks it on a guide
+line along the list, for "On this page". A nested list (in an `__item`, or a `details.__group`
+that opens without script) is indented on a guide line; a `line` list nested in a `line` list
+stays on its parent's line, its links indented. Tokens: `--ms-nav-list-*`.
 
 NOTE on direction: `‹` `›` (U+2039 / U+203A) are mirrored by the browser in RTL text, so the
 pagination arrows and a `›` breadcrumb separator point the right way in an RTL section without

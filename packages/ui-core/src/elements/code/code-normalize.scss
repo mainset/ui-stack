@@ -1,0 +1,10 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './code.tokens';
+@use '../../styles/options';
+@use './code.mixins' as codeMixin;
+@use './code.variables' as codeVars;
+
+// Normalize layer: a code span in running text (`<code class="ms-code">`)
+#{options.where(codeVars.$class-selector)} {
+  @include codeMixin.normalize;
+}

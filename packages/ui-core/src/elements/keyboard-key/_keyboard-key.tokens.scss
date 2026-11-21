@@ -1,0 +1,13 @@
+// Component tokens (Tier 3) of keyboard keys
+:where(:root) {
+  --ms-keyboard-key-padding-inline: var(--ms-spacing-scale-element-base);
+  --ms-keyboard-key-font-size: var(--ms-font-size-text-xs);
+  --ms-keyboard-key-border-width: var(--ms-border-width-base);
+  --ms-keyboard-key-border-radius: var(--ms-border-radius-xs);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-keyboard-key-color: var(--ms-color-text-subtle);
+  --ms-keyboard-key-border-color: var(--ms-color-border-default);
+}

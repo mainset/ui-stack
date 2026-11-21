@@ -1,0 +1,23 @@
+// Component tokens (Tier 3) of navigation lists
+:where(:root) {
+  --ms-nav-list-gap: var(--ms-spacing-scale-element-xs);
+  --ms-nav-list-indent: var(--ms-spacing-scale-component-xs);
+  --ms-nav-list-link-padding-block: var(--ms-spacing-scale-element-base);
+  --ms-nav-list-link-padding-inline: var(--ms-spacing-scale-element-lg);
+  --ms-nav-list-link-border-radius: var(--ms-border-radius-sm);
+
+  // `line`: the indicator replaces the pill, so its rows need less room
+  --ms-nav-list-line-link-padding-block: var(--ms-spacing-scale-element-sm);
+  --ms-nav-list-line-link-padding-inline: var(--ms-spacing-scale-component-xs);
+  --ms-nav-list-guide-width: var(--ms-border-width-base);
+  --ms-nav-list-indicator-width: var(--ms-border-width-lg);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-nav-list-link-color: var(--ms-color-text-muted);
+  --ms-nav-list-link-color-hover: var(--ms-color-text-base);
+  --ms-nav-list-link-bg-hover: var(--ms-color-bg-subtle);
+  --ms-nav-list-group-label-color: var(--ms-color-text-base);
+  --ms-nav-list-guide-color: var(--ms-color-border-subtle);
+}
