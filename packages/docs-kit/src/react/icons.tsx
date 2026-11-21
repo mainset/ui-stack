@@ -61,14 +61,6 @@ const GlobeIcon = (props: IconProps) => (
   </Icon>
 );
 
-// NOTE: pointing down (turned up when its disclosure is open): an up / down chevron needs no
-// mirroring in right-to-left sections
-const ChevronIcon = (props: IconProps) => (
-  <Icon {...props}>
-    <path d="m6 9 6 6 6-6" />
-  </Icon>
-);
-
 const PencilIcon = (props: IconProps) => (
   <Icon {...props}>
     <path d="M4 20h4L19 9a2.83 2.83 0 0 0-4-4L4 16v4Z" />
@@ -92,7 +84,6 @@ const GitHubIcon = (props: IconProps) => (
 );
 
 export {
-  ChevronIcon,
   GitHubIcon,
   GlobeIcon,
   MenuIcon,

@@ -1,95 +1,9 @@
-// The compiled markdown. It carries ui-core classes where an element exists (tables, links,
-// callouts are `ms-table`, `ms-link`, `ms-alert`), the rest is styled here from the tokens.
+// The compiled markdown, on `ms-prose`. It carries ui-core classes where an element exists
+// (tables, links, callouts are `ms-table`, `ms-link`, `ms-alert`); what is left here is the
+// docs' own: heading permalinks, highlighted code blocks with a copy button, live examples.
 
 .msd-prose {
-  color: var(--ms-color-text-base);
-  font-size: var(--ms-font-size-text-base);
-  line-height: var(--ms-line-height-relaxed);
-  overflow-wrap: break-word;
-
-  > * + * {
-    margin-block-start: var(--ms-space-4);
-  }
-
-  > h2 {
-    margin-block-start: var(--ms-space-12);
-    font-size: var(--ms-font-size-text-xl);
-    font-weight: var(--ms-font-weight-semibold);
-    line-height: var(--ms-line-height-text-xl);
-    letter-spacing: var(--ms-letter-spacing-text-xl);
-  }
-
-  > h3 {
-    margin-block-start: var(--ms-space-8);
-    font-size: var(--ms-font-size-text-lg);
-    font-weight: var(--ms-font-weight-semibold);
-    line-height: var(--ms-line-height-text-lg);
-  }
-
-  > h4 {
-    margin-block-start: var(--ms-space-6);
-    font-size: var(--ms-font-size-text-base);
-    font-weight: var(--ms-font-weight-semibold);
-  }
-
-  > h2 + *,
-  > h3 + *,
-  > h4 + * {
-    margin-block-start: var(--ms-space-3);
-  }
-
-  // NOTE: markdown lists carry no class. Scoped to those, so the lists of live examples
-  // (`ms-pagination__list`, …) keep their element's own styles
-  :where(ul, ol):not([class]) {
-    padding-inline-start: var(--ms-space-6);
-  }
-
-  ul:not([class]) {
-    list-style: disc;
-  }
-
-  ol:not([class]) {
-    list-style: decimal;
-  }
-
-  :where(ul, ol):not([class]) > li + li,
-  li > :where(ul, ol):not([class]) {
-    margin-block-start: var(--ms-space-1);
-  }
-
-  strong {
-    font-weight: var(--ms-font-weight-semibold);
-  }
-
-  :not(pre) > code {
-    padding: 0.125em 0.375em;
-    border: var(--ms-border-width-base) solid var(--ms-color-border-subtle);
-    border-radius: var(--ms-border-radius-xs);
-    background-color: var(--ms-color-bg-subtle);
-    font-family: var(--ms-font-family-text-mono);
-    font-size: 0.875em;
-  }
-
-  blockquote {
-    padding-inline-start: var(--ms-space-4);
-    border-inline-start: var(--ms-border-width-xl) solid
-      var(--ms-color-border-default);
-    color: var(--ms-color-text-muted);
-  }
-
-  hr {
-    margin-block: var(--ms-space-8);
-    border: 0;
-    border-block-start: var(--ms-border-width-base) solid
-      var(--ms-color-border-subtle);
-  }
-
-  img {
-    border-radius: var(--ms-border-radius-base);
-  }
-
-  // NOTE: tables are mostly props and tokens: code in a cell stays on one line, the wrapper
-  // scrolls a table wider than the page
+  // NOTE: code in a table cell stays on one line, the table's wrapper scrolls instead
   .ms-table code {
     white-space: nowrap;
   }

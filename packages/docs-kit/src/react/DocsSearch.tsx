@@ -2,7 +2,7 @@
 
 import { Button } from '@mainset/react/components';
 import { Dialog } from '@mainset/react/containers';
-import { Input, Text } from '@mainset/react/elements';
+import { Input, KeyboardKey, Text } from '@mainset/react/elements';
 import { useIsClient } from '@mainset/react/hooks';
 import React from 'react';
 import { useNavigate } from 'react-router';
@@ -182,9 +182,9 @@ function DocsSearch() {
       >
         <span className="msd-search__trigger-label">{ui.search}</span>
         {isClient && (
-          <kbd className="msd-search__shortcut" aria-hidden="true">
+          <KeyboardKey className="msd-search__shortcut" aria-hidden="true">
             {isApple ? '⌘K' : 'Ctrl K'}
-          </kbd>
+          </KeyboardKey>
         )}
       </Button>
 

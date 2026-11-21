@@ -1,5 +1,6 @@
 'use client';
 
+import { Prose } from '@mainset/react/elements';
 import React from 'react';
 import { useHref, useNavigate } from 'react-router';
 
@@ -93,7 +94,7 @@ function DocsArticleContent({ html, lang }: DocsArticleContentProps) {
   return (
     // NOTE: the clicks it handles land on links and buttons inside the HTML, which are
     // keyboard-operable by themselves (Enter on a link fires the same click)
-    <div
+    <Prose
       ref={contentRef}
       className="msd-prose"
       lang={lang}

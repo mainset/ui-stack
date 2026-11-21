@@ -1,5 +1,6 @@
 'use client';
 
+import { NavList } from '@mainset/react/components';
 import React from 'react';
 import { Link } from 'react-router';
 
@@ -9,7 +10,6 @@ import type {
   DocsPage,
 } from '../core/docs.types.mjs';
 import { containsPage } from '../core/nav-tree.mjs';
-import { ChevronIcon } from './icons.js';
 
 interface DocsSidebarProps {
   items: DocsNavItem[];
@@ -43,28 +43,24 @@ function NavCategory({
   }, [holdsCurrentPage]);
 
   return (
-    <li className="msd-sidebar__category">
-      {/* NOTE: native <details>: opens and closes without script (static pages) and is a
-          disclosure for assistive tech */}
-      <details
+    <NavList.Item>
+      {/* NOTE: native <details>: opens and closes without script (static pages) */}
+      <NavList.Group
+        navLabel={category.label}
         open={isOpen}
         onToggle={(event) => setIsOpen(event.currentTarget.open)}
       >
-        <summary className="msd-sidebar__category-label">
-          <span>{category.label}</span>
-          <ChevronIcon className="msd-sidebar__chevron" />
-        </summary>
-        <NavList {...props} items={category.items} />
-      </details>
-    </li>
+        <SidebarList {...props} items={category.items} />
+      </NavList.Group>
+    </NavList.Item>
   );
 }
 
-function NavList({ items, ...props }: NavListProps) {
+function SidebarList({ items, ...props }: NavListProps) {
   const { currentPageKey, activeHeadingId, getPagePath } = props;
 
   return (
-    <ul className="msd-sidebar__list">
+    <NavList>
       {items.map((item) => {
         if (item.type === 'category') {
           return (
@@ -83,44 +79,43 @@ function NavList({ items, ...props }: NavListProps) {
             : [];
 
         return (
-          <li key={`page:${item.key}`} className="msd-sidebar__item">
-            <Link
+          <NavList.Item key={`page:${item.key}`}>
+            <NavList.Link
+              navAs={Link}
               to={getPagePath(item.page)}
-              className="msd-sidebar__link"
               aria-current={isCurrent ? 'page' : undefined}
             >
               {item.label}
-            </Link>
+            </NavList.Link>
 
             {anchors.length > 0 && (
-              <ul className="msd-sidebar__anchors">
+              <NavList navVariant="line">
                 {anchors.map((heading) => (
-                  <li key={heading.id}>
-                    <a
+                  <NavList.Item key={heading.id}>
+                    <NavList.Link
                       href={`#${heading.id}`}
-                      className="msd-sidebar__anchor"
                       aria-current={
                         heading.id === activeHeadingId ? 'location' : undefined
                       }
                     >
                       {heading.text}
-                    </a>
-                  </li>
+                    </NavList.Link>
+                  </NavList.Item>
                 ))}
-              </ul>
+              </NavList>
             )}
-          </li>
+          </NavList.Item>
         );
       })}
-    </ul>
+    </NavList>
   );
 }
 
 /** The section's pages: categories as collapsible groups, the current page marked */
 function DocsSidebar({ items, label, ...props }: DocsSidebarProps) {
   return (
-    <nav aria-label={label} className="msd-sidebar">
-      <NavList items={items} {...props} />
+    <nav aria-label={label}>
+      <SidebarList items={items} {...props} />
     </nav>
   );
 }
