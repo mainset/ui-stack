@@ -89,4 +89,39 @@ describe('compileMarkdown', () => {
       '<div class="msd-preview__canvas"><button class="ms-button">Hi</button>',
     );
   });
+
+  it("leaves a preview's own headings and tables to the preview", async () => {
+    const { meta, html } = await compile(
+      [
+        '# Heading',
+        '',
+        '## Example',
+        '',
+        '```html preview',
+        '<h2 class="ms-heading">Section</h2>',
+        '<table class="ms-table ms-table--hoverable"><tr><td>1</td></tr></table>',
+        '```',
+      ].join('\n'),
+    );
+
+    expect(meta.headings.map(({ text }) => text)).toEqual(['Example']);
+    expect(html).toContain('<h2 class="ms-heading">Section</h2>');
+    expect(html).toContain('<table class="ms-table ms-table--hoverable">');
+  });
+
+  it('warns about an unknown frontmatter field', async () => {
+    const { warnings } = await compile(
+      '---\nsidbar:\n  order: 1\n---\n\n# Box\n',
+    );
+
+    expect(warnings).toEqual([
+      expect.stringContaining('unknown frontmatter field "sidbar"'),
+    ]);
+  });
+
+  it('fails on invalid frontmatter, with the file and line', async () => {
+    await expect(
+      compile('---\ntitle: Box\ntags: [a, b]\n---\n\n# Box\n'),
+    ).rejects.toThrow(`${FILE_PATH}:3: frontmatter: "[a, b]"`);
+  });
 });

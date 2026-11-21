@@ -65,6 +65,9 @@ Links to other pages are relative `.md` paths: [tokens](../02-theming/04-tokens.
 ```
 ````
 
+- The frontmatter is a strict subset of YAML: `key: value` lines nested by indentation, values
+  are plain or quoted text, numbers, `true` / `false`. Anything else (lists, multi-line text,
+  `[…]` / `{…}`) fails the build with its line; an unknown field (a typo) is a build warning.
 - `##` / `###` headings make "On this page", with GitHub-compatible ids (the same anchors work on
   GitHub and on the site).
 - `html preview` code blocks render their HTML above the code: a live example.

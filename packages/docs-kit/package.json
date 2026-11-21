@@ -34,17 +34,12 @@
     "check:browser-support": "node ../../scripts/check-browser-support.mjs dist/esm/core dist/esm/react"
   },
   "dependencies": {
-    "github-slugger": "^2.0.0",
-    "hast-util-to-string": "^3.0.1",
-    "rehype-raw": "^7.0.0",
     "rehype-stringify": "^10.0.1",
     "remark-gfm": "^4.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
     "shiki": "4.5.0",
-    "unified": "^11.0.5",
-    "unist-util-visit": "^5.0.0",
-    "yaml": "^2.8.1"
+    "unified": "^11.0.5"
   },
   "devDependencies": {
     "@mainset/builder-rslib": "^0.3.3",
