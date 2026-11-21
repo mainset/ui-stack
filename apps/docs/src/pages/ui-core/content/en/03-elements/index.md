@@ -13,7 +13,7 @@ order. Customize through the [tokens](../02-theming/04-tokens.md), not by copyin
 ## Props and classes
 
 Props with a prefix (`spc*`, `flx*`, `lay*`, `grd*`, `ctn*`, `txt*`, `lnk*`, `ctl*`, `spn*`,
-`btn*`, `ovr*`, `dlg*`, `tbs*`) map to modifier classes: `ctlSize: 'lg'` →
+`btn*`, `ovr*`, `dlg*`, `tbs*`, `nav*`) map to modifier classes: `ctlSize: 'lg'` →
 `ms-control--size-lg`. Props marked _responsive_ also take a per-breakpoint object, see
 [Responsive props](../01-getting-started/03-responsive-props.md).
 
