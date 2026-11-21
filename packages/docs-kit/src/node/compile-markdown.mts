@@ -1,16 +1,11 @@
-import GithubSlugger from 'github-slugger';
 import type { Element, ElementContent, Root as HastRoot } from 'hast';
-import { toString as hastToString } from 'hast-util-to-string';
-import type { Code, Nodes as MdastNodes, Root as MdastRoot } from 'mdast';
+import type { Code, Root as MdastRoot } from 'mdast';
 import path from 'node:path';
-import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
-import { visit } from 'unist-util-visit';
-import { parse as parseYaml } from 'yaml';
 
 import {
   PAGE_LINK__PREFIX,
@@ -21,7 +16,14 @@ import type {
   DocsPageFrontmatter,
   DocsPageMeta,
 } from '../core/docs.types.mjs';
+import {
+  FrontmatterError,
+  checkFrontmatter,
+  parseFrontmatter,
+} from './frontmatter.mjs';
 import { highlightCode } from './highlight-code.mjs';
+import { createSlugger } from './slugger.mjs';
+import { SKIP, nodeToText, visit } from './syntax-tree.mjs';
 
 interface CompileMarkdownOptions {
   /** Absolute path of the markdown file */
@@ -88,22 +90,28 @@ function locateContentFile(filePath: string, contentDirName: string) {
   };
 }
 
-function splitFrontmatter(source: string) {
+function splitFrontmatter(
+  source: string,
+  filePath: string,
+): { frontmatter: DocsPageFrontmatter; body: string; warnings: string[] } {
   const match = FRONTMATTER__REGEX.exec(source);
 
-  if (!match) return { frontmatter: {} as DocsPageFrontmatter, body: source };
+  if (!match) return { frontmatter: {}, body: source, warnings: [] };
 
-  const parsed = (parseYaml(match[1]) ?? {}) as DocsPageFrontmatter;
+  try {
+    return {
+      ...checkFrontmatter(parseFrontmatter(match[1])),
+      body: source.slice(match[0].length),
+    };
+  } catch (error) {
+    if (!(error instanceof Error)) throw error;
 
-  return { frontmatter: parsed, body: source.slice(match[0].length) };
-}
+    // NOTE: the frontmatter starts on the file's 2nd line, after `---`
+    const line = error instanceof FrontmatterError ? `:${error.line + 1}` : '';
 
-// The text of an mdast node, as rendered (inline code included, markup dropped)
-function mdastToText(node: MdastNodes): string {
-  if ('value' in node && typeof node.value === 'string') return node.value;
-  if ('children' in node) return node.children.map(mdastToText).join('');
-
-  return '';
+    error.message = `${filePath}${line}: frontmatter: ${error.message}`;
+    throw error;
+  }
 }
 
 const isExternalUrl = (url: string) => /^[a-z][a-z\d+.-]*:/i.test(url);
@@ -159,14 +167,12 @@ async function renderCodeBlock(node: Code): Promise<string> {
 /** A GitHub-compatible `id`, an anchor link, and a TOC entry for `##` / `###` */
 function addHeadingAnchor(
   node: Element,
-  slugger: GithubSlugger,
+  slug: (text: string) => string,
   headings: DocsHeading[],
 ) {
-  const text = hastToString(node).trim();
+  const text = nodeToText(node).trim();
   const id =
-    typeof node.properties.id === 'string'
-      ? node.properties.id
-      : slugger.slug(text);
+    typeof node.properties.id === 'string' ? node.properties.id : slug(text);
   const depth = Number(node.tagName.slice(1));
 
   node.properties.id = id;
@@ -266,8 +272,7 @@ async function compileMarkdown(
   source: string,
   { filePath, contentDirName = 'content' }: CompileMarkdownOptions,
 ): Promise<CompiledMarkdown> {
-  const warnings: string[] = [];
-  const { frontmatter, body } = splitFrontmatter(source);
+  const { frontmatter, body, warnings } = splitFrontmatter(source, filePath);
   const location = locateContentFile(filePath, contentDirName);
   const locale = location?.locale ?? 'en';
 
@@ -281,7 +286,7 @@ async function compileMarkdown(
   const [firstNode] = mdast.children;
 
   if (firstNode?.type === 'heading' && firstNode.depth === 1) {
-    title ??= mdastToText(firstNode);
+    title ??= nodeToText(firstNode);
     mdast.children.shift();
   }
 
@@ -294,7 +299,7 @@ async function compileMarkdown(
   );
 
   if (!description && firstParagraph) {
-    const text = mdastToText(firstParagraph).replace(/\s+/g, ' ').trim();
+    const text = nodeToText(firstParagraph).replace(/\s+/g, ' ').trim();
 
     description =
       text.length > DESCRIPTION__MAX_LENGTH
@@ -335,25 +340,27 @@ async function compileMarkdown(
   });
 
   // ========== HTML ==========
+  // NOTE: HTML in the markdown (the highlighted code, the live previews) stays as it is written:
+  // passed through, never parsed into the page, so a preview's headings or tables are not the
+  // page's own (no TOC entry, no table wrapper)
   const hast = (await unified()
     .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeRaw)
     .run(mdast)) as HastRoot;
 
-  const slugger = new GithubSlugger();
+  const slug = createSlugger();
   const headings: DocsHeading[] = [];
 
   visit(hast, 'element', (node, index, parent) => {
     if (/^h[2-6]$/.test(node.tagName)) {
-      addHeadingAnchor(node, slugger, headings);
+      addHeadingAnchor(node, slug, headings);
 
-      return 'skip';
+      return SKIP;
     }
 
     if (node.tagName === 'table' && parent && typeof index === 'number') {
       parent.children[index] = wrapTable(node);
 
-      return 'skip';
+      return SKIP;
     }
 
     const callout =
@@ -362,7 +369,7 @@ async function compileMarkdown(
     if (callout && parent && typeof index === 'number') {
       parent.children[index] = callout;
 
-      return 'skip';
+      return SKIP;
     }
 
     if (node.tagName === 'a' && !node.properties.className) {
@@ -376,7 +383,9 @@ async function compileMarkdown(
     return undefined;
   });
 
-  const html = unified().use(rehypeStringify).stringify(hast);
+  const html = unified()
+    .use(rehypeStringify, { allowDangerousHtml: true })
+    .stringify(hast);
 
   return {
     meta: { title, description, headings, frontmatter },
