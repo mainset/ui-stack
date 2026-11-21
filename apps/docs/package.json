@@ -1,0 +1,33 @@
+{
+  "engines": {
+    "node": ">=24.13.0"
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development ms-cli web-app --exec serve",
+    "dev:csr": "cross-env NODE_ENV=development ms-cli web-app --exec serve --serveMode csr",
+    "build": "ms-cli web-app --exec build",
+    "build:csr": "ms-cli web-app --exec build --serveMode csr",
+    "serve": "ms-cli web-app --exec serve-static",
+    "serve:csr": "ms-cli web-app --exec serve-static --serveMode csr",
+    "config": "ms-cli init -m config",
+    "build:static": "ms-cli web-app --exec build && ms-docs export",
+    "preview:static": "ms-docs preview"
+  },
+  "dependencies": {
+    "@mainset/docs-kit": "workspace:^",
+    "@mainset/react": "workspace:^",
+    "@mainset/ui-core": "workspace:^",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router": "8.5.1"
+  },
+  "devDependencies": {
+    "@mainset/bundler-webpack": "^0.5.1",
+    "@mainset/cli": "0.7.6",
+    "@mainset/dev-stack-fe": "^0.2.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "cross-env": "^10.1.0"
+  },
+  "packageManager": "pnpm@10.33.0"
+}

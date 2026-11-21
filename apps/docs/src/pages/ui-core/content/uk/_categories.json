@@ -1,0 +1,15 @@
+{
+  "getting-started": "Початок роботи",
+  "theming": "Теми",
+  "elements": "Елементи",
+  "elements/layout": "Макет",
+  "elements/typography": "Типографіка",
+  "elements/actions": "Дії",
+  "elements/forms": "Форми",
+  "elements/feedback": "Зворотний зв’язок",
+  "elements/overlays": "Оверлеї",
+  "elements/disclosure": "Розкриття",
+  "elements/motion": "Рух",
+  "elements/data-display": "Відображення даних",
+  "elements/navigation": "Навігація"
+}

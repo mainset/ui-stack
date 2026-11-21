@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" data-theme="system">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <title>Docs</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="<%= htmlWebpackPlugin.files.publicPath %>favicon.svg"
+    />
+
+    <!-- NOTE: the stored color scheme before the first paint, so a dark page never flashes
+         light. Same as `COLOR_SCHEME__INLINE_SCRIPT` of @mainset/docs-kit -->
+    <script>
+      try {
+        var scheme = localStorage.getItem('msd-color-scheme');
+        if (scheme === 'light' || scheme === 'dark' || scheme === 'system')
+          document.documentElement.dataset.theme = scheme;
+      } catch (e) {}
+    </script>
+
+    <!-- styles -->
+  </head>
+
+  <body>
+    <div id="msd-root"></div>
+
+    <!-- SPA -->
+  </body>
+</html>
