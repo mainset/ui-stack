@@ -29,7 +29,16 @@ $disclosure: disclosureVars.$class-selector;
   transition: transform var(--ms-duration-base) var(--ms-easing-standard);
 }
 
-#{options.where('#{$disclosure}__trigger[aria-expanded="true"] > #{$disclosure}__icon')} {
+// NOTE: any `<summary>` of an open `<details>`, so other elements may compose the icon too
+#{options.where('#{$disclosure}__trigger[aria-expanded="true"] > #{$disclosure}__icon, details[open] > summary > #{$disclosure}__icon')} {
   margin-block-start: calc(0.25 * var(--ms-disclosure-icon-size));
   transform: rotate(-135deg);
+}
+
+// The panel opens to its content's height and closes back (a `0fr` ↔ `1fr` grid row; browsers
+// without grid-row transitions open it at once). `visibility` waits for the close to finish.
+#{options.where('#{$disclosure}__panel')} {
+  transition:
+    grid-template-rows var(--ms-disclosure-duration) var(--ms-easing-standard),
+    visibility var(--ms-disclosure-duration);
 }

@@ -1,4 +1,8 @@
 export { ALERT__CLASS_NAME_CONFIG } from './alert/index.mjs';
+export { ANIMATE__CLASS_NAME_CONFIG } from './animate/index.mjs';
+export type { AnimateStyleProps } from './animate/index.mjs';
+export { ASPECT_RATIO__CLASS_NAME_CONFIG } from './aspect-ratio/index.mjs';
+export type { AspectRatioStyleProps } from './aspect-ratio/index.mjs';
 export {
   AVATAR__CLASS_NAME_CONFIG,
   AVATAR_GROUP__CLASS_NAME_CONFIG,
@@ -20,6 +24,7 @@ export {
   RADIO__CLASS_NAME_CONFIG,
   SWITCH__CLASS_NAME_CONFIG,
 } from './choice/index.mjs';
+export { CODE__CLASS_NAME_CONFIG } from './code/index.mjs';
 export { CONTAINER__CLASS_NAME_CONFIG } from './container/index.mjs';
 export type { ContainerStyleProps } from './container/index.mjs';
 export { CONTROL__CLASS_NAME_CONFIG } from './control/index.mjs';
@@ -69,12 +74,17 @@ export {
   HEADING_LEVEL__SIZES,
 } from './heading/index.mjs';
 export type { HeadingLevel } from './heading/index.mjs';
+export { HOVER__CLASS_NAME_CONFIG } from './hover/index.mjs';
+export type { HoverStyleProps } from './hover/index.mjs';
 export { HR__CLASS_NAME_CONFIG } from './hr/index.mjs';
 export type { HrStyleProps } from './hr/index.mjs';
+export { ICON_TILE__CLASS_NAME_CONFIG } from './icon-tile/index.mjs';
+export type { IconTileStyleProps } from './icon-tile/index.mjs';
 export {
   INPUT__CLASS_NAME_CONFIG,
   SELECT__CLASS_NAME_CONFIG,
 } from './input/index.mjs';
+export { KEYBOARD_KEY__CLASS_NAME_CONFIG } from './keyboard-key/index.mjs';
 export { LAYOUT__CLASS_NAME_CONFIG } from './layout/index.mjs';
 export type { LayoutStyleProps } from './layout/index.mjs';
 export { LINK__CLASS_NAME_CONFIG } from './link/index.mjs';
@@ -82,6 +92,8 @@ export type { LinkStyleProps } from './link/index.mjs';
 export { LIST__CLASS_NAME_CONFIG } from './list/index.mjs';
 export type { ListStyleProps } from './list/index.mjs';
 export { MENU__CLASS_NAME_CONFIG } from './menu/index.mjs';
+export { NAV_LIST__CLASS_NAME_CONFIG } from './nav-list/index.mjs';
+export type { NavListStyleProps } from './nav-list/index.mjs';
 export { OVERLAY__CLASS_NAME_CONFIG } from './overlay/index.mjs';
 export type { OverlayStyleProps } from './overlay/index.mjs';
 export {
@@ -98,6 +110,7 @@ export { POPPER_WRAPPER__CLASS_NAME_CONFIG } from './popper/index.mjs';
 export type { PopperWrapperStyleProps } from './popper/index.mjs';
 export { PROGRESS__CLASS_NAME_CONFIG } from './progress/index.mjs';
 export type { ProgressStyleProps } from './progress/index.mjs';
+export { PROSE__CLASS_NAME_CONFIG } from './prose/index.mjs';
 export { SECTION__CLASS_NAME_CONFIG } from './section/index.mjs';
 export type { SectionStyleProps } from './section/index.mjs';
 export { SKELETON__CLASS_NAME_CONFIG } from './skeleton/index.mjs';

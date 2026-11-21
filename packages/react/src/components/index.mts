@@ -19,6 +19,16 @@ export type {
 export { Button } from './Button/index.mjs';
 export { CloseButton } from './CloseButton/index.mjs';
 export type { CloseButtonProps } from './CloseButton/index.mjs';
+export { Disclosure } from './Disclosure/index.mjs';
+export type { DisclosureProps } from './Disclosure/index.mjs';
 export { Field } from './Field/index.mjs';
+export { NavList } from './NavList/index.mjs';
+export type {
+  NavListGroupProps,
+  NavListItemProps,
+  NavListLinkElementType,
+  NavListLinkProps,
+  NavListProps,
+} from './NavList/index.mjs';
 export { Pagination } from './Pagination/index.mjs';
 export type { PaginationProps } from './Pagination/index.mjs';

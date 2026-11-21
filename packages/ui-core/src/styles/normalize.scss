@@ -6,6 +6,8 @@
 // Utilities (spacing, flex, grid, text…) are included: they only apply token values.
 @use './foundation';
 @use '../elements/alert/alert-normalize';
+@use '../elements/animate/animate';
+@use '../elements/aspect-ratio/aspect-ratio-normalize';
 @use '../elements/avatar/avatar-normalize';
 @use '../elements/backdrop/backdrop-normalize';
 @use '../elements/background/background';
@@ -13,6 +15,7 @@
 @use '../elements/breadcrumb/breadcrumb-normalize';
 @use '../elements/button/button-normalize';
 @use '../elements/choice/choice-normalize';
+@use '../elements/code/code-normalize';
 @use '../elements/container/container-normalize';
 @use '../elements/control/control-normalize';
 @use '../elements/dialog/dialog-normalize';
@@ -23,16 +26,21 @@
 @use '../elements/grid/grid';
 @use '../elements/heading/heading-normalize';
 @use '../elements/hr/hr-normalize';
+@use '../elements/hover/hover';
+@use '../elements/icon-tile/icon-tile-normalize';
 @use '../elements/input/input-normalize';
+@use '../elements/keyboard-key/keyboard-key-normalize';
 @use '../elements/layout/layout';
 @use '../elements/link/link-normalize';
 @use '../elements/list/list-normalize';
 @use '../elements/menu/menu-normalize';
+@use '../elements/nav-list/nav-list-normalize';
 @use '../elements/overlay/overlay-normalize';
 @use '../elements/pagination/pagination-normalize';
 @use '../elements/popover/popover-normalize';
 @use '../elements/popper/popper-normalize';
 @use '../elements/progress/progress-normalize';
+@use '../elements/prose/prose-normalize';
 @use '../elements/section/section';
 @use '../elements/skeleton/skeleton-normalize';
 @use '../elements/spacing/spacing';

@@ -30,6 +30,7 @@
     "./styles/normalize.css": "./dist/esm/styles/normalize.css",
     "./styles/normalize.min.css": "./dist/esm/styles/normalize.min.css",
     "./styles/foundation.css": "./dist/esm/styles/foundation.css",
+    "./styles/fonts.css": "./dist/esm/styles/fonts.css",
     "./styles/reset.css": "./dist/esm/styles/reset.css",
     "./scss/mixins": "./src/styles/_mixins.scss"
   },
@@ -44,6 +45,7 @@
   "scripts": {
     "codegen": "node --import ./scripts/ts-hooks.register.mjs ./scripts/codegen.mts",
     "codegen:check": "pnpm run codegen --check",
+    "contrast:report": "node --import ./scripts/ts-hooks.register.mjs ./scripts/contrast-report.mts",
     "dev": "pnpm run codegen && ms-cli node-sourcer --exec watch -t web --bundless",
     "build": "pnpm run codegen && ms-cli node-sourcer --exec build -t web --bundless && pnpm run minify:css && pnpm run check:browser-support",
     "minify:css": "node ./scripts/minify-css.mjs",

@@ -167,9 +167,11 @@ function MenuTrigger({ children }: { children: React.ReactElement }) {
   );
 }
 
+const ITEM_SELECTOR = '[role="menuitem"], [role="menuitemradio"]';
+
 // This menu's own items, not those of a nested one
 const getItems = (list: HTMLElement) =>
-  [...list.querySelectorAll<HTMLElement>('[role="menuitem"]')].filter(
+  [...list.querySelectorAll<HTMLElement>(ITEM_SELECTOR)].filter(
     (item) => item.closest('[role="menu"]') === list,
   );
 
@@ -205,14 +207,21 @@ function MenuList({
     timeoutId: undefined as ReturnType<typeof setTimeout> | undefined,
   });
 
-  // The first / last item gets the focus once it's open
+  // The first / last item gets the focus once it's open; opened from the top, the checked radio
+  // item does, if there is one (where the choice already is)
   React.useLayoutEffect(() => {
     const list = listRef.current;
     if (!isOpen || !list) return;
 
     const items = getItems(list);
+    const checkedItem = items.find(
+      (item) => item.getAttribute('aria-checked') === 'true',
+    );
     // NOTE: no scrolling to it before it's positioned
-    (initialFocus === 'last' ? items[items.length - 1] : items[0])?.focus({
+    (initialFocus === 'last'
+      ? items[items.length - 1]
+      : (checkedItem ?? items[0])
+    )?.focus({
       preventScroll: true,
     });
   }, [isOpen, initialFocus]);
@@ -436,13 +445,133 @@ function MenuGroup({ mnuLabel, children, ...props }: MenuGroupProps) {
   );
 }
 
+interface MenuRadioGroupContextValue {
+  value: string | undefined;
+  onValueChange: (value: string) => void;
+}
+
+const MenuRadioGroupContext =
+  React.createContext<MenuRadioGroupContextValue | null>(null);
+
+type MenuRadioGroupProps = Omit<
+  React.ComponentPropsWithRef<'div'>,
+  'onChange'
+> & {
+  /** The checked item's `mnuValue` (controlled) */
+  mnuValue: string | undefined;
+  mnuOnValueChange: (value: string) => void;
+  /** A visible label naming the group; without one, give it `aria-label` if it needs a name */
+  mnuLabel?: React.ReactNode;
+};
+
+/**
+ * A single choice among `Menu.RadioItem`s (e.g. the language): the checked one shows a check
+ * mark and gets the focus when the menu opens.
+ *
+ * @example
+ * <Menu.RadioGroup mnuValue={locale} mnuOnValueChange={setLocale}>
+ *   <Menu.RadioItem mnuValue="en">English</Menu.RadioItem>
+ *   <Menu.RadioItem mnuValue="uk">Українська</Menu.RadioItem>
+ * </Menu.RadioGroup>
+ */
+function MenuRadioGroup({
+  mnuValue,
+  mnuOnValueChange,
+  mnuLabel,
+  children,
+  ...props
+}: MenuRadioGroupProps) {
+  const labelId = React.useId();
+  const context = React.useMemo(
+    () => ({ value: mnuValue, onValueChange: mnuOnValueChange }),
+    [mnuValue, mnuOnValueChange],
+  );
+
+  return (
+    <MenuRadioGroupContext.Provider value={context}>
+      <div
+        role="group"
+        aria-labelledby={mnuLabel ? labelId : undefined}
+        {...props}
+      >
+        {mnuLabel && (
+          <div
+            id={labelId}
+            className={`${MENU}__group-label`}
+            aria-hidden="true"
+          >
+            {mnuLabel}
+          </div>
+        )}
+        {children}
+      </div>
+    </MenuRadioGroupContext.Provider>
+  );
+}
+
+type MenuRadioItemProps = Omit<
+  MenuItemProps<'button'>,
+  'mnuAs' | 'role' | 'aria-checked'
+> & {
+  mnuValue: string;
+};
+
+/** One option of a `Menu.RadioGroup`; selecting it checks it and closes the menu */
+function MenuRadioItem({
+  mnuValue,
+  mnuOnSelect,
+  children,
+  ...props
+}: MenuRadioItemProps) {
+  const group = React.useContext(MenuRadioGroupContext);
+
+  if (!group) {
+    throw new Error('<Menu.RadioItem> must be used within a <Menu.RadioGroup>');
+  }
+
+  const isChecked = group.value === mnuValue;
+
+  return (
+    <MenuItem
+      role="menuitemradio"
+      aria-checked={isChecked}
+      {...props}
+      mnuOnSelect={(event) => {
+        mnuOnSelect?.(event);
+        if (!event.defaultPrevented && !isChecked) {
+          group.onValueChange(mnuValue);
+        }
+      }}
+    >
+      {children}
+      <svg
+        className={`${MENU}__item-indicator`}
+        viewBox="0 0 16 16"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M3.75 8.25l2.75 2.75 5.75-6" />
+      </svg>
+    </MenuItem>
+  );
+}
+
 const Menu = Object.assign(MenuRoot, {
   Trigger: MenuTrigger,
   List: MenuList,
   Item: MenuItem,
   Separator: MenuSeparator,
   Group: MenuGroup,
+  RadioGroup: MenuRadioGroup,
+  RadioItem: MenuRadioItem,
 });
 
 export { Menu };
-export type { MenuGroupProps, MenuItemProps, MenuListProps, MenuProps };
+export type {
+  MenuGroupProps,
+  MenuItemProps,
+  MenuListProps,
+  MenuProps,
+  MenuRadioGroupProps,
+  MenuRadioItemProps,
+};

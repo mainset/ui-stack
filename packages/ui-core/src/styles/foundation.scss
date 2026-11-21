@@ -8,7 +8,7 @@
 //                    --ms-tone-*               the *current* tone, inherited; `.ms-tone-{tone}` re-points it
 // Tier 3 (component) --ms-{component}-*        declared next to each element (e.g. `_control.tokens.scss`)
 // Theming: set `data-theme="light" | "dark" | "system"` on any element (nesting is supported),
-// or override tokens from app CSS, e.g. `:root { --ms-palette-violet-600: #7c3aed; }`.
+// or override tokens from app CSS, e.g. `:root { --ms-palette-violet-500: #7c3aed; }`.
 // Every token rule is `:where()` (0 specificity), so such an override always wins, in any order.
 @use 'sass:map';
 @use './variables' as msVariable;
@@ -22,8 +22,11 @@
   }
 
   // ----- Font family tokens -----
-  // The default UI font
-  --ms-font-family-text-sans: system-ui, -apple-system, sans-serif;
+  // The default UI font. Onest / JetBrains Mono load from `@mainset/ui-core/styles/fonts.css`
+  // (imported once per page); until then their metric-matched `* Fallback` faces render (no layout
+  // shift on swap), and without that file, the system fonts.
+  --ms-font-family-text-sans:
+    'Onest', 'Onest Fallback', system-ui, -apple-system, sans-serif;
 
   // Used for editorial content, articles, or specific brand headings
   --ms-font-family-text-serif:
@@ -31,7 +34,8 @@
 
   // Used for code snippets, tabular data, numbers, or technical info.
   --ms-font-family-text-mono:
-    ui-monospace, sfmono-regular, menlo, monaco, consolas, monospace;
+    'JetBrains Mono', 'JetBrains Mono Fallback', ui-monospace, sfmono-regular,
+    menlo, monaco, consolas, monospace;
 
   // ----- Font weight tokens -----
   --ms-font-weight-regular: 400;
@@ -74,6 +78,41 @@
   --ms-font-size-text-xxl: 2.25rem; // 36px
   --ms-letter-spacing-text-xxl: -0.02em;
   --ms-line-height-text-xxl: 1.25; // 45px
+
+  // ----- Display size tokens (fluid) -----
+  // Hero and landing headlines: they grow with the viewport between a floor and a ceiling, so a
+  // headline needs no per-breakpoint size. The `rem` part keeps them zoomable (WCAG 1.4.4).
+  // display-sm (Section headlines): 30px → 36px
+  --ms-font-size-display-sm: clamp(1.875rem, 1.5rem + 1.25vw, 2.25rem);
+  --ms-letter-spacing-display-sm: -0.025em;
+  --ms-line-height-display-sm: 1.15;
+
+  // display-base (Page headlines): 36px → 60px
+  --ms-font-size-display-base: clamp(2.25rem, 1.25rem + 4vw, 3.75rem);
+  --ms-letter-spacing-display-base: -0.03em;
+  --ms-line-height-display-base: 1.08;
+
+  // display-lg (Hero statements, wordmarks): 48px → 72px
+  --ms-font-size-display-lg: clamp(3rem, 1.75rem + 5vw, 4.5rem);
+  --ms-letter-spacing-display-lg: -0.035em;
+  --ms-line-height-display-lg: 1;
+
+  // ----- Line height tokens (overrides of the size's own line height) -----
+  --ms-line-height-tight: 1.2; // Headlines, labels
+  --ms-line-height-relaxed: 1.625; // Long-form copy, lead paragraphs
+
+  // ----- Overline tokens (the small label above a heading) -----
+  --ms-overline-font-family: var(--ms-font-family-text-mono);
+  --ms-overline-font-size: var(--ms-font-size-text-xs);
+  --ms-overline-font-weight: var(--ms-font-weight-medium);
+  --ms-overline-letter-spacing: 0.16em;
+
+  // ----- Data tokens (versions, sizes, scores, ids: `txtVariant="data"`) -----
+  --ms-data-font-family: var(--ms-font-family-text-mono);
+
+  // ----- Scroll offset -----
+  // Room kept above an in-page anchor target, e.g. a fixed header's height: `--ms-scroll-offset: 4rem`
+  --ms-scroll-offset: 0;
 
   // ----- Border radius tokens -----
   @each $name, $value in msVariable.$border-radius-map {
@@ -123,9 +162,17 @@
   --ms-duration-fast: 120ms;
   --ms-duration-base: 200ms;
   --ms-duration-slow: 300ms;
+  --ms-duration-slower: 500ms; // Media zooms, larger surfaces
+  --ms-duration-slowest: 800ms; // Entrances of whole blocks (`ms-animate`)
   --ms-easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --ms-easing-enter: cubic-bezier(0, 0, 0.2, 1);
   --ms-easing-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ms-easing-emphasized: cubic-bezier(
+    0.22,
+    1,
+    0.36,
+    1
+  ); // A long, soft landing (entrances)
 
   // ----- Focus ring tokens (color is semantic: `--ms-color-focus-ring`) -----
   --ms-focus-ring-width: 0.125rem; // 2px
@@ -133,7 +180,6 @@
 
   // ----- Opacity tokens -----
   --ms-opacity-disabled: 0.7;
-  --ms-opacity-pressed: 0.8;
   --ms-opacity-backdrop: 0.6;
 }
 
@@ -143,6 +189,8 @@
     --ms-duration-fast: 0ms;
     --ms-duration-base: 0ms;
     --ms-duration-slow: 0ms;
+    --ms-duration-slower: 0ms;
+    --ms-duration-slowest: 0ms;
   }
 }
 

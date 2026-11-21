@@ -1,0 +1,57 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './prose.tokens';
+@use '../../styles/options';
+@use '../code/code.mixins' as codeMixin;
+@use '../keyboard-key/keyboard-key.mixins' as keyboardKeyMixin;
+@use './prose.variables' as proseVars;
+
+// Normalize layer: rich text you don't write the markup of (rendered markdown, a CMS), with
+// no classes on its elements. Its blocks lose their own margins (the theme spaces them).
+// NOTE: lists are styled only without a class, so a component inside (`ms-pagination__list`,
+// `ms-nav-list`, …) keeps its own look
+$prose: proseVars.$class-selector;
+$ul: '#{$prose} ul:not([class])';
+$ol: '#{$prose} ol:not([class])';
+
+#{options.where($prose)} {
+  overflow-wrap: break-word;
+}
+
+#{options.where('#{$prose} > *')} {
+  margin-block: 0;
+}
+
+#{options.where('#{$ul}, #{$ol}')} {
+  margin-block: 0;
+  padding-inline-start: var(--ms-prose-list-indent);
+}
+
+#{options.where($ul)} {
+  list-style: disc;
+}
+
+#{options.where($ol)} {
+  list-style: decimal;
+}
+
+#{options.where('#{$prose} blockquote, #{$prose} figure')} {
+  margin-inline: 0;
+}
+
+#{options.where('#{$prose} img, #{$prose} video')} {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+#{options.where('#{$prose} hr')} {
+  block-size: 0;
+  border: 0;
+}
+
+#{options.where('#{$prose} :not(pre) > code')} {
+  @include codeMixin.normalize;
+}
+
+#{options.where('#{$prose} kbd')} {
+  @include keyboardKeyMixin.normalize;
+}

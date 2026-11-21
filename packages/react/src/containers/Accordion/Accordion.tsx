@@ -64,7 +64,7 @@ type AccordionProps = Omit<
 /**
  * Expandable sections (WAI-ARIA accordion pattern): each trigger is a button inside a heading,
  * its panel a `region` named by it. Up / Down move between triggers, Home / End jump.
- * Collapsed panels stay in the DOM (`hidden`).
+ * Collapsed panels stay in the DOM (`inert`), and open / close with a height animation.
  *
  * @example
  * <Accordion accDefaultOpenIds={['shipping']}>
@@ -238,8 +238,15 @@ function AccordionTrigger({
 
 type AccordionPanelProps = React.ComponentPropsWithRef<'div'>;
 
-/** The item's content: a `region` named by its trigger, `hidden` while collapsed */
-function AccordionPanel({ className, ...props }: AccordionPanelProps) {
+/**
+ * The item's content: a `region` named by its trigger. Collapsed, it animates to no height and is
+ * `inert` and `visibility: hidden` (out of the tab order and the accessibility tree).
+ */
+function AccordionPanel({
+  className,
+  children,
+  ...props
+}: AccordionPanelProps) {
   const { triggerId, panelId, isItemOpen } = useAccordionItem();
 
   return (
@@ -247,10 +254,13 @@ function AccordionPanel({ className, ...props }: AccordionPanelProps) {
       role="region"
       id={panelId}
       aria-labelledby={triggerId}
-      hidden={!isItemOpen}
+      data-state={isItemOpen ? 'open' : 'closed'}
+      inert={!isItemOpen || undefined}
       className={cnx(className, `${DISCLOSURE}__panel`)}
       {...props}
-    />
+    >
+      <div className={`${DISCLOSURE}__panel-content`}>{children}</div>
+    </div>
   );
 }
 

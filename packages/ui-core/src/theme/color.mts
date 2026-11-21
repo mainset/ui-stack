@@ -156,6 +156,53 @@ function mixOklab(
   );
 }
 
+// ----- oklch -----
+/** OKLCH: lightness 0..1, chroma 0..~0.4, hue in degrees */
+type Oklch = { l: number; c: number; h: number };
+
+function toOklch(color: RgbaColor): Oklch {
+  const [l, a, b] = toOklab(color);
+  const hue = (Math.atan2(b, a) * 180) / Math.PI;
+  return { l, c: Math.hypot(a, b), h: hue < 0 ? hue + 360 : hue };
+}
+
+const oklchToRgb = ({ l, c, h }: Oklch): RgbaColor => {
+  const radians = (h * Math.PI) / 180;
+  return fromOklab([l, c * Math.cos(radians), c * Math.sin(radians)]);
+};
+
+// NOTE: half a channel step of slack, so rounding noise isn't read as out of gamut
+const isInSrgb = ({ r, g, b }: RgbaColor) =>
+  [r, g, b].every((channel) => channel >= -0.5 && channel <= 255.5);
+
+// Halvings of the chroma search: far below one 8-bit channel step
+const GAMUT_SEARCH__STEPS = 20;
+
+/**
+ * The sRGB color of an OKLCH one. Out of gamut, chroma is reduced (lightness and hue kept) until
+ * it fits, so a too-vivid request becomes the most vivid sRGB color of that lightness and hue.
+ */
+function oklchToSrgb(color: Oklch): RgbaColor {
+  const exact = oklchToRgb(color);
+  if (isInSrgb(exact)) return exact;
+
+  let low = 0; // chroma known to fit
+  let high = color.c; // chroma known not to
+  for (let step = 0; step < GAMUT_SEARCH__STEPS; step += 1) {
+    const chroma = (low + high) / 2;
+    if (isInSrgb(oklchToRgb({ ...color, c: chroma }))) low = chroma;
+    else high = chroma;
+  }
+
+  return oklchToRgb({ ...color, c: low });
+}
+
+/** `rgb(r g b)`, channels rounded and clamped to 0..255 */
+function formatRgb({ r, g, b }: RgbaColor): string {
+  const channel = (value: number) => Math.round(clamp(value, 0, 255));
+  return `rgb(${channel(r)} ${channel(g)} ${channel(b)})`;
+}
+
 // ----- Contrast -----
 const relativeLuminance = ({ r, g, b }: RgbaColor) =>
   0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
@@ -168,5 +215,42 @@ function contrastRatio(x: RgbaColor, y: RgbaColor): number {
   return (high + 0.05) / (low + 0.05);
 }
 
-export { contrastRatio, formatHex, mixOklab, parseColor, parseColorOrThrow };
-export type { RgbaColor };
+/**
+ * APCA lightness contrast (Lc, APCA-W3 0.0.98G-4g): about 0..106 for dark text on light, about
+ * 0..-108 for light text on dark (the sign tells the polarity). An advisory, perceptual check next
+ * to WCAG 2, which stays the pass / fail gate. Rough reading: |Lc| 75 body text, 60 content text,
+ * 45 large text, 30 the floor for anything readable.
+ */
+function apcaContrast(text: RgbaColor, background: RgbaColor): number {
+  const screenLuminance = ({ r, g, b }: RgbaColor) =>
+    0.2126729 * (r / 255) ** 2.4 +
+    0.7151522 * (g / 255) ** 2.4 +
+    0.072175 * (b / 255) ** 2.4;
+  // soft clamp of near-black, as the APCA reference does
+  const softClamp = (y: number) => (y > 0.022 ? y : y + (0.022 - y) ** 1.414);
+
+  const textY = softClamp(screenLuminance(text));
+  const backgroundY = softClamp(screenLuminance(background));
+  if (Math.abs(backgroundY - textY) < 0.0005) return 0;
+
+  if (backgroundY > textY) {
+    const contrast = (backgroundY ** 0.56 - textY ** 0.57) * 1.14;
+    return contrast < 0.1 ? 0 : (contrast - 0.027) * 100;
+  }
+
+  const contrast = (backgroundY ** 0.65 - textY ** 0.62) * 1.14;
+  return contrast > -0.1 ? 0 : (contrast + 0.027) * 100;
+}
+
+export {
+  apcaContrast,
+  contrastRatio,
+  formatHex,
+  formatRgb,
+  mixOklab,
+  oklchToSrgb,
+  parseColor,
+  parseColorOrThrow,
+  toOklch,
+};
+export type { Oklch, RgbaColor };

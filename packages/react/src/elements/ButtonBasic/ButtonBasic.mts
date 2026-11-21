@@ -1,16 +1,19 @@
-import type { ButtonStyleProps } from '@mainset/ui-core';
+import type { ButtonStyleProps, HoverStyleProps } from '@mainset/ui-core';
 import {
   BUTTON__CLASS_NAME_CONFIG,
   SURFACE__RECIPE_CONFIGS,
 } from '@mainset/ui-core';
 
 import type { AnyComponent, PolymorphicProps } from '../utils/index.mjs';
+import type { ButtonIconProps } from './render-button.mjs';
 import { renderButton } from './render-button.mjs';
 
 // `btnAs={Link}` renders a router link styled as a button
 type ButtonElementType = 'button' | 'a' | 'div' | AnyComponent;
 
-type ButtonBasicOwnProps = Pick<ButtonStyleProps, 'btnIsDisabled'>;
+type ButtonBasicOwnProps = Pick<ButtonStyleProps, 'btnIsDisabled'> &
+  ButtonIconProps &
+  HoverStyleProps;
 
 type ButtonBasicProps<C extends ButtonElementType = 'button'> =
   PolymorphicProps<'btnAs', C, ButtonBasicOwnProps>;

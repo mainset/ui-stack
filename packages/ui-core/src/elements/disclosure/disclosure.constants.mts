@@ -9,7 +9,9 @@ import './disclosure.scss';
 /**
  * An expandable section (an accordion item): `ms-disclosure` > `__heading` (h2–h6) >
  * `__trigger` button (`aria-expanded`, `aria-controls`) with a `__icon` span, then the
- * `__panel` (`hidden` while collapsed). Works with a native `<details>` too, with your own JS.
+ * `__panel` (`hidden` while collapsed). A native `<details class="ms-disclosure">` works too,
+ * without script: `summary.__trigger` (with the `__icon`), then the content (a `__panel-content`
+ * for the padding).
  */
 const DISCLOSURE__CLASS_NAME_CONFIG = {
   baseClass: 'ms-disclosure',

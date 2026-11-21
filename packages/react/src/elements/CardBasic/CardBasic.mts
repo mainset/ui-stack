@@ -5,7 +5,13 @@ import type { SurfaceProps } from '../Surface/index.mjs';
 import { Surface } from '../Surface/index.mjs';
 
 interface CardBasicProps
-  extends React.HTMLAttributes<HTMLDivElement>, SurfaceProps {}
+  extends React.HTMLAttributes<HTMLDivElement>, SurfaceProps {
+  /**
+   * The whole card is a link: put one `<Link lnkIsStretched>` inside (its title, usually). The card
+   * is also a hover group, so `hvrEffect` on it or inside it (an arrow) plays on hover.
+   */
+  crdIsInteractive?: boolean;
+}
 
 const PROPS__BY_CARD_SIZE = {
   base: {
@@ -16,6 +22,8 @@ const PROPS__BY_CARD_SIZE = {
 } as const;
 
 const CardBasic: React.FC<CardBasicProps> = ({
+  crdIsInteractive,
+
   children,
   className,
 
@@ -24,7 +32,12 @@ const CardBasic: React.FC<CardBasicProps> = ({
   return React.createElement(
     Surface,
     {
-      className: cnx(className, spacingRecipe(PROPS__BY_CARD_SIZE.base)),
+      className: cnx(
+        className,
+        spacingRecipe(PROPS__BY_CARD_SIZE.base),
+        crdIsInteractive && 'ms-link-area',
+      ),
+      hvrIsGroup: crdIsInteractive || undefined,
       ...props,
     },
     children,

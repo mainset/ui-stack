@@ -67,6 +67,14 @@ export {
   BREADCRUMB__CLASS_NAME_CONFIG,
   SKELETON__CLASS_NAME_CONFIG,
   PROGRESS__CLASS_NAME_CONFIG,
+  ASPECT_RATIO__CLASS_NAME_CONFIG,
+  HOVER__CLASS_NAME_CONFIG,
+  ANIMATE__CLASS_NAME_CONFIG,
+  ICON_TILE__CLASS_NAME_CONFIG,
+  CODE__CLASS_NAME_CONFIG,
+  KEYBOARD_KEY__CLASS_NAME_CONFIG,
+  NAV_LIST__CLASS_NAME_CONFIG,
+  PROSE__CLASS_NAME_CONFIG,
 } from './elements/index.mjs';
 export type {
   BackdropStyleProps,
@@ -109,6 +117,11 @@ export type {
   PaginationRangeOptions,
   SkeletonStyleProps,
   ProgressStyleProps,
+  AspectRatioStyleProps,
+  HoverStyleProps,
+  AnimateStyleProps,
+  IconTileStyleProps,
+  NavListStyleProps,
 } from './elements/index.mjs';
 export {
   BOX__RECIPE_CONFIGS,
@@ -116,6 +129,8 @@ export {
   BUTTON__RECIPE_CONFIGS,
   buttonRecipe,
   controlRecipe,
+  extractHoverClassNamesFromProps,
+  hoverRecipe,
   INPUT__RECIPE_CONFIGS,
   inputRecipe,
   selectWrapperRecipe,

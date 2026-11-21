@@ -19,13 +19,20 @@
 
 $surface: surfaceVars.$class-selector;
 
+// Component tokens (Tier 3) of surfaces
+// NOTE: `transform` is in the list for the hover effects (`ms-hover--lift`): they move a surface
+// without replacing its color transitions
+:where(:root) {
+  --ms-surface-transition-property:
+    background-color, border-color, color, box-shadow, opacity, transform;
+}
+
 // NOTE: `--ms-surface-radius` is handed over by composites on the same element (e.g. `.ms-control`),
 // so the result doesn't depend on which stylesheet a bundler loads first
 #{options.where($surface)} {
   border-radius: var(--ms-surface-radius, var(--ms-border-radius-sm));
   transition-duration: var(--ms-duration-base);
-  transition-property:
-    background-color, border-color, color, box-shadow, opacity;
+  transition-property: var(--ms-surface-transition-property);
   transition-timing-function: var(--ms-easing-standard);
 }
 
@@ -58,7 +65,9 @@ $surface: surfaceVars.$class-selector;
 // --- Hover interaction modifiers (opt-in) ---
 $hover-bg: '#{$surface}--hover-bg, #{$surface}--hover-all';
 
-@media (hover: hover) {
+// `any-hover`: some input can hover (a touchscreen laptop with a mouse reports `hover: none` as
+// its primary pointer); phones have none, so taps leave no sticky hover
+@media (any-hover: hover) {
   #{options.where(':is(#{$hover-bg})#{$surface}--variant-solid:hover')} {
     background-color: var(--ms-tone-solid-hover);
   }

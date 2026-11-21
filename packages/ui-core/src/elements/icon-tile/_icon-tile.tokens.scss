@@ -1,0 +1,15 @@
+// Component tokens (Tier 3) of icon tiles
+:where(:root) {
+  --ms-icon-tile-size-sm: 2rem;
+  --ms-icon-tile-size-base: 2.5rem;
+  --ms-icon-tile-size-lg: 2.75rem;
+  --ms-icon-tile-icon-scale: 0.5; // the icon, as a share of the tile
+  --ms-icon-tile-radius: var(--ms-border-radius-base);
+  --ms-icon-tile-border-width: var(--ms-border-width-base);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-icon-tile-outlined-background: var(--ms-color-bg-subtle);
+  --ms-icon-tile-outlined-border-color: var(--ms-color-border-subtle);
+}

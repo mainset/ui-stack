@@ -15,8 +15,8 @@ const reactRslibConfig = generateReactRslibConfig({
   },
   source: {
     entry: {
-      // NOTE: the preset's bundleless entry, minus tests (they run from source with vitest)
-      index: [srcGlob('/**/*'), `!${srcGlob('/**/*.test.*')}`],
+      // NOTE: the preset's bundleless entry, minus tests (`__tests__/`, they run from source with vitest)
+      index: [srcGlob('/**/*'), `!${srcGlob('/**/__tests__/**')}`],
     },
     // TODO: exclude .md files from build
     assetsInclude: /\.md$/,

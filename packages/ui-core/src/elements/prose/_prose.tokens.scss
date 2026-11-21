@@ -1,0 +1,16 @@
+// Component tokens (Tier 3) of prose (rich text)
+:where(:root) {
+  // Between blocks (paragraphs, lists, code, tables…); headings take more above, less below
+  --ms-prose-flow-space: var(--ms-spacing-scale-component-sm);
+  --ms-prose-list-indent: var(--ms-spacing-scale-component-lg);
+  --ms-prose-quote-border-width: var(--ms-border-width-xl);
+  --ms-prose-image-border-radius: var(--ms-border-radius-base);
+}
+
+// NOTE: on every theme root: they point at scheme colors
+:where(:root, [data-theme]) {
+  --ms-prose-color: var(--ms-color-text-base);
+  --ms-prose-quote-color: var(--ms-color-text-muted);
+  --ms-prose-quote-border-color: var(--ms-color-border-default);
+  --ms-prose-hr-color: var(--ms-color-border-subtle);
+}

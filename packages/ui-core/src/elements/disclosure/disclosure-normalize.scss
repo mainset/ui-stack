@@ -4,7 +4,12 @@
 @use './disclosure.variables' as disclosureVars;
 
 // Normalize layer: an expandable section. A heading wraps the full-width trigger button
-// (`aria-expanded`); the panel is hidden with the `hidden` attribute while collapsed.
+// (`aria-expanded`). The panel collapses to no height (`data-state="closed"`, a one-row grid
+// from `1fr` to `0fr`, so the theme layer can animate it to the content's own height) and is
+// `visibility: hidden` then: out of the tab order and the accessibility tree. A panel with the
+// `hidden` attribute is simply not displayed.
+// A native `<details class="ms-disclosure">` works too, with no script: its `<summary>` is the
+// trigger (the browser's marker hidden, the icon replaces it), the content follows it.
 $disclosure: disclosureVars.$class-selector;
 
 #{options.where('#{$disclosure}__heading')} {
@@ -31,6 +36,15 @@ $disclosure: disclosureVars.$class-selector;
   appearance: none;
 }
 
+#{options.where('summary#{$disclosure}__trigger')} {
+  list-style: none;
+}
+
+// NOTE: Safari draws its own marker unless told not to; a pseudo-element can't be in `:where()`
+#{options.where('summary#{$disclosure}__trigger')}::-webkit-details-marker {
+  display: none;
+}
+
 #{options.where('#{$disclosure}__trigger:disabled, #{$disclosure}__trigger[aria-disabled="true"]')} {
   cursor: default;
 }
@@ -43,8 +57,28 @@ $disclosure: disclosureVars.$class-selector;
 }
 
 #{options.where('#{$disclosure}__panel')} {
-  padding: 0 var(--ms-disclosure-padding-inline)
-    var(--ms-disclosure-padding-block);
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+#{options.where('#{$disclosure}__panel[data-state="closed"]')} {
+  grid-template-rows: 0fr;
+  visibility: hidden;
+}
+
+// NOTE: no padding on the content: a collapsed (0 high) box would still be as tall as its
+// padding. Inline padding is safe; the bottom room is a spacer, clipped with the content.
+#{options.where('#{$disclosure}__panel-content')} {
+  overflow: hidden;
+  min-block-size: 0;
+  padding-inline: var(--ms-disclosure-padding-inline);
+}
+
+// NOTE: a pseudo-element can't be inside `:where()`
+#{options.where('#{$disclosure}__panel-content')}::after {
+  content: '';
+  display: block;
+  block-size: var(--ms-disclosure-padding-block);
 }
 
 #{options.where('#{$disclosure}__panel[hidden]')} {

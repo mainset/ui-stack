@@ -1,0 +1,16 @@
+// The look of a key, shared with `ms-prose` (whose `<kbd>` carries no class).
+// NOTE: no CSS output of its own, so a stylesheet using it doesn't repeat the tokens
+@mixin normalize {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@mixin theme {
+  padding-inline: var(--ms-keyboard-key-padding-inline);
+  font-family: var(--ms-font-family-text-mono);
+  font-size: var(--ms-keyboard-key-font-size);
+  color: var(--ms-keyboard-key-color);
+  border: var(--ms-keyboard-key-border-width) solid
+    var(--ms-keyboard-key-border-color);
+  border-radius: var(--ms-keyboard-key-border-radius);
+}

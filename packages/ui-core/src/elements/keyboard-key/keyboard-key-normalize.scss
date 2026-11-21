@@ -1,0 +1,10 @@
+// Component tokens: data read by both layers, overridable like every token
+@forward './keyboard-key.tokens';
+@use '../../styles/options';
+@use './keyboard-key.mixins' as keyboardKeyMixin;
+@use './keyboard-key.variables' as keyboardKeyVars;
+
+// Normalize layer: a key or a shortcut (`<kbd class="ms-keyboard-key">⌘K</kbd>`), never broken over lines
+#{options.where(keyboardKeyVars.$class-selector)} {
+  @include keyboardKeyMixin.normalize;
+}

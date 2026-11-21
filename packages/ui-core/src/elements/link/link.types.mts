@@ -7,6 +7,11 @@ interface LinkStyleProps {
     typeof LINK__CLASS_NAME_CONFIG,
     'lnkUnderline'
   > | null;
+  // boolean
+  lnkIsStretched?: ExtractClassNameFromPropOptions<
+    typeof LINK__CLASS_NAME_CONFIG,
+    'lnkIsStretched'
+  > | null;
 }
 
 export type { LinkStyleProps };

@@ -21,7 +21,7 @@ $fields: ':is(input, textarea, select)#{options.where($input)}';
 
 // NOTE: states stay inside `:where()` (all (0,0,1), later rule wins), so the invalid border of
 // `.ms-control` (0,2,0) shows through hover and focus
-@media (hover: hover) {
+@media (any-hover: hover) {
   #{$fields}:where(:hover:not(:disabled)) {
     border-color: var(--ms-input-border-color-hover);
   }

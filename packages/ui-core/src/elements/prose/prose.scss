@@ -1,0 +1,108 @@
+@use '../../styles/options';
+@use '../code/code.mixins' as codeMixin;
+@use '../keyboard-key/keyboard-key.mixins' as keyboardKeyMixin;
+@use './prose.variables' as proseVars;
+
+// Theme layer (mainset look) on top of `prose-normalize.scss`: relaxed lines, an even flow of
+// blocks, headings set apart from the section above, inline code and keys like `ms-code` /
+// `ms-keyboard-key`, links like `ms-link` (unless they carry a class of their own)
+$prose: proseVars.$class-selector;
+
+#{options.where($prose)} {
+  font-size: var(--ms-font-size-text-base);
+  line-height: var(--ms-line-height-relaxed);
+  color: var(--ms-prose-color);
+}
+
+#{options.where('#{$prose} > * + *')} {
+  margin-block-start: var(--ms-prose-flow-space);
+}
+
+// ========== Headings ==========
+
+#{options.where('#{$prose} > :is(h1, h2, h3, h4)')} {
+  font-weight: var(--ms-font-weight-semibold);
+}
+
+#{options.where('#{$prose} > h1')} {
+  font-size: var(--ms-font-size-text-xxl);
+  letter-spacing: var(--ms-letter-spacing-text-xxl);
+  line-height: var(--ms-line-height-text-xxl);
+}
+
+#{options.where('#{$prose} > h2')} {
+  margin-block-start: var(--ms-spacing-scale-block-base);
+  font-size: var(--ms-font-size-text-xl);
+  letter-spacing: var(--ms-letter-spacing-text-xl);
+  line-height: var(--ms-line-height-text-xl);
+}
+
+#{options.where('#{$prose} > h3')} {
+  margin-block-start: var(--ms-spacing-scale-block-xs);
+  font-size: var(--ms-font-size-text-lg);
+  letter-spacing: var(--ms-letter-spacing-text-lg);
+  line-height: var(--ms-line-height-text-lg);
+}
+
+#{options.where('#{$prose} > h4')} {
+  margin-block-start: var(--ms-spacing-scale-component-lg);
+  font-size: var(--ms-font-size-text-base);
+}
+
+// NOTE: first, so a page starting with a heading has no gap above it
+#{options.where('#{$prose} > :first-child')} {
+  margin-block-start: 0;
+}
+
+#{options.where('#{$prose} > :is(h1, h2, h3, h4) + *')} {
+  margin-block-start: var(--ms-spacing-scale-component-xs);
+}
+
+// ========== Text ==========
+
+#{options.where('#{$prose} :is(strong, b)')} {
+  font-weight: var(--ms-font-weight-semibold);
+}
+
+#{options.where('#{$prose} a:not([class])')} {
+  color: var(--ms-tone-text);
+  text-decoration-line: underline;
+  text-underline-offset: 0.2em;
+  transition: color var(--ms-duration-fast) var(--ms-easing-standard);
+}
+
+@media (any-hover: hover) {
+  #{options.where('#{$prose} a:not([class]):hover')} {
+    color: var(--ms-tone-solid-hover);
+  }
+}
+
+#{options.where('#{$prose} :not(pre) > code')} {
+  @include codeMixin.theme;
+}
+
+#{options.where('#{$prose} kbd')} {
+  @include keyboardKeyMixin.theme;
+}
+
+// ========== Blocks ==========
+
+#{options.where('#{$prose} ul:not([class]) > li + li, #{$prose} ol:not([class]) > li + li, #{$prose} li > ul:not([class]), #{$prose} li > ol:not([class])')} {
+  margin-block-start: var(--ms-spacing-scale-element-sm);
+}
+
+#{options.where('#{$prose} blockquote')} {
+  padding-inline-start: var(--ms-spacing-scale-component-sm);
+  color: var(--ms-prose-quote-color);
+  border-inline-start: var(--ms-prose-quote-border-width) solid
+    var(--ms-prose-quote-border-color);
+}
+
+#{options.where('#{$prose} > hr')} {
+  margin-block: var(--ms-spacing-scale-block-xs);
+  border-block-start: var(--ms-border-width-base) solid var(--ms-prose-hr-color);
+}
+
+#{options.where('#{$prose} img, #{$prose} video')} {
+  border-radius: var(--ms-prose-image-border-radius);
+}

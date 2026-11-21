@@ -4,6 +4,7 @@
 import '../../styles/foundation.scss';
 import type { ClassNameFromPropConfig } from '../../utils/index.mjs';
 import './list-normalize.scss';
+import './list.scss';
 
 const LIST__CLASS_NAME_CONFIG = {
   baseClass: 'ms-list',

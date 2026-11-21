@@ -17,7 +17,7 @@ In React it's one prop: [`<MainSetProvider theme={…}>`](../../react/docs/themi
 1. Tones are CSS custom properties, so new values apply on the next frame.
 2. You give one color per tone. The other roles (hover, subtle, dark-mode border and text) are
    derived by `deriveToneRoles()`, **the same function the build uses** to generate the shipped
-   CSS. A runtime theme can't drift from the built-in one: given the built-in `#9013fe`,
+   CSS. A runtime theme can't drift from the built-in one: given the built-in `#8b14fd`,
    `createTheme()` returns exactly the shipped `--ms-color-primary-*` values.
 3. The result is written in the [scheme-aware pattern](./css-overrides.md#scheme-aware-overrides), so
    light, dark, `system` and nested `data-theme` subtrees all update. Its selectors outrank the
@@ -84,7 +84,7 @@ New tone **names** can't be added at runtime: tone classes are generated at buil
 ## Plain JS
 
 ```html
-<input type="color" id="brand" value="#9013fe" />
+<input type="color" id="brand" value="#8b14fd" />
 
 <script type="module">
   import { applyTheme } from '@mainset/ui-core/theme';

@@ -1,0 +1,16 @@
+// The look of inline code, shared with `ms-prose` (whose `<code>` carries no class).
+// NOTE: no CSS output of its own, so a stylesheet using it doesn't repeat the tokens
+@mixin normalize {
+  // A code span broken over lines keeps its padding and border on each of them
+  box-decoration-break: clone;
+  overflow-wrap: break-word;
+}
+
+@mixin theme {
+  padding: var(--ms-code-padding-block) var(--ms-code-padding-inline);
+  font-family: var(--ms-font-family-text-mono);
+  font-size: var(--ms-code-font-size);
+  background-color: var(--ms-code-bg);
+  border: var(--ms-code-border-width) solid var(--ms-code-border-color);
+  border-radius: var(--ms-code-border-radius);
+}

@@ -1,4 +1,8 @@
-import type { StackPreset, StackRecipeProps } from '@mainset/ui-core';
+import type {
+  HoverStyleProps,
+  StackPreset,
+  StackRecipeProps,
+} from '@mainset/ui-core';
 import { STACK__PRESETS, STACK__RECIPE_CONFIGS, cnx } from '@mainset/ui-core';
 import React from 'react';
 
@@ -8,7 +12,7 @@ import { splitStyleProps } from '../utils/index.mjs';
 type StackProps<C extends BlockElementType = 'div'> = PolymorphicProps<
   'stkAs',
   C,
-  StackRecipeProps
+  StackRecipeProps & HoverStyleProps
 >;
 
 // One implementation per preset, so Stack / HStack / Cluster can't drift apart

@@ -1,0 +1,7 @@
+@use '../../styles/options';
+@use './list.variables' as vars;
+
+// Theme layer (mainset look) on top of `list-normalize.scss`: a leading icon takes the tone
+#{options.where('#{vars.$class-selector}__item-icon')} {
+  color: var(--ms-tone-text);
+}
